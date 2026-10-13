@@ -1,100 +1,2214 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akhrot Halwa | Sialkot Sweets &amp; Bakers</title>
-    <meta name="description" content="Slow-cooked sprouted wheat, whole milk khoya, and pure desi ghee generously loaded with roasted walnuts.">
-    <meta name="theme-color" content="#022c22">
-    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;700;800&display=swap" rel="stylesheet">
+    <title>Sialkot Sweets & Bakers | Gujranwala</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { theme: { extend: { colors: { emerald: { 850: '#064e3b', 900: '#022c22' }, amber: { 450: '#f59e0b', 550: '#d97706' }, burgundy: { 700: '#7f1d1d', 800: '#991b1b', 900: '#450a0a' } }, fontFamily: { serif: ['Playfair Display', 'Georgia', 'serif'], sans: ['Inter', 'sans-serif'], urdu: ['Amiri', 'serif'] } } } };
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            850: '#064e3b',
+                            900: '#022c22',
+                        },
+                        amber: {
+                            450: '#f59e0b',
+                            550: '#d97706',
+                        },
+                        gold: {
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                        },
+                        burgundy: {
+                            700: '#7f1d1d',
+                            800: '#991b1b',
+                            900: '#450a0a'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        urdu: ['Noto Nastaliq Urdu', 'Amiri', 'serif']
+                    }
+                }
+            }
+        }
     </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Image-host hints: start connections early for the existing remote photos -->
+    <link rel="preconnect" href="https://images.pexels.com" crossorigin>
+    <link rel="dns-prefetch" href="//lh3.googleusercontent.com">
+    <link rel="dns-prefetch" href="//encrypted-tbn0.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; background: radial-gradient(circle at 10% 0%, rgba(245,158,11,.055), transparent 28%), radial-gradient(circle at 95% 8%, rgba(6,78,59,.08), transparent 24%), #fafaf9; }
-        .font-playfair { font-family: 'Playfair Display', Georgia, serif; }
+        body { font-family: 'Inter', sans-serif; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
         .font-urdu { font-family: 'Amiri', serif; }
-        .gold-gradient-text { background: linear-gradient(135deg,#fbbf24 0%,#d97706 50%,#92400e 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-        .product-photo { background: linear-gradient(145deg,rgba(2,44,34,.07),rgba(217,119,6,.08)); }
-        .product-panel { box-shadow: 0 24px 70px rgba(2,44,34,.09); }
-        .action-link { transition: transform .2s ease, box-shadow .2s ease; }
-        .action-link:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(2,44,34,.18); }
-        @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior:auto !important; transition-duration:.001ms !important; } }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #059669; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #047857; }
+
+        /* Custom Pattern Background */
+        .bg-pattern {
+            background-color: #fdfbf7;
+            background-image: radial-gradient(#d97706 0.75px, transparent 0.75px), radial-gradient(#d97706 0.75px, #fdfbf7 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            background-opacity: 0.05;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #92400e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border-glow {
+            box-shadow: 0 0 15px rgba(217, 119, 6, 0.25);
+        }
+
+        /* Ultra-premium visual system */
+        html { scroll-behavior: smooth; }
+        section { scroll-margin-top: 92px; }
+        body {
+            background:
+                radial-gradient(circle at 10% 0%, rgba(245, 158, 11, 0.055), transparent 28%),
+                radial-gradient(circle at 95% 8%, rgba(6, 78, 59, 0.08), transparent 24%),
+                #fafaf9;
+        }
+        .premium-glass {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 18px 60px rgba(0,0,0,0.18);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .premium-glass-light {
+            background: rgba(255,255,255,0.82);
+            border: 1px solid rgba(15,23,42,0.08);
+            box-shadow: 0 18px 50px rgba(15,23,42,0.08);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+        .premium-card {
+            transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+            will-change: transform;
+        }
+        .premium-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 60px rgba(2,44,34,0.14);
+            border-color: rgba(217,119,6,0.42) !important;
+        }
+        .branch-feature {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
+            border: 1px solid rgba(251,191,36,0.28);
+            box-shadow: 0 20px 70px rgba(0,0,0,0.22);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+        .branch-number {
+            width: 42px; height: 42px;
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            color: #022c22;
+            font-weight: 900;
+            box-shadow: 0 10px 25px rgba(217,119,6,0.28);
+        }
+        .branch-link {
+            transition: all .3s ease;
+            border: 1px solid rgba(217,119,6,0.24);
+        }
+        .branch-link:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(217,119,6,0.18); }
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; left: 0; right: 0; bottom: -8px; height: 2px;
+            background: linear-gradient(90deg, #fbbf24, #d97706);
+            transform: scaleX(0); transform-origin: center; transition: transform .3s ease;
+        }
+        .nav-link:hover::after { transform: scaleX(1); }
+        .menu-backdrop { background: rgba(2,44,34,.58); backdrop-filter: blur(8px); }
+        .section-eyebrow { letter-spacing: .22em; }
+        .hero-orb { border-radius: 999px; filter: blur(48px); opacity: .23; }
+        .hero-grid { background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 34px 34px; }
+        .cta-sheen { position: relative; overflow: hidden; }
+        .cta-sheen::before {
+            content:''; position:absolute; inset:-120% 35% auto -30%; height: 300%;
+            background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.3) 50%, transparent 65%);
+            transform: rotate(16deg); animation: sheen 5s linear infinite;
+        }
+        @keyframes sheen { from { transform: translateX(-20%) rotate(16deg);} to { transform: translateX(120%) rotate(16deg);} }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+        }
+
+        /* Premium product grid */
+        .menu-card {
+            transition: transform .32s ease, box-shadow .32s ease, border-color .32s ease;
+            box-shadow: 0 10px 30px rgba(15,23,42,.06);
+        }
+        .menu-card:hover { transform: translateY(-5px); box-shadow: 0 22px 48px rgba(15,23,42,.12); border-color: rgba(217,119,6,.34); }
+        .menu-card img { transition: transform .65s cubic-bezier(.2,.7,.2,1); }
+
+        /* Mobile safe-area bottom action */
+        .mobile-branch-rail { padding-bottom: max(0.65rem, env(safe-area-inset-bottom)); }
+        /* Mobile compact refinement: keep the premium look while reducing vertical bulk */
+        @media (max-width: 767px) {
+            .mobile-branch-rail { padding: .45rem .65rem; }
+            .mobile-branch-rail a { padding-top: .62rem !important; padding-bottom: .62rem !important; font-size: .68rem !important; }
+
+            header > div { height: 64px !important; }
+            header .w-14.h-14 { width: 2.65rem !important; height: 2.65rem !important; }
+            header .font-serif.text-xl { font-size: 1.05rem !important; }
+            header .text-xs { font-size: .58rem !important; }
+
+            #home-section { padding-top: 2.15rem !important; padding-bottom: 3rem !important; }
+            #home-section > div { padding-left: .85rem !important; padding-right: .85rem !important; }
+            #home-section .md\:col-span-7 { gap: 1.05rem !important; }
+            #home-section h1 { font-size: 2.15rem !important; line-height: 1.05 !important; }
+            #home-section .text-base { font-size: .84rem !important; line-height: 1.55 !important; }
+            #home-section .branch-feature { padding: .78rem !important; border-radius: .95rem !important; }
+            #home-section .branch-feature .section-eyebrow { font-size: .54rem !important; }
+            #home-section .branch-feature .font-semibold { font-size: .74rem !important; line-height: 1.35 !important; }
+            #home-section .branch-feature a { font-size: .72rem !important; margin-top: .55rem !important; }
+            #home-section .branch-feature .branch-number { width: 1.55rem !important; height: 1.55rem !important; border-radius: .55rem !important; }
+            #home-section .branch-feature .branch-number + .branch-number { margin-left: -.28rem; }
+            #home-section .hero-showcase-img { height: 270px !important; }
+            #home-section .rounded-3xl { border-radius: 1.15rem !important; }
+            #home-section .grid.grid-cols-3 { gap: .35rem !important; }
+            #home-section .grid.grid-cols-3 span:first-child { font-size: .9rem !important; }
+            #home-section .grid.grid-cols-3 span:last-child { font-size: .62rem !important; line-height: 1.25 !important; }
+
+            section.py-20 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+            section.py-16 { padding-top: 2.8rem !important; padding-bottom: 2.8rem !important; }
+            section.py-12 { padding-top: 2.2rem !important; padding-bottom: 2.2rem !important; }
+
+            #about-heritage .grid.md\:grid-cols-12 { gap: 1.5rem !important; }
+            #about-heritage h2 { font-size: 2rem !important; }
+            #about-heritage h3 { font-size: 1.45rem !important; }
+            #about-heritage p { font-size: .78rem !important; line-height: 1.55 !important; }
+
+            #branches .grid.md\:grid-cols-3 { gap: .8rem !important; }
+            #branches .p-6 { padding: 1rem !important; }
+            #branches h3 { font-size: 1.05rem !important; }
+            #branches p, #branches a { font-size: .72rem !important; }
+        }
     </style>
 </head>
-<body class="min-h-screen text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-900">
+<body class="bg-stone-50 text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-900" x-data="sialkotSweetsApp()">
+
+    <!-- Top Announcement Bar -->
     <div class="bg-emerald-950 text-amber-300 text-xs sm:text-sm py-2 px-4 border-b border-amber-500/30">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
-            <span class="inline-flex items-center gap-2"><i class="fa-solid fa-location-dot text-amber-400"></i> Gujranwala</span>
-            <a href="tel:03253922121" class="font-semibold hover:text-amber-100"><i class="fa-solid fa-phone text-amber-400 mr-1"></i> 0325 3922121</a>
+            <div class="flex items-center space-x-3">
+                <!-- Dynamic Open/Close Indicator -->
+                <span 
+                    :class="isOpen ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-red-500/20 text-red-300 border-red-500/30'"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border transition-colors duration-300"
+                >
+                    <span :class="isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-red-500'" class="w-2 h-2 rounded-full"></span>
+                    <span x-text="isOpen ? 'OPEN NOW' : 'CLOSED NOW'"></span>
+                </span>
+                <span class="hidden md:inline"><i class="fa-solid fa-clock text-amber-400 mr-1"></i> Open Daily · 6:00 AM – 1:00 AM</span>
+                <span><i class="fa-solid fa-location-dot text-amber-400 mr-1"></i> Gujranwala</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="tel:03253922121" class="hover:text-amber-200 transition font-medium flex items-center gap-1">
+                    <i class="fa-solid fa-phone text-amber-400"></i> 0325 3922121
+                </a>
+                <span class="text-emerald-700">|</span>
+                <div class="flex items-center text-amber-400">
+                    <i class="fa-solid fa-star text-xs mr-1"></i>
+                    <span class="font-bold text-white">4.4</span>
+                    <span class="text-stone-400 text-xs ml-1">(53 Google Reviews)</span>
+                </div>
+            </div>
         </div>
     </div>
-    <header class="sticky top-0 z-40 bg-emerald-950/95 backdrop-blur-xl text-white shadow-xl border-b border-amber-500/20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[72px] flex items-center justify-between gap-4">
-            <a href="../?section=home" class="flex items-center gap-3 min-w-0" aria-label="Sialkot Sweets home">
-                <span class="w-12 h-12 shrink-0 rounded-full bg-white p-1 shadow-md border border-amber-400/40 overflow-hidden flex items-center justify-center"><img src="../sialkot-sweets-logo.png" alt="Sialkot Sweets logo" class="w-full h-full object-contain rounded-full"></span>
-                <span class="min-w-0"><span class="block font-playfair text-base sm:text-xl font-bold tracking-tight">SIALKOT SWEETS</span><span class="block text-[9px] sm:text-[10px] text-amber-200/80 tracking-[.14em] uppercase">Bakery &amp; Traditional Sweets</span></span>
+
+    <!-- Main Header -->
+    <header class="sticky top-0 z-40 bg-emerald-950/90 backdrop-blur-xl text-white shadow-2xl border-b border-amber-500/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[76px] flex items-center justify-between gap-4">
+            
+            <!-- Brand Logo / Name -->
+            <a href="?section=home" data-section-route="home" class="flex items-center gap-3 group">
+                <div class="w-14 h-14 rounded-full bg-white p-1 shadow-md group-hover:scale-105 transition transform border border-amber-400/40 overflow-hidden flex items-center justify-center">
+                    <img
+                        src="./sialkot-sweets-logo.png"
+                        alt="Sialkot Sweets & Bakers original logo"
+                        class="w-full h-full object-contain rounded-full"
+                    >
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-amber-300 transition">SIALKOT SWEETS</span>
+                        <span class="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded uppercase tracking-wider font-bold border border-amber-400/30">Est. 1951</span>
+                    </div>
+                    <p class="text-xs text-amber-200/80 font-serif tracking-widest uppercase">Bakery & Traditional Sweets</p>
+                </div>
             </a>
-            <a href="../?section=menu" class="action-link inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-3 sm:px-4 py-2.5 text-xs sm:text-sm shadow-lg shadow-amber-900/20 whitespace-nowrap"><i class="fa-solid fa-arrow-left"></i><span>Back to Menu</span></a>
+
+            <!-- Quick Navigation Desktop -->
+            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold">
+                <a href="?section=about" data-section-route="about" class="nav-link text-white/90 hover:text-amber-300 transition py-1">About Us</a>
+                <a href="?section=menu" data-section-route="menu" class="nav-link text-white/90 hover:text-amber-300 transition py-1">Our Menu</a>
+                <a href="?section=specialties" data-section-route="specialties" class="nav-link text-white/90 hover:text-amber-300 transition py-1">Specialties</a>
+                <a href="?section=reviews" data-section-route="reviews" class="nav-link text-white/90 hover:text-amber-300 transition py-1">Reviews</a>
+                <a href="?section=branches" data-section-route="branches" class="cta-sheen inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-4 py-2 rounded-xl shadow-lg shadow-amber-900/20">
+                    <i class="fa-solid fa-location-dot"></i> Our Branches
+                </a>
+            </nav>
+
+            <!-- Mobile Navigation Button -->
+            <button @click="mobileMenuOpen = true" class="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl border border-amber-400/30 bg-white/5 text-amber-300 shadow-lg" aria-label="Open menu">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+
         </div>
     </header>
 
-    <main class="py-7 sm:py-12 lg:py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav aria-label="Breadcrumb" class="text-xs text-stone-500 mb-5 sm:mb-7">
-                <a href="../?section=home" class="hover:text-amber-700">Home</a><span class="mx-2">/</span><a href="../?section=menu" class="hover:text-amber-700">Our Menu</a><span class="mx-2">/</span><span class="font-semibold text-emerald-950">Akhrot Halwa</span>
-            </nav>
-            <article class="product-panel overflow-hidden rounded-3xl border border-stone-200 bg-white">
-                <div class="grid lg:grid-cols-2">
-                    <div class="product-photo relative min-h-[300px] sm:min-h-[430px] lg:min-h-[620px] p-4 sm:p-7 flex items-center justify-center">
-                        <img src="../akhrot%20halwa.webp" alt="Akhrot Halwa" class="w-full max-h-[620px] min-h-[280px] sm:min-h-[390px] object-contain rounded-2xl" fetchpriority="high" decoding="async" referrerpolicy="no-referrer">
-                        <span class="absolute top-6 left-6 rounded-full bg-emerald-950 text-amber-300 border border-amber-400/40 shadow px-4 py-2 text-[10px] sm:text-xs font-extrabold uppercase tracking-wider">Halwa Jaat</span>
-                        <span class="absolute bottom-6 right-6 rounded-xl bg-stone-950/90 text-amber-300 px-3 py-2 text-xs font-extrabold"><span aria-hidden="true">★</span> 4.9 Rating</span>
+    <!-- Mobile Navigation Drawer -->
+    <div x-show="mobileMenuOpen" x-transition.opacity class="md:hidden fixed inset-0 z-[60] menu-backdrop" style="display:none;" @click.self="mobileMenuOpen = false">
+        <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0" class="absolute right-0 top-0 h-full w-[88%] max-w-sm bg-emerald-950 text-white shadow-2xl border-l border-amber-500/30 p-5 overflow-y-auto">
+            <div class="flex items-center justify-between pb-5 border-b border-white/10">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white p-1 border border-amber-400/30 overflow-hidden"><img src="./sialkot-sweets-logo.png" alt="Sialkot Sweets" class="w-full h-full object-contain rounded-full"></div>
+                    <div><div class="font-serif font-bold text-lg">Sialkot Sweets</div><div class="text-[10px] uppercase tracking-[.18em] text-amber-300">Since 1951</div></div>
+                </div>
+                <button @click="mobileMenuOpen = false" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-2 pt-5">
+                <a href="?section=about" data-section-route="about" @click="mobileMenuOpen=false" class="block rounded-xl px-4 py-3 bg-white/5 hover:bg-amber-500/10 border border-white/10">About Us</a>
+                <a href="?section=menu" data-section-route="menu" @click="mobileMenuOpen=false" class="block rounded-xl px-4 py-3 bg-white/5 hover:bg-amber-500/10 border border-white/10">Our Menu</a>
+                <a href="?section=specialties" data-section-route="specialties" @click="mobileMenuOpen=false" class="block rounded-xl px-4 py-3 bg-white/5 hover:bg-amber-500/10 border border-white/10">Famous Specialties</a>
+                <a href="?section=reviews" data-section-route="reviews" @click="mobileMenuOpen=false" class="block rounded-xl px-4 py-3 bg-white/5 hover:bg-amber-500/10 border border-white/10">Customer Reviews</a>
+                <a href="?section=branches" data-section-route="branches" @click="mobileMenuOpen=false" class="cta-sheen flex items-center justify-between rounded-xl px-4 py-3 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold shadow-lg">
+                    <span><i class="fa-solid fa-location-dot mr-2"></i>Our Branches</span><i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="mt-8 rounded-2xl border border-amber-500/20 bg-white/5 p-4">
+                <div class="text-[10px] uppercase tracking-[.18em] text-amber-300 font-bold">Call us</div>
+                <a href="tel:03253922121" class="mt-1 block text-2xl font-serif font-bold text-white">0325 3922121</a>
+                <div class="text-xs text-white/50 mt-1">Gujranwala</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Branch Highlight -->
+    <div class="md:hidden mobile-branch-rail bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 px-3 py-2 border-b border-amber-500/20">
+        <a href="?section=branches" data-section-route="branches"
+           class="cta-sheen w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-black text-xs tracking-[.14em] py-3.5 px-4 rounded-xl border border-amber-200 shadow-[0_12px_32px_rgba(245,158,11,0.28)] transition">
+            <i class="fa-solid fa-location-dot"></i><span>FIND YOUR BRANCH</span><i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </a>
+    </div>
+
+    <!-- Hero Banner Section -->
+    <section id="home-section" class="relative bg-emerald-950 text-white overflow-hidden py-12 sm:py-16 lg:py-24 border-b border-amber-500/40">
+        <!-- Background Decorative Elements -->
+        <div class="absolute inset-0 opacity-70 hero-grid"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-400 hero-orb pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-400 hero-orb pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-12 gap-8 lg:gap-12 items-center">
+                
+                <!-- Left Content -->
+                <div class="md:col-span-7 space-y-6 text-center md:text-left">
+                    <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 px-3.5 py-1.5 rounded-full text-amber-300 text-xs sm:text-sm font-medium">
+                        <i class="fa-solid fa-crown text-amber-400"></i> Gujranwala's Most Iconic Sweet House Since 1951
                     </div>
-                    <div class="p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
-                        <div class="mb-4 flex flex-wrap gap-2">
-                            <span class="inline-flex items-center gap-2 rounded-full bg-amber-50 border border-amber-200 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-widest text-amber-800"><i class="fa-solid fa-cookie-bite"></i> Freshly Prepared</span>
+
+                    <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white">
+                        Taste Gujranwala’s <br/>
+                        <span class="gold-gradient-text">Legendary Sweets & Bakery</span>
+                    </h1>
+
+                    <p class="text-stone-300 text-base sm:text-lg max-w-2xl leading-relaxed">
+                        Handcrafted with pure desi ghee, fresh daily khoya, and decades of royal heritage. Home of the famous <strong class="text-amber-300">Sialkoti Guldasta</strong>, <strong class="text-amber-300">Baklava</strong>, and <strong class="text-amber-300">Akhrot Halwa</strong> at Gayb Chowk, Gujranwala.
+                    </p>
+
+                    <div class="branch-feature rounded-2xl p-4 sm:p-5 max-w-xl">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <div class="section-eyebrow text-[10px] text-amber-300 font-black uppercase">Three destinations • one legacy</div>
+                                <div class="mt-1 text-white font-semibold">Explore all three Sialkot Sweets branches across Gujranwala.</div>
+                            </div>
+                            <div class="flex -space-x-2 shrink-0">
+                                <span class="branch-number w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-emerald-950 bg-amber-400 text-emerald-950 text-[10px] sm:text-xs font-black flex items-center justify-center">1</span>
+                                <span class="branch-number w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-emerald-950 bg-amber-400 text-emerald-950 text-[10px] sm:text-xs font-black flex items-center justify-center">2</span>
+                                <span class="branch-number w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-emerald-950 bg-amber-400 text-emerald-950 text-[10px] sm:text-xs font-black flex items-center justify-center">3</span>
+                            </div>
                         </div>
-                        <div class="mb-4 flex flex-wrap gap-2"><span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800 border border-amber-200">Bestseller</span><span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-900 border border-emerald-200">Heritage Special</span><span class="rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-800 border border-red-200">Nutty Special</span></div>
-                        <h1 class="font-playfair text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-emerald-950">Akhrot Halwa</h1>
-                        <p class="font-urdu text-2xl sm:text-3xl text-amber-700 mt-2" dir="rtl" lang="ur">اخروٹ حلوہ</p>
-                        <div class="mt-4 flex items-center gap-2 text-sm font-bold text-amber-600"><span aria-hidden="true">★★★★★</span><span class="text-stone-500 text-xs">Rated 4.9</span></div>
-                        <p class="mt-6 text-sm sm:text-base leading-7 text-stone-600">Slow-cooked sprouted wheat, whole milk khoya, and pure desi ghee generously loaded with roasted walnuts.</p>
+                        <a href="?section=branches" data-section-route="branches" class="mt-3 inline-flex items-center gap-2 text-amber-300 font-extrabold text-sm hover:text-amber-200">
+                            Explore Our Branches <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
 
-                        <div class="mt-7 rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-5 sm:p-6">
-                            <span class="block text-xs font-bold uppercase tracking-widest text-stone-500">Price</span>
-                            <div class="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1"><span class="font-playfair text-3xl sm:text-4xl font-extrabold text-emerald-950">Rs. 1,900</span><span class="text-sm text-stone-500">/ 1 Kg</span></div>
-                            <p class="text-xs text-stone-500 mt-2">Please call the branch to confirm today's availability and current pricing.</p>
+                    <!-- Search Bar in Hero -->
+                    <div class="pt-2 max-w-xl mx-auto md:mx-0">
+                        <div class="relative flex items-center bg-white/10 backdrop-blur-md p-1.5 rounded-2xl border border-amber-400/40 shadow-2xl">
+                            <i class="fa-solid fa-magnifying-glass text-amber-300 text-lg ml-3 mr-2"></i>
+                            <input 
+                                type="text" 
+                                x-model="searchQuery" 
+                                placeholder="Search Gulab Jamun, Baklava, Pizza, Zinger Burger..." 
+                                class="w-full bg-transparent text-white placeholder-stone-300 text-sm focus:outline-none py-2 px-1"
+                            >
+                            <button x-show="searchQuery" @click="searchQuery = ''" class="text-stone-300 hover:text-white px-2">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <a href="?section=menu" data-section-route="menu" class="bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold px-5 py-2.5 rounded-xl text-sm transition shrink-0 ml-2">
+                                Find Food
+                            </a>
                         </div>
+                        <p class="text-xs text-amber-200/70 mt-2 flex flex-wrap gap-2 justify-center md:justify-start">
+                            <span>Popular:</span>
+                            <button @click="setSearch('Guldasta')" class="underline hover:text-amber-300">Guldasta Box</button> ·
+                            <button @click="setSearch('Baklava')" class="underline hover:text-amber-300">Baklava</button> ·
+                            <button @click="setSearch('Pizza')" class="underline hover:text-amber-300">Special Pizza</button> ·
+                            <button @click="setSearch('Zinger')" class="underline hover:text-amber-300">Zinger Burger</button>
+                        </p>
+                    </div>
 
-                        
-
-                        <section class="mt-6" aria-labelledby="ingredients-heading">
-                            <h2 id="ingredients-heading" class="text-xs font-extrabold uppercase tracking-widest text-emerald-900 mb-2">Key Ingredients &amp; Notes</h2>
-                            <p class="text-sm leading-6 text-stone-600">Sprouted Wheat, Pure Khoya, Crushed Walnuts, Desi Ghee, Sugar.</p>
-                        </section>
-                        <div class="mt-5 flex flex-wrap gap-2"><span class="rounded-lg border border-stone-200 bg-stone-100 px-3 py-1 text-xs font-medium text-stone-600">Walnut Loaded</span><span class="rounded-lg border border-stone-200 bg-stone-100 px-3 py-1 text-xs font-medium text-stone-600">Desi Ghee</span><span class="rounded-lg border border-stone-200 bg-stone-100 px-3 py-1 text-xs font-medium text-stone-600">Winter Warmth</span></div>
-                        <div class="mt-8 flex flex-col sm:flex-row gap-3">
-                            <a href="tel:03253922121" class="action-link inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-950 text-amber-300 font-extrabold px-5 py-3.5 text-sm shadow-lg"><i class="fa-solid fa-phone"></i> Call the Branch</a>
-                            <a href="../?section=menu" class="inline-flex items-center justify-center gap-2 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-emerald-950 font-bold px-5 py-3.5 text-sm transition"><i class="fa-solid fa-utensils"></i> Explore Full Menu</a>
+                    <!-- Highlights Badges -->
+                    <div class="grid grid-cols-3 gap-3 pt-4 max-w-lg mx-auto md:mx-0 border-t border-white/10 text-xs">
+                        <div class="text-center md:text-left">
+                            <span class="block font-bold text-amber-400 text-base sm:text-lg">100% Pure</span>
+                            <span class="text-stone-400">Desi Ghee Ingredients</span>
+                        </div>
+                        <div class="text-center md:text-left border-x border-white/10 px-2">
+                            <span class="block font-bold text-amber-400 text-base sm:text-lg">Fresh Daily</span>
+                            <span class="text-stone-400">Baked Morning & Evening</span>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <span class="block font-bold text-amber-400 text-base sm:text-lg">6 AM – 1 AM</span>
+                            <span class="text-stone-400">Visit Our Gayb Chowk Branch</span>
                         </div>
                     </div>
                 </div>
-            </article>
-            <p class="mt-6 text-center text-xs text-stone-500">Sialkot Sweets &amp; Bakers · Gujranwala · Since 1951</p>
-        </div>
-    </main>
 
-    <footer class="mt-8 bg-emerald-950 text-white border-t border-amber-500/30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-            <p class="text-stone-300">© 1951 - 2026 Ishaq &amp; Sons — Sialkot Sweets &amp; Bakers. All rights reserved.</p>
-            <a href="../?section=home" class="text-amber-300 hover:text-amber-100 font-bold">Visit our homepage <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                <!-- Right Hero Image Showcase -->
+                <div class="md:col-span-5 relative">
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-400/40 group">
+                        <img 
+                            src="https://images.pexels.com/photos/35041879/pexels-photo-35041879.jpeg?auto=compress&cs=tinysrgb&w=900&q=82" 
+                            alt="Famous Sialkoti Guldasta Sweets Hamper" 
+                            class="hero-showcase-img w-full h-[360px] sm:h-[420px] object-cover transform group-hover:scale-105 transition duration-700"
+                            fetchpriority="high" decoding="async"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent"></div>
+                    </div>
+
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-5 -right-3 bg-stone-900 border-2 border-amber-400 rounded-2xl p-3 shadow-2xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">
+                            ⭐
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-white">Rated 4.4 Stars</p>
+                            <p class="text-[10px] text-stone-400">53+ Verified Google Reviews</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed About Us & Heritage Section -->
+    <section id="about-heritage" class="py-20 bg-emerald-950 text-white relative overflow-hidden border-b-4 border-amber-500">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5 bg-[radial-gradient(#fbbf24_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Header Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="inline-flex items-center gap-2 bg-amber-500/20 text-amber-300 text-xs font-bold px-4 py-1.5 rounded-full border border-amber-500/30 uppercase tracking-widest">
+                    <i class="fa-solid fa-landmark"></i> The Story of Sialkot Sweets & Bakers
+                </span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-extrabold mt-4 leading-tight">
+                    75 Years of Pure Sweet Heritage <br/>
+                    <span class="gold-gradient-text">In the Heart of Gujranwala</span>
+                </h2>
+                <div class="w-24 h-1 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Content Grid 1: The Origin Story -->
+            <div class="grid md:grid-cols-12 gap-12 items-center mb-16">
+                <div class="md:col-span-6 space-y-5">
+                    <h3 class="font-serif text-2xl sm:text-3xl font-bold text-amber-300">
+                        Founded by Ishaq & Sons
+                    </h3>
+                    <p class="text-stone-300 text-sm sm:text-base leading-relaxed">
+                        Being founded by a family passionate about traditional confectionary, <strong class="text-amber-300">Sialkot Sweets and Bakers</strong> started its journey in the 1950s; promising to bring forth a variety of sweets and bakery rich in quality, and flavour. From our humble beginnings as a local shop in Sialkot, we have grown into a household name; celebrated for bringing flavours of Pakistani sweets to local, as well as the international market.
+                    </p>
+                    <p class="text-stone-300 text-sm leading-relaxed">
+                        Over the years, we haven't only preserved our authentic recipes passed down by generations, but have successfully expanded our immaculate sweet offerings.
+                    </p>
+                    <p class="text-stone-300 text-sm leading-relaxed">
+                        Today, we proudly present recognised sweets like Rasgulla, Guldasta, Gulab Jamun, Barfi and Halwayat etc, along with our bakery items, like fresh cake, cookies, cake rusk and khatai etc., all made with high quality ingredients and upheld hygienic standards.
+                    </p>
+                    <p class="text-stone-300 text-sm leading-relaxed">
+                        We warmly welcome you all to our ever-growing family!
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-4 text-xs">
+                        <div class="flex items-center gap-2 text-amber-300 font-bold bg-white/5 border border-amber-500/20 px-3.5 py-2 rounded-xl">
+                            <i class="fa-solid fa-check-circle text-amber-400"></i> Original 1951 Master Recipes
+                        </div>
+                        <div class="flex items-center gap-2 text-amber-300 font-bold bg-white/5 border border-amber-500/20 px-3.5 py-2 rounded-xl">
+                            <i class="fa-solid fa-check-circle text-amber-400"></i> Ishaq & Sons Pioneer Quality
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-6 relative">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4">
+                            <img 
+                                src="https://images.pexels.com/photos/7406887/pexels-photo-7406887.jpeg?auto=compress&cs=tinysrgb&w=600&q=78" 
+                                alt="Traditional Desi Ghee Gulab Jamun Crafting" 
+                                class="rounded-2xl shadow-xl h-56 object-cover w-full border border-amber-500/30"
+                                loading="lazy" decoding="async" fetchpriority="low"
+                            >
+                            <div class="bg-amber-500/10 border border-amber-500/30 p-4 rounded-2xl text-center">
+                                <span class="block text-2xl font-bold text-amber-400 font-serif">100% Pure</span>
+                                <span class="text-xs text-stone-300">Desi Ghee Guarantee</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4 pt-6">
+                            <div class="bg-amber-500/10 border border-amber-500/30 p-4 rounded-2xl text-center">
+                                <span class="block text-2xl font-bold text-amber-400 font-serif">Since 1951</span>
+                                <span class="text-xs text-stone-300">Oldest Sweet Shop</span>
+                            </div>
+                            <img 
+                                src="https://images.pexels.com/photos/18488299/pexels-photo-18488299.jpeg?auto=compress&cs=tinysrgb&w=600&q=78" 
+                                alt="Khoya Barfi Artisanal Preparation" 
+                                class="rounded-2xl shadow-xl h-56 object-cover w-full border border-amber-500/30"
+                                loading="lazy" decoding="async" fetchpriority="low"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid 2: Core Pillars / What Sets Us Apart -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-white/10">
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-cow"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-lg text-white">Pure Desi Ghee & Fresh Khoya</h4>
+                    <p class="text-stone-300 text-xs leading-relaxed">
+                        We never compromise on purity. Our mithai is slowly reduced from fresh whole buffalo milk and cooked in 100% pure organic Desi Ghee.
+                    </p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-gift"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-lg text-white">Home of Sialkoti Guldasta</h4>
+                    <p class="text-stone-300 text-xs leading-relaxed">
+                        We are the originators of the famous <strong class="text-amber-300">Sialkoti Guldasta Box</strong>—Gujranwala's premier luxury mix-sweet hamper for weddings and festivities.
+                    </p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-cookie-bite"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-lg text-white">Arabian Sweets & Bakery</h4>
+                    <p class="text-stone-300 text-xs leading-relaxed">
+                        Evolution alongside tradition. Enjoy authentic Baklava, Kunafa, fresh biscuits, cake rusks, and halwa specialties at our Gayb Chowk branch.
+                    </p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-lg text-white">Generational Loyalty</h4>
+                    <p class="text-stone-300 text-xs leading-relaxed">
+                        Families across Gujranwala, Sialkot, and overseas Pakistanis have trusted us for over 7 decades to sweeten their most cherished moments.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Banner Quote -->
+            <div class="mt-12 bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-amber-500/20 border border-amber-500/30 rounded-3xl p-8 text-center max-w-4xl mx-auto">
+                <i class="fa-solid fa-quote-left text-amber-400 text-3xl mb-3 block"></i>
+                <p class="font-serif text-lg sm:text-xl text-amber-100 italic leading-relaxed">
+                    "Trends come and go, but the authentic taste of pure desi ghee mithai prepared with genuine love remains timeless. Since 1951, we serve trust in every box."
+                </p>
+                <span class="block text-amber-300 font-bold text-xs uppercase tracking-widest mt-4">— Ishaq & Sons · Sialkot Sweets & Bakers</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Famous Specialties Section -->
+    <section id="specialties" class="py-12 bg-amber-50 border-b border-amber-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-8">
+                <span class="text-amber-600 font-semibold text-xs uppercase tracking-widest">Gujranwala's Crown Jewels</span>
+                <h2 class="font-serif text-2xl sm:text-3xl font-bold text-emerald-950 mt-1">What Makes Sialkot Sweets Famous?</h2>
+                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-6">
+                <!-- Specialty 1 -->
+                <div class="premium-card bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0">
+                        🎁
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-emerald-950">Sialkoti Guldasta</h3>
+                        <p class="text-xs text-stone-600 mt-1">An extravagant platter box containing rich Gulab Jamun, Cham Cham, Barfi & Motichoor Ladoo in one box.</p>
+                        <button @click="setCategory('sweets')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
+                            Explore Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Specialty 2 -->
+                <div class="premium-card bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0">
+                        ✨
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-emerald-950">Arabian Baklava & Delights</h3>
+                        <p class="text-xs text-stone-600 mt-1">Royal Middle-Eastern delicacies including Baklava, Mabroumeh, Osh El Bulbul, and authentic Kunafa.</p>
+                        <button @click="setCategory('arabian')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
+                            View Arabian Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Specialty 3 -->
+                <div class="premium-card bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0">
+                        🍯
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-emerald-950">Desi Ghee Gulab Jamun</h3>
+                        <p class="text-xs text-stone-600 mt-1">Soft, melt-in-mouth milk solids soaked in warm cardamom syrup, prepared exclusively in 100% pure Desi Ghee.</p>
+                        <button @click="setCategory('sweets')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
+                            View Traditional Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Food Menu Section -->
+    <section id="menu-section" class="py-16 bg-pattern min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-stone-200 pb-6">
+                <div>
+                    <span class="text-emerald-700 font-bold text-xs uppercase tracking-widest flex items-center gap-2">
+                        <i class="fa-solid fa-utensils"></i> Freshly Prepared Daily
+                    </span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-1">
+                        Explore Our Menu
+                    </h2>
+                    <p class="text-stone-600 text-sm mt-1">Choose from our handcrafted Sweets, Fast Food, Arabian delicacies, Halwas, fresh Biscuits, and Cake Rusks.</p>
+                </div>
+
+                <!-- Category Tabs -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+                    <template x-for="cat in categories" :key="cat.id">
+                        <button 
+                            @click="selectedCategory = cat.id"
+                            :class="selectedCategory === cat.id ? 'bg-emerald-900 text-amber-300 font-bold shadow-md border-amber-500' : 'bg-white text-stone-700 hover:bg-stone-100 border-stone-200'"
+                            class="px-4 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition border flex items-center gap-2"
+                        >
+                            <span x-text="cat.icon"></span>
+                            <span x-text="cat.name"></span>
+                            <span x-show="getCategoryCount(cat.id) > 0" x-text="getCategoryCount(cat.id)" class="text-[10px] bg-stone-100 text-stone-600 font-semibold px-1.5 py-0.2 rounded-full border border-stone-300 ml-1"></span>
+                        </button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Filter Controls Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-stone-200 shadow-sm mb-8">
+                <div class="text-xs text-stone-500">
+                    Showing <strong x-text="filteredItems.length" class="text-emerald-900">0</strong> items in 
+                    <span class="font-bold text-amber-700 uppercase" x-text="categories.find(c => c.id === selectedCategory)?.name || 'All'"></span>
+                </div>
+
+                <div class="flex items-center space-x-3 text-xs">
+                    <label class="text-stone-600 font-medium">Sort By:</label>
+                    <select x-model="sortBy" class="bg-stone-50 border border-stone-300 text-stone-800 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                        <option value="popular">Most Popular</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div x-show="filteredItems.length === 0" class="text-center py-16 bg-white rounded-3xl border border-dashed border-stone-300 p-8">
+                <div class="text-5xl mb-4">🍯</div>
+                <h3 class="font-serif text-xl font-bold text-stone-800">No items found</h3>
+                <p class="text-stone-500 text-sm mt-1">Try adjusting your search query "<span x-text="searchQuery" class="font-semibold text-emerald-900"></span>" or select another category.</p>
+                <button @click="searchQuery = ''; selectedCategory = 'all'" class="mt-4 bg-emerald-900 text-amber-300 text-xs font-bold px-4 py-2 rounded-xl">
+                    Reset All Filters
+                </button>
+            </div>
+
+            <!-- Dish Cards Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <template x-for="item in filteredItems" :key="item.id">
+                    <a :href="getProductUrl(item)" :aria-label="'View product details for ' + item.name" class="menu-card bg-white rounded-2xl overflow-hidden border border-stone-200/80 flex flex-col justify-between group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2">
+                        
+                        <div>
+                            <!-- Image Container -->
+                            <div class="relative h-48 sm:h-52 overflow-hidden bg-stone-100">
+                                <img 
+                                    :src="item.image" 
+                                    :alt="item.name" 
+                                    class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                                    loading="lazy" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"
+                                >
+                                <!-- Badges -->
+                                <div class="absolute top-3 left-3 flex flex-col gap-1">
+                                    <template x-if="item.isBestseller">
+                                        <span class="bg-amber-500 text-emerald-950 font-bold text-[10px] uppercase px-2 py-0.5 rounded shadow">Bestseller</span>
+                                    </template>
+                                    <template x-if="item.isHeritage">
+                                        <span class="bg-emerald-900 text-amber-300 font-bold text-[10px] uppercase px-2 py-0.5 rounded shadow border border-amber-400/40">Heritage Special</span>
+                                    </template>
+                                    <template x-if="item.badge">
+                                        <span class="bg-burgundy-800 text-white font-bold text-[10px] uppercase px-2 py-0.5 rounded shadow" x-text="item.badge"></span>
+                                    </template>
+                                </div>
+
+                                <div class="absolute top-3 right-3 bg-stone-900/80 backdrop-blur-md text-amber-300 text-xs font-bold px-2 py-1 rounded-lg flex items-center gap-1">
+                                    <span>⭐</span>
+                                    <span x-text="item.rating"></span>
+                                </div>
+
+                            </div>
+
+                            <!-- Content -->
+                            <div class="p-5">
+                                <div class="flex justify-between items-start gap-2">
+                                    <h3 class="font-serif font-bold text-lg text-emerald-950 group-hover:text-amber-600 transition" x-text="item.name"></h3>
+                                    <span class="font-urdu text-amber-700 text-lg font-bold shrink-0 dir-rtl" x-text="item.urduName"></span>
+                                </div>
+
+                                <p class="text-stone-500 text-xs mt-2 line-clamp-2 leading-relaxed" x-text="item.description"></p>
+
+                                <div class="mt-3 flex flex-wrap gap-1">
+                                    <template x-for="tag in item.tags" :key="tag">
+                                        <span class="text-[10px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded border border-stone-200" x-text="tag"></span>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Price -->
+                        <div class="px-5 pb-5 pt-2 border-t border-stone-100">
+                            <div>
+                                <span class="text-xs text-stone-400 block">Price</span>
+                                <span class="font-bold text-emerald-950 text-base">
+                                    Rs. <span x-text="item.price.toLocaleString()"></span>
+                                    <span class="text-[11px] font-normal text-stone-500" x-text="'/ ' + item.unit"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                    </a>
+                </template>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Google Reviews Showcase Section -->
+    <section id="reviews" class="py-16 bg-white border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <div class="flex justify-center items-center gap-1 text-amber-500 text-xl mb-2">
+                    ★★★★★
+                </div>
+                <span class="text-emerald-800 font-bold text-xs uppercase tracking-widest">Verified Google Reviews</span>
+                <h2 class="font-serif text-3xl font-extrabold text-emerald-950 mt-1">
+                    Loved by 4.4 Stars on Google (53+ Reviews)
+                </h2>
+                <p class="text-stone-500 text-sm mt-1">Here is what food lovers in Gujranwala say about our Gayb Chowk branch.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Review 1 -->
+                <div class="premium-card bg-stone-50 rounded-2xl p-6 border border-stone-200 shadow-sm relative">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full bg-emerald-800 text-amber-300 font-bold flex items-center justify-center">
+                            MA
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-emerald-950">Muhammad Ali</h4>
+                            <div class="text-amber-500 text-xs">★★★★★ · Local Guide</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-stone-600 leading-relaxed font-serif italic">
+                        "The Desi Ghee Gulab Jamun and Baklava here are legendary in Gujranwala! Always warm, fresh, and perfectly sweet. Best place in Islampura!"
+                    </p>
+                    <span class="text-[10px] text-stone-400 mt-3 block">Reviewed on Google</span>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="premium-card bg-stone-50 rounded-2xl p-6 border border-stone-200 shadow-sm relative">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center">
+                            SK
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-emerald-950">Shahid Khan</h4>
+                            <div class="text-amber-500 text-xs">★★★★★ · Verified Buyer</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-stone-600 leading-relaxed font-serif italic">
+                        "Whenever guests arrive from Lahore or Islamabad, I take Sialkoti Guldasta and Akhrot Halwa from Gayb Chowk branch. Never disappoints!"
+                    </p>
+                    <span class="text-[10px] text-stone-400 mt-3 block">Reviewed on Google</span>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="premium-card bg-stone-50 rounded-2xl p-6 border border-stone-200 shadow-sm relative">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full bg-burgundy-800 text-white font-bold flex items-center justify-center">
+                            HA
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-emerald-950">Hassan Ahmed</h4>
+                            <div class="text-amber-500 text-xs">★★★★★ · Morning Regular</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-stone-600 leading-relaxed font-serif italic">
+                        "Their fresh Badam Khatai biscuits and Cake Rusks with evening tea are top-class. Outstanding clean packaging and traditional taste."
+                    </p>
+                    <span class="text-[10px] text-stone-400 mt-3 block">Reviewed on Google</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Branches Section -->
+    <section id="branches" class="relative py-20 sm:py-24 bg-emerald-950 text-white overflow-hidden border-b border-amber-500/30">
+        <div class="absolute inset-0 hero-grid opacity-40"></div>
+        <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[34rem] h-[34rem] rounded-full bg-amber-500/10 blur-3xl pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-[1.05fr_.95fr] gap-10 items-end mb-10">
+                <div>
+                    <span class="section-eyebrow text-amber-300 font-black text-[10px] uppercase">Our Branch Network</span>
+                    <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold mt-3 leading-tight">Three branches.<br><span class="gold-gradient-text">One signature taste.</span></h2>
+                </div>
+                <div class="lg:pb-2">
+                    <p class="text-stone-300 text-sm sm:text-base leading-relaxed max-w-xl">Choose the location nearest to you. Every branch is part of the same Sialkot Sweets tradition, with direct calling and Google Maps access built in.</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="branch-feature premium-card rounded-3xl p-6">
+                    <div class="flex items-center justify-between gap-4">
+                        <span class="branch-number">01</span>
+                        <span class="text-[10px] uppercase tracking-[.18em] text-amber-300 font-black">First Branch</span>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-white mt-6">Chand Da Qila</h3>
+                    <p class="text-stone-400 text-sm mt-2">Chand Da Qila, Gujranwala</p>
+                    <div class="mt-6 space-y-3">
+                        <a href="tel:03083922121" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white/5 px-4 py-3 text-amber-300 font-bold">
+                            <span><i class="fa-solid fa-phone mr-2"></i>0308 3922121</span><i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </a>
+                        <a href="https://maps.app.goo.gl/fDoLx4UR35qkKPcQ6" target="_blank" rel="noopener" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-amber-500 text-emerald-950 px-4 py-3 font-extrabold">
+                            <span><i class="fa-solid fa-map-location-dot mr-2"></i>Open in Google Maps</span><i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="branch-feature premium-card rounded-3xl p-6">
+                    <div class="flex items-center justify-between gap-4">
+                        <span class="branch-number">02</span>
+                        <span class="text-[10px] uppercase tracking-[.18em] text-amber-300 font-black">Second Branch</span>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-white mt-6">Satellite Town</h3>
+                    <p class="text-stone-400 text-sm mt-2">C Block, Satellite Town, Gujranwala</p>
+                    <div class="mt-6 space-y-3">
+                        <a href="tel:0553840066" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white/5 px-4 py-3 text-amber-300 font-bold">
+                            <span><i class="fa-solid fa-phone mr-2"></i>055 3840066</span><i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </a>
+                        <a href="https://maps.app.goo.gl/LJqxdTXMe1LMsrTHA" target="_blank" rel="noopener" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-amber-500 text-emerald-950 px-4 py-3 font-extrabold">
+                            <span><i class="fa-solid fa-map-location-dot mr-2"></i>Open in Google Maps</span><i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="branch-feature premium-card rounded-3xl p-6 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-28 h-28 bg-amber-500/10 blur-2xl rounded-full"></div>
+                    <div class="flex items-center justify-between gap-4 relative z-10">
+                        <span class="branch-number">03</span>
+                        <span class="text-[10px] uppercase tracking-[.18em] text-amber-300 font-black">Third Branch</span>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-white mt-6 relative z-10">Gayb Chowk</h3>
+                    <p class="text-stone-400 text-sm mt-2 relative z-10">Gayb Chowk, Islampura, Gujranwala</p>
+                    <div class="mt-6 space-y-3 relative z-10">
+                        <a href="tel:03253922121" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white/5 px-4 py-3 text-amber-300 font-bold">
+                            <span><i class="fa-solid fa-phone mr-2"></i>0325 3922121</span><i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </a>
+                        <a href="https://maps.app.goo.gl/m65KBoHMCyRHPaVh9" target="_blank" rel="noopener" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-amber-500 text-emerald-950 px-4 py-3 font-extrabold">
+                            <span><i class="fa-solid fa-map-location-dot mr-2"></i>Open in Google Maps</span><i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 rounded-2xl border border-amber-500/20 bg-white/5 px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <div class="text-[10px] uppercase tracking-[.2em] text-amber-300 font-black">Need help choosing a branch?</div>
+                    <div class="text-sm text-white mt-1">Call our main line and we’ll help you find the right location.</div>
+                </div>
+                <a href="tel:03083922121" class="inline-flex items-center gap-2 rounded-xl bg-white text-emerald-950 px-4 py-2.5 font-extrabold text-sm">
+                    <i class="fa-solid fa-phone"></i> Call 0308 3922121
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-emerald-950 text-white border-t border-amber-500/30 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                
+                <div class="space-y-3">
+                    <div class="font-serif text-xl font-bold text-amber-300">SIALKOT SWEETS & BAKERS</div>
+                    <p class="text-xs text-stone-400 leading-relaxed">
+                        Gujranwala's oldest and most loved traditional mithai & fresh bakery house since 1951. Prepared daily with pure ghee and genuine passion.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-amber-400 font-bold text-xs uppercase tracking-wider mb-3">Popular Categories</h4>
+                    <ul class="space-y-2 text-xs text-stone-300">
+                        <li><button @click="setCategory('sweets')" class="hover:text-amber-300">Traditional Sweets</button></li>
+                        <li><button @click="setCategory('fastfood')" class="hover:text-amber-300">Fast Food & Pizzas</button></li>
+                        <li><button @click="setCategory('arabian')" class="hover:text-amber-300">Arabian Sweets & Baklava</button></li>
+                        <li><button @click="setCategory('halwa')" class="hover:text-amber-300">Akhrot & Sohan Halwa</button></li>
+                        <li><button @click="setCategory('biscuits')" class="hover:text-amber-300">Fresh Biscuits & Khatai</button></li>
+                        <li><button @click="setCategory('cakerusk')" class="hover:text-amber-300">Crispy Cake Rusk</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-amber-400 font-bold text-xs uppercase tracking-wider mb-3">Quick Links</h4>
+                    <ul class="space-y-2 text-xs text-stone-300">
+                        <li><a href="?section=about" data-section-route="about" class="hover:text-amber-300">About Our Heritage</a></li>
+                        <li><a href="?section=menu" data-section-route="menu" class="hover:text-amber-300">Food Menu</a></li>
+                        <li><a href="?section=specialties" data-section-route="specialties" class="hover:text-amber-300">Specialties</a></li>
+                        <li><a href="?section=reviews" data-section-route="reviews" class="hover:text-amber-300">Google Reviews (4.4★)</a></li>
+                        <li><a href="?section=branches" data-section-route="branches" class="hover:text-amber-300">Our Branches</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-amber-400 font-bold text-xs uppercase tracking-wider mb-3">Contact Us</h4>
+                    <p class="text-xs text-stone-300 mb-2">Call the branch for general inquiries:</p>
+                    <a href="tel:03253922121" class="text-lg font-bold text-amber-300 hover:underline block">0325 3922121</a>
+                    <a href="mailto:sialkotsweets.org@gmail.com" class="text-sm text-amber-200 hover:text-amber-100 hover:underline block mt-2 break-all">sialkotsweets.org@gmail.com</a>
+                    <span class="text-[11px] text-emerald-400 block mt-1">Gujranwala</span>
+                    <div class="flex items-center gap-3 mt-4">
+                        <a href="https://www.instagram.com/sialkotsweets.pk/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Sialkot Sweets on Instagram" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-pink-300 hover:bg-pink-500 hover:text-white hover:border-pink-400 flex items-center justify-center transition-all duration-300 shadow-lg">
+                            <i class="fa-brands fa-instagram text-lg"></i>
+                        </a>
+                        <a href="https://www.facebook.com/share/1Cn22NBPbY/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Sialkot Sweets on Facebook" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-blue-300 hover:bg-blue-600 hover:text-white hover:border-blue-500 flex items-center justify-center transition-all duration-300 shadow-lg">
+                            <i class="fa-brands fa-facebook-f text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-[10px] text-stone-500 mt-6 pt-4 border-t border-emerald-900/60">
+                <span class="text-amber-400 font-semibold">Photo credits:</span> Product photos sourced from royalty-free media repositories under standard licenses.
+            </div>
+            <div class="pt-8 border-t border-emerald-900 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-400 gap-4">
+                <p>© 1951 - 2026 Ishaq & Sons — Sialkot Sweets & Bakers (Gayb Chowk Branch, Gujranwala). All rights reserved.</p>
+                <div class="flex space-x-4 text-amber-400">
+                    <a href="tel:03253922121" class="hover:text-amber-300"><i class="fa-solid fa-phone text-lg"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <script>
+        const sectionRoutes = {
+            home: 'home-section',
+            about: 'about-heritage',
+            specialties: 'specialties',
+            menu: 'menu-section',
+            reviews: 'reviews',
+            branches: 'branches',
+        };
+
+        function scrollToSectionRoute(route, smooth = false) {
+            const targetId = sectionRoutes[route];
+            if (!targetId) return;
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+            }
+        }
+
+        function setSectionRoute(route, smooth = true, replace = false) {
+            if (!sectionRoutes[route]) return;
+            const url = new URL(window.location.href);
+            url.searchParams.set('section', route);
+            url.hash = '';
+            if (replace) {
+                history.replaceState({ section: route }, '', url);
+            } else {
+                history.pushState({ section: route }, '', url);
+            }
+            scrollToSectionRoute(route, smooth);
+        }
+
+        document.addEventListener('click', (event) => {
+            const link = event.target.closest('a[data-section-route]');
+            if (!link) return;
+            event.preventDefault();
+            setSectionRoute(link.dataset.sectionRoute);
+        });
+
+        window.addEventListener('popstate', () => {
+            const route = new URLSearchParams(window.location.search).get('section');
+            if (route) scrollToSectionRoute(route, true);
+        });
+
+        const initialSection = new URLSearchParams(window.location.search).get('section');
+        if (initialSection && sectionRoutes[initialSection]) {
+            setTimeout(() => scrollToSectionRoute(initialSection, false), 50);
+        }
+
+        function sialkotSweetsApp() {
+            return {
+                searchQuery: '',
+                selectedCategory: 'all',
+                sortBy: 'popular',
+                mobileMenuOpen: false,
+                isOpen: true,
+
+                init() {
+                    this.updateOpenStatus();
+                    window.addEventListener('keydown', (event) => {
+                        if (event.key === 'Escape') this.mobileMenuOpen = false;
+                    });
+                    // Re-check status every 60 seconds
+                    setInterval(() => this.updateOpenStatus(), 60000);
+                },
+
+                updateOpenStatus() {
+                    const now = new Date();
+                    const hours = now.getHours(); // 0 to 23
+                    // Open from 6:00 AM (06:00) to 1:00 AM (01:00 midnight/early morning)
+                    this.isOpen = (hours >= 6 || hours < 1);
+                },
+
+                categories: [
+                    { id: 'all', name: 'All Sweets & Bakery', icon: '🍽️' },
+                    { id: 'fastfood', name: 'Fast Food', icon: '🍔' },
+                    { id: 'sweets', name: 'Traditional Sweets', icon: '🍯' },
+                    { id: 'arabian', name: 'Arabian Sweets', icon: '✨' },
+                    { id: 'halwa', name: 'Halwa Jaat', icon: '🍲' },
+                    { id: 'biscuits', name: 'Biscuits', icon: '🍪' },
+                    { id: 'cakerusk', name: 'Cake Rusk', icon: '🥖' }
+                ],
+
+                items: [
+                    // FAST FOOD SECTION ITEMS
+                    {
+                        id: 'ff1',
+                        name: 'Sialkot Special Pizza',
+                        urduName: 'سیالکوٹ اسپیشل پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: true,
+                        badge: 'House Special',
+                        image: 'https://lh3.googleusercontent.com/grass-cs/ACvplmOPe09IlGylcUcDY2Bu2JGJMjHmVAikkaOL9Z-ydbIZj4Kv5BKUAwk9YwDrIRpZ5jHJj5XssXx5TOL2YRcprRrZ8eBSlu4pUoCX__cbr292Ff85pAGbrKNS5xGpNlI8fMlEA7XrPlvYymXK=s680-w680-h510-rw',
+                        description: 'Mozzarella, Danish Cheese, Tomato Sauce, Oregano.',
+                        ingredients: 'Mozzarella Cheese, Danish Cheese, Signature Tomato Sauce, Oregano, Fresh Dough.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1950 },
+                            { name: 'Large (12")', price: 2450 },
+                            { name: 'XL (14")', price: 2700 }
+                        ],
+                        tags: ['House Special', 'Loaded Cheese', 'Fresh Baked']
+                    },
+                    {
+                        id: 'ff2',
+                        name: 'Chicken Creamy Pizza',
+                        urduName: 'چکن کریمی پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Creamy Achari',
+                        image: 'https://lh3.googleusercontent.com/grass-cs/ACvplmNtMjlFATt56PZoi3CAs78Qfz6ia-_Gv_tSqb_NvF67oeydAoW-SBeaUcwry52morAQsK00lxTQduzMBiiZoWi1oD05mfIG_nlJGcQenvOaeIg-055i3OZZJIAnR37D0gUY0rVor-x-_BKq=s680-w680-h510-rw',
+                        description: 'Capsicum, Sweet Corn, Achari Chicken, Onion, Mozzarella Cheese, Achari Sauce.',
+                        ingredients: 'Achari Chicken, Mozzarella Cheese, Capsicum, Sweet Corn, Onion, Creamy Achari Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Creamy', 'Achari Flavor', 'Sweet Corn']
+                    },
+                    {
+                        id: 'ff3',
+                        name: 'Chicken Malai Boti Pizza',
+                        urduName: 'چکن ملائی بوٹی پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.9,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Tender Boti',
+                        image: 'https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Capsicum, Sweet Corn, Achari Chicken, Onion, Mozzarella Cheese, Achari Sauce.',
+                        ingredients: 'Tender Malai Boti Chicken, Mozzarella Cheese, Capsicum, Sweet Corn, Onion.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Malai Boti', 'Mild Spicy', 'Juicy']
+                    },
+                    {
+                        id: 'ff4',
+                        name: 'Chicken Fajita Pizza',
+                        urduName: 'چکن فجیتا پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Mexican Flavor',
+                        image: 'https://images.pexels.com/photos/1653877/pexels-photo-1653877.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Fajita Chicken, Cheese, Tomato, Pizza Sauce, Capsicum, Onion.',
+                        ingredients: 'Marinated Fajita Chicken, Cheese, Fresh Tomatoes, Capsicum, Onion, Red Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Fajita Spice', 'Classic Favorite']
+                    },
+                    {
+                        id: 'ff5',
+                        name: 'Chicken Bar B.Q Pizza',
+                        urduName: 'چکن بار بی کیو پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Smoky BBQ',
+                        image: 'https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'BBQ Chicken, Cheese, Tomato, Jalapeno, Onion, Olives & Pizza Sauce, BBQ Sauce.',
+                        ingredients: 'BBQ Chicken, Mozzarella Cheese, Jalapeños, Black Olives, BBQ Drizzle.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Smoky BBQ', 'Jalapeño Kick']
+                    },
+                    {
+                        id: 'ff6',
+                        name: 'Chicken Tandoori Pizza',
+                        urduName: 'چکن تندوری پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Desi Spice',
+                        image: 'https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Chicken Tandoori, Onion, Black Olives, Cheese, Sweet Corn & Tandoori Sauce.',
+                        ingredients: 'Tandoori Chunks, Black Olives, Mozzarella Cheese, Sweet Corn, Tandoori Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Tandoori Spice', 'Black Olives']
+                    },
+                    {
+                        id: 'ff7',
+                        name: 'Peri Peri Chicken Pizza',
+                        urduName: 'پیری پیری چکن پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Hot & Fiery',
+                        image: 'https://images.pexels.com/photos/1566837/pexels-photo-1566837.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Chicken Peri Peri, Onion, Black Olives, Cheese, Sweet Corn & Peri Peri Sauce.',
+                        ingredients: 'Peri Peri Chicken, Mozzarella, Black Olives, Sweet Corn, Tangy Peri Peri Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Peri Peri', 'Spicy Tang']
+                    },
+                    {
+                        id: 'ff8',
+                        name: 'Chicken Grilled Pizza',
+                        urduName: 'چکن گرلڈ پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Flame Grilled',
+                        image: 'https://images.pexels.com/photos/803290/pexels-photo-803290.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Grill Chicken, Cheese, Tomato, Jalapeno, Onions, Olives, Pizza Sauce, BBQ Sauce.',
+                        ingredients: 'Char-grilled Chicken, Cheese, Jalapeños, Tomatoes, Olives, BBQ Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Flame Grilled', 'Jalapeno']
+                    },
+                    {
+                        id: 'ff9',
+                        name: 'Chicken Tikka Pizza',
+                        urduName: 'چکن تکہ پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'All-Time Classic',
+                        image: 'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Marinated Tikka Chicken, Cheese, Capsicum, Onion, Pizza Sauce.',
+                        ingredients: 'Tikka Chunks, Mozzarella Cheese, Capsicum, Sliced Onion, Traditional Pizza Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Tikka Flavor', 'Classic']
+                    },
+                    {
+                        id: 'ff10',
+                        name: 'Hawain Pizza',
+                        urduName: 'ہوائین پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.6,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Sweet & Savory',
+                        image: 'https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Marinated Tikka Chicken, Cheese, Capsicum, Onion, Pizza Sauce & Pineapple.',
+                        ingredients: 'Tikka Chicken, Pineapple Chunks, Mozzarella, Capsicum, Onion.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Pineapple', 'Sweet & Spicy']
+                    },
+                    {
+                        id: 'ff11',
+                        name: 'Special Chicken Cheese Stick',
+                        urduName: 'اسپیشل چکن چیز اسٹک',
+                        category: 'fastfood',
+                        price: 750,
+                        unit: 'Per Serving',
+                        rating: 4.9,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Cheesy Crust',
+                        image: 'cheese stick.webp',
+                        description: 'Oven-baked garlic dough sticks stuffed with seasoned chicken and gooey melted mozzarella cheese.',
+                        ingredients: 'Garlic Dough, Shredded Chicken, Mozzarella, Herbs, Dip Sauce.',
+                        tags: ['Extra Cheesy', 'Garlic Dip']
+                    },
+
+                    // SANDWICHES & PANINI
+                    {
+                        id: 'ff12',
+                        name: 'Chicken Bar B.Q Sandwich / Panini',
+                        urduName: 'چکن بار بی کیو سیندوج',
+                        category: 'fastfood',
+                        price: 550,
+                        unit: 'Per Serving',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Toasted Panini',
+                        image: 'sandwhich bbq.webp',
+                        description: 'BBQ Chicken, BBQ Sauce, Mayo & Cucumber toasted inside freshly baked bread.',
+                        ingredients: 'BBQ Chicken, BBQ Sauce, Creamy Mayo, Fresh Cucumber, Panini Bread.',
+                        tags: ['BBQ Sauce', 'Crispy Toasted']
+                    },
+                    {
+                        id: 'ff13',
+                        name: 'Chicken Malai Boti Sandwich / Panini',
+                        urduName: 'چکن ملائی بوٹی سیندوج',
+                        category: 'fastfood',
+                        price: 550,
+                        unit: 'Per Serving',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Creamy Panini',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPEBAmwapsKk3lPiyVo3j9alBTM2j--bIrh5S9_2nVrw&s=10',
+                        description: 'Tikka Chicken, Thousand Sauce, Mayo & Cucumber.',
+                        ingredients: 'Tikka Chicken, Thousand Island Sauce, Mayo, Fresh Cucumber.',
+                        tags: ['Thousand Sauce', 'Soft Tikka']
+                    },
+                    {
+                        id: 'ff14',
+                        name: 'Grilled Chicken Sandwich / Panini',
+                        urduName: 'گرلڈ چکن سیندوج',
+                        category: 'fastfood',
+                        price: 550,
+                        unit: 'Per Serving',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Healthy Grilled',
+                        image: 'grilled chicken sandwhich.webp',
+                        description: 'Grilled Chicken, Thousand Sauce, Mayo & Cucumber.',
+                        ingredients: 'Juicy Grilled Chicken, Thousand Sauce, Creamy Mayo, Sliced Cucumber.',
+                        tags: ['Grilled Fillet', 'Fresh Veggies']
+                    },
+                    {
+                        id: 'ff15',
+                        name: 'Chicken Tikka Sandwich / Panini',
+                        urduName: 'چکن تکہ سیندوج',
+                        category: 'fastfood',
+                        price: 550,
+                        unit: 'Per Serving',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Spicy Kick',
+                        image: 'chicken tikka sandwhich.webp',
+                        description: 'Tikka Chicken, Chilli Sauce, Mayo & Cucumber.',
+                        ingredients: 'Spicy Tikka Chicken, Tangy Chilli Sauce, Mayo, Crisp Cucumber.',
+                        tags: ['Chilli Sauce', 'Spicy']
+                    },
+                    {
+                        id: 'ff16',
+                        name: 'Chicken Black Olive Sandwich / Panini',
+                        urduName: 'چکن بلیک اولیو سیندوج',
+                        category: 'fastfood',
+                        price: 550,
+                        unit: 'Per Serving',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Peri Olive',
+                        image: 'chicken black olive.webp',
+                        description: 'Peri Peri Chicken, Peri Peri Sauce, Mayo & Cucumber.',
+                        ingredients: 'Peri Peri Chicken, Sliced Black Olives, Peri Peri Sauce, Mayo, Cucumber.',
+                        tags: ['Black Olives', 'Peri Peri']
+                    },
+
+                    // ROLLS
+                    {
+                        id: 'ff17',
+                        name: 'Paratha Roll',
+                        urduName: 'پراٹھا رول',
+                        category: 'fastfood',
+                        price: 350,
+                        unit: 'Per Roll',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Crispy Roll',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnvU2Dq-0TOpBnL-2kKmnIqpm6BUSzzOiWayQXdtSBGA&s=10',
+                        description: 'Crispy fried flaky paratha wrapped with seasoned chicken, onion rings & garlic sauce.',
+                        ingredients: 'Crispy Paratha, BBQ Chicken, Sliced Onion, Garlic Mayo.',
+                        tags: ['Golden Paratha', 'Street Food']
+                    },
+                    {
+                        id: 'ff18',
+                        name: 'Twister Roll',
+                        urduName: 'ٹوئسٹر رول',
+                        category: 'fastfood',
+                        price: 400,
+                        unit: 'Per Roll',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Crispy Zinger',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiMF_8e8yMJFdH1pscRUmrExf7WhaRZSdegPdG_vOPIQ&s=10',
+                        description: 'Crunchy zinger chicken strip wrapped in a warm tortilla with iceberg lettuce and secret sauce.',
+                        ingredients: 'Crispy Zinger Strip, Tortilla, Iceberg Lettuce, Mayo.',
+                        tags: ['Zinger Strip', 'Tortilla Wrap']
+                    },
+                    {
+                        id: 'ff19',
+                        name: 'Kabab Paratha Roll',
+                        urduName: 'کباب پراٹھا رول',
+                        category: 'fastfood',
+                        price: 400,
+                        unit: 'Per Roll',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Juicy Kabab',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5tECLV5FgxZyr5C-Mrm6CyCHOae1yvN9a0g7gEpZHeg&s=10',
+                        description: 'Juicy seekh kabab rolled inside hot flaky paratha with mint yogurt sauce and onions.',
+                        ingredients: 'Juicy Seekh Kabab, Paratha, Mint Chutney, Onions.',
+                        tags: ['Seekh Kabab', 'Mint Chutney']
+                    },
+
+                    // DIP SAUCE
+                    {
+                        id: 'ff20',
+                        name: 'Dip Sauce',
+                        urduName: 'ڈپ ساس',
+                        category: 'fastfood',
+                        price: 50,
+                        unit: 'Per Tub',
+                        rating: 4.9,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Add-On Sauce',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI-gH0tASGgBbtTh51ZZgSWTUkT0dU4mxQ3rh0s2L6FA&s=10',
+                        description: 'Choose your favorite dip sauce: Thousand Sauce, Creamy Sauce, Bar B.Q Sauce, or Ranch Sauce.',
+                        ingredients: 'Fresh House Recipe Sauces.',
+                        tags: ['Thousand', 'Creamy', 'BBQ', 'Ranch']
+                    },
+
+                    // BURGERS
+                    {
+                        id: 'ff21',
+                        name: 'Zinger Burger',
+                        urduName: 'زنگر برگر',
+                        category: 'fastfood',
+                        price: 430,
+                        unit: 'Per Burger',
+                        rating: 4.9,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Crispy Hero',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7ZdyPk5_4tcmeojm5MiEMdO9ulUyMkw9JGZuW9oqcUA&s=10',
+                        description: 'Extra crispy whole fried zinger chicken fillet layered with mayo and fresh iceberg in a sesame bun.',
+                        ingredients: 'Crispy Zinger Fillet, Sesame Bun, Iceberg Lettuce, Signature Garlic Mayo.',
+                        tags: ['Extra Crispy', 'Sesame Bun']
+                    },
+                    {
+                        id: 'ff22',
+                        name: 'Chicken Burger',
+                        urduName: 'چکن برگر',
+                        category: 'fastfood',
+                        price: 350,
+                        unit: 'Per Burger',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Classic Favorite',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRooQjwfCM3cB0-wg3GTgtsKtnch7Xo6Kb83u_iQtFpJA&s=10',
+                        description: 'Classic spiced chicken patty topped with creamy sauce, tomatoes, and crisp lettuce.',
+                        ingredients: 'Spiced Chicken Patty, Bun, Mayo, Cucumber, Tomatoes.',
+                        tags: ['Classic Patty', 'Creamy Sauce']
+                    },
+                    {
+                        id: 'ff23',
+                        name: 'Crispy Patty Burger',
+                        urduName: 'کرسپی پیٹی برگر',
+                        category: 'fastfood',
+                        price: 420,
+                        unit: 'Per Burger',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Crunchy Patty',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRyRC5i54vPhKUme3HapMlPf_RXWH92is430bbP0TVig&s=10',
+                        description: 'Golden fried crispy chicken patty with tangy thousand island sauce and lettuce.',
+                        ingredients: 'Crispy Breaded Chicken Patty, Soft Bun, Lettuce, Mayo Sauce.',
+                        tags: ['Breaded Crunch', 'Tangy Sauce']
+                    },
+
+                    // SHAWARMA
+                    {
+                        id: 'ff24',
+                        name: 'Zinger Shawarma',
+                        urduName: 'زنگر شوارما',
+                        category: 'fastfood',
+                        price: 400,
+                        unit: 'Per Serving',
+                        rating: 4.9,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Crispy Bite',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuSqKkF8KQcFMqrDIBebXbM68YBwXP17rl-Gb40H15Zw&s=10',
+                        description: 'Crispy zinger chicken strips wrapped in soft pita bread with garlic mayo and pickled cucumber.',
+                        ingredients: 'Zinger Chicken Strips, Pita Bread, Garlic Mayo Sauce, Pickled Cucumber.',
+                        tags: ['Crispy Zinger', 'Pita Bread']
+                    },
+                    {
+                        id: 'ff25',
+                        name: 'Chicken Shawarma',
+                        urduName: 'چکن شوارما',
+                        category: 'fastfood',
+                        price: 320,
+                        unit: 'Per Serving',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Traditional Wrap',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEVbIdrQEw4HdWk0iTyXpdcK1gxDLr6B-ZO3zmbZLRWg&s=10',
+                        description: 'Shredded roasted chicken wrap with garlic sauce, salad & pickles inside soft pita.',
+                        ingredients: 'Shredded Roasted Chicken, Soft Bread, Garlic Sauce, Salad.',
+                        tags: ['Traditional Shawarma', 'Garlic Mayo']
+                    },
+
+                    // FRIES
+                    {
+                        id: 'ff26',
+                        name: 'Fries Small',
+                        urduName: 'فرائز سمال',
+                        category: 'fastfood',
+                        price: 90,
+                        unit: 'Small Box',
+                        rating: 4.6,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Snack Size',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK1VYJ1lKZtb-wfpLu5fomomrP0Olc0lKS3Ty3uiD7Rg&s=10',
+                        description: 'Hot and crispy golden salted potato fries.',
+                        ingredients: 'Fresh Potatoes, Vegetable Oil, Salt.',
+                        tags: ['Crispy Fries', 'Salted']
+                    },
+                    {
+                        id: 'ff27',
+                        name: 'Fries Large',
+                        urduName: 'فرائز لارج',
+                        category: 'fastfood',
+                        price: 180,
+                        unit: 'Large Box',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Golden Crisp',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUp13AUTXwpA_s-X25jVq9LbmEh5qfdq3E5llxZqZQmg&s=10',
+                        description: 'Generous serving of hot & crispy golden potato fries.',
+                        ingredients: 'Fresh Potatoes, Seasoning, Salt.',
+                        tags: ['Golden Crisp', 'Hot']
+                    },
+                    {
+                        id: 'ff28',
+                        name: 'Family Pack Fries',
+                        urduName: 'فیملی پیک فرائز',
+                        category: 'fastfood',
+                        price: 300,
+                        unit: 'Family Pack',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Family Size',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMCK8UqgdZzoeqFAMGHEStXyGTrnG9ehfzPdCWIoRnlQ&s=10',
+                        description: 'Extra large family sharing portion of hot crispy potato fries served with ketchup.',
+                        ingredients: 'Fresh Potatoes, Seasoning, Ketchup.',
+                        tags: ['Sharing Pack', 'Crispy Potato']
+                    },
+
+                    // HOT SHOTS
+                    {
+                        id: 'ff29',
+                        name: 'Chicken Hot Shots (10 Pcs)',
+                        urduName: 'چکن ہاٹ شاٹس',
+                        category: 'fastfood',
+                        price: 550,
+                        unit: '10 Pcs',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Poppable Bite',
+                        image: 'https://images.pexels.com/photos/60616/fried-chicken-chicken-fried-crunchy-60616.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: '10 pieces of bite-sized spicy fried chicken nuggets cooked to perfection with crispy batter.',
+                        ingredients: 'Boneless Chicken Bites, Spicy Batter, Secret Herbs, Dip.',
+                        tags: ['10 Pieces', 'Spicy Nuggets']
+                    },
+
+                    // PASTA & LOADED
+                    {
+                        id: 'ff30',
+                        name: 'Chicken Cheese Pasta',
+                        urduName: 'چکن چیز پاستا',
+                        category: 'fastfood',
+                        price: 600,
+                        unit: 'Per Bowl',
+                        rating: 4.9,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Creamy Baked',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4PLwNdlDkmNYwh6WRBVi2Rg2msjuvg_VmfYK5dT4jyQ&s=10',
+                        description: 'Macaroni pasta baked in white creamy garlic sauce with tender chicken and melted cheese.',
+                        ingredients: 'Macaroni Pasta, White Cream Sauce, Mozzarella Cheese, Seasoned Chicken, Herbs.',
+                        tags: ['White Sauce', 'Baked Cheese']
+                    },
+                    {
+                        id: 'ff31',
+                        name: 'Loaded Cheese Fries',
+                        urduName: 'لوڈڈ چیز فرائز',
+                        category: 'fastfood',
+                        price: 600,
+                        unit: 'Per Serving',
+                        rating: 4.9,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Ultimate Loaded',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOOARx3PS1JoKr_xwGjYXsFagGuFBYuh6_ftlsj0azwQ&s=10',
+                        description: 'Golden fries layered with melted cheese sauce, chicken chunks, jalapeños & signature drip.',
+                        ingredients: 'Crispy Fries, Melted Cheddar & Mozzarella, Chicken Chunks, Jalapeño Slices.',
+                        tags: ['Melted Cheese', 'Jalapeño']
+                    },
+
+                    // WRAPS
+                    {
+                        id: 'ff32',
+                        name: 'Tortilla Wrap',
+                        urduName: 'ٹورٹیلا ریپ',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Per Wrap',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Grilled Wrap',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsJRy1bq5cDlRYWPGkBPqUFZ2D6fCbPka5NaWJ67f-LA&s=10',
+                        description: 'Soft large tortilla wrapped around grilled chicken, melted cheese, mayo & fresh vegetables.',
+                        ingredients: 'Tortilla Flatbread, Grilled Chicken, Melted Cheese, Mayo, Iceberg Lettuce.',
+                        tags: ['Large Tortilla', 'Fresh Grilled']
+                    },
+                    {
+                        id: 'ff33',
+                        name: 'Zinger Wrap',
+                        urduName: 'زنگر ریپ',
+                        category: 'fastfood',
+                        price: 650,
+                        unit: 'Per Wrap',
+                        rating: 4.9,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Crispy Zinger',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPmJF8Mg5DHSeh7rbXun631AJRyHPSRxEsKpFh9oCx-Q&s=10',
+                        description: 'Crispy zinger chicken fillet wrapped with tangy chili mayo and fresh crunchy salad.',
+                        ingredients: 'Crispy Zinger Strips, Tortilla, Spicy Mayo, Fresh Salad.',
+                        tags: ['Spicy Mayo', 'Crispy Fillet']
+                    },
+
+                    // TRADITIONAL SWEETS
+                    {
+                        id: 's1',
+                        name: 'Gulab Jamun',
+                        urduName: 'گلاب جامن',
+                        category: 'sweets',
+                        price: 1500,
+                        unit: '1 Kg',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: true,
+                        badge: '100% Desi Ghee',
+                        image: 'gulab jamun.webp',
+                        description: 'Warm, soft milk-solid dumplings fried in pure desi ghee, soaked in aromatic cardamom sugar syrup.',
+                        ingredients: 'Fresh Khoya, Cottage Cheese, Pure Desi Ghee, Green Cardamom, Rose Water.',
+                        tags: ['Warm & Soft', 'Pure Desi Ghee', 'Fresh Daily']
+                    },
+                    {
+                        id: 's2',
+                        name: 'Rasgulle',
+                        urduName: 'رس گلے',
+                        category: 'sweets',
+                        price: 1500,
+                        unit: '1 Kg',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Spongy Soft',
+                        image: 'rasgulle.webp',
+                        description: 'Soft and spongy fresh cottage cheese balls simmered in light cardamom sugar syrup.',
+                        ingredients: 'Fresh Chenna (Cottage Cheese), Sugar, Kewra Essence, Cardamom.',
+                        tags: ['Light & Juicy', 'Fresh Chenna', 'Traditional']
+                    },
+                    {
+                        id: 's3',
+                        name: 'Barfi',
+                        urduName: 'برفی',
+                        category: 'sweets',
+                        price: 1500,
+                        unit: '1 Kg',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Pure Khoya',
+                        image: 'barfi.webp',
+                        description: 'Classic rich milk fudge made from pure reduced buffalo milk khoya, silver leaf, and sliced pistachios.',
+                        ingredients: 'Pure Milk Khoya, Sugar, Silver Edible Leaf, Pistachios.',
+                        tags: ['Rich Milk', 'Classic Fudge', 'Silver Leaf']
+                    },
+                    {
+                        id: 's4',
+                        name: 'Motichoor Ladu Bareek Boondi',
+                        urduName: 'موتی چور لڈو باریک بوندی',
+                        category: 'sweets',
+                        price: 1550,
+                        unit: '1 Kg',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Event Special',
+                        image: 'motichoor ladu barik.webp',
+                        description: 'Tiny gram flour pearls fried in pure ghee, bound together with melon seeds and cardamom.',
+                        ingredients: 'Besan Pearls, Pure Ghee, Melon Seeds, Cardamom.',
+                        tags: ['Melt in Mouth', 'Pure Ghee', 'Fresh']
+                    },
+                    {
+                        id: 's5',
+                        name: 'Motichoor Ladu Moti Boondi',
+                        urduName: 'موتی چور لڈو موٹی بوندی',
+                        category: 'sweets',
+                        price: 1700,
+                        unit: '1 Kg',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Event Special',
+                        image: 'motichoor ladu moti bundi.webp',
+                        description: 'Tiny gram flour pearls fried in pure ghee, bound together with melon seeds and cardamom.',
+                        ingredients: 'Besan Pearls, Pure Ghee, Melon Seeds, Cardamom.',
+                        tags: ['Melt in Mouth', 'Pure Ghee', 'Fresh']
+                    },
+                    {
+                        id: 's6',
+                        name: 'Patisa',
+                        urduName: 'پتیسہ',
+                        category: 'sweets',
+                        price: 1700,
+                        unit: '1 Kg',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Flaky & Crisp',
+                        image: 'patisa.webp',
+                        description: 'Crispy, multi-layered flaky sweet made with roasted gram flour, pure ghee, and pistachios.',
+                        ingredients: 'Gram Flour (Besan), Fine Flour, Pure Ghee, Sugar, Pistachios.',
+                        tags: ['Multi Layered', 'Crispy', 'Desi Ghee']
+                    },
+                    {
+                        id: 's7',
+                        name: 'Kalakand',
+                        urduName: 'کلاکنڈ',
+                        category: 'sweets',
+                        price: 1650,
+                        unit: '1 Kg',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: false,
+                        badge: 'Granular Milk',
+                        image: 'kalakand.webp',
+                        description: 'Rich, granular milk cake delicacy cooked slowly with fresh khoya, milk solids, and green cardamom.',
+                        ingredients: 'Fresh Whole Milk, Paneer, Sugar, Cardamom, Almonds.',
+                        tags: ['Soft Texture', 'Granular', 'Rich Cream']
+                    },
+                    {
+                        id: 's8',
+                        name: 'Amratti',
+                        urduName: 'امرتی',
+                        category: 'sweets',
+                        price: 1550,
+                        unit: '1 Kg',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Crispy Saffron',
+                        image: 'amratti.webp',
+                        description: 'Deep-fried white lentil flour flower spirals soaked in hot saffron cardamom sugar syrup.',
+                        ingredients: 'Urad Dal Flour, Saffron, Sugar Syrup, Pure Ghee.',
+                        tags: ['Saffron Syrup', 'Crispy Hot']
+                    },
+                    {
+                        id: 's9',
+                        name: 'Chum Chum',
+                        urduName: 'چم چم',
+                        category: 'sweets',
+                        price: 1600,
+                        unit: '1 Kg',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Bengali Special',
+                        image: 'chum chum.webp',
+                        description: 'Oval Bengali sweets coated with dry khoya shavings, coconut flakes, and rose essence.',
+                        ingredients: 'Fresh Chenna, Khoya Shavings, Coconut Flakes, Rose Syrup.',
+                        tags: ['Khoya Coated', 'Sweet Delight']
+                    },
+                    {
+                        id: 's10',
+                        name: 'Special Pista Roll Barfi',
+                        urduName: 'پستہ رول برفی',
+                        category: 'sweets',
+                        price: 1800,
+                        unit: '1 Kg',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: true,
+                        badge: 'Pistachio Rich',
+                        image: 'barfi pista roll.webp',
+                        description: 'Handcrafted khoya roll filled generously with crushed green pistachios and silver vark.',
+                        ingredients: 'Fresh Khoya, Crushed Pistachios, Sugar, Edible Silver Vark.',
+                        tags: ['Pistachio Filled', 'Luxury Roll']
+                    },
+                    {
+                        id: 's11',
+                        name: 'Sialkoti Guldasta',
+                        urduName: 'سیالکوٹی گلدستہ',
+                        category: 'sweets',
+                        price: 1650,
+                        unit: '1 Kg Box',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: true,
+                        badge: 'Iconic Gift',
+                        image: 'guldasta.webp',
+                        description: 'Gujranwala’s famed signature platter containing premium Desi Ghee Gulab Jamun, Barfi, Cham Cham & Ladoo.',
+                        ingredients: 'Khoya, Pure Desi Ghee, Saffron, Pistachios, Almonds, Cardamom Syrup.',
+                        tags: ['Pure Desi Ghee', 'Signature Box', 'Gift Pack']
+                    },
+                    {
+                        id: 's12',
+                        name: 'Pheonian',
+                        urduName: 'پھینیاں',
+                        category: 'sweets',
+                        price: 1550,
+                        unit: '1 Kg',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Crispy Strands',
+                        image: 'pheonian.webp',
+                        description: 'Ultra-thin, delicate vermicelli-style crispy sweet strands fried in pure ghee, perfect with hot milk.',
+                        ingredients: 'Fine Flour, Pure Ghee, Sugar Syrup, Pistachios.',
+                        tags: ['Fine Strands', 'Desi Ghee', 'Traditional']
+                    },
+                    {
+                        id: 's13',
+                        name: 'Rasmalai',
+                        urduName: 'رس ملائی',
+                        category: 'sweets',
+                        price: 1650,
+                        unit: '1 litre',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Crispy Strands',
+                        image: 'ras malai.webp',
+                        description: 'Rasmalai is a popular Siakoti dessert consisting of soft, spongy paneer (chhena) patties soaked in a rich, sweet, and cardamom-flavored thickened milk.',
+                        ingredients: 'Fine Flour, Pure Ghee, Sugar Syrup, Pistachios.',
+                        tags: ['Fine Strands', 'Desi Ghee', 'Traditional']
+                    },
+                    {
+                        id: 's14',
+                        name: 'Badana',
+                        urduName: 'بدانہ',
+                        category: 'sweets',
+                        price: 1500,
+                        unit: '1 Kg',
+                        rating: 4.6,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Golden Pearls',
+                        image: 'badana.webp',
+                        description: 'Sweet, juicy golden gram flour pearls fried in ghee and soaked in warm cardamom syrup.',
+                        ingredients: 'Gram Flour, Pure Ghee, Sugar Syrup, Cardamom.',
+                        tags: ['Juicy Pearls', 'Sweet Delicacy']
+                    },
+
+                    // ARABIAN SWEETS
+                    {
+                        id: 'a1',
+                        name: 'Baklava',
+                        urduName: 'باقلوا',
+                        category: 'arabian',
+                        price: 2500,
+                        unit: '1 Kg',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: true,
+                        badge: 'Arabian Royal',
+                        image: 'baklava.webp',
+                        description: 'Layers of paper-thin crispy phyllo pastry filled with finely crushed nuts and sweetened with honey syrup.',
+                        ingredients: 'Phyllo Dough, Pistachios, Walnuts, Butter, Honey Syrup.',
+                        tags: ['Crispy Layers', 'Honey Syrup', 'Royal Nuts']
+                    },
+                    {
+                        id: 'a2',
+                        name: 'Mabroumeh',
+                        urduName: 'مبرومہ',
+                        category: 'arabian',
+                        price: 2500,
+                        unit: '1 Kg',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: false,
+                        badge: 'Pistachio Roll',
+                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUKeqYZz17sDph9ON7XPURfcrfFFhG1ACrlnAILP4j1w&s=10',
+                        description: 'Crispy shredded kunafa rolls packed tightly with whole roasted green pistachios and drizzled with sweet syrup.',
+                        ingredients: 'Shredded Phyllo, Whole Pistachios, Clarified Butter, Sugar Syrup.',
+                        tags: ['Whole Pistachios', 'Kunafa Roll', 'Crunchy']
+                    },
+                    {
+                        id: 'a3',
+                        name: 'Osh El Bulbul',
+                        urduName: 'عش البلبل',
+                        category: 'arabian',
+                        price: 2500,
+                        unit: '1 Kg',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: "Bird's Nest",
+                        image: 'osh el bulbul.webp',
+                        description: 'Miniature bird’s nest pastries made of spun kataifi dough filled with roasted pistachios and cashews.',
+                        ingredients: 'Kataifi Dough, Pistachios, Cashews, Clarified Butter, Syrup.',
+                        tags: ['Bird Nest', 'Bite Size', 'Nutty Delight']
+                    },
+                    {
+                        id: 'a4',
+                        name: 'Kunafa',
+                        urduName: 'کنافہ',
+                        category: 'arabian',
+                        price: 2500,
+                        unit: '1 Kg',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: true,
+                        badge: 'Hot Arabian',
+                        image: 'kunafa.webp',
+                        description: 'Traditional Middle Eastern spun pastry layered with sweet cream and cheese, soaked in orange blossom syrup.',
+                        ingredients: 'Spun Pastry (Kataifi), Nabulsi Cheese, Sweet Cream, Rose Water Syrup, Pistachios.',
+                        tags: ['Warm & Cheesy', 'Rose Syrup', 'Arabian Classic']
+                    },
+                    {
+                        id: 'a5',
+                        name: 'Basbousa',
+                        urduName: 'بسبوسہ',
+                        category: 'arabian',
+                        price: 2500,
+                        unit: '1 Kg',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Semolina Cake',
+                        image: 'basbousa.webp',
+                        description: 'Traditional Arabian semolina cake baked with coconut, soaked in sweet syrup and topped with whole almonds.',
+                        ingredients: 'Semolina, Coconut, Yogurt, Butter, Sugar Syrup, Blanched Almonds.',
+                        tags: ['Moist Semolina', 'Coconut Flavor', 'Arabian Treat']
+                    },
+
+                    // HALWA JAAT
+                    {
+                        id: 'h1',
+                        name: 'Akhrot Halwa',
+                        urduName: 'اخروٹ حلوہ',
+                        category: 'halwa',
+                        price: 1900,
+                        unit: '1 Kg',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: true,
+                        badge: 'Nutty Special',
+                        image: 'akhrot halwa.webp',
+                        description: 'Slow-cooked sprouted wheat, whole milk khoya, and pure desi ghee generously loaded with roasted walnuts.',
+                        ingredients: 'Sprouted Wheat, Pure Khoya, Crushed Walnuts, Desi Ghee, Sugar.',
+                        tags: ['Walnut Loaded', 'Desi Ghee', 'Winter Warmth']
+                    },
+                    {
+                        id: 'h2',
+                        name: 'Sohan Halwa',
+                        urduName: 'سوہن حلوہ',
+                        category: 'halwa',
+                        price: 1700,
+                        unit: '1 Kg',
+                        rating: 4.8,
+                        isHeritage: true,
+                        isBestseller: true,
+                        badge: 'Multani Legacy',
+                        image: 'sohan halwa.webp',
+                        description: 'Traditional dense, sweet confection made of wheat germ, milk, sugar, saffron, pistachios, and almonds.',
+                        ingredients: 'Wheat Germ (Samnak), Whole Milk, Pure Ghee, Almonds, Pistachios.',
+                        tags: ['Rich & Dense', 'Traditional Recipe', 'Saffron Touch']
+                    },
+
+                    // BISCUITS
+                    {
+                        id: 'b1',
+                        name: 'Jam Biscotti',
+                        urduName: 'جام بسکٹ',
+                        category: 'biscuits',
+                        price: 2200,
+                        unit: '1 Kg Box',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Fruity Delight',
+                        image: 'jam biscotti.webp',
+                        description: 'Crispy butter shortbread cookies topped with sweet fruit jam centers baked fresh daily.',
+                        ingredients: 'Butter, Flour, Mixed Fruit Jam, Sugar, Vanilla.',
+                        tags: ['Crispy Shortbread', 'Fruity Jam']
+                    },
+                    {
+                        id: 'b2',
+                        name: 'Zeera Biscotti',
+                        urduName: 'زیرا بسکٹ',
+                        category: 'biscuits',
+                        price: 2200,
+                        unit: '1 Kg Box',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Tea Favorite',
+                        image: 'zeera biscotti.webp',
+                        description: 'Slightly sweet and salty buttery cookies infused with aromatic roasted cumin seeds.',
+                        ingredients: 'Pure Butter, Flour, Roasted Cumin Seeds (Zeera), Salt, Sugar.',
+                        tags: ['Sweet & Salty', 'Roasted Cumin', 'Tea Snack']
+                    },
+                    {
+                        id: 'b3',
+                        name: 'Choco Chip Cookies',
+                        urduName: 'چاکلیٹ چپ کوکیز',
+                        category: 'biscuits',
+                        price: 2200,
+                        unit: '1 Kg Box',
+                        rating: 4.9,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Kids Favorite',
+                        image: 'chocolate chip.webp',
+                        description: 'Freshly baked crunchy cookies packed with rich dark chocolate chips in every single bite.',
+                        ingredients: 'Butter, Flour, Dark Chocolate Chips, Brown Sugar, Vanilla.',
+                        tags: ['Rich Chocolate', 'Fresh Baked']
+                    },
+                    {
+                        id: 'b4',
+                        name: 'Badam Khatai',
+                        urduName: 'بادام خطائی',
+                        category: 'biscuits',
+                        price: 2400,
+                        unit: '1 Kg Box',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: true,
+                        badge: 'Bakery Special',
+                        image: 'badam khatai.webp',
+                        description: 'Traditional crumbly shortbread cookies infused with cardamom and topped with whole roasted almonds.',
+                        ingredients: 'Desi Ghee, Flour, Semolina, Cardamom, Whole Almonds.',
+                        tags: ['Crumbly & Rich', 'Desi Ghee', 'Almond Topped']
+                    },
+                    {
+                        id: 'b5',
+                        name: 'Chana Biscuit',
+                        urduName: 'چنا بسکٹ',
+                        category: 'biscuits',
+                        price: 2200,
+                        unit: '1 Kg Box',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Nutty Crunch',
+                        image: 'chana biscotti.webp',
+                        description: 'Nutritious roasted gram flour crunchy cookies with a rich roasted aroma and balanced sweetness.',
+                        ingredients: 'Roasted Chana Flour, Butter, Sugar, Cardamom.',
+                        tags: ['Nutritious', 'Roasted Aroma']
+                    },
+                    {
+                        id: 'b6',
+                        name: 'Shahi Khatai',
+                        urduName: 'شاہی خطائی',
+                        category: 'biscuits',
+                        price: 2400,
+                        unit: '1 Kg Box',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: false,
+                        badge: 'Royal Recipe',
+                        image: 'shahi khatai.webp',
+                        description: 'Royal shortbread cookies prepared with pure desi ghee, crushed pistachios, almonds, and saffron hint.',
+                        ingredients: 'Pure Desi Ghee, Wheat Flour, Pistachios, Almonds, Saffron.',
+                        tags: ['Royal Desi Ghee', 'Nut Rich']
+                    },
+                    {
+                        id: 'b7',
+                        name: 'Badam Biscotti',
+                        urduName: 'بادام بسکوٹی',
+                        category: 'biscuits',
+                        price: 2200,
+                        unit: '1 Kg Box',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Double Baked',
+                        image: 'almond biscotti.webp',
+                        description: 'Double-baked crunchy almond biscotti slices crafted specifically for dipping in hot tea or coffee.',
+                        ingredients: 'Whole Almonds, Flour, Eggs, Butter, Sugar, Vanilla.',
+                        tags: ['Double Baked', 'Tea Dipping', 'Almond Crunch']
+                    },
+
+                    // CAKE RUSK
+                    {
+                        id: 'cr1',
+                        name: 'Cake Rusk',
+                        urduName: 'کیک رسک',
+                        category: 'cakerusk',
+                        price: 2200,
+                        unit: '1 Kg Box',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: true,
+                        badge: 'Teatime Essential',
+                        image: 'cake rusk.webp',
+                        description: 'Twice-baked golden sponge cake slices, extra crispy and perfectly sweetened for morning & evening tea.',
+                        ingredients: 'Fresh Eggs, Butter, Flour, Sugar, Vanilla Extract.',
+                        tags: ['Twice Baked', 'Extra Crispy', 'Tea Favorite']
+                    }
+                    
+                ],
+
+                getItemById(id) {
+                    return this.items.find(i => i.id === id) || this.items[0];
+                },
+
+                get filteredItems() {
+                    let result = this.items;
+
+                    // Exclude fast food from 'all' section to keep it strictly separated
+                    if (this.selectedCategory === 'all') {
+                        result = result.filter(item => item.category !== 'fastfood');
+                    } else {
+                        result = result.filter(item => item.category === this.selectedCategory);
+                    }
+
+                    if (this.searchQuery.trim() !== '') {
+                        const q = this.searchQuery.toLowerCase();
+                        result = result.filter(item => 
+                            item.name.toLowerCase().includes(q) || 
+                            (item.urduName && item.urduName.includes(q)) || 
+                            item.description.toLowerCase().includes(q) ||
+                            (item.tags && item.tags.some(t => t.toLowerCase().includes(q)))
+                        );
+                    }
+
+                    if (this.sortBy === 'price-asc') {
+                        result = [...result].sort((a, b) => a.price - b.price);
+                    } else if (this.sortBy === 'price-desc') {
+                        result = [...result].sort((a, b) => b.price - a.price);
+                    } else if (this.sortBy === 'rating') {
+                        result = [...result].sort((a, b) => b.rating - a.rating);
+                    }
+
+                    return result;
+                },
+
+                getCategoryCount(catId) {
+                    if (catId === 'all') return this.items.filter(i => i.category !== 'fastfood').length;
+                    return this.items.filter(i => i.category === catId).length;
+                },
+
+                setCategory(catId) {
+                    this.selectedCategory = catId;
+                    const menuEl = document.getElementById('menu-section');
+                    if (menuEl) menuEl.scrollIntoView({ behavior: 'smooth' });
+                },
+
+                setSearch(term) {
+                    this.searchQuery = term;
+                    const menuEl = document.getElementById('menu-section');
+                    if (menuEl) menuEl.scrollIntoView({ behavior: 'smooth' });
+                },
+
+                getProductSlug(item) {
+                    const slugify = (value) => value.toLowerCase()
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .replace(/&/g, ' and ')
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/^-+|-+$/g, '');
+                    const baseSlug = slugify(item.name);
+                    const duplicateCount = this.items.filter(other => slugify(other.name) === baseSlug).length;
+                    return duplicateCount > 1 ? `${baseSlug}-${item.id}` : baseSlug;
+                },
+
+                getProductUrl(item) {
+                    // Relative paths keep the routes working on both custom domains and project-site subpaths.
+                    return `./${this.getProductSlug(item)}/`;
+                }
+            }
+        }
+    </script>
 </body>
 </html>
