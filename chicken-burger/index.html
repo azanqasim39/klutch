@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicken Burger | Sialkot Sweets &amp; Bakers</title>
+    <meta name="description" content="Classic spiced chicken patty topped with creamy sauce, tomatoes, and crisp lettuce.">
+    <meta name="theme-color" content="#022c22">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { emerald: { 850: '#064e3b', 900: '#022c22' }, amber: { 450: '#f59e0b', 550: '#d97706' }, burgundy: { 700: '#7f1d1d', 800: '#991b1b', 900: '#450a0a' } }, fontFamily: { serif: ['Playfair Display', 'Georgia', 'serif'], sans: ['Inter', 'sans-serif'], urdu: ['Amiri', 'serif'] } } } };
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: radial-gradient(circle at 10% 0%, rgba(245,158,11,.055), transparent 28%), radial-gradient(circle at 95% 8%, rgba(6,78,59,.08), transparent 24%), #fafaf9; }
+        .font-playfair { font-family: 'Playfair Display', Georgia, serif; }
+        .font-urdu { font-family: 'Amiri', serif; }
+        .gold-gradient-text { background: linear-gradient(135deg,#fbbf24 0%,#d97706 50%,#92400e 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .product-photo { background: linear-gradient(145deg,rgba(2,44,34,.07),rgba(217,119,6,.08)); }
+        .product-panel { box-shadow: 0 24px 70px rgba(2,44,34,.09); }
+        .action-link { transition: transform .2s ease, box-shadow .2s ease; }
+        .action-link:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(2,44,34,.18); }
+        @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior:auto !important; transition-duration:.001ms !important; } }
+    
+        /* Mobile-only refinement: preserve the approved desktop/tablet design. */
+        @media (max-width: 639px) {
+            body {
+                font-size: 12px !important;
+                overflow-x: hidden;
+            }
+
+            /* Keep the homepage information, but make the announcement bar tighter. */
+            body > div:first-child {
+                padding: 5px 9px !important;
+                font-size: 10px !important;
+                line-height: 1.25 !important;
+            }
+            body > div:first-child > div {
+                gap: 5px 9px !important;
+            }
+            body > div:first-child > div > div {
+                gap: 4px 8px !important;
+            }
+            #product-open-indicator {
+                padding: 2px 6px !important;
+                font-size: 9px !important;
+                gap: 4px !important;
+            }
+            /* Keep opening hours visible on mobile too, as requested for the product-page header. */
+            body > div:first-child > div > div:first-child > span:nth-child(2) {
+                display: inline !important;
+                font-size: 9px !important;
+                line-height: 1.2 !important;
+                white-space: nowrap;
+            }
+
+            /* Compact brand header and back-to-menu action on phones. */
+            header > div.max-w-7xl {
+                min-height: 49px !important;
+                padding: 5px 9px !important;
+                gap: 6px !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] {
+                gap: 6px !important;
+                min-width: 0 !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] > span:first-child {
+                width: 31px !important;
+                height: 31px !important;
+                padding: 3px !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] .font-playfair {
+                font-size: 12px !important;
+                line-height: 1.05 !important;
+                letter-spacing: -.025em !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] .tracking-\[\.12em\] {
+                font-size: 7px !important;
+                letter-spacing: .08em !important;
+            }
+            header a.action-link {
+                padding: 7px 8px !important;
+                gap: 5px !important;
+                font-size: 9px !important;
+                line-height: 1.1 !important;
+                border-radius: 8px !important;
+            }
+
+            /* Reduce empty space and card dimensions without changing the layout. */
+            main {
+                padding-top: 10px !important;
+                padding-bottom: 12px !important;
+            }
+            main > .max-w-6xl {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
+            main nav[aria-label="Breadcrumb"] {
+                font-size: 10px !important;
+                line-height: 1.35 !important;
+                margin-bottom: 8px !important;
+            }
+            article.product-panel {
+                border-radius: 12px !important;
+                box-shadow: 0 10px 28px rgba(2, 44, 34, .07) !important;
+            }
+            .product-photo {
+                min-height: 148px !important;
+                padding: 8px !important;
+            }
+            .product-photo > img {
+                width: 100% !important;
+                min-height: 126px !important;
+                max-height: 160px !important;
+                object-fit: contain !important;
+                border-radius: 8px !important;
+            }
+            .product-photo > span:first-of-type {
+                top: 8px !important;
+                left: 8px !important;
+                padding: 4px 7px !important;
+                font-size: 8px !important;
+                line-height: 1.1 !important;
+                letter-spacing: .06em !important;
+            }
+            .product-photo > span:last-of-type {
+                right: 8px !important;
+                bottom: 8px !important;
+                padding: 5px 7px !important;
+                font-size: 9px !important;
+            }
+            article.product-panel > div.grid > div:nth-child(2) {
+                padding: 12px !important;
+            }
+            article.product-panel h1 {
+                font-size: 21px !important;
+                line-height: 1.13 !important;
+                overflow-wrap: anywhere;
+            }
+            article.product-panel .font-urdu {
+                font-size: 17px !important;
+                line-height: 1.25 !important;
+            }
+            article.product-panel p {
+                line-height: 1.5 !important;
+            }
+            article.product-panel .mt-3\.5 {
+                margin-top: 10px !important;
+            }
+            article.product-panel .mt-4 {
+                margin-top: 11px !important;
+            }
+            article.product-panel .mt-5 {
+                margin-top: 12px !important;
+            }
+            article.product-panel .rounded-xl.border.border-amber-200 {
+                padding: 10px !important;
+                border-radius: 10px !important;
+            }
+            article.product-panel .rounded-xl.border.border-amber-200 .font-playfair {
+                font-size: 22px !important;
+                line-height: 1.15 !important;
+            }
+            article.product-panel section[aria-labelledby="ingredients-heading"] h2 {
+                font-size: 9px !important;
+                margin-bottom: 4px !important;
+            }
+            article.product-panel section[aria-labelledby="ingredients-heading"] p {
+                font-size: 11px !important;
+                line-height: 1.45 !important;
+            }
+            article.product-panel a.inline-flex {
+                padding: 8px 10px !important;
+                font-size: 10px !important;
+            }
+            main > .max-w-6xl > p.text-center {
+                margin-top: 10px !important;
+                font-size: 9px !important;
+            }
+
+            /* On phones, put footer links side-by-side to avoid one huge vertical stack. */
+            footer {
+                margin-top: 12px !important;
+                padding-top: 22px !important;
+                padding-bottom: 20px !important;
+            }
+            footer > .max-w-7xl {
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+            }
+            footer > .max-w-7xl > .grid {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+                gap: 16px 12px !important;
+                margin-bottom: 16px !important;
+            }
+            footer > .max-w-7xl > .grid > div:first-child,
+            footer > .max-w-7xl > .grid > div:nth-child(4) {
+                grid-column: 1 / -1 !important;
+            }
+            footer > .max-w-7xl > .grid > div:first-child > div {
+                font-size: 15px !important;
+                line-height: 1.2 !important;
+            }
+            footer h4 {
+                font-size: 9px !important;
+                margin-bottom: 7px !important;
+            }
+            footer ul {
+                font-size: 10px !important;
+                line-height: 1.35 !important;
+            }
+            footer ul li + li {
+                margin-top: 5px !important;
+            }
+            footer p {
+                line-height: 1.45 !important;
+            }
+            footer a[href^="tel:"] {
+                overflow-wrap: anywhere;
+            }
+            footer a[aria-label*="Instagram"],
+            footer a[aria-label*="Facebook"] {
+                width: 32px !important;
+                height: 32px !important;
+            }
+            footer > .max-w-7xl > div:nth-child(2) {
+                font-size: 8px !important;
+                line-height: 1.4 !important;
+                margin-top: 14px !important;
+                padding-top: 10px !important;
+            }
+            footer > .max-w-7xl > div:nth-child(3) {
+                padding-top: 12px !important;
+                margin-top: 10px !important;
+                gap: 8px !important;
+                font-size: 9px !important;
+                line-height: 1.4 !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            header a[aria-label="Sialkot Sweets home"] .font-playfair {
+                font-size: 11px !important;
+            }
+            header a.action-link {
+                padding: 6px 7px !important;
+                font-size: 8px !important;
+            }
+            .product-photo {
+                min-height: 138px !important;
+            }
+            .product-photo > img {
+                min-height: 116px !important;
+                max-height: 148px !important;
+            }
+            article.product-panel > div.grid > div:nth-child(2) {
+                padding: 10px !important;
+            }
+            article.product-panel h1 {
+                font-size: 19px !important;
+            }
+            footer > .max-w-7xl > .grid {
+                gap: 14px 9px !important;
+            }
+        }
+
+    
+
+        /* Corrective mobile fit: prevent page-width overflow and make large controls/blocks compact.
+           These rules are mobile-only; desktop and tablet styling remains unchanged. */
+        @media (max-width: 639px) {
+            html, body {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                overflow-x: hidden !important;
+            }
+            *, *::before, *::after { box-sizing: border-box !important; }
+            body { margin-left: 0 !important; margin-right: 0 !important; }
+            body > div, body > header, body > main, body > footer {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+            }
+            .max-w-7xl, .max-w-6xl {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+            }
+            img, svg, video, canvas, iframe { max-width: 100%; }
+            p, h1, h2, h3, h4, li, a, span { overflow-wrap: anywhere; }
+
+            /* Tighten the homepage-style information bar without pushing the page wider. */
+            body > div:first-child {
+                padding: 5px 9px !important;
+                font-size: 9px !important;
+                line-height: 1.25 !important;
+            }
+            body > div:first-child > div.max-w-7xl {
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                align-items: stretch !important;
+                gap: 4px !important;
+            }
+            body > div:first-child > div.max-w-7xl > div {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: flex-start !important;
+                align-items: center !important;
+                gap: 4px 8px !important;
+            }
+            #product-open-indicator {
+                padding: 2px 6px !important;
+                font-size: 8px !important;
+                line-height: 1.15 !important;
+                gap: 4px !important;
+            }
+            body > div:first-child > div.max-w-7xl > div:first-child > span:nth-child(2) {
+                display: inline !important;
+                max-width: 100% !important;
+                white-space: normal !important;
+                font-size: 8px !important;
+                line-height: 1.2 !important;
+            }
+            body > div:first-child a[href^="tel:"],
+            body > div:first-child > div > div:last-child > div {
+                font-size: 9px !important;
+                line-height: 1.2 !important;
+                min-width: 0 !important;
+                white-space: normal !important;
+            }
+
+            /* Compact one-line brand header and the Back to Menu button. */
+            header { width: 100% !important; max-width: 100% !important; }
+            header > div.max-w-7xl {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                min-height: 46px !important;
+                padding: 5px 8px !important;
+                gap: 6px !important;
+                flex-wrap: nowrap !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] {
+                min-width: 0 !important;
+                flex: 1 1 auto !important;
+                gap: 5px !important;
+                overflow: hidden !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] > span:first-child {
+                width: 28px !important;
+                height: 28px !important;
+                min-width: 28px !important;
+                padding: 2px !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] > span:nth-child(2) {
+                min-width: 0 !important;
+                flex: 1 1 auto !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] .font-playfair {
+                font-size: 10px !important;
+                line-height: 1.1 !important;
+                letter-spacing: -.025em !important;
+                white-space: normal !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] .tracking-\[\.12em\] {
+                font-size: 6.5px !important;
+                line-height: 1.15 !important;
+                letter-spacing: .04em !important;
+            }
+            header a.action-link {
+                flex: 0 0 auto !important;
+                max-width: 44% !important;
+                min-width: 0 !important;
+                padding: 6px 7px !important;
+                gap: 4px !important;
+                font-size: 8.5px !important;
+                line-height: 1.15 !important;
+                border-radius: 7px !important;
+                white-space: normal !important;
+                text-align: center !important;
+            }
+
+            /* The main page and product card are locked to viewport width. */
+            main {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                padding: 8px 0 10px !important;
+            }
+            main > .max-w-6xl {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                padding-left: 9px !important;
+                padding-right: 9px !important;
+            }
+            main nav[aria-label="Breadcrumb"] {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                align-items: center !important;
+                gap: 2px 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                margin-bottom: 7px !important;
+                font-size: 9px !important;
+                line-height: 1.3 !important;
+            }
+            main nav[aria-label="Breadcrumb"] > * { min-width: 0 !important; }
+            article.product-panel {
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                border-radius: 11px !important;
+                box-shadow: 0 8px 22px rgba(2,44,34,.07) !important;
+            }
+            article.product-panel > div.grid {
+                display: grid !important;
+                grid-template-columns: minmax(0, 1fr) !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+            }
+            article.product-panel > div.grid > div { min-width: 0 !important; max-width: 100% !important; }
+            .product-photo {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                min-height: 126px !important;
+                padding: 7px !important;
+                overflow: hidden !important;
+            }
+            .product-photo > img {
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                min-height: 108px !important;
+                max-height: 132px !important;
+                object-fit: contain !important;
+                border-radius: 8px !important;
+            }
+            .product-photo > span:first-of-type {
+                top: 7px !important;
+                left: 7px !important;
+                max-width: calc(100% - 14px) !important;
+                padding: 3px 6px !important;
+                font-size: 7.5px !important;
+                line-height: 1.15 !important;
+                letter-spacing: .04em !important;
+            }
+            .product-photo > span:last-of-type {
+                right: 7px !important;
+                bottom: 7px !important;
+                max-width: calc(100% - 14px) !important;
+                padding: 4px 6px !important;
+                font-size: 8px !important;
+                line-height: 1.15 !important;
+            }
+            article.product-panel > div.grid > div:nth-child(2) {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                padding: 10px !important;
+            }
+            article.product-panel h1 {
+                max-width: 100% !important;
+                min-width: 0 !important;
+                font-size: 19px !important;
+                line-height: 1.14 !important;
+                overflow-wrap: anywhere !important;
+            }
+            article.product-panel .font-urdu {
+                max-width: 100% !important;
+                font-size: 16px !important;
+                line-height: 1.2 !important;
+            }
+            article.product-panel p {
+                max-width: 100% !important;
+                font-size: 11px !important;
+                line-height: 1.45 !important;
+                overflow-wrap: anywhere !important;
+            }
+            article.product-panel .mb-2\.5,
+            article.product-panel .mt-3\.5,
+            article.product-panel .mt-4,
+            article.product-panel .mt-5 {
+                margin-top: 8px !important;
+                margin-bottom: 8px !important;
+            }
+            article.product-panel .rounded-xl.border.border-amber-200 {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                padding: 9px !important;
+                border-radius: 9px !important;
+            }
+            article.product-panel .rounded-xl.border.border-amber-200 .font-playfair {
+                font-size: 20px !important;
+                line-height: 1.15 !important;
+            }
+            article.product-panel section[aria-labelledby="ingredients-heading"] {
+                max-width: 100% !important;
+                min-width: 0 !important;
+            }
+            article.product-panel section[aria-labelledby="ingredients-heading"] h2 {
+                font-size: 9px !important;
+                line-height: 1.25 !important;
+                margin-bottom: 4px !important;
+            }
+            article.product-panel a.inline-flex {
+                min-height: 30px !important;
+                max-width: 100% !important;
+                padding: 7px 9px !important;
+                gap: 5px !important;
+                font-size: 9px !important;
+                line-height: 1.2 !important;
+                border-radius: 7px !important;
+            }
+            main > .max-w-6xl > p.text-center {
+                margin-top: 8px !important;
+                padding-left: 3px !important;
+                padding-right: 3px !important;
+                font-size: 8px !important;
+                line-height: 1.35 !important;
+            }
+
+            /* Keep the footer compact and ensure long contact text cannot widen the page. */
+            footer {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                margin-top: 8px !important;
+                padding: 18px 0 16px !important;
+            }
+            footer * { min-width: 0 !important; }
+            footer > .max-w-7xl {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
+            footer > .max-w-7xl > .grid {
+                display: grid !important;
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+                gap: 12px 9px !important;
+                margin-bottom: 13px !important;
+            }
+            footer > .max-w-7xl > .grid > div:first-child,
+            footer > .max-w-7xl > .grid > div:nth-child(4) {
+                grid-column: 1 / -1 !important;
+            }
+            footer > .max-w-7xl > .grid > div:first-child > div {
+                font-size: 13px !important;
+                line-height: 1.2 !important;
+            }
+            footer h4 { font-size: 8.5px !important; line-height: 1.25 !important; margin-bottom: 6px !important; }
+            footer ul { font-size: 9px !important; line-height: 1.35 !important; }
+            footer ul li + li { margin-top: 4px !important; }
+            footer p, footer a, footer span { overflow-wrap: anywhere !important; }
+            footer p { font-size: 10px; line-height: 1.4 !important; }
+            footer a[href^="tel:"], footer a[href^="mailto:"] { overflow-wrap: anywhere !important; }
+            footer a[aria-label*="Instagram"], footer a[aria-label*="Facebook"] {
+                width: 29px !important;
+                height: 29px !important;
+            }
+            footer > .max-w-7xl > div:nth-child(2) {
+                font-size: 8px !important;
+                line-height: 1.35 !important;
+                margin-top: 10px !important;
+                padding-top: 9px !important;
+            }
+            footer > .max-w-7xl > div:nth-child(3) {
+                padding-top: 10px !important;
+                margin-top: 9px !important;
+                gap: 7px !important;
+                font-size: 8.5px !important;
+                line-height: 1.35 !important;
+            }
+            footer > .max-w-7xl > div:nth-child(3) p { max-width: 100% !important; }
+        }
+
+        @media (max-width: 360px) {
+            body > div:first-child { padding-left: 7px !important; padding-right: 7px !important; }
+            header > div.max-w-7xl { padding-left: 7px !important; padding-right: 7px !important; gap: 5px !important; }
+            header a[aria-label="Sialkot Sweets home"] > span:first-child {
+                width: 26px !important;
+                height: 26px !important;
+                min-width: 26px !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] .font-playfair { font-size: 9px !important; }
+            header a.action-link { max-width: 45% !important; padding: 6px !important; font-size: 8px !important; }
+            main > .max-w-6xl { padding-left: 7px !important; padding-right: 7px !important; }
+            article.product-panel > div.grid > div:nth-child(2) { padding: 9px !important; }
+            article.product-panel h1 { font-size: 18px !important; }
+            .product-photo { min-height: 118px !important; }
+            .product-photo > img { min-height: 100px !important; max-height: 122px !important; }
+            footer > .max-w-7xl { padding-left: 8px !important; padding-right: 8px !important; }
+            footer > .max-w-7xl > .grid { gap: 10px 7px !important; }
+        }
+
+    
+
+        /* Final targeted mobile adjustment requested by the owner:
+           Keep the green announcement/navigation bars at homepage-like size.
+           Make ONLY the large product information blocks more compact. */
+        @media (max-width: 639px) {
+            /* Do not shrink the whole page or the top bars. */
+            body {
+                font-size: 14px !important;
+                overflow-x: hidden !important;
+            }
+
+            /* Announcement bar: match the original homepage's mobile padding/type scale. */
+            body > div:first-child {
+                padding: 8px 16px !important;
+                font-size: 12px !important;
+                line-height: 1.4 !important;
+            }
+            body > div:first-child > div.max-w-7xl {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                gap: 8px !important;
+            }
+            body > div:first-child > div.max-w-7xl > div {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                justify-content: flex-start !important;
+                align-items: center !important;
+                width: auto !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                gap: 6px 10px !important;
+                font-size: 12px !important;
+                line-height: 1.35 !important;
+            }
+            #product-open-indicator {
+                padding: 2px 10px !important;
+                font-size: 12px !important;
+                line-height: 1.25 !important;
+                gap: 6px !important;
+            }
+            #product-open-indicator > span:first-child {
+                width: 6px !important;
+                height: 6px !important;
+            }
+            /* Match index.html's own mobile behavior: opening hours are hidden on phones. */
+            body > div:first-child > div.max-w-7xl > div:first-child > span:nth-child(2) {
+                display: none !important;
+            }
+            body > div:first-child a[href^="tel:"],
+            body > div:first-child > div > div:last-child > div {
+                font-size: 12px !important;
+                line-height: 1.35 !important;
+                min-width: 0 !important;
+                white-space: normal !important;
+            }
+            body > div:first-child .text-stone-400 {
+                font-size: 11px !important;
+            }
+
+            /* Navigation header: preserve readable, homepage-like mobile proportions. */
+            header {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            header > div.max-w-7xl {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                height: 64px !important;
+                min-height: 64px !important;
+                max-height: 64px !important;
+                padding: 8px 12px !important;
+                gap: 8px !important;
+                flex-wrap: nowrap !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] {
+                min-width: 0 !important;
+                flex: 1 1 auto !important;
+                gap: 7px !important;
+                overflow: hidden !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] > span:first-child {
+                width: 42px !important;
+                height: 42px !important;
+                min-width: 42px !important;
+                min-height: 42px !important;
+                padding: 3px !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] > span:nth-child(2) {
+                min-width: 0 !important;
+                flex: 1 1 auto !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] .font-playfair {
+                font-size: 14px !important;
+                line-height: 1.1 !important;
+                letter-spacing: -.015em !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] .tracking-\[\.12em\] {
+                font-size: 8px !important;
+                line-height: 1.2 !important;
+                letter-spacing: .08em !important;
+            }
+            header a.action-link {
+                flex: 0 0 auto !important;
+                max-width: 48% !important;
+                min-width: 0 !important;
+                padding: 8px 10px !important;
+                gap: 6px !important;
+                font-size: 10px !important;
+                line-height: 1.15 !important;
+                border-radius: 8px !important;
+                white-space: nowrap !important;
+                text-align: center !important;
+            }
+
+            /* Smaller product blocks — the header above intentionally stays full-size. */
+            main {
+                padding-top: 7px !important;
+                padding-bottom: 9px !important;
+            }
+            main > .max-w-6xl {
+                padding-left: 8px !important;
+                padding-right: 8px !important;
+            }
+            main nav[aria-label="Breadcrumb"] {
+                font-size: 9px !important;
+                line-height: 1.3 !important;
+                margin-bottom: 6px !important;
+            }
+            article.product-panel {
+                border-radius: 10px !important;
+                box-shadow: 0 7px 18px rgba(2,44,34,.06) !important;
+            }
+            .product-photo {
+                min-height: 102px !important;
+                padding: 6px !important;
+            }
+            .product-photo > img {
+                min-height: 88px !important;
+                max-height: 108px !important;
+                border-radius: 7px !important;
+            }
+            .product-photo > span:first-of-type {
+                top: 6px !important;
+                left: 6px !important;
+                padding: 3px 5px !important;
+                font-size: 7px !important;
+                line-height: 1.1 !important;
+                letter-spacing: .03em !important;
+            }
+            .product-photo > span:last-of-type {
+                right: 6px !important;
+                bottom: 6px !important;
+                padding: 3px 5px !important;
+                font-size: 7.5px !important;
+                line-height: 1.1 !important;
+            }
+            article.product-panel > div.grid > div:nth-child(2) {
+                padding: 8px !important;
+            }
+            article.product-panel > div.grid > div:nth-child(2) .rounded-full {
+                padding: 3px 6px !important;
+                font-size: 8px !important;
+                line-height: 1.15 !important;
+                letter-spacing: .02em !important;
+                gap: 4px !important;
+            }
+            article.product-panel h1 {
+                font-size: 16px !important;
+                line-height: 1.12 !important;
+            }
+            article.product-panel .font-urdu {
+                font-size: 14px !important;
+                line-height: 1.2 !important;
+            }
+            article.product-panel p {
+                font-size: 10px !important;
+                line-height: 1.35 !important;
+            }
+            article.product-panel .mb-2\.5,
+            article.product-panel .mt-3\.5,
+            article.product-panel .mt-4,
+            article.product-panel .mt-5 {
+                margin-top: 6px !important;
+                margin-bottom: 6px !important;
+            }
+            article.product-panel .rounded-xl.border.border-amber-200 {
+                padding: 7px !important;
+                border-radius: 8px !important;
+            }
+            article.product-panel .rounded-xl.border.border-amber-200 .font-playfair {
+                font-size: 17px !important;
+                line-height: 1.1 !important;
+            }
+            article.product-panel section[aria-labelledby="ingredients-heading"] h2 {
+                font-size: 8px !important;
+                line-height: 1.2 !important;
+                margin-bottom: 3px !important;
+            }
+            article.product-panel section[aria-labelledby="ingredients-heading"] p {
+                font-size: 9px !important;
+                line-height: 1.35 !important;
+            }
+            article.product-panel .rounded-md.border.border-stone-200 {
+                padding: 3px 5px !important;
+                font-size: 8px !important;
+                line-height: 1.15 !important;
+            }
+            article.product-panel a.inline-flex {
+                min-height: 27px !important;
+                padding: 6px 8px !important;
+                gap: 5px !important;
+                font-size: 9px !important;
+                line-height: 1.15 !important;
+                border-radius: 7px !important;
+            }
+            main > .max-w-6xl > p.text-center {
+                margin-top: 7px !important;
+                font-size: 8px !important;
+                line-height: 1.3 !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            /* Keep the header readable and intact on narrow phones too. */
+            body > div:first-child { padding-left: 12px !important; padding-right: 12px !important; }
+            header > div.max-w-7xl { padding-left: 9px !important; padding-right: 9px !important; gap: 6px !important; }
+            header a[aria-label="Sialkot Sweets home"] > span:first-child {
+                width: 38px !important;
+                height: 38px !important;
+                min-width: 38px !important;
+                min-height: 38px !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] .font-playfair { font-size: 12px !important; }
+            header a.action-link { max-width: 48% !important; padding: 7px 8px !important; font-size: 9px !important; }
+            main > .max-w-6xl { padding-left: 7px !important; padding-right: 7px !important; }
+            article.product-panel > div.grid > div:nth-child(2) { padding: 7px !important; }
+            article.product-panel h1 { font-size: 15px !important; }
+            .product-photo { min-height: 96px !important; }
+            .product-photo > img { min-height: 82px !important; max-height: 100px !important; }
+        }
+
+    
+
+        /* Product-owner request: give the product photograph more prominence on phones.
+           This final, mobile-only override leaves the approved top bars, product details,
+           desktop layout, product data, URLs, and images unchanged. */
+        @media (max-width: 639px) {
+            .product-photo {
+                min-height: 218px !important;
+                padding: 9px !important;
+            }
+            .product-photo > img {
+                width: 100% !important;
+                height: 198px !important;
+                min-height: 198px !important;
+                max-height: 218px !important;
+                object-fit: contain !important;
+            }
+        }
+        @media (max-width: 360px) {
+            .product-photo {
+                min-height: 198px !important;
+                padding: 8px !important;
+            }
+            .product-photo > img {
+                height: 178px !important;
+                min-height: 178px !important;
+                max-height: 188px !important;
+            }
+        }
+
+    </style>
+</head>
+<body class="min-h-screen text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-900 text-sm">
+    <!-- Homepage-matched announcement bar: hours, location, phone, and rating -->
+    <div class="bg-emerald-950 text-amber-300 text-[11px] sm:text-xs py-1.5 px-3 sm:px-4 border-b border-amber-500/30">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span id="product-open-indicator" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold border bg-amber-500/20 text-amber-300 border-amber-500/30 transition-colors duration-300">
+                    <span id="product-open-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="product-open-status">OPEN NOW</span>
+                </span>
+                <span class="hidden md:inline"><i class="fa-solid fa-clock text-amber-400 mr-1"></i> Open Daily · 6:00 AM – 1:00 AM</span>
+                <span><i class="fa-solid fa-location-dot text-amber-400 mr-1"></i> Gujranwala</span>
+            </div>
+            <div class="flex items-center flex-wrap gap-x-3 gap-y-1">
+                <a href="tel:03253922121" class="hover:text-amber-100 transition font-semibold inline-flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-phone text-amber-400"></i> 0325 3922121</a>
+                <span class="hidden sm:inline text-emerald-700">|</span>
+                <div class="flex items-center text-amber-400 whitespace-nowrap"><i class="fa-solid fa-star text-[10px] mr-1"></i><span class="font-bold text-white">4.4</span><span class="text-stone-400 text-[10px] ml-1">(53 Google Reviews)</span></div>
+            </div>
+        </div>
+    </div>
+    <header class="sticky top-0 z-40 bg-emerald-950/95 backdrop-blur-xl text-white shadow-xl border-b border-amber-500/20">
+        <div class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-7 min-h-[60px] flex items-center justify-between gap-3">
+            <a href="../?section=home" class="flex items-center gap-2 min-w-0 shrink-0" aria-label="Sialkot Sweets home">
+                <span class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-full bg-white p-1 shadow border border-amber-400/40 overflow-hidden flex items-center justify-center"><img src="../sialkot-sweets-logo.png" alt="Sialkot Sweets logo" class="w-full h-full object-contain rounded-full"></span>
+                <span class="min-w-0">
+                    <span class="flex items-center gap-1.5"><span class="block font-playfair text-sm sm:text-base font-bold tracking-tight leading-tight">SIALKOT SWEETS</span><span class="hidden xl:inline-block bg-amber-500/20 text-amber-300 text-[8px] px-1 py-0.5 rounded uppercase tracking-wider font-bold border border-amber-400/30">Est. 1951</span></span>
+                    <span class="block text-[8px] sm:text-[9px] text-amber-200/80 tracking-[.12em] uppercase leading-tight">Bakery &amp; Traditional Sweets</span>
+                </span>
+            </a>
+            <nav class="hidden lg:flex items-center gap-3 xl:gap-4 text-[11px] xl:text-xs font-semibold whitespace-nowrap" aria-label="Main navigation">
+                <a href="../?section=about" class="text-white/90 hover:text-amber-300 transition">About Us</a>
+                <a href="../?section=menu" class="text-white/90 hover:text-amber-300 transition">Our Menu</a>
+                <a href="../?section=specialties" class="text-white/90 hover:text-amber-300 transition">Specialties</a>
+                <a href="../?section=reviews" class="text-white/90 hover:text-amber-300 transition">Reviews</a>
+                <a href="../?section=branches" class="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-2.5 py-1.5 rounded-lg shadow-sm"><i class="fa-solid fa-location-dot"></i> Our Branches</a>
+            </nav>
+            <a href="../?section=menu" class="action-link inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-2.5 sm:px-3 py-2 text-[10px] sm:text-xs shadow-md whitespace-nowrap"><i class="fa-solid fa-arrow-left"></i><span>Back to Menu</span></a>
+        </div>
+    </header>
+
+    <main class="py-4 sm:py-6 lg:py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav aria-label="Breadcrumb" class="text-[11px] text-stone-500 mb-3 sm:mb-4">
+                <a href="../?section=home" class="hover:text-amber-700">Home</a><span class="mx-2">/</span><a href="../?section=menu" class="hover:text-amber-700">Our Menu</a><span class="mx-2">/</span><span class="font-semibold text-emerald-950">Chicken Burger</span>
+            </nav>
+            <article class="product-panel overflow-hidden rounded-2xl border border-stone-200 bg-white">
+                <div class="grid lg:grid-cols-2">
+                    <div class="product-photo relative min-h-[210px] sm:min-h-[270px] lg:min-h-[360px] p-3 sm:p-4 flex items-center justify-center">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRooQjwfCM3cB0-wg3GTgtsKtnch7Xo6Kb83u_iQtFpJA&amp;s=10" alt="Chicken Burger" class="w-full max-h-[340px] min-h-[190px] sm:min-h-[230px] object-contain rounded-xl" fetchpriority="high" decoding="async" referrerpolicy="no-referrer">
+                        <span class="absolute top-3 left-3 rounded-full bg-emerald-950 text-amber-300 border border-amber-400/40 shadow px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wider">Fast Food</span>
+                        <span class="absolute bottom-3 right-3 rounded-lg bg-stone-950/90 text-amber-300 px-2.5 py-1.5 text-[10px] font-extrabold"><span aria-hidden="true">★</span> 4.7 Rating</span>
+                    </div>
+                    <div class="p-4 sm:p-5 lg:p-6 flex flex-col justify-center">
+                        <div class="mb-2.5 flex flex-wrap gap-1.5">
+                            <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-widest text-amber-800"><i class="fa-solid fa-cookie-bite"></i> Freshly Prepared</span>
+                        </div>
+                        <div class="mb-2.5 flex flex-wrap gap-1.5"><span class="rounded-full bg-red-50 px-2.5 py-1 text-[10px] font-bold text-red-800 border border-red-200">Classic Favorite</span></div>
+                        <h1 class="font-playfair text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-emerald-950">Chicken Burger</h1>
+                        <p class="font-urdu text-xl sm:text-2xl text-amber-700 mt-1" dir="rtl" lang="ur">چکن برگر</p>
+                        <div class="mt-2.5 flex items-center gap-2 text-xs font-bold text-amber-600"><span aria-hidden="true">★★★★★</span><span class="text-stone-500 text-xs">Rated 4.7</span></div>
+                        <p class="mt-3.5 text-xs sm:text-sm leading-6 text-stone-600">Classic spiced chicken patty topped with creamy sauce, tomatoes, and crisp lettuce.</p>
+
+                        <div class="mt-4 rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-3.5 sm:p-4">
+                            <span class="block text-[10px] font-bold uppercase tracking-widest text-stone-500">Price</span>
+                            <div class="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1"><span class="font-playfair text-2xl sm:text-3xl font-extrabold text-emerald-950">Rs. 350</span><span class="text-xs text-stone-500">/ Per Burger</span></div>
+                            <p class="text-[10px] text-stone-500 mt-1.5">Please call the branch to confirm today's availability and current pricing.</p>
+                        </div>
+
+                        
+
+                        <section class="mt-4" aria-labelledby="ingredients-heading">
+                            <h2 id="ingredients-heading" class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-900 mb-1.5">Key Ingredients &amp; Notes</h2>
+                            <p class="text-xs leading-5 text-stone-600">Spiced Chicken Patty, Bun, Mayo, Cucumber, Tomatoes.</p>
+                        </section>
+                        <div class="mt-3.5 flex flex-wrap gap-1.5"><span class="rounded-md border border-stone-200 bg-stone-100 px-2.5 py-1 text-[10px] font-medium text-stone-600">Classic Patty</span><span class="rounded-md border border-stone-200 bg-stone-100 px-2.5 py-1 text-[10px] font-medium text-stone-600">Creamy Sauce</span></div>
+                        <div class="mt-5 flex flex-col sm:flex-row gap-2">
+                            <a href="../?section=menu" class="inline-flex items-center justify-center gap-2 rounded-lg border border-stone-300 bg-white hover:bg-stone-50 text-emerald-950 font-bold px-4 py-2.5 text-xs transition"><i class="fa-solid fa-utensils"></i> Explore Full Menu</a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <p class="mt-4 text-center text-[10px] text-stone-500">Sialkot Sweets &amp; Bakers · Gujranwala · Since 1951</p>
+        </div>
+    </main>
+    <footer class="mt-6 sm:mt-8 bg-emerald-950 text-white border-t border-amber-500/30 py-9 sm:py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-6">
+                <div class="space-y-2.5">
+                    <div class="font-serif text-lg font-bold text-amber-300">SIALKOT SWEETS &amp; BAKERS</div>
+                    <p class="text-[11px] text-stone-400 leading-relaxed">Gujranwala's oldest and most loved traditional mithai &amp; fresh bakery house since 1951. Prepared daily with pure ghee and genuine passion.</p>
+                </div>
+                <div>
+                    <h4 class="text-amber-400 font-bold text-[10px] uppercase tracking-wider mb-2.5">Popular Categories</h4>
+                    <ul class="space-y-1.5 text-[11px] text-stone-300">
+                        <li><a href="../?section=menu" class="hover:text-amber-300">Traditional Sweets</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300">Fast Food &amp; Pizzas</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300">Arabian Sweets &amp; Baklava</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300">Akhrot &amp; Sohan Halwa</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300">Fresh Biscuits &amp; Khatai</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300">Crispy Cake Rusk</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-amber-400 font-bold text-[10px] uppercase tracking-wider mb-2.5">Quick Links</h4>
+                    <ul class="space-y-1.5 text-[11px] text-stone-300">
+                        <li><a href="../?section=about" class="hover:text-amber-300">About Our Heritage</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300">Food Menu</a></li>
+                        <li><a href="../?section=specialties" class="hover:text-amber-300">Specialties</a></li>
+                        <li><a href="../?section=reviews" class="hover:text-amber-300">Google Reviews (4.4★)</a></li>
+                        <li><a href="../?section=branches" class="hover:text-amber-300">Our Branches</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-amber-400 font-bold text-[10px] uppercase tracking-wider mb-2.5">Contact Us</h4>
+                    <p class="text-[11px] text-stone-300 mb-1.5">Call the branch for general inquiries:</p>
+                    <a href="tel:03253922121" class="text-base font-bold text-amber-300 hover:underline block">0325 3922121</a>
+                    <a href="mailto:sialkotsweets.org@gmail.com" class="text-xs text-amber-200 hover:text-amber-100 hover:underline block mt-1.5 break-all">sialkotsweets.org@gmail.com</a>
+                    <span class="text-[10px] text-emerald-400 block mt-1">Gujranwala</span>
+                    <div class="flex items-center gap-2.5 mt-3">
+                        <a href="https://www.instagram.com/sialkotsweets.pk/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Sialkot Sweets on Instagram" class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 text-pink-300 hover:bg-pink-500 hover:text-white hover:border-pink-400 flex items-center justify-center transition-all duration-300 shadow-lg"><i class="fa-brands fa-instagram text-base"></i></a>
+                        <a href="https://www.facebook.com/share/1Cn22NBPbY/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Sialkot Sweets on Facebook" class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 text-blue-300 hover:bg-blue-600 hover:text-white hover:border-blue-500 flex items-center justify-center transition-all duration-300 shadow-lg"><i class="fa-brands fa-facebook-f text-base"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-[9px] text-stone-500 mt-5 pt-3 border-t border-emerald-900/60"><span class="text-amber-400 font-semibold">Photo credits:</span> Product photos sourced from royalty-free media repositories under standard licenses.</div>
+            <div class="pt-5 mt-3 border-t border-emerald-900 flex flex-col sm:flex-row items-start sm:items-center justify-between text-[10px] sm:text-[11px] text-stone-400 gap-3">
+                <p>© 1951 - 2026 Ishaq &amp; Sons — Sialkot Sweets &amp; Bakers (Gayb Chowk Branch, Gujranwala). All rights reserved.</p>
+                <a href="tel:03253922121" aria-label="Call Sialkot Sweets" class="text-amber-400 hover:text-amber-300 shrink-0"><i class="fa-solid fa-phone text-base"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Match the homepage's 6:00 AM–1:00 AM opening window using Pakistan time.
+        (function updateProductOpenStatus() {
+            const status = document.getElementById('product-open-status');
+            const indicator = document.getElementById('product-open-indicator');
+            const dot = document.getElementById('product-open-dot');
+            if (!status || !indicator || !dot) return;
+            function update() {
+                let hour;
+                try {
+                    const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Karachi', hour: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+                    hour = Number(parts.find(part => part.type === 'hour')?.value);
+                } catch (error) {
+                    hour = new Date().getHours();
+                }
+                const isOpen = hour >= 6 || hour < 1;
+                status.textContent = isOpen ? 'OPEN NOW' : 'CLOSED NOW';
+                indicator.classList.toggle('bg-amber-500/20', isOpen);
+                indicator.classList.toggle('text-amber-300', isOpen);
+                indicator.classList.toggle('border-amber-500/30', isOpen);
+                indicator.classList.toggle('bg-red-500/20', !isOpen);
+                indicator.classList.toggle('text-red-300', !isOpen);
+                indicator.classList.toggle('border-red-500/30', !isOpen);
+                dot.classList.toggle('bg-emerald-400', isOpen);
+                dot.classList.toggle('animate-pulse', isOpen);
+                dot.classList.toggle('bg-red-500', !isOpen);
+            }
+            update();
+            window.setInterval(update, 60000);
+        })();
+    </script>
+
+</body>
+</html>
