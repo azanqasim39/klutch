@@ -213,23 +213,32 @@
 
         /* Sialkot Sweets free, self-contained bakery chat widget */
         #ss-chat-widget, #ss-chat-widget * { box-sizing: border-box; }
-        #ss-chat-widget {
+        /* Keep the chat launcher above the page UI on production hosting too. */
+        html body #ss-chat-widget {
             --ss-chat-emerald: #063f32;
             --ss-chat-deep: #022c22;
             --ss-chat-gold: #fbbf24;
             --ss-chat-text: #f8fafc;
-            position: fixed;
-            z-index: 99999;
-            right: max(16px, env(safe-area-inset-right));
-            bottom: max(16px, env(safe-area-inset-bottom));
+            position: fixed !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            z-index: 2147483647 !important;
+            right: max(16px, env(safe-area-inset-right)) !important;
+            bottom: max(16px, env(safe-area-inset-bottom)) !important;
             font-family: Inter, ui-sans-serif, system-ui, sans-serif;
             color: var(--ss-chat-text);
             isolation: isolate;
             line-height: 1.45;
+            pointer-events: none;
+            transform: none !important;
         }
-        #ss-chat-launcher {
+        html body #ss-chat-widget #ss-chat-launcher {
             position: relative;
-            display: flex;
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
             align-items: center;
             justify-content: center;
             width: 60px;
@@ -262,7 +271,7 @@
         #ss-chat-launcher:hover { transform: translateY(-3px) scale(1.035); border-color: #fde68a; box-shadow: 0 17px 40px rgba(2,44,34,.4), 0 0 24px rgba(251,191,36,.15), inset 0 1px 0 rgba(255,255,255,.25); }
         #ss-chat-launcher:active { transform: scale(.96); }
         #ss-chat-launcher:focus-visible, #ss-chat-panel button:focus-visible, #ss-chat-panel input:focus-visible { outline: 2px solid #fcd34d; outline-offset: 3px; }
-        #ss-chat-launcher .ss-chat-launcher-icon { display: block; width: 27px; height: 27px; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+        #ss-chat-launcher .ss-chat-launcher-icon { display: block !important; visibility: visible !important; opacity: 1 !important; flex: 0 0 27px; width: 27px; height: 27px; color: #ffec9a; overflow: visible; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
         #ss-chat-launcher[aria-expanded="true"] .ss-chat-launcher-icon { transform: rotate(-8deg) scale(.94); }
         #ss-chat-launcher .ss-chat-launcher-label {
             position: absolute;
@@ -319,7 +328,7 @@
             background: linear-gradient(125deg, rgba(255,255,255,.10), transparent 28%, transparent 72%, rgba(251,191,36,.055));
             pointer-events: none;
         }
-        #ss-chat-panel.is-open { opacity: 1; visibility: visible; transform: translate3d(0,0,0) scale(1); pointer-events: auto; }
+        #ss-chat-panel.is-open { opacity: 1; visibility: visible; transform: translate3d(0,0,0) scale(1); pointer-events: auto !important; z-index: 1; }
         #ss-chat-panel[hidden] { display: none !important; }
         .ss-chat-header {
             display: flex;
@@ -374,7 +383,6 @@
         #ss-chat-send:hover { filter: brightness(1.06); transform: translateY(-1px); }
         #ss-chat-send:active { transform: scale(.95); }
         #ss-chat-send svg { width: 18px; height: 18px; }
-        .ss-chat-footnote { margin: 8px 3px 0; color: rgba(236,253,245,.48); text-align: center; font-size: 9px; letter-spacing: .02em; }
         @keyframes ss-chat-pulse { 0% { opacity: 0; transform: scale(.86); } 22% { opacity: .55; } 100% { opacity: 0; transform: scale(1.22); } }
         @keyframes ss-chat-message-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes ss-chat-typing { 0%, 60%, 100% { opacity: .42; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
@@ -2423,7 +2431,6 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4Z"/></svg>
                     </button>
                 </form>
-                <p class="ss-chat-footnote">Local menu assistant · No AI API connection</p>
             </div>
         </section>
         <button type="button" id="ss-chat-launcher" aria-label="Open Sialkot Sweets chat" aria-expanded="false" aria-controls="ss-chat-panel" title="Ask Sialkot Sweets">
@@ -2436,6 +2443,13 @@
     (() => {
         const widget = document.getElementById('ss-chat-widget');
         if (!widget) return;
+        // Keep the widget as a direct body child and reinforce visibility for production pages.
+        if (widget.parentElement !== document.body) document.body.appendChild(widget);
+        widget.style.setProperty('position', 'fixed', 'important');
+        widget.style.setProperty('display', 'block', 'important');
+        widget.style.setProperty('visibility', 'visible', 'important');
+        widget.style.setProperty('opacity', '1', 'important');
+        widget.style.setProperty('z-index', '2147483647', 'important');
         const panel = document.getElementById('ss-chat-panel');
         const launcher = document.getElementById('ss-chat-launcher');
         const closeButton = document.getElementById('ss-chat-close');
@@ -2471,8 +2485,76 @@
         const norm = (value) => String(value || '').toLocaleLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
         const includesAny = (text, phrases) => phrases.some(phrase => text.includes(phrase));
 
+        // A small local dictionary helps recover obvious typos without sending messages anywhere.
+        const correctionVocabulary = new Set();
+        function addCorrectionWords(value) {
+            norm(value).split(/\s+/).filter(word => word.length >= 3).forEach(word => correctionVocabulary.add(word));
+        }
+        const bakeryLanguage = [
+            'price prices cost costs rate rates qeemat keemat kitna kitne kitnay rupee rupees',
+            'ingredient ingredients made contains contain inside allergy allergen allergic gluten vegan vegetarian halal sugar-free dairy-free',
+            'opening hour hours timing timings open close closing business shop today daily',
+            'branch branches address location located map directions where phone number contact call email whatsapp',
+            'recommend recommendation suggest popular best favourite favorite try first',
+            'menu product products category categories item items available availability stock delivery order ordering payment discount offer fresh',
+            'bakery bake baked baking cake cakes sweet sweets mithai dessert desserts bread pastry pastries biscuit biscuits cookie cookies biscotti rusk rusks halwa halva jamun barfi guldasta pizza burger fries shawarma sandwich panini roll wrap pasta kunafa kunafeh baklava khoya ghee nankhatai khatai rasmalai rasgulla rasgulle chum cham patisa amratti sohan flour dough yeast frosting icing buttercream croissant muffin muffins cupcake cupcakes donut doughnut bun buns tart brownie pie chocolate cocoa cream almond pistachio cardamom syrup',
+            'what whats tell about how much many do you have your please show find give want know details information which is are made from inside can i we does sell selling hours branch call hello hi hey salam assalamualaikum assalamu alaikum aoa thank thanks shukriya jazak'
+        ].join(' ');
+        addCorrectionWords(bakeryLanguage);
+        products.forEach(item => {
+            addCorrectionWords(item.name || '');
+            addCorrectionWords(item.urduName || '');
+            addCorrectionWords((item.tags || []).join(' '));
+            addCorrectionWords(item.ingredients || '');
+        });
+
+        function damerauDistance(a, b, cutoff) {
+            if (Math.abs(a.length - b.length) > cutoff) return cutoff + 1;
+            const d = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+            for (let i = 0; i <= a.length; i++) d[i][0] = i;
+            for (let j = 0; j <= b.length; j++) d[0][j] = j;
+            for (let i = 1; i <= a.length; i++) {
+                let rowMin = cutoff + 1;
+                for (let j = 1; j <= b.length; j++) {
+                    const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+                    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+                    if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
+                        d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+                    }
+                    if (d[i][j] < rowMin) rowMin = d[i][j];
+                }
+                if (rowMin > cutoff) return cutoff + 1;
+            }
+            return d[a.length][b.length];
+        }
+
+        function correctWord(word) {
+            if (word.length < 4 || correctionVocabulary.has(word)) return word;
+            const maxDistance = word.length >= 8 ? 2 : 1;
+            let bestWord = word;
+            let bestDistance = maxDistance + 1;
+            let tie = false;
+            for (const candidate of correctionVocabulary) {
+                if (candidate === word || Math.abs(candidate.length - word.length) > maxDistance) continue;
+                const distance = damerauDistance(word, candidate, maxDistance);
+                if (distance < bestDistance) {
+                    bestDistance = distance;
+                    bestWord = candidate;
+                    tie = false;
+                } else if (distance === bestDistance) {
+                    tie = true;
+                }
+            }
+            // Correct only clear, close matches; do not guess between equally plausible words.
+            return bestDistance <= maxDistance && !tie ? bestWord : word;
+        }
+
+        function autocorrectQuery(value) {
+            return norm(value).split(/\s+/).filter(Boolean).map(correctWord).join(' ');
+        }
+
         function productMatches(rawText) {
-            const query = norm(rawText);
+            const query = autocorrectQuery(rawText);
             const queryTokens = new Set(query.split(/\s+/).filter(Boolean));
             const scores = products.map(item => {
                 const name = norm(item.name);
@@ -2493,7 +2575,7 @@
             }).filter(entry => entry.score > 0).sort((a, b) => b.score - a.score || (b.item.rating || 0) - (a.item.rating || 0));
 
             // Avoid returning a whole category when a user asked for one distinctive product.
-            const isCategoryOnly = /\b(pizza|burger|fries|shawarma|sandwich|panini|roll|wrap|biscuit|biscuits|cookie|cookies|halwa|sweets|mithai|baklava|rusk|rusks)\b/i.test(rawText) && !scores.some(entry => norm(rawText).includes(norm(entry.item.name)));
+            const isCategoryOnly = /\b(pizza|burger|fries|shawarma|sandwich|panini|roll|wrap|biscuit|biscuits|cookie|cookies|halwa|sweets|mithai|baklava|rusk|rusks)\b/i.test(query) && !scores.some(entry => query.includes(norm(entry.item.name)));
             if (isCategoryOnly) return scores.slice(0, 6).map(entry => entry.item);
             return scores.slice(0, 4).map(entry => entry.item);
         }
@@ -2513,7 +2595,7 @@
             return Object.entries(categoryNames).filter(([key]) => counts[key]).map(([key, title]) => `${title}: ${counts[key]}`).join('\n');
         }
         function answer(rawText) {
-            const q = norm(rawText);
+            const q = autocorrectQuery(rawText);
             const rawLower = String(rawText || '').toLowerCase();
             const isGreeting = /^(hi|hello|hey|salam|assalamualaikum|aoa|good morning|good afternoon|good evening|salam bro|asalam o alaikum|assalam o alaikum)(\s|$|!|\.)/.test(q);
             const isThanks = includesAny(q, ['thank you','thanks','jazak','shukriya','cheers']);
@@ -2522,7 +2604,7 @@
             if (isThanks) return 'You’re very welcome! 💚 Let me know if you have another Sialkot Sweets or bakery-related question.';
             if (/\b(help|what can you do|how can you help|support)\b/.test(q)) return 'I can help with the products listed on this website, their prices and listed ingredients, menu categories, opening hours, branch locations and contact information. I can’t answer unrelated questions or confirm live stock/orders.';
 
-            const matches = productMatches(rawText);
+            const matches = productMatches(q);
             const asksPrice = includesAny(q, ['price','prices','cost','how much','rate','rates','qeemat','keemat','kitna','kitne','kitnay','rupee','rupees','rs ','قیمت','قیمتیں','کتنے','کتنی','کتنا','روپے']);
             const asksIngredients = includesAny(q, ['ingredient','ingredients','made of','made from','contains','contain','what is inside','andar kya','kis cheez','kis se bana','اجزاء','کس سے بنا','کیا شامل']);
             const asksDietary = includesAny(q, ['allerg','allergy','allergen','gluten free','gluten-free','nut free','nut-free','vegan','vegetarian','halal','sugar free','sugar-free','diabetic','dairy free','dairy-free']);
