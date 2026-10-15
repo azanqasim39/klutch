@@ -209,6 +209,188 @@
             #branches h3 { font-size: 1.05rem !important; }
             #branches p, #branches a { font-size: .72rem !important; }
         }
+
+
+        /* Sialkot Sweets free, self-contained bakery chat widget */
+        #ss-chat-widget, #ss-chat-widget * { box-sizing: border-box; }
+        #ss-chat-widget {
+            --ss-chat-emerald: #063f32;
+            --ss-chat-deep: #022c22;
+            --ss-chat-gold: #fbbf24;
+            --ss-chat-text: #f8fafc;
+            position: fixed;
+            z-index: 99999;
+            right: max(16px, env(safe-area-inset-right));
+            bottom: max(16px, env(safe-area-inset-bottom));
+            font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+            color: var(--ss-chat-text);
+            isolation: isolate;
+            line-height: 1.45;
+        }
+        #ss-chat-launcher {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            padding: 0;
+            border-radius: 21px;
+            border: 1px solid rgba(253, 224, 71, .72);
+            color: #ffec9a;
+            background:
+                radial-gradient(circle at 27% 17%, rgba(255,255,255,.23), transparent 36%),
+                linear-gradient(145deg, rgba(7,94,70,.94), rgba(2,44,34,.96));
+            box-shadow: 0 12px 34px rgba(2, 44, 34, .34), inset 0 1px 0 rgba(255,255,255,.2), 0 0 0 1px rgba(251,191,36,.12);
+            backdrop-filter: blur(18px) saturate(155%);
+            -webkit-backdrop-filter: blur(18px) saturate(155%);
+            cursor: pointer;
+            transition: transform .32s cubic-bezier(.2,.8,.2,1), box-shadow .32s ease, border-color .32s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        #ss-chat-launcher::before {
+            content: "";
+            position: absolute;
+            inset: -5px;
+            border: 1px solid rgba(251,191,36,.3);
+            border-radius: 25px;
+            opacity: 0;
+            transform: scale(.86);
+            animation: ss-chat-pulse 3.2s ease-out 1.2s infinite;
+            pointer-events: none;
+        }
+        #ss-chat-launcher:hover { transform: translateY(-3px) scale(1.035); border-color: #fde68a; box-shadow: 0 17px 40px rgba(2,44,34,.4), 0 0 24px rgba(251,191,36,.15), inset 0 1px 0 rgba(255,255,255,.25); }
+        #ss-chat-launcher:active { transform: scale(.96); }
+        #ss-chat-launcher:focus-visible, #ss-chat-panel button:focus-visible, #ss-chat-panel input:focus-visible { outline: 2px solid #fcd34d; outline-offset: 3px; }
+        #ss-chat-launcher .ss-chat-launcher-icon { display: block; width: 27px; height: 27px; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+        #ss-chat-launcher[aria-expanded="true"] .ss-chat-launcher-icon { transform: rotate(-8deg) scale(.94); }
+        #ss-chat-launcher .ss-chat-launcher-label {
+            position: absolute;
+            right: 70px;
+            padding: 8px 11px;
+            border-radius: 12px;
+            border: 1px solid rgba(253,224,71,.22);
+            background: rgba(2,44,34,.82);
+            color: #fff7d6;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(5px);
+            pointer-events: none;
+            transition: opacity .2s ease, transform .2s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,.16);
+        }
+        #ss-chat-launcher:hover .ss-chat-launcher-label, #ss-chat-launcher:focus-visible .ss-chat-launcher-label { opacity: 1; transform: translateX(0); }
+
+        #ss-chat-panel {
+            position: absolute;
+            right: 0;
+            bottom: 74px;
+            display: flex;
+            flex-direction: column;
+            width: min(392px, calc(100vw - 28px));
+            height: min(620px, calc(100dvh - 108px));
+            min-height: 340px;
+            overflow: hidden;
+            border-radius: 26px;
+            border: 1px solid rgba(255,255,255,.24);
+            background:
+                radial-gradient(ellipse at 12% 0%, rgba(255,255,255,.17), transparent 38%),
+                radial-gradient(ellipse at 100% 30%, rgba(251,191,36,.10), transparent 36%),
+                linear-gradient(145deg, rgba(8,73,56,.91), rgba(2,34,28,.94) 58%, rgba(9,49,39,.92));
+            box-shadow: 0 28px 84px rgba(2,26,21,.38), 0 7px 24px rgba(2,44,34,.2), inset 0 1px 0 rgba(255,255,255,.22), inset 0 0 0 1px rgba(255,255,255,.035);
+            -webkit-backdrop-filter: blur(28px) saturate(165%);
+            backdrop-filter: blur(28px) saturate(165%);
+            opacity: 0;
+            visibility: hidden;
+            transform: translate3d(0, 18px, 0) scale(.94);
+            transform-origin: bottom right;
+            pointer-events: none;
+            transition: opacity .28s ease, transform .42s cubic-bezier(.16,1,.3,1), visibility .28s ease;
+            isolation: isolate;
+        }
+        #ss-chat-panel::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(125deg, rgba(255,255,255,.10), transparent 28%, transparent 72%, rgba(251,191,36,.055));
+            pointer-events: none;
+        }
+        #ss-chat-panel.is-open { opacity: 1; visibility: visible; transform: translate3d(0,0,0) scale(1); pointer-events: auto; }
+        #ss-chat-panel[hidden] { display: none !important; }
+        .ss-chat-header {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            flex: 0 0 auto;
+            padding: 16px 16px 14px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+            background: linear-gradient(115deg, rgba(255,255,255,.105), rgba(255,255,255,.025));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+        }
+        .ss-chat-avatar {
+            display: grid;
+            place-items: center;
+            flex: 0 0 43px;
+            width: 43px;
+            height: 43px;
+            border: 1px solid rgba(253,224,71,.62);
+            border-radius: 15px;
+            color: #ffea9a;
+            background: linear-gradient(145deg, rgba(251,191,36,.23), rgba(255,255,255,.06));
+            box-shadow: 0 5px 18px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.15);
+            font-size: 23px;
+        }
+        .ss-chat-heading { flex: 1; min-width: 0; }
+        .ss-chat-title { margin: 0; color: #fff9e8; font-family: 'Playfair Display', Georgia, serif; font-weight: 800; font-size: 15px; letter-spacing: -.015em; line-height: 1.2; }
+        .ss-chat-subtitle { display: flex; align-items: center; gap: 6px; margin-top: 5px; color: rgba(236,253,245,.72); font-size: 10px; line-height: 1.2; }
+        .ss-chat-status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #86efac; box-shadow: 0 0 9px rgba(134,239,172,.55); }
+        .ss-chat-icon-button { display: grid; place-items: center; flex: 0 0 34px; width: 34px; height: 34px; border: 1px solid rgba(255,255,255,.13); border-radius: 11px; background: rgba(255,255,255,.07); color: #fff8df; cursor: pointer; transition: background .2s ease, transform .2s ease; }
+        .ss-chat-icon-button:hover { background: rgba(255,255,255,.14); transform: translateY(-1px); }
+        .ss-chat-icon-button svg { width: 16px; height: 16px; }
+        .ss-chat-messages { display: flex; flex: 1 1 auto; flex-direction: column; gap: 12px; min-height: 0; padding: 16px 14px 12px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: rgba(251,191,36,.42) transparent; }
+        .ss-chat-messages::-webkit-scrollbar { width: 5px; }
+        .ss-chat-messages::-webkit-scrollbar-thumb { border-radius: 9px; background: rgba(251,191,36,.4); }
+        .ss-chat-message { max-width: 92%; padding: 11px 12px; border-radius: 16px; font-size: 12px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; animation: ss-chat-message-in .28s cubic-bezier(.16,1,.3,1) both; }
+        .ss-chat-message.assistant { align-self: flex-start; color: rgba(255,255,255,.94); background: rgba(255,255,255,.085); border: 1px solid rgba(255,255,255,.10); border-top-left-radius: 6px; box-shadow: inset 0 1px 0 rgba(255,255,255,.055); }
+        .ss-chat-message.user { align-self: flex-end; color: #17352c; font-weight: 600; background: linear-gradient(135deg, #fde68a, #fbbf24); border: 1px solid rgba(255,255,255,.26); border-top-right-radius: 6px; box-shadow: 0 5px 16px rgba(0,0,0,.12); }
+        .ss-chat-suggestions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+        .ss-chat-suggestion { max-width: 100%; padding: 7px 9px; border: 1px solid rgba(253,224,71,.26); border-radius: 999px; color: #ffefb5; background: rgba(251,191,36,.075); font: 600 10px/1.25 Inter, ui-sans-serif, sans-serif; cursor: pointer; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+        .ss-chat-suggestion:hover { background: rgba(251,191,36,.16); border-color: rgba(253,224,71,.53); transform: translateY(-1px); }
+        .ss-chat-typing { display: inline-flex; align-items: center; gap: 4px; min-width: 50px; padding: 12px 14px !important; }
+        .ss-chat-typing span { width: 5px; height: 5px; border-radius: 50%; background: #fcd34d; animation: ss-chat-typing 1s ease-in-out infinite; }
+        .ss-chat-typing span:nth-child(2) { animation-delay: .13s; }
+        .ss-chat-typing span:nth-child(3) { animation-delay: .26s; }
+        .ss-chat-input-area { flex: 0 0 auto; padding: 12px 12px 10px; border-top: 1px solid rgba(255,255,255,.12); background: linear-gradient(180deg, rgba(1,25,20,.13), rgba(1,25,20,.32)); }
+        .ss-chat-form { display: flex; align-items: center; gap: 8px; padding: 5px; border: 1px solid rgba(255,255,255,.17); border-radius: 17px; background: rgba(255,255,255,.085); box-shadow: inset 0 1px 0 rgba(255,255,255,.075), 0 5px 18px rgba(0,0,0,.09); transition: border-color .2s ease, background .2s ease; }
+        .ss-chat-form:focus-within { border-color: rgba(253,224,71,.62); background: rgba(255,255,255,.12); }
+        #ss-chat-input { display: block; flex: 1 1 auto; min-width: 0; width: 100%; padding: 9px 8px; border: 0; outline: 0; color: white; background: transparent; font: 500 12px/1.4 Inter, ui-sans-serif, sans-serif; box-shadow: none; }
+        #ss-chat-input::placeholder { color: rgba(236,253,245,.56); opacity: 1; }
+        #ss-chat-input:focus { outline: none; box-shadow: none; }
+        #ss-chat-send { display: grid; place-items: center; flex: 0 0 38px; width: 38px; height: 38px; border: 1px solid rgba(255,255,255,.2); border-radius: 12px; color: #17352c; background: linear-gradient(140deg, #fde68a, #fbbf24); box-shadow: 0 4px 12px rgba(0,0,0,.12); cursor: pointer; transition: transform .2s ease, filter .2s ease; }
+        #ss-chat-send:hover { filter: brightness(1.06); transform: translateY(-1px); }
+        #ss-chat-send:active { transform: scale(.95); }
+        #ss-chat-send svg { width: 18px; height: 18px; }
+        .ss-chat-footnote { margin: 8px 3px 0; color: rgba(236,253,245,.48); text-align: center; font-size: 9px; letter-spacing: .02em; }
+        @keyframes ss-chat-pulse { 0% { opacity: 0; transform: scale(.86); } 22% { opacity: .55; } 100% { opacity: 0; transform: scale(1.22); } }
+        @keyframes ss-chat-message-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes ss-chat-typing { 0%, 60%, 100% { opacity: .42; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+        @media (max-width: 480px) {
+            #ss-chat-widget { right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); }
+            #ss-chat-launcher { width: 56px; height: 56px; border-radius: 19px; }
+            #ss-chat-panel { width: min(392px, calc(100vw - 20px)); height: min(610px, calc(100dvh - 88px)); min-height: min(320px, calc(100dvh - 88px)); bottom: 68px; border-radius: 23px; }
+            .ss-chat-header { padding: 13px 12px 12px; gap: 9px; }
+            .ss-chat-messages { padding: 13px 11px 10px; }
+            .ss-chat-input-area { padding: 10px 10px 8px; }
+            #ss-chat-launcher .ss-chat-launcher-label { display: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #ss-chat-widget *, #ss-chat-widget *::before, #ss-chat-widget *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+        }
+
     </style>
 </head>
 <body class="bg-stone-50 text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-900" x-data="sialkotSweetsApp()">
@@ -2210,5 +2392,274 @@
             }
         }
     </script>
+
+
+    <!-- Free local bakery assistant: no external AI API, account, or API key required -->
+    <div id="ss-chat-widget">
+        <section id="ss-chat-panel" class="ss-chat-panel" role="dialog" aria-modal="false" aria-labelledby="ss-chat-title" aria-hidden="true" hidden>
+            <header class="ss-chat-header">
+                <div class="ss-chat-avatar" aria-hidden="true">🍰</div>
+                <div class="ss-chat-heading">
+                    <h2 class="ss-chat-title" id="ss-chat-title">Sialkot Sweets Assistant</h2>
+                    <div class="ss-chat-subtitle"><span class="ss-chat-status-dot"></span><span>Bakery help · Gujranwala</span></div>
+                </div>
+                <button type="button" id="ss-chat-close" class="ss-chat-icon-button" aria-label="Close chat" title="Close chat">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+            </header>
+            <div id="ss-chat-messages" class="ss-chat-messages" role="log" aria-live="polite" aria-relevant="additions text">
+                <div class="ss-chat-message assistant">Assalamu alaikum! 👋 I'm the Sialkot Sweets bakery assistant. Ask me about our menu, product prices, ingredients, opening hours or branches. I can help with Sialkot Sweets and bakery-related questions only.</div>
+                <div class="ss-chat-suggestions" id="ss-chat-suggestions">
+                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="Show me popular sweets">Popular sweets</button>
+                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="What are your opening hours?">Opening hours</button>
+                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="Where are your branches?">Branch locations</button>
+                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="Show me the menu">Explore menu</button>
+                </div>
+            </div>
+            <div class="ss-chat-input-area">
+                <form id="ss-chat-form" class="ss-chat-form" autocomplete="off">
+                    <input id="ss-chat-input" type="text" name="question" maxlength="500" placeholder="Ask about our bakery…" aria-label="Ask a bakery question" required>
+                    <button id="ss-chat-send" type="submit" aria-label="Send message" title="Send message">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4Z"/></svg>
+                    </button>
+                </form>
+                <p class="ss-chat-footnote">Local menu assistant · No AI API connection</p>
+            </div>
+        </section>
+        <button type="button" id="ss-chat-launcher" aria-label="Open Sialkot Sweets chat" aria-expanded="false" aria-controls="ss-chat-panel" title="Ask Sialkot Sweets">
+            <svg class="ss-chat-launcher-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.4a7.4 7.4 0 0 1-7.8 7.4 8.8 8.8 0 0 1-3.2-.6L4 20l1.5-4.1A7.2 7.2 0 0 1 4 11.4 7.6 7.6 0 0 1 12 4a7.6 7.6 0 0 1 8 7.4Z"/><path d="M8.2 11.6h.1m3.7 0h.1m3.7 0h.1" stroke-width="2.8"/></svg>
+            <span class="ss-chat-launcher-label">Ask our bakery assistant</span>
+        </button>
+    </div>
+
+    <script id="ss-chat-script">
+    (() => {
+        const widget = document.getElementById('ss-chat-widget');
+        if (!widget) return;
+        const panel = document.getElementById('ss-chat-panel');
+        const launcher = document.getElementById('ss-chat-launcher');
+        const closeButton = document.getElementById('ss-chat-close');
+        const messages = document.getElementById('ss-chat-messages');
+        const form = document.getElementById('ss-chat-form');
+        const input = document.getElementById('ss-chat-input');
+        const suggestions = document.getElementById('ss-chat-suggestions');
+        let isOpen = false;
+        let pendingTimer = null;
+        let messageCounter = 0;
+
+        // The menu comes from this same HTML file; there is no network/API request.
+        let products = [];
+        try {
+            if (typeof sialkotSweetsApp === 'function') {
+                const appData = sialkotSweetsApp();
+                if (appData && Array.isArray(appData.items)) products = appData.items;
+            }
+        } catch (error) {
+            products = [];
+        }
+
+        const branches = [
+            { name: 'Chand Da Qila', address: 'Chand Da Qila, Gujranwala', phone: '0308 3922121' },
+            { name: 'Satellite Town', address: 'C Block, Satellite Town, Gujranwala', phone: '055 3840066' },
+            { name: 'Gayb Chowk', address: 'Gayb Chowk, Islampura, Gujranwala', phone: '0325 3922121' }
+        ];
+        const categoryNames = {
+            fastfood: 'Fast Food', sweets: 'Traditional Sweets', arabian: 'Arabian Sweets',
+            halwa: 'Halwa Jaat', biscuits: 'Biscuits', cakerusk: 'Cake Rusk'
+        };
+        const stopWords = new Set(['a','an','and','the','of','for','is','in','on','with','what','whats','tell','me','about','price','prices','cost','rate','rates','how','much','many','do','you','have','your','please','show','find','give','want','know','details','item','items','product','products','sweet','sweets','bakery','bakerys','ingredient','ingredients','made','from','contains','contain']);
+        const norm = (value) => String(value || '').toLocaleLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+        const includesAny = (text, phrases) => phrases.some(phrase => text.includes(phrase));
+
+        function productMatches(rawText) {
+            const query = norm(rawText);
+            const queryTokens = new Set(query.split(/\s+/).filter(Boolean));
+            const scores = products.map(item => {
+                const name = norm(item.name);
+                const urduName = norm(item.urduName || '');
+                const tags = norm((item.tags || []).join(' '));
+                const description = norm(item.description || '');
+                if (name && query.includes(name)) return { item, score: 100 + name.length };
+                if (urduName && query.includes(urduName)) return { item, score: 100 + urduName.length };
+
+                // Permit partial matches for distinctive words such as "jamun", "baklava", or "pizza".
+                const tokens = name.split(/\s+/).filter(token => token.length > 2 && !stopWords.has(token));
+                const exactHits = tokens.filter(token => queryTokens.has(token)).length;
+                const phraseHit = tokens.some(token => token.length >= 5 && query.includes(token));
+                let score = exactHits * 4 + (phraseHit ? 2 : 0);
+                if (exactHits && tags.split(/\s+/).some(token => token.length > 3 && queryTokens.has(token))) score += 1;
+                if (!score && queryTokens.size > 1 && description.includes(query)) score = 1;
+                return { item, score };
+            }).filter(entry => entry.score > 0).sort((a, b) => b.score - a.score || (b.item.rating || 0) - (a.item.rating || 0));
+
+            // Avoid returning a whole category when a user asked for one distinctive product.
+            const isCategoryOnly = /\b(pizza|burger|fries|shawarma|sandwich|panini|roll|wrap|biscuit|biscuits|cookie|cookies|halwa|sweets|mithai|baklava|rusk|rusks)\b/i.test(rawText) && !scores.some(entry => norm(rawText).includes(norm(entry.item.name)));
+            if (isCategoryOnly) return scores.slice(0, 6).map(entry => entry.item);
+            return scores.slice(0, 4).map(entry => entry.item);
+        }
+
+        function money(item) {
+            const price = Number(item.price);
+            return Number.isFinite(price) ? 'Rs. ' + price.toLocaleString('en-PK') + (item.unit ? ' / ' + item.unit : '') : 'Please contact the branch for the current price.';
+        }
+        function productLine(item, mode) {
+            if (mode === 'price') return `${item.name}: ${money(item)}`;
+            if (mode === 'ingredients') return `${item.name}: ${item.ingredients || 'Ingredients are not listed for this item on the website.'}`;
+            return `${item.name} — ${money(item)}\n${item.description || ''}${item.ingredients ? '\nIngredients: ' + item.ingredients : ''}`;
+        }
+        function getMenuCounts() {
+            const counts = {};
+            products.forEach(item => { counts[item.category] = (counts[item.category] || 0) + 1; });
+            return Object.entries(categoryNames).filter(([key]) => counts[key]).map(([key, title]) => `${title}: ${counts[key]}`).join('\n');
+        }
+        function answer(rawText) {
+            const q = norm(rawText);
+            const rawLower = String(rawText || '').toLowerCase();
+            const isGreeting = /^(hi|hello|hey|salam|assalamualaikum|aoa|good morning|good afternoon|good evening|salam bro|asalam o alaikum|assalam o alaikum)(\s|$|!|\.)/.test(q);
+            const isThanks = includesAny(q, ['thank you','thanks','jazak','shukriya','cheers']);
+            if (!q) return 'Please type a bakery-related question and I’ll try to help.';
+            if (isGreeting) return 'Wa alaikum assalam! 👋 Welcome to Sialkot Sweets. Ask me about our menu, prices, ingredients, opening hours or branches.';
+            if (isThanks) return 'You’re very welcome! 💚 Let me know if you have another Sialkot Sweets or bakery-related question.';
+            if (/\b(help|what can you do|how can you help|support)\b/.test(q)) return 'I can help with the products listed on this website, their prices and listed ingredients, menu categories, opening hours, branch locations and contact information. I can’t answer unrelated questions or confirm live stock/orders.';
+
+            const matches = productMatches(rawText);
+            const asksPrice = includesAny(q, ['price','prices','cost','how much','rate','rates','qeemat','keemat','kitna','kitne','kitnay','rupee','rupees','rs ','قیمت','قیمتیں','کتنے','کتنی','کتنا','روپے']);
+            const asksIngredients = includesAny(q, ['ingredient','ingredients','made of','made from','contains','contain','what is inside','andar kya','kis cheez','kis se bana','اجزاء','کس سے بنا','کیا شامل']);
+            const asksDietary = includesAny(q, ['allerg','allergy','allergen','gluten free','gluten-free','nut free','nut-free','vegan','vegetarian','halal','sugar free','sugar-free','diabetic','dairy free','dairy-free']);
+            const asksProduct = includesAny(q, ['tell me about','details','description','what is','what are','information about','recommend','suggest','best','popular','which sweet','which product']);
+
+            if (matches.length && asksIngredients) {
+                return matches.map(item => productLine(item, 'ingredients')).join('\n\n');
+            }
+            if (matches.length && asksPrice) {
+                return matches.map(item => productLine(item, 'price')).join('\n');
+            }
+            if (matches.length && asksDietary) {
+                const list = matches.map(item => productLine(item, 'ingredients')).join('\n\n');
+                return `${list}\n\nImportant: this website does not provide verified allergen or dietary certification. Please call ${branches[2].phone} to confirm before ordering.`;
+            }
+            const categoryQuery = includesAny(q, ['pizza','burger','fries','shawarma','sandwich','panini','roll','wrap','biscuits','cookies','halwa','sweets','mithai','baklava','rusk','rusks']);
+            if (matches.length && categoryQuery && matches.length > 2 && !asksPrice && !asksIngredients && !asksDietary && !matches.some(item => q.includes(norm(item.name)))) {
+                return 'Here are some matching items from the menu:\n\n' + matches.map(item => `${item.name} · ${money(item)}`).join('\n') + '\n\nAsk about a specific item for its listed ingredients or more details.';
+            }
+            if (matches.length && (asksProduct || matches.length <= 2)) {
+                return matches.map(item => productLine(item, 'details')).join('\n\n');
+            }
+
+            if (includesAny(q, ['opening hour','opening hours','timing','timings','hours','open now','what time','close','closing time','business hours','khula','band hota','kitnay bajay','kitne bajay','اوقات','کھلتا','بند ہوتا','کس وقت'])) {
+                return 'The website lists daily opening hours as 6:00 AM – 1:00 AM. For confirmation on a particular day, please call 0325 3922121.';
+            }
+            if (includesAny(q, ['branch','branches','address','location','where are','where is','located','map','directions','kahan','kidhar','address','برانچ','پتہ','کہاں','لوکیشن'])) {
+                return 'Sialkot Sweets lists these three Gujranwala branches:\n\n' + branches.map((branch, index) => `${index + 1}. ${branch.name}\n${branch.address}\nPhone: ${branch.phone}`).join('\n\n') + '\n\nCall the relevant branch for directions or confirmation.';
+            }
+            if (includesAny(q, ['phone','phone number','contact','call','email','whatsapp','number','talk to','speak to','رابطہ','فون','ای میل','نمبر'])) {
+                return 'For general enquiries, call 0325 3922121 or email sialkotsweets.org@gmail.com. Branch numbers listed on the website:\n' + branches.map(branch => `${branch.name}: ${branch.phone}`).join('\n');
+            }
+            if (includesAny(q, ['recommend','recommendation','suggest','popular','best sweet','best item','favourite','favorite','what should i try','try first'])) {
+                const preferred = products.filter(item => ['sweets','arabian','halwa','biscuits','cakerusk'].includes(item.category)).sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 4);
+                return 'Here are a few highly rated items from the menu listed on this website:\n\n' + preferred.map(item => `${item.name} · ${item.rating || '—'}★ · ${money(item)}`).join('\n') + '\n\nTell me your preferred type of sweet if you want a more specific suggestion.';
+            }
+            if (includesAny(q, ['menu','all products','all items','what do you sell','what do you have','do you have','list products','show products','categories','available items','mithai','bakery items','show me items','show me the items','show me the menu','products list','مینو','کیا ملتا ہے','کیا دستیاب ہے'])) {
+                return `The menu on this website currently lists ${products.length} items across these categories:\n\n${getMenuCounts()}\n\nAsk for a specific product to see its listed price, description or ingredients. Live stock availability is not shown here.`;
+            }
+            if (asksDietary) {
+                return 'I can show ingredients listed for a specific product, but this website does not provide verified allergen, gluten-free, vegan or halal certification details. Please call 0325 3922121 before ordering if this is important for your dietary needs.';
+            }
+            if (includesAny(q, ['order','ordering','delivery','deliver','home delivery','custom cake','custom order','bulk order','wedding order','stock','in stock','available now','availability','payment','cash on delivery','discount','offer','fresh today','today available','online order','book','buy','purchase'])) {
+                return 'I can share the menu details shown on this website, but I can’t confirm live stock, delivery, custom orders, discounts or payments from this chat. Please call 0325 3922121 or email sialkotsweets.org@gmail.com to confirm directly.';
+            }
+            if (includesAny(q, ['store','storage','store it','keep fresh','freshness','expiry','expire','shelf life','how to keep'])) {
+                return 'Specific storage and expiry guidance isn’t listed in this website’s menu data. For the safest instructions for a particular item, please call 0325 3922121 and ask the branch.';
+            }
+            if (includesAny(q, ['what is desi ghee','what is ghee','desi ghee kya','ghee kya'])) {
+                return 'Desi ghee is clarified butter commonly used to give traditional sweets and baked goods a rich aroma and flavour. The website mentions desi ghee in its heritage and ingredients information; check each product’s listed ingredients or call 0325 3922121 if you need confirmation for a particular item.';
+            }
+            if (includesAny(q, ['what is khoya','khoya kya','what is mawa','mawa kya'])) {
+                return 'Khoya (also called mawa) is a concentrated milk solid used in many traditional South Asian sweets. For the exact ingredients of a Sialkot Sweets product, ask about that item by name or call 0325 3922121.';
+            }
+            if (includesAny(q, ['baking','bake','baked','flour','dough','yeast','frosting','icing','buttercream','pastry','pastries','croissant','muffin','muffins','cupcake','cupcakes','donut','doughnut','bread','bun','buns','tart','brownie','pie','chocolate','cocoa','cream','sugar','almond','pistachio','cardamom','syrup'])) {
+                return 'That’s a bakery-related question! I can help with Sialkot Sweets’ menu, item descriptions and ingredients listed on this website. I don’t have a verified shop-specific answer for that particular topic; ask about a menu item or call 0325 3922121 for more information.';
+            }
+            if (includesAny(q, ['desi ghee','khoya','biscotti','baklava','kunafa','kunafeh','cake rusk','mithai','halwa'])) {
+                const termProduct = productMatches(rawText);
+                if (termProduct.length) return termProduct.map(item => productLine(item, 'details')).join('\n\n');
+                return 'I can help with Sialkot Sweets’ listed bakery items and ingredients. Ask about a specific product from our menu, or call 0325 3922121 for further bakery questions.';
+            }
+
+            const bakeryWords = ['bakery','bake','cake','sweet','sweets','mithai','dessert','desserts','bread','pastry','pastries','biscuit','biscuits','cookie','cookies','biscotti','rusk','rusks','halwa','jamun','barfi','guldasta','pizza','burger','fries','shawarma','sandwich','panini','roll','wrap','pasta','kunafa','baklava','food','menu','price','prices','ingredient','ingredients','branch','branches','opening','hours','contact','order','delivery','khoya','ghee','nankhatai','khatai','rasmalai','rasgulla','rasgulle','chum chum','cham cham','qeemat','keemat','kitna','kitne','kitnay','tortilla','patisa','amratti','sohan','flour','dough','yeast','baking','baked','frosting','icing','buttercream','croissant','muffin','muffins','cupcake','cupcakes','donut','doughnut','bread','bun','buns','tart','brownie','pie','chocolate','cocoa','cream','sugar','almond','pistachio','cardamom','syrup','sell','purchase','buy'];
+            if (includesAny(q, bakeryWords)) {
+                return 'I can help with items and information listed on this website, but I don’t have a confirmed answer for that specific question. Ask me about a product’s listed price or ingredients, our menu, opening hours or branches. For live availability or special requests, call 0325 3922121.';
+            }
+            return 'Sorry, I can only help with Sialkot Sweets and bakery-related questions. 💚 You can ask about our menu, sweets, bakery products, prices, listed ingredients, opening hours or branches.';
+        }
+
+        function addMessage(text, who) {
+            const message = document.createElement('div');
+            message.className = 'ss-chat-message ' + (who === 'user' ? 'user' : 'assistant');
+            message.textContent = text;
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+            messageCounter += 1;
+            return message;
+        }
+        function showTyping() {
+            const typing = document.createElement('div');
+            typing.className = 'ss-chat-message assistant ss-chat-typing';
+            typing.setAttribute('aria-label', 'Assistant is preparing a response');
+            typing.innerHTML = '<span></span><span></span><span></span>';
+            messages.appendChild(typing);
+            messages.scrollTop = messages.scrollHeight;
+            return typing;
+        }
+        function openChat() {
+            if (isOpen) return;
+            isOpen = true;
+            panel.hidden = false;
+            panel.setAttribute('aria-hidden', 'false');
+            launcher.setAttribute('aria-expanded', 'true');
+            requestAnimationFrame(() => panel.classList.add('is-open'));
+            if (window.matchMedia('(min-width: 641px)').matches) window.setTimeout(() => input.focus({ preventScroll: true }), 260);
+        }
+        function closeChat() {
+            if (!isOpen) return;
+            isOpen = false;
+            panel.classList.remove('is-open');
+            panel.setAttribute('aria-hidden', 'true');
+            launcher.setAttribute('aria-expanded', 'false');
+            window.setTimeout(() => { if (!isOpen) panel.hidden = true; }, 440);
+            launcher.focus({ preventScroll: true });
+        }
+        function submitQuestion(question) {
+            const clean = String(question || '').trim();
+            if (!clean) return;
+            if (pendingTimer) window.clearTimeout(pendingTimer);
+            if (suggestions) suggestions.hidden = true;
+            addMessage(clean, 'user');
+            const typing = showTyping();
+            pendingTimer = window.setTimeout(() => {
+                if (typing.parentNode) typing.parentNode.removeChild(typing);
+                addMessage(answer(clean), 'assistant');
+                pendingTimer = null;
+            }, 320);
+        }
+
+        launcher.addEventListener('click', () => isOpen ? closeChat() : openChat());
+        closeButton.addEventListener('click', closeChat);
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const value = input.value;
+            input.value = '';
+            submitQuestion(value);
+        });
+        suggestions.addEventListener('click', (event) => {
+            const button = event.target.closest('[data-ss-chat-question]');
+            if (button) submitQuestion(button.getAttribute('data-ss-chat-question'));
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && isOpen) closeChat();
+        });
+    })();
+    </script>
+
 </body>
 </html>
