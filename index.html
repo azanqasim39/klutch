@@ -399,7 +399,17 @@
             #ss-chat-widget *, #ss-chat-widget *::before, #ss-chat-widget *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
         }
 
-    </style>
+    
+        /* Trilingual chat controls; isolated to the chatbot only. */
+        .ss-chat-language-row { display:flex; align-items:center; justify-content:flex-end; gap:8px; margin:0 2px 8px; }
+        .ss-chat-language-label { color:rgba(236,253,245,.72); font:600 10px/1.3 Inter,ui-sans-serif,sans-serif; }
+        #ss-chat-language { max-width:140px; min-width:112px; padding:6px 24px 6px 9px; border:1px solid rgba(253,224,71,.28); border-radius:10px; background:rgba(255,255,255,.09); color:#fff6d5; font:600 10px/1.3 Inter,ui-sans-serif,sans-serif; outline:none; cursor:pointer; }
+        #ss-chat-language:focus-visible { outline:2px solid #fcd34d; outline-offset:2px; }
+        #ss-chat-language option { color:#17352c; background:#f8fafc; }
+        .ss-chat-message[dir="rtl"] { text-align:right; direction:rtl; }
+        .ss-chat-message[dir="rtl"] .ss-chat-suggestions { justify-content:flex-start; }
+        @media (max-width:480px) { #ss-chat-language { min-width:104px; } }
+</style>
 </head>
 <body class="bg-stone-50 text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-900" x-data="sialkotSweetsApp()">
 
@@ -2409,22 +2419,30 @@
                 <div class="ss-chat-avatar" aria-hidden="true">🍰</div>
                 <div class="ss-chat-heading">
                     <h2 class="ss-chat-title" id="ss-chat-title">Sialkot Sweets Assistant</h2>
-                    <div class="ss-chat-subtitle"><span class="ss-chat-status-dot"></span><span>Bakery help · Gujranwala</span></div>
+                    <div class="ss-chat-subtitle"><span class="ss-chat-status-dot"></span><span id="ss-chat-subtitle">Bakery help · Gujranwala</span></div>
                 </div>
                 <button type="button" id="ss-chat-close" class="ss-chat-icon-button" aria-label="Close chat" title="Close chat">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
                 </button>
             </header>
             <div id="ss-chat-messages" class="ss-chat-messages" role="log" aria-live="polite" aria-relevant="additions text">
-                <div class="ss-chat-message assistant">Assalamu alaikum! 👋 I'm the Sialkot Sweets bakery assistant. Ask me about our menu, product prices, ingredients, opening hours or branches. I can help with Sialkot Sweets and bakery-related questions only.</div>
+                <div class="ss-chat-message assistant" id="ss-chat-welcome">Assalamu alaikum! 👋 I'm the Sialkot Sweets bakery assistant. Ask me about our menu, product prices, ingredients, opening hours or branches.</div>
                 <div class="ss-chat-suggestions" id="ss-chat-suggestions">
-                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="Show me popular sweets">Popular sweets</button>
-                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="What are your opening hours?">Opening hours</button>
-                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="Where are your branches?">Branch locations</button>
-                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="Show me the menu">Explore menu</button>
+                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="Show me popular sweets" data-ss-chat-label="popular">Popular sweets</button>
+                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="What are your opening hours?" data-ss-chat-label="hours">Opening hours</button>
+                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="Where are your branches?" data-ss-chat-label="branches">Branch locations</button>
+                    <button type="button" class="ss-chat-suggestion" data-ss-chat-question="Show me the menu" data-ss-chat-label="menu">Explore menu</button>
                 </div>
             </div>
             <div class="ss-chat-input-area">
+                <div class="ss-chat-language-row">
+                    <label class="ss-chat-language-label" for="ss-chat-language" id="ss-chat-language-label">Language</label>
+                    <select id="ss-chat-language" aria-label="Chat language">
+                        <option value="en" selected>English</option>
+                        <option value="hi">Hinglish</option>
+                        <option value="ur">اردو</option>
+                    </select>
+                </div>
                 <form id="ss-chat-form" class="ss-chat-form" autocomplete="off">
                     <input id="ss-chat-input" type="text" name="question" maxlength="500" placeholder="Ask about our bakery…" aria-label="Ask a bakery question" required>
                     <button id="ss-chat-send" type="submit" aria-label="Send message" title="Send message">
@@ -2440,308 +2458,542 @@
     </div>
 
     <script id="ss-chat-script">
-    (() => {
-        const widget = document.getElementById('ss-chat-widget');
-        if (!widget) return;
-        // Keep the widget as a direct body child and reinforce visibility for production pages.
-        if (widget.parentElement !== document.body) document.body.appendChild(widget);
-        widget.style.setProperty('position', 'fixed', 'important');
-        widget.style.setProperty('display', 'block', 'important');
-        widget.style.setProperty('visibility', 'visible', 'important');
-        widget.style.setProperty('opacity', '1', 'important');
-        widget.style.setProperty('z-index', '2147483647', 'important');
-        const panel = document.getElementById('ss-chat-panel');
-        const launcher = document.getElementById('ss-chat-launcher');
-        const closeButton = document.getElementById('ss-chat-close');
-        const messages = document.getElementById('ss-chat-messages');
-        const form = document.getElementById('ss-chat-form');
-        const input = document.getElementById('ss-chat-input');
-        const suggestions = document.getElementById('ss-chat-suggestions');
-        let isOpen = false;
-        let pendingTimer = null;
-        let messageCounter = 0;
+(() => {
+    'use strict';
+    const widget = document.getElementById('ss-chat-widget');
+    if (!widget) return;
+    if (widget.parentElement !== document.body) document.body.appendChild(widget);
+    ['position','display','visibility','opacity','z-index'].forEach((prop, i) => {
+        const vals = ['fixed','block','visible','1','2147483647'];
+        widget.style.setProperty(prop, vals[i], 'important');
+    });
+    const panel = document.getElementById('ss-chat-panel');
+    const launcher = document.getElementById('ss-chat-launcher');
+    const closeButton = document.getElementById('ss-chat-close');
+    const messages = document.getElementById('ss-chat-messages');
+    const form = document.getElementById('ss-chat-form');
+    const input = document.getElementById('ss-chat-input');
+    const suggestions = document.getElementById('ss-chat-suggestions');
+    const languageSelect = document.getElementById('ss-chat-language');
+    const languageLabel = document.getElementById('ss-chat-language-label');
+    const welcome = document.getElementById('ss-chat-welcome');
+    if (!panel || !launcher || !closeButton || !messages || !form || !input || !languageSelect) return;
 
-        // The menu comes from this same HTML file; there is no network/API request.
-        let products = [];
-        try {
-            if (typeof sialkotSweetsApp === 'function') {
-                const appData = sialkotSweetsApp();
-                if (appData && Array.isArray(appData.items)) products = appData.items;
-            }
-        } catch (error) {
-            products = [];
+    let isOpen = false;
+    let pendingTimer = null;
+    let chatHasUserMessages = false;
+    let preferredLanguage = 'en'; // English is the default by design.
+
+    // Use the menu data already embedded in this HTML; no API/network calls are made.
+    let products = [];
+    try {
+        if (typeof sialkotSweetsApp === 'function') {
+            const appData = sialkotSweetsApp();
+            if (appData && Array.isArray(appData.items)) products = appData.items;
         }
+    } catch (_) { products = []; }
 
-        const branches = [
-            { name: 'Chand Da Qila', address: 'Chand Da Qila, Gujranwala', phone: '0308 3922121' },
-            { name: 'Satellite Town', address: 'C Block, Satellite Town, Gujranwala', phone: '055 3840066' },
-            { name: 'Gayb Chowk', address: 'Gayb Chowk, Islampura, Gujranwala', phone: '0325 3922121' }
+    const branches = [
+        { name: 'Chand Da Qila', address: 'Chand Da Qila, Gujranwala', phone: '0308 3922121' },
+        { name: 'Satellite Town', address: 'C Block, Satellite Town, Gujranwala', phone: '055 3840066' },
+        { name: 'Gayb Chowk', address: 'Gayb Chowk, Islampura, Gujranwala', phone: '0325 3922121' }
+    ];
+    const categoryNames = {
+        fastfood: { en: 'Fast Food', hi: 'Fast Food', ur: 'فاسٹ فوڈ' },
+        sweets: { en: 'Traditional Sweets', hi: 'Traditional mithai', ur: 'روایتی مٹھائیاں' },
+        arabian: { en: 'Arabian Sweets', hi: 'Arabian sweets', ur: 'عربی مٹھائیاں' },
+        halwa: { en: 'Halwa Jaat', hi: 'Halwa', ur: 'حلوہ جات' },
+        biscuits: { en: 'Biscuits', hi: 'Biscuits aur khatai', ur: 'بسکٹ اور کھٹائی' },
+        cakerusk: { en: 'Cake Rusk', hi: 'Cake rusk', ur: 'کیک رسک' }
+    };
+
+    const copy = {
+        en: {
+            language:'Language', subtitle:'Bakery help · Gujranwala', launcherLabel:'Ask our bakery assistant', placeholder:'Ask about our bakery…', inputLabel:'Ask a bakery question', send:'Send message', close:'Close chat',
+            welcome:"Assalamu alaikum! 👋 I'm the Sialkot Sweets bakery assistant. Ask me about our menu, any listed product, prices, ingredients, bakery basics, opening hours or branches.",
+            popular:'Popular sweets', hoursChip:'Opening hours', branchesChip:'Branch locations', menuChip:'Explore menu',
+            languageChanged:'Language changed to English. What would you like to know about our bakery?',
+            needQuestion:'Please type a question about our bakery or a bakery-related topic.',
+            greeting:'Wa alaikum assalam! 👋 Welcome to Sialkot Sweets. Ask me about menu items, prices, ingredients, bakery basics, opening hours or branches.',
+            thanks:'You’re very welcome! 💚 Ask me anything else about our bakery or menu.',
+            help:'I can help with our listed products, prices, ingredients, menu categories, opening hours, branches and contact details. I can also explain general bakery topics. I can’t verify live stock, orders or special arrangements from this chat.',
+            opening:'The website lists daily opening hours as 6:00 AM–1:00 AM. For confirmation on a particular day, please call 0325 3922121.',
+            branchesIntro:'Sialkot Sweets lists these three Gujranwala branches:',
+            branchesEnd:'Please call the relevant branch for directions or confirmation.',
+            contact:'For general enquiries, call 0325 3922121 or email sialkotsweets.org@gmail.com. Branch numbers listed on the website:',
+            recommendIntro:'Here are some highly rated items from the menu listed on this website:',
+            recommendEnd:'Tell me what kind of item you like for a more specific recommendation.',
+            menuIntro:(n)=>`The website currently lists ${n} menu items across these categories:`,
+            menuEnd:'Ask for a product name to see its listed price, description or ingredients. Live stock availability is not shown here.',
+            categoryIntro:'Here are the matching items listed on the menu:',
+            categoryEnd:'Prices are the ones currently shown on this website; please call to confirm current pricing and availability.',
+            priceLabel:'Listed price', ingredientsLabel:'Ingredients listed on the website', descriptionLabel:'Description listed on the website (kept in its original wording)',
+            noIngredients:'Ingredients are not listed for this item on the website.',
+            dietary:'I can show the ingredients listed for a product, but the website does not provide verified allergen, gluten-free, vegan or halal certification details. Please call 0325 3922121 before ordering if this matters for your dietary needs.',
+            order:'I can share the menu details shown on this website, but I can’t confirm live stock, delivery, custom orders, discounts or payments from this chat. Please call 0325 3922121 or email sialkotsweets.org@gmail.com to confirm directly.',
+            storage:'For general freshness, follow the product’s packaging instructions and keep it sealed and away from heat/moisture. The website doesn’t list product-specific storage or expiry rules, so please call 0325 3922121 for the exact item.',
+            ghee:'Desi ghee is clarified butter commonly used in South Asian sweets and baking for its rich aroma and flavour. For confirmation about a specific Sialkot Sweets item, check the listed ingredients or call the branch.',
+            khoya:'Khoya (also called mawa) is milk that has been reduced to a thick milk solid. It is used in many South Asian sweets. For a particular item, I’ll show only the ingredients listed on this website.',
+            yeast:'Yeast is a living leavening organism that produces gas as it ferments sugars, helping bread dough rise. The result depends on the recipe, temperature and proofing time.',
+            powderSoda:'Baking powder contains a base and acid and usually needs moisture (and often heat) to release gas. Baking soda is sodium bicarbonate and needs an acidic ingredient in the recipe to react well. They are not always interchangeable; follow the recipe.',
+            cakePastry:'Cake is generally a baked batter with a soft crumb; pastry usually refers to baked dough or a pastry-based item, often flaky or layered. The exact meanings vary by style and region.',
+            flour:'Flour provides structure. Higher-protein bread flour usually forms more gluten and gives chewy bread; lower-protein cake flour generally helps produce a softer crumb. The right flour depends on the recipe.',
+            eggless:'Eggless baking is possible. Depending on the recipe, mashed banana, yogurt, applesauce or a commercial egg replacer may help with moisture or binding, but each changes texture and flavour.',
+            bakeTemp:'Baking temperature depends on the recipe, pan, portion size and oven. Follow a tested recipe rather than using one temperature for every item.',
+            frosting:'Frosting or icing is a sweet coating used to cover or decorate cakes and cupcakes. Buttercream is made by combining butter with sugar; whipped cream and cream-cheese frostings are different options. Keep perishable frostings refrigerated.',
+            ganache:'Chocolate ganache is usually made by combining chocolate with warm cream. The ratio controls texture: more chocolate makes it firmer, while more cream makes it softer. Exact ratios depend on the intended use.',
+            cakeSinks:'A cake may sink if the oven door is opened too early, the cake is underbaked, the leavening is old or excessive, or the batter is overmixed. Check oven temperature and follow the recipe measurements carefully.',
+            doughRise:'If dough is not rising, the yeast may be inactive, the liquid may have been too hot or cold, or the room may be too cool. Give it time in a comfortably warm place and check the yeast expiry date.',
+            cookiesSpread:'Cookies may spread too much when the butter is too warm, the dough is warm, there is too little flour, or the baking tray is hot. Chilling dough can help, depending on the recipe.',
+            basicCake:'For a basic cake, follow a tested recipe: prepare the pan, preheat the oven as directed, measure ingredients accurately, mix only as instructed, and check doneness with a skewer. Ratios and baking time vary by recipe and pan.',
+            bakeryGeneral:'That’s a bakery-related question. I can explain general baking concepts and share what this website lists about Sialkot Sweets’ products. I don’t have verified shop-specific information for that exact detail, so please ask about a menu item or call 0325 3922121.',
+            offTopic:'Sorry, I can only help with Sialkot Sweets, our menu and bakery-related questions. 💚 Try asking about a sweet, cake, ingredient, price, baking tip, opening hours or branch.',
+            noProducts:'I couldn’t match that to a specific item on the current menu. Please try the product’s name, a shorter spelling, or ask for the menu/category list.',
+            unavailable:'Live stock, delivery areas, same-day availability and custom orders are not confirmed in this chat. Please call the branch directly.',
+            listDescription:'Menu description', listMore:'…and more. Ask about a specific item for more details.'
+        },
+        hi: {
+            language:'Language', subtitle:'Bakery help · Gujranwala', launcherLabel:'Bakery se poochhein', placeholder:'Bakery ke baare mein poochhein…', inputLabel:'Bakery ka sawal poochhein', send:'Message bhejein', close:'Chat band karein',
+            welcome:'Assalamu alaikum! 👋 Main Sialkot Sweets ka bakery assistant hoon. Menu, listed products, prices, ingredients, baking ke basic sawal, timings ya branches ke baare mein poochhein.',
+            popular:'Mashhoor mithaiyan', hoursChip:'Opening timings', branchesChip:'Branch locations', menuChip:'Menu dekhein',
+            languageChanged:'Language Hinglish par set ho gayi hai. Bakery ke baare mein kya jaan-na chahenge?',
+            needQuestion:'Bakery ya baking se related sawal type karein.',
+            greeting:'Wa alaikum assalam! 👋 Sialkot Sweets mein khush aamdeed. Menu, prices, ingredients, baking basics, timings ya branches ke baare mein poochhein.',
+            thanks:'Aapka welcome hai! 💚 Sialkot Sweets ya bakery ke baare mein aur kuch poochna ho to batayein.',
+            help:'Main website par listed products, prices, ingredients, menu categories, opening timings, branches aur contact details bata sakta hoon. General baking topics bhi samjha sakta hoon. Live stock, orders ya special requests confirm nahi kar sakta.',
+            opening:'Website par daily opening hours 6:00 AM se 1:00 AM listed hain. Kisi khaas din confirm karne ke liye 0325 3922121 par call karein.',
+            branchesIntro:'Website par Gujranwala ki yeh 3 branches listed hain:',
+            branchesEnd:'Directions ya confirmation ke liye relevant branch par call karein.',
+            contact:'General maloomat ke liye 0325 3922121 par call karein ya sialkotsweets.org@gmail.com par email karein. Website par listed branch numbers:',
+            recommendIntro:'Website ke menu mein se kuch highly-rated items:',
+            recommendEnd:'Aap batayein kis type ki mithai ya item pasand hai, main zyada specific suggestion de sakta hoon.',
+            menuIntro:(n)=>`Website par filhaal ${n} menu items in categories mein listed hain:`,
+            menuEnd:'Kisi product ka naam poochhein to listed price, description ya ingredients bata sakta hoon. Live stock yahan show nahi hota.',
+            categoryIntro:'Menu mein yeh matching items listed hain:',
+            categoryEnd:'Yeh website par listed prices hain. Current price aur availability ke liye branch se confirm karein.',
+            priceLabel:'Website par listed qeemat', ingredientsLabel:'Website par listed ingredients', descriptionLabel:'Website par listed description (original wording mein)',
+            noIngredients:'Is item ke ingredients website par listed nahi hain.',
+            dietary:'Main website par listed ingredients dikha sakta hoon, lekin verified allergy, gluten-free, vegan ya halal certification ki information nahi hai. Dietary concern ho to order se pehle 0325 3922121 par confirm karein.',
+            order:'Website ke menu details share kar sakta hoon, lekin live stock, delivery, custom order, discount ya payment confirm nahi kar sakta. Confirm karne ke liye 0325 3922121 par call karein ya sialkotsweets.org@gmail.com par email karein.',
+            storage:'Freshness ke liye packaging par di gayi instructions follow karein aur item ko seal karke heat aur moisture se door rakhein. Is website par har product ki specific storage/expiry details nahi hain; exact item ke liye branch se poochhein.',
+            ghee:'Desi ghee clarified butter hota hai jo South Asian mithai aur baking mein rich aroma aur flavour ke liye use hota hai. Kisi specific Sialkot Sweets item mein hai ya nahi, ingredients check karein ya branch se confirm karein.',
+            khoya:'Khoya, jise mawa bhi kehte hain, doodh ko reduce karke banaya gaya thick milk solid hota hai. Yeh kai South Asian mithaiyon mein use hota hai. Specific product ke liye main website par listed ingredients hi bataunga.',
+            yeast:'Yeast ek living microorganism hai jo dough mein sugar ferment karke gas banata hai. Is se bread dough rise hota hai. Result recipe, temperature aur proofing time par depend karta hai.',
+            powderSoda:'Baking powder mein base aur acid hota hai; moisture aur aksar heat milne par gas release karta hai. Baking soda sodium bicarbonate hai aur achha react karne ke liye recipe mein acidic ingredient chahiye. Dono hamesha ek doosre ki jagah use nahi hote.',
+            cakePastry:'Cake aam tor par batter se banta hai aur soft crumb hota hai. Pastry ka matlab baked dough ya pastry-based item ho sakta hai, jo aksar flaky ya layered hota hai. Exact meaning style ke hisaab se badalta hai.',
+            flour:'Flour structure banata hai. Bread flour mein zyada protein hota hai, is liye chewy bread ban sakti hai; cake flour kam protein ki wajah se softer crumb de sakta hai. Flour recipe ke mutabiq choose karein.',
+            eggless:'Eggless baking mumkin hai. Recipe ke hisaab se mashed banana, yogurt, applesauce ya egg replacer moisture ya binding de sakta hai, lekin texture aur flavour badal sakta hai.',
+            bakeTemp:'Baking temperature recipe, pan, item ke size aur oven par depend karta hai. Har item ke liye ek hi temperature use na karein; tested recipe follow karein.',
+            frosting:'Frosting ya icing cake aur cupcakes ko cover ya decorate karne wali meethi layer hoti hai. Buttercream butter aur sugar se banti hai; whipped cream aur cream-cheese frosting doosre options hain. Perishable frosting ko fridge mein rakhein.',
+            ganache:'Chocolate ganache aam tor par chocolate aur garam cream mila kar banti hai. Chocolate zyada ho to ganache firm hoti hai, cream zyada ho to soft. Sahi ratio use par depend karta hai.',
+            cakeSinks:'Cake beech se baith sakta hai agar oven jaldi khola jaye, cake poora bake na ho, raising agent purana ya zyada ho, ya batter overmix ho. Oven temperature aur recipe measurements check karein.',
+            doughRise:'Agar dough rise nahi ho raha to yeast inactive ho sakta hai, liquid bohat garam ya thanda ho sakta hai, ya jagah thandi ho sakti hai. Dough ko munasib warm jagah par waqt dein aur yeast ki expiry check karein.',
+            cookiesSpread:'Cookies zyada phail sakti hain agar butter bohat soft ho, dough garam ho, flour kam ho ya baking tray pehle se garam ho. Recipe ke mutabiq dough chill karna madad kar sakta hai.',
+            basicCake:'Basic cake ke liye tested recipe follow karein: pan tayyar karein, oven recipe ke mutabiq preheat karein, ingredients sahi measure karein, mixing instructions follow karein aur skewer se doneness check karein. Ratios aur time recipe aur pan ke mutabiq badalte hain.',
+            bakeryGeneral:'Yeh bakery se related sawal hai. Main general baking concepts samjha sakta hoon aur Sialkot Sweets ki website par listed information bata sakta hoon. Is exact baat ki shop-specific verified info nahi hai; menu item poochhein ya 0325 3922121 par call karein.',
+            offTopic:'Maaf kijiye, main sirf Sialkot Sweets, hamare menu aur bakery se related sawalon mein madad kar sakta hoon. 💚 Mithai, cake, ingredients, qeemat, baking tip, timings ya branch ke baare mein poochhein.',
+            noProducts:'Mujhe current menu mein is naam ka specific item nahi mila. Product ka naam, chhoti spelling ya menu/category poochh kar try karein.',
+            unavailable:'Live stock, delivery areas, aaj ki availability aur custom orders is chat mein confirm nahi hote. Direct branch par call karein.',
+            listDescription:'Menu description', listMore:'…aur bhi items hain. Details ke liye specific product ka naam poochhein.'
+        },
+        ur: {
+            language:'زبان', subtitle:'بیکری رہنمائی · گوجرانوالہ', launcherLabel:'بیکری کے بارے میں پوچھیں', placeholder:'بیکری کے بارے میں پوچھیں…', inputLabel:'بیکری سے متعلق سوال', send:'پیغام بھیجیں', close:'چیٹ بند کریں',
+            welcome:'السلام علیکم! 👋 میں سیالکوٹ سویٹس کا بیکری اسسٹنٹ ہوں۔ مینو، درج شدہ مصنوعات، قیمتوں، اجزاء، بیکنگ کے بنیادی سوالات، اوقات یا برانچز کے بارے میں پوچھیں۔',
+            popular:'مشہور مٹھائیاں', hoursChip:'اوقات', branchesChip:'برانچز کے پتے', menuChip:'مینو دیکھیں',
+            languageChanged:'زبان اردو کر دی گئی ہے۔ بیکری کے بارے میں کیا جاننا چاہیں گے؟',
+            needQuestion:'براہِ کرم بیکری یا بیکنگ سے متعلق سوال لکھیں۔',
+            greeting:'وعلیکم السلام! 👋 سیالکوٹ سویٹس میں خوش آمدید۔ مینو، قیمتوں، اجزاء، بیکنگ، اوقات یا برانچز کے بارے میں پوچھیں۔',
+            thanks:'آپ کا خیر مقدم ہے! 💚 سیالکوٹ سویٹس یا بیکری سے متعلق کوئی اور سوال ہو تو پوچھیں۔',
+            help:'میں ویب سائٹ پر درج مصنوعات، قیمتیں، اجزاء، مینو کی اقسام، اوقات، برانچز اور رابطے کی معلومات بتا سکتا ہوں۔ عام بیکنگ کے موضوعات بھی سمجھا سکتا ہوں۔ اس چیٹ سے لائیو اسٹاک، آرڈر یا خصوصی درخواست کی تصدیق نہیں کر سکتا۔',
+            opening:'ویب سائٹ کے مطابق روزانہ اوقات صبح 6:00 بجے سے رات 1:00 بجے تک ہیں۔ کسی خاص دن کی تصدیق کے لیے 0325 3922121 پر کال کریں۔',
+            branchesIntro:'ویب سائٹ پر گوجرانوالہ کی یہ تین برانچز درج ہیں:',
+            branchesEnd:'راستے یا تصدیق کے لیے متعلقہ برانچ سے رابطہ کریں۔',
+            contact:'عمومی معلومات کے لیے 0325 3922121 پر کال کریں یا sialkotsweets.org@gmail.com پر ای میل کریں۔ ویب سائٹ پر درج برانچ نمبرز:',
+            recommendIntro:'ویب سائٹ کے مینو میں سے چند زیادہ ریٹنگ والے آئٹمز:',
+            recommendEnd:'آپ بتائیں کس قسم کی مٹھائی یا آئٹم پسند ہے تاکہ بہتر تجویز دے سکوں۔',
+            menuIntro:(n)=>`ویب سائٹ پر اس وقت ${n} آئٹمز درج ہیں۔ ان کی اقسام یہ ہیں:`,
+            menuEnd:'کسی آئٹم کی درج شدہ قیمت، تفصیل یا اجزاء کے لیے اس کا نام پوچھیں۔ لائیو اسٹاک یہاں دستیاب نہیں۔',
+            categoryIntro:'مینو میں یہ متعلقہ آئٹمز درج ہیں:',
+            categoryEnd:'یہ ویب سائٹ پر درج قیمتیں ہیں۔ موجودہ قیمت اور دستیابی برانچ سے تصدیق کریں۔',
+            priceLabel:'ویب سائٹ پر درج قیمت', ingredientsLabel:'ویب سائٹ پر درج اجزاء', descriptionLabel:'ویب سائٹ پر درج تفصیل (اصل عبارت میں)',
+            noIngredients:'اس آئٹم کے اجزاء ویب سائٹ پر درج نہیں ہیں۔',
+            dietary:'میں درج شدہ اجزاء دکھا سکتا ہوں، لیکن ویب سائٹ پر الرجی، گلوٹن فری، ویگن یا حلال سرٹیفیکیشن کی تصدیق موجود نہیں۔ غذائی مسئلہ ہو تو آرڈر سے پہلے 0325 3922121 پر تصدیق کریں۔',
+            order:'میں ویب سائٹ کے مینو کی معلومات دے سکتا ہوں، لیکن لائیو اسٹاک، ڈیلیوری، خصوصی آرڈر، رعایت یا ادائیگی کی تصدیق نہیں کر سکتا۔ براہِ کرم 0325 3922121 پر کال کریں یا ای میل کریں۔',
+            storage:'تازگی کے لیے پیکنگ پر دی گئی ہدایات پر عمل کریں اور آئٹم کو بند رکھ کر گرمی اور نمی سے دور رکھیں۔ ہر پروڈکٹ کی مخصوص اسٹوریج یا ایکسپائری ویب سائٹ پر درج نہیں؛ درست معلومات کے لیے برانچ سے رابطہ کریں۔',
+            ghee:'دیسی گھی صاف کیا ہوا مکھن ہوتا ہے جو جنوبی ایشیائی مٹھائیوں اور بیکنگ میں خوشبو اور ذائقے کے لیے استعمال ہوتا ہے۔ کسی خاص آئٹم میں اس کی موجودگی کے لیے درج شدہ اجزاء دیکھیں یا برانچ سے تصدیق کریں۔',
+            khoya:'کھویا، جسے ماوا بھی کہتے ہیں، دودھ کو گاڑھا کر کے بنایا جاتا ہے اور کئی جنوبی ایشیائی مٹھائیوں میں استعمال ہوتا ہے۔ کسی خاص پروڈکٹ کے لیے میں ویب سائٹ پر درج اجزاء ہی بتاؤں گا۔',
+            yeast:'خمیر ایک جاندار مائیکرو آرگینزم ہے جو آٹے میں موجود شکر کو فرمنٹ کر کے گیس بناتا ہے، جس سے بریڈ کا آٹا پھولتا ہے۔ نتیجہ ترکیب، درجہ حرارت اور وقت پر منحصر ہے۔',
+            powderSoda:'بیکنگ پاؤڈر میں بیس اور تیزابی جز شامل ہوتا ہے اور نمی، اکثر گرمی کے ساتھ، گیس خارج کرتا ہے۔ بیکنگ سوڈا سوڈیم بائی کاربونیٹ ہے اور بہتر ردعمل کے لیے ترکیب میں تیزابی جز چاہتا ہے۔ دونوں ہمیشہ ایک دوسرے کی جگہ استعمال نہیں ہو سکتے۔',
+            cakePastry:'کیک عموماً بیٹر سے بنتا ہے اور اس کی اندرونی ساخت نرم ہوتی ہے۔ پیسٹری عموماً بیک کیے گئے آٹے یا تہہ دار، خستہ بیکری آئٹم کو کہتے ہیں۔ مطلب قسم اور انداز کے مطابق بدل سکتا ہے۔',
+            flour:'آٹا ساخت بنانے میں مدد دیتا ہے۔ زیادہ پروٹین والا بریڈ فلور عموماً زیادہ گلوٹن اور چبانے والی بریڈ بناتا ہے؛ کم پروٹین والا کیک فلور نرم ساخت دے سکتا ہے۔ درست انتخاب ترکیب پر منحصر ہے۔',
+            eggless:'بغیر انڈے کے بیکنگ ممکن ہے۔ ترکیب کے مطابق کیلا، دہی، ایپل ساس یا ایگ ریپلیسر نمی یا بائنڈنگ دے سکتے ہیں، مگر ساخت اور ذائقہ بدل سکتا ہے۔',
+            bakeTemp:'بیکنگ کا درجہ حرارت ترکیب، پین، آئٹم کے سائز اور اوون پر منحصر ہوتا ہے۔ ہر آئٹم کے لیے ایک ہی درجہ حرارت استعمال نہ کریں؛ آزمودہ ترکیب پر عمل کریں۔',
+            frosting:'فراسٹنگ یا آئسنگ کیک اور کپ کیکس کو ڈھانپنے یا سجانے والی میٹھی تہہ ہے۔ بٹر کریم عموماً مکھن اور چینی سے بنتی ہے؛ وہپڈ کریم اور کریم چیز فراسٹنگ بھی استعمال ہوتی ہیں۔ خراب ہونے والی فراسٹنگ فریج میں رکھیں۔',
+            ganache:'چاکلیٹ گناش عموماً چاکلیٹ اور گرم کریم ملا کر بنتی ہے۔ چاکلیٹ زیادہ ہو تو یہ گاڑھی اور کریم زیادہ ہو تو نرم رہتی ہے۔ درست تناسب اس کے استعمال پر منحصر ہے۔',
+            cakeSinks:'کیک درمیان سے بیٹھ سکتا ہے اگر اوون جلد کھولا جائے، کیک پوری طرح نہ پکا ہو، خمیر اٹھانے والا جز پرانا یا زیادہ ہو، یا بیٹر ضرورت سے زیادہ مکس کیا گیا ہو۔ درجہ حرارت اور ناپ تول چیک کریں۔',
+            doughRise:'اگر آٹا نہیں پھول رہا تو خمیر غیر فعال ہو سکتا ہے، مائع بہت گرم یا ٹھنڈا ہو سکتا ہے، یا جگہ ٹھنڈی ہو سکتی ہے۔ آٹے کو مناسب گرم جگہ پر وقت دیں اور خمیر کی میعاد چیک کریں۔',
+            cookiesSpread:'بسکٹ زیادہ پھیل سکتے ہیں اگر مکھن بہت نرم ہو، آٹا گرم ہو، میدہ کم ہو یا ٹرے پہلے سے گرم ہو۔ ترکیب کے مطابق آٹے کو ٹھنڈا کرنا مدد دے سکتا ہے۔',
+            basicCake:'بنیادی کیک کے لیے آزمودہ ترکیب پر عمل کریں: پین تیار کریں، اوون کو ہدایت کے مطابق گرم کریں، اجزاء درست ناپیں، مکس کرنے کی ہدایات پر عمل کریں، اور سیخ سے کیک کے پکنے کا جائزہ لیں۔ مقدار اور وقت ترکیب کے مطابق بدلتے ہیں۔',
+            bakeryGeneral:'یہ بیکری سے متعلق سوال ہے۔ میں عام بیکنگ کے تصورات سمجھا سکتا ہوں اور سیالکوٹ سویٹس کی ویب سائٹ پر درج معلومات بتا سکتا ہوں۔ اس خاص بات کی دکان سے تصدیق شدہ معلومات موجود نہیں؛ مینو کے کسی آئٹم کے بارے میں پوچھیں یا 0325 3922121 پر کال کریں۔',
+            offTopic:'معذرت، میں صرف سیالکوٹ سویٹس، ہمارے مینو اور بیکری سے متعلق سوالات میں مدد کر سکتا ہوں۔ 💚 مٹھائی، کیک، اجزاء، قیمت، بیکنگ یا برانچ کے بارے میں پوچھیں۔',
+            noProducts:'مجھے موجودہ مینو میں اس نام کا مخصوص آئٹم نہیں ملا۔ پروڈکٹ کا نام، آسان املا یا مینو کی قسم پوچھ کر دوبارہ کوشش کریں۔',
+            unavailable:'لائیو اسٹاک، ڈیلیوری ایریاز، آج کی دستیابی اور خصوصی آرڈر اس چیٹ میں تصدیق نہیں ہو سکتے۔ براہِ کرم براہِ راست برانچ سے رابطہ کریں۔',
+            listDescription:'مینو کی تفصیل', listMore:'…مزید آئٹمز بھی ہیں۔ تفصیل کے لیے کسی مخصوص آئٹم کا نام پوچھیں۔'
+        }
+    };
+
+    const norm = (value) => String(value || '').toLocaleLowerCase().normalize('NFKD')
+        .replace(/[\u0300-\u036f]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+    const includesAny = (text, phrases) => phrases.some(phrase => text.includes(phrase));
+    const stopWords = new Set(('a an and the of for is are in on with what whats tell me about please show find give want know details item items product products sweet sweets bakery bakerys ingredient ingredients made from contains contain ki ka ke hai hain hy kya kia mujhe aap apko apke batao btao do have your how much many can we does sell selling').split(/\s+/));
+
+    function detectTypedLanguage(text) {
+        const raw = String(text || '');
+        if (/[\u0600-\u06FF]/.test(raw)) return 'ur';
+        const q = norm(raw);
+        const romanUrdu = ['kya','kia','hai','hain','hy','ki','ka','ke','qeemat','keemat','kitna','kitni','kitne','kitnay','batao','btao','mujhe','aap','ap','kahan','kidhar','kab','khula','khule','band','waqt','andar','kis','chahiye','milta','milti','hota','hotay','shukriya','salam','assalamualaikum','acha','accha','aur','mein','mai','kaise','bana','banaya','hai'];
+        return q.split(/\s+/).some(token => romanUrdu.includes(token)) ? 'hi' : 'en';
+    }
+    function responseLanguage(text) {
+        if (preferredLanguage !== 'en') return preferredLanguage;
+        return detectTypedLanguage(text);
+    }
+
+    // Canonicalize common Urdu-script and Roman Urdu bakery phrases before intent matching.
+    function canonicalizeQuery(value) {
+        let s = String(value || '').toLocaleLowerCase();
+        const urduMap = [
+            [/گلاب\s*جامن/g,' gulab jamun '], [/رس\s*ملائی/g,' rasmalai '], [/رس\s*گلہ|رسگلہ/g,' rasgulla '],
+            [/اخروٹ\s*حلوہ/g,' akhrot halwa '], [/چم\s*چم/g,' cham cham '], [/باکلاوا|بقلاوہ/g,' baklava '], [/کنافہ|کنافة/g,' kunafa '],
+            [/گلاب\s*جامن/g,' gulab jamun '], [/قیمتیں|قیمت|دام|ریٹ/g,' price '], [/اجزاء|اجزا/g,' ingredients '],
+            [/برانچز|برانچیں|برانچ|شاخیں/g,' branches '], [/پتہ|کہاں|کدھر|لوکیشن/g,' location '], [/اوقات|ٹائمنگ|وقتِ کار|کھلنے کے اوقات/g,' hours '],
+            [/مینو|فہرست/g,' menu '], [/مٹھائیاں|مٹھائی/g,' sweets mithai '], [/بسکٹ/g,' biscuit '], [/کھٹائی/g,' khatai '], [/پیزا/g,' pizza '], [/برگر/g,' burger '],
+            [/ڈیلیوری|ترسیل/g,' delivery '], [/آرڈر|آرڈر کرنا/g,' order '], [/دودھ/g,' milk '], [/کھویا|ماوا/g,' khoya '], [/گھی/g,' ghee '], [/شکر|چینی/g,' sugar '],
+            [/السلام\s*علیکم|سلام/g,' salam '], [/شکریہ/g,' thanks '], [/مدد/g,' help '], [/تجویز|مشورہ/g,' recommend '], [/دستیاب|دستیابی/g,' available '],
+            [/کیا\s*ملتا\s*ہے/g,' menu '], [/کیا\s*ہے/g,' what is '], [/کیسے\s*بنائیں|بنانے\s*کا\s*طریقہ/g,' recipe ']
         ];
-        const categoryNames = {
-            fastfood: 'Fast Food', sweets: 'Traditional Sweets', arabian: 'Arabian Sweets',
-            halwa: 'Halwa Jaat', biscuits: 'Biscuits', cakerusk: 'Cake Rusk'
-        };
-        const stopWords = new Set(['a','an','and','the','of','for','is','in','on','with','what','whats','tell','me','about','price','prices','cost','rate','rates','how','much','many','do','you','have','your','please','show','find','give','want','know','details','item','items','product','products','sweet','sweets','bakery','bakerys','ingredient','ingredients','made','from','contains','contain']);
-        const norm = (value) => String(value || '').toLocaleLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
-        const includesAny = (text, phrases) => phrases.some(phrase => text.includes(phrase));
+        urduMap.forEach(([pattern,replacement]) => { s = s.replace(pattern, replacement); });
+        let q = norm(s);
+        const romanMap = [
+            [/\b(?:gulabjamun|gulabjaman|gulaab jamun|gulab jamn|gulab jaman|gulab jamoon)\b/g,' gulab jamun '],
+            [/\b(?:baklva|baklavah|baklawa|bakalava)\b/g,' baklava '],
+            [/\b(?:rasmali|ras malai|rasmalay)\b/g,' rasmalai '],
+            [/\b(?:rasgula|rasgolla|rasgulla)\b/g,' rasgulla '],
+            [/\b(?:chamcham|chumchum|chum cham)\b/g,' cham cham '],
+            [/\b(?:qeemat|keemat|qimat|kimat|kitna|kitni|kitne|kitnay|rate kya)\b/g,' price '],
+            [/\b(?:khulne ka waqt|opening time|timing kya|kab khulta|kab khulti|kitnay bajay)\b/g,' opening hours '],
+            [/\b(?:kahan hai|kidhar hai|branch kahan|address kya|location kya)\b/g,' branch location '],
+            [/\b(?:ajza|ajzaat|ingredients kya|kis cheez se bana|kis se bana|andar kya hai)\b/g,' ingredients '],
+            [/\b(?:mithaiyan|mithai|meethai)\b/g,' sweets '],
+            [/\b(?:btao|batao|bata dein|batayein|mujhe|mere|mera|meri|apko|aapko|apke|aapke|kya|kia|hai|hain|hy|ka|ki|ke|ko|se|say|mein|mai|aur|yeh|ye|koi|chahiye|milta|milti|milte|hota|hoti|hote|bana|banaya|dikhao)\b/g,' '],
+            [/\b(?:price batao|price batayein|qeemat batao)\b/g,' price ']
+        ];
+        romanMap.forEach(([pattern,replacement]) => { q = q.replace(pattern, replacement); });
+        return norm(q);
+    }
 
-        // A small local dictionary helps recover obvious typos without sending messages anywhere.
-        const correctionVocabulary = new Set();
-        function addCorrectionWords(value) {
-            norm(value).split(/\s+/).filter(word => word.length >= 3).forEach(word => correctionVocabulary.add(word));
+    const correctionVocabulary = new Set();
+    function addWords(value) { norm(value).split(/\s+/).filter(w => w.length >= 3).forEach(w => correctionVocabulary.add(w)); }
+    const vocabularyText = 'price prices cost costs rate rates qeemat keemat kitna kitni kitne kitnay rupee rupees ingredient ingredients made contains contain inside allergy allergen allergic gluten vegan vegetarian halal sugar free dairy free opening hour hours timing timings open close closing business shop today daily branch branches address location located map directions where phone number contact call email whatsapp recommend recommendation suggest popular best favourite favorite try menu product products category categories item items available availability stock delivery order ordering payment discount offer fresh bakery bake baked baking cake cakes sweet sweets mithai dessert desserts bread pastry pastries biscuit biscuits cookie cookies biscotti rusk rusks halwa halva jamun barfi guldasta pizza burger fries shawarma sandwich panini roll wrap pasta kunafa kunafeh baklava khoya ghee nankhatai khatai rasmalai rasgulla rasgulle chum cham patisa amratti sohan flour dough yeast frosting icing buttercream croissant muffin muffins cupcake cupcakes donut doughnut bun buns tart brownie pie chocolate cocoa cream almond pistachio cardamom syrup qeemat keemat kya kia hai hain hy ka ki ke mujhe apko aapko batao btao kahan kidhar kab khula band waqt andar kis chahiye milta milti hota hoti banana baking powder soda yeast mawa khameer khamir recipe storage fresh price flavours flavour texture difference meaning halal allergy nuts eggs milk wheat cream fondant ganache sponge proofing fermentation nutrition calories'.split(/\s+/);
+    vocabularyText.forEach(addWords);
+    const customAliases = {
+        'gulab jamun':['gulab jamn','gulab jaman','gulab jamoon','gulabjaman','gulaab jamun','golab jamun'],
+        'rasmalai':['ras malai','rasmali','ras malay'], 'rasgulla':['rasgula','rasgolla'],
+        'baklava':['baklva','baklawa','baklavah','bakalava'], 'chum chum':['chumchum','chamcham','chum cham'],
+        'akhrot halwa':['akhrot halva','walnut halwa'], 'badam khatai':['badam khatai','badam khatai biscuit'],
+        'cake rusk':['cake rusks','cake rusk biscuit'], 'nankhatai':['nan khatai','nankhatai biscuit'],
+        'kunafa':['kunafeh','knafeh','kanafeh'], 'sohan halwa':['sohan halva']
+    };
+    Object.values(customAliases).flat().forEach(addWords);
+    products.forEach(item => { addWords(item.name || ''); addWords(item.urduName || ''); addWords((item.tags || []).join(' ')); addWords(item.ingredients || ''); });
+
+    function damerauDistance(a, b, cutoff) {
+        if (Math.abs(a.length - b.length) > cutoff) return cutoff + 1;
+        const d = Array.from({length:a.length+1}, () => Array(b.length+1).fill(0));
+        for (let i=0;i<=a.length;i++) d[i][0]=i;
+        for (let j=0;j<=b.length;j++) d[0][j]=j;
+        for (let i=1;i<=a.length;i++) {
+            let rowMin=cutoff+1;
+            for (let j=1;j<=b.length;j++) {
+                const cost=a[i-1]===b[j-1]?0:1;
+                d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+cost);
+                if(i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1]) d[i][j]=Math.min(d[i][j],d[i-2][j-2]+1);
+                if(d[i][j]<rowMin) rowMin=d[i][j];
+            }
+            if(rowMin>cutoff) return cutoff+1;
         }
-        const bakeryLanguage = [
-            'price prices cost costs rate rates qeemat keemat kitna kitne kitnay rupee rupees',
-            'ingredient ingredients made contains contain inside allergy allergen allergic gluten vegan vegetarian halal sugar-free dairy-free',
-            'opening hour hours timing timings open close closing business shop today daily',
-            'branch branches address location located map directions where phone number contact call email whatsapp',
-            'recommend recommendation suggest popular best favourite favorite try first',
-            'menu product products category categories item items available availability stock delivery order ordering payment discount offer fresh',
-            'bakery bake baked baking cake cakes sweet sweets mithai dessert desserts bread pastry pastries biscuit biscuits cookie cookies biscotti rusk rusks halwa halva jamun barfi guldasta pizza burger fries shawarma sandwich panini roll wrap pasta kunafa kunafeh baklava khoya ghee nankhatai khatai rasmalai rasgulla rasgulle chum cham patisa amratti sohan flour dough yeast frosting icing buttercream croissant muffin muffins cupcake cupcakes donut doughnut bun buns tart brownie pie chocolate cocoa cream almond pistachio cardamom syrup',
-            'what whats tell about how much many do you have your please show find give want know details information which is are made from inside can i we does sell selling hours branch call hello hi hey salam assalamualaikum assalamu alaikum aoa thank thanks shukriya jazak'
-        ].join(' ');
-        addCorrectionWords(bakeryLanguage);
-        products.forEach(item => {
-            addCorrectionWords(item.name || '');
-            addCorrectionWords(item.urduName || '');
-            addCorrectionWords((item.tags || []).join(' '));
-            addCorrectionWords(item.ingredients || '');
-        });
+        return d[a.length][b.length];
+    }
+    const vocabByLength = new Map();
+    correctionVocabulary.forEach(word => { const k=word.length; if(!vocabByLength.has(k)) vocabByLength.set(k,[]); vocabByLength.get(k).push(word); });
+    function correctWord(word) {
+        if (word.length < 4 || stopWords.has(word) || correctionVocabulary.has(word)) return word;
+        const maxDistance = word.length >= 8 ? 2 : 1;
+        let best=word, bestD=maxDistance+1, tied=false;
+        for(let len=Math.max(4,word.length-maxDistance);len<=word.length+maxDistance;len++) {
+            for(const candidate of (vocabByLength.get(len)||[])) {
+                if(candidate[0]!==word[0] && word.length<6) continue;
+                const d=damerauDistance(word,candidate,maxDistance);
+                if(d<bestD){best=candidate;bestD=d;tied=false;} else if(d===bestD) tied=true;
+            }
+        }
+        return bestD<=maxDistance&&!tied?best:word;
+    }
+    function autocorrectQuery(value) { return norm(value).split(/\s+/).filter(Boolean).map(correctWord).join(' '); }
 
-        function damerauDistance(a, b, cutoff) {
-            if (Math.abs(a.length - b.length) > cutoff) return cutoff + 1;
-            const d = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
-            for (let i = 0; i <= a.length; i++) d[i][0] = i;
-            for (let j = 0; j <= b.length; j++) d[0][j] = j;
-            for (let i = 1; i <= a.length; i++) {
-                let rowMin = cutoff + 1;
-                for (let j = 1; j <= b.length; j++) {
-                    const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-                    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
-                    if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
-                        d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
-                    }
-                    if (d[i][j] < rowMin) rowMin = d[i][j];
+    function itemAliases(item) {
+        const aliases=[norm(item.name||''), norm(item.urduName||'')];
+        const key=norm(item.name||'');
+        Object.entries(customAliases).forEach(([canonical,list])=>{
+            if(key===norm(canonical) || key.includes(norm(canonical))) aliases.push(...list.map(norm));
+        });
+        return [...new Set(aliases.filter(Boolean))];
+    }
+    const itemsWithAliases = products.map(item=>({item, aliases:itemAliases(item)}));
+    function tokenClose(a,b) {
+        if(a===b) return true;
+        if(Math.min(a.length,b.length)<4) return false;
+        const maxD=Math.min(a.length,b.length)>=8?2:1;
+        return damerauDistance(a,b,maxD)<=maxD;
+    }
+    function specificallyNamedProducts(rawText) {
+        const q=' '+canonicalizeQuery(rawText)+' ';
+        return products.filter(item => itemAliases(item).some(alias => alias.length >= 4 && q.includes(' '+alias+' ')));
+    }
+    function productMatches(rawText) {
+        const q=autocorrectQuery(canonicalizeQuery(rawText));
+        const raw=norm(rawText);
+        const queryTokens=q.split(/\s+/).filter(t=>t.length>2&&!stopWords.has(t));
+        const scores=[];
+        for(const entry of itemsWithAliases) {
+            let best=0;
+            for(const alias of entry.aliases) {
+                if(alias.length>2 && (q.includes(alias) || raw.includes(alias))) best=Math.max(best,120+alias.length);
+                const tokens=alias.split(/\s+/).filter(t=>t.length>2&&!stopWords.has(t));
+                if(!tokens.length) continue;
+                let hits=0, strong=0;
+                for(const token of tokens) {
+                    if(queryTokens.some(qt=>qt===token)){hits++;strong+=token.length>=5?2:1;}
+                    else if(queryTokens.some(qt=>tokenClose(qt,token))){hits++;strong+=token.length>=5?1.25:.5;}
                 }
-                if (rowMin > cutoff) return cutoff + 1;
+                if(hits) best=Math.max(best, hits*4+strong + (hits===tokens.length?2:0));
             }
-            return d[a.length][b.length];
+            if(best>0) scores.push({item:entry.item,score:best});
         }
+        scores.sort((a,b)=>b.score-a.score || (b.item.rating||0)-(a.item.rating||0));
+        const categoryOnly = /\b(pizza|burger|fries|shawarma|sandwich|panini|roll|wrap|biscuit|biscuits|cookie|cookies|halwa|sweets|mithai|baklava|rusk|rusks|cake|cakes|bread|pastry|pastries)\b/i.test(q) && !scores.some(e=>entryNameIsInQuery(e.item,q));
+        if(categoryOnly) return scores.slice(0,8).map(e=>e.item);
+        return scores.slice(0,4).map(e=>e.item);
+    }
+    function entryNameIsInQuery(item,q){ return q.includes(norm(item.name||'')) || (item.urduName&&q.includes(norm(item.urduName))); }
 
-        function correctWord(word) {
-            if (word.length < 4 || correctionVocabulary.has(word)) return word;
-            const maxDistance = word.length >= 8 ? 2 : 1;
-            let bestWord = word;
-            let bestDistance = maxDistance + 1;
-            let tie = false;
-            for (const candidate of correctionVocabulary) {
-                if (candidate === word || Math.abs(candidate.length - word.length) > maxDistance) continue;
-                const distance = damerauDistance(word, candidate, maxDistance);
-                if (distance < bestDistance) {
-                    bestDistance = distance;
-                    bestWord = candidate;
-                    tie = false;
-                } else if (distance === bestDistance) {
-                    tie = true;
-                }
-            }
-            // Correct only clear, close matches; do not guess between equally plausible words.
-            return bestDistance <= maxDistance && !tie ? bestWord : word;
-        }
-
-        function autocorrectQuery(value) {
-            return norm(value).split(/\s+/).filter(Boolean).map(correctWord).join(' ');
-        }
-
-        function productMatches(rawText) {
-            const query = autocorrectQuery(rawText);
-            const queryTokens = new Set(query.split(/\s+/).filter(Boolean));
-            const scores = products.map(item => {
-                const name = norm(item.name);
-                const urduName = norm(item.urduName || '');
-                const tags = norm((item.tags || []).join(' '));
-                const description = norm(item.description || '');
-                if (name && query.includes(name)) return { item, score: 100 + name.length };
-                if (urduName && query.includes(urduName)) return { item, score: 100 + urduName.length };
-
-                // Permit partial matches for distinctive words such as "jamun", "baklava", or "pizza".
-                const tokens = name.split(/\s+/).filter(token => token.length > 2 && !stopWords.has(token));
-                const exactHits = tokens.filter(token => queryTokens.has(token)).length;
-                const phraseHit = tokens.some(token => token.length >= 5 && query.includes(token));
-                let score = exactHits * 4 + (phraseHit ? 2 : 0);
-                if (exactHits && tags.split(/\s+/).some(token => token.length > 3 && queryTokens.has(token))) score += 1;
-                if (!score && queryTokens.size > 1 && description.includes(query)) score = 1;
-                return { item, score };
-            }).filter(entry => entry.score > 0).sort((a, b) => b.score - a.score || (b.item.rating || 0) - (a.item.rating || 0));
-
-            // Avoid returning a whole category when a user asked for one distinctive product.
-            const isCategoryOnly = /\b(pizza|burger|fries|shawarma|sandwich|panini|roll|wrap|biscuit|biscuits|cookie|cookies|halwa|sweets|mithai|baklava|rusk|rusks)\b/i.test(query) && !scores.some(entry => query.includes(norm(entry.item.name)));
-            if (isCategoryOnly) return scores.slice(0, 6).map(entry => entry.item);
-            return scores.slice(0, 4).map(entry => entry.item);
-        }
-
-        function money(item) {
-            const price = Number(item.price);
-            return Number.isFinite(price) ? 'Rs. ' + price.toLocaleString('en-PK') + (item.unit ? ' / ' + item.unit : '') : 'Please contact the branch for the current price.';
-        }
-        function productLine(item, mode) {
-            if (mode === 'price') return `${item.name}: ${money(item)}`;
-            if (mode === 'ingredients') return `${item.name}: ${item.ingredients || 'Ingredients are not listed for this item on the website.'}`;
-            return `${item.name} — ${money(item)}\n${item.description || ''}${item.ingredients ? '\nIngredients: ' + item.ingredients : ''}`;
-        }
-        function getMenuCounts() {
-            const counts = {};
-            products.forEach(item => { counts[item.category] = (counts[item.category] || 0) + 1; });
-            return Object.entries(categoryNames).filter(([key]) => counts[key]).map(([key, title]) => `${title}: ${counts[key]}`).join('\n');
-        }
-        function answer(rawText) {
-            const q = autocorrectQuery(rawText);
-            const rawLower = String(rawText || '').toLowerCase();
-            const isGreeting = /^(hi|hello|hey|salam|assalamualaikum|aoa|good morning|good afternoon|good evening|salam bro|asalam o alaikum|assalam o alaikum)(\s|$|!|\.)/.test(q);
-            const isThanks = includesAny(q, ['thank you','thanks','jazak','shukriya','cheers']);
-            if (!q) return 'Please type a bakery-related question and I’ll try to help.';
-            if (isGreeting) return 'Wa alaikum assalam! 👋 Welcome to Sialkot Sweets. Ask me about our menu, prices, ingredients, opening hours or branches.';
-            if (isThanks) return 'You’re very welcome! 💚 Let me know if you have another Sialkot Sweets or bakery-related question.';
-            if (/\b(help|what can you do|how can you help|support)\b/.test(q)) return 'I can help with the products listed on this website, their prices and listed ingredients, menu categories, opening hours, branch locations and contact information. I can’t answer unrelated questions or confirm live stock/orders.';
-
-            const matches = productMatches(q);
-            const asksPrice = includesAny(q, ['price','prices','cost','how much','rate','rates','qeemat','keemat','kitna','kitne','kitnay','rupee','rupees','rs ','قیمت','قیمتیں','کتنے','کتنی','کتنا','روپے']);
-            const asksIngredients = includesAny(q, ['ingredient','ingredients','made of','made from','contains','contain','what is inside','andar kya','kis cheez','kis se bana','اجزاء','کس سے بنا','کیا شامل']);
-            const asksDietary = includesAny(q, ['allerg','allergy','allergen','gluten free','gluten-free','nut free','nut-free','vegan','vegetarian','halal','sugar free','sugar-free','diabetic','dairy free','dairy-free']);
-            const asksProduct = includesAny(q, ['tell me about','details','description','what is','what are','information about','recommend','suggest','best','popular','which sweet','which product']);
-
-            if (matches.length && asksIngredients) {
-                return matches.map(item => productLine(item, 'ingredients')).join('\n\n');
-            }
-            if (matches.length && asksPrice) {
-                return matches.map(item => productLine(item, 'price')).join('\n');
-            }
-            if (matches.length && asksDietary) {
-                const list = matches.map(item => productLine(item, 'ingredients')).join('\n\n');
-                return `${list}\n\nImportant: this website does not provide verified allergen or dietary certification. Please call ${branches[2].phone} to confirm before ordering.`;
-            }
-            const categoryQuery = includesAny(q, ['pizza','burger','fries','shawarma','sandwich','panini','roll','wrap','biscuits','cookies','halwa','sweets','mithai','baklava','rusk','rusks']);
-            if (matches.length && categoryQuery && matches.length > 2 && !asksPrice && !asksIngredients && !asksDietary && !matches.some(item => q.includes(norm(item.name)))) {
-                return 'Here are some matching items from the menu:\n\n' + matches.map(item => `${item.name} · ${money(item)}`).join('\n') + '\n\nAsk about a specific item for its listed ingredients or more details.';
-            }
-            if (matches.length && (asksProduct || matches.length <= 2)) {
-                return matches.map(item => productLine(item, 'details')).join('\n\n');
-            }
-
-            if (includesAny(q, ['opening hour','opening hours','timing','timings','hours','open now','what time','close','closing time','business hours','khula','band hota','kitnay bajay','kitne bajay','اوقات','کھلتا','بند ہوتا','کس وقت'])) {
-                return 'The website lists daily opening hours as 6:00 AM – 1:00 AM. For confirmation on a particular day, please call 0325 3922121.';
-            }
-            if (includesAny(q, ['branch','branches','address','location','where are','where is','located','map','directions','kahan','kidhar','address','برانچ','پتہ','کہاں','لوکیشن'])) {
-                return 'Sialkot Sweets lists these three Gujranwala branches:\n\n' + branches.map((branch, index) => `${index + 1}. ${branch.name}\n${branch.address}\nPhone: ${branch.phone}`).join('\n\n') + '\n\nCall the relevant branch for directions or confirmation.';
-            }
-            if (includesAny(q, ['phone','phone number','contact','call','email','whatsapp','number','talk to','speak to','رابطہ','فون','ای میل','نمبر'])) {
-                return 'For general enquiries, call 0325 3922121 or email sialkotsweets.org@gmail.com. Branch numbers listed on the website:\n' + branches.map(branch => `${branch.name}: ${branch.phone}`).join('\n');
-            }
-            if (includesAny(q, ['recommend','recommendation','suggest','popular','best sweet','best item','favourite','favorite','what should i try','try first'])) {
-                const preferred = products.filter(item => ['sweets','arabian','halwa','biscuits','cakerusk'].includes(item.category)).sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 4);
-                return 'Here are a few highly rated items from the menu listed on this website:\n\n' + preferred.map(item => `${item.name} · ${item.rating || '—'}★ · ${money(item)}`).join('\n') + '\n\nTell me your preferred type of sweet if you want a more specific suggestion.';
-            }
-            if (includesAny(q, ['menu','all products','all items','what do you sell','what do you have','do you have','list products','show products','categories','available items','mithai','bakery items','show me items','show me the items','show me the menu','products list','مینو','کیا ملتا ہے','کیا دستیاب ہے'])) {
-                return `The menu on this website currently lists ${products.length} items across these categories:\n\n${getMenuCounts()}\n\nAsk for a specific product to see its listed price, description or ingredients. Live stock availability is not shown here.`;
-            }
-            if (asksDietary) {
-                return 'I can show ingredients listed for a specific product, but this website does not provide verified allergen, gluten-free, vegan or halal certification details. Please call 0325 3922121 before ordering if this is important for your dietary needs.';
-            }
-            if (includesAny(q, ['order','ordering','delivery','deliver','home delivery','custom cake','custom order','bulk order','wedding order','stock','in stock','available now','availability','payment','cash on delivery','discount','offer','fresh today','today available','online order','book','buy','purchase'])) {
-                return 'I can share the menu details shown on this website, but I can’t confirm live stock, delivery, custom orders, discounts or payments from this chat. Please call 0325 3922121 or email sialkotsweets.org@gmail.com to confirm directly.';
-            }
-            if (includesAny(q, ['store','storage','store it','keep fresh','freshness','expiry','expire','shelf life','how to keep'])) {
-                return 'Specific storage and expiry guidance isn’t listed in this website’s menu data. For the safest instructions for a particular item, please call 0325 3922121 and ask the branch.';
-            }
-            if (includesAny(q, ['what is desi ghee','what is ghee','desi ghee kya','ghee kya'])) {
-                return 'Desi ghee is clarified butter commonly used to give traditional sweets and baked goods a rich aroma and flavour. The website mentions desi ghee in its heritage and ingredients information; check each product’s listed ingredients or call 0325 3922121 if you need confirmation for a particular item.';
-            }
-            if (includesAny(q, ['what is khoya','khoya kya','what is mawa','mawa kya'])) {
-                return 'Khoya (also called mawa) is a concentrated milk solid used in many traditional South Asian sweets. For the exact ingredients of a Sialkot Sweets product, ask about that item by name or call 0325 3922121.';
-            }
-            if (includesAny(q, ['baking','bake','baked','flour','dough','yeast','frosting','icing','buttercream','pastry','pastries','croissant','muffin','muffins','cupcake','cupcakes','donut','doughnut','bread','bun','buns','tart','brownie','pie','chocolate','cocoa','cream','sugar','almond','pistachio','cardamom','syrup'])) {
-                return 'That’s a bakery-related question! I can help with Sialkot Sweets’ menu, item descriptions and ingredients listed on this website. I don’t have a verified shop-specific answer for that particular topic; ask about a menu item or call 0325 3922121 for more information.';
-            }
-            if (includesAny(q, ['desi ghee','khoya','biscotti','baklava','kunafa','kunafeh','cake rusk','mithai','halwa'])) {
-                const termProduct = productMatches(rawText);
-                if (termProduct.length) return termProduct.map(item => productLine(item, 'details')).join('\n\n');
-                return 'I can help with Sialkot Sweets’ listed bakery items and ingredients. Ask about a specific product from our menu, or call 0325 3922121 for further bakery questions.';
-            }
-
-            const bakeryWords = ['bakery','bake','cake','sweet','sweets','mithai','dessert','desserts','bread','pastry','pastries','biscuit','biscuits','cookie','cookies','biscotti','rusk','rusks','halwa','jamun','barfi','guldasta','pizza','burger','fries','shawarma','sandwich','panini','roll','wrap','pasta','kunafa','baklava','food','menu','price','prices','ingredient','ingredients','branch','branches','opening','hours','contact','order','delivery','khoya','ghee','nankhatai','khatai','rasmalai','rasgulla','rasgulle','chum chum','cham cham','qeemat','keemat','kitna','kitne','kitnay','tortilla','patisa','amratti','sohan','flour','dough','yeast','baking','baked','frosting','icing','buttercream','croissant','muffin','muffins','cupcake','cupcakes','donut','doughnut','bread','bun','buns','tart','brownie','pie','chocolate','cocoa','cream','sugar','almond','pistachio','cardamom','syrup','sell','purchase','buy'];
-            if (includesAny(q, bakeryWords)) {
-                return 'I can help with items and information listed on this website, but I don’t have a confirmed answer for that specific question. Ask me about a product’s listed price or ingredients, our menu, opening hours or branches. For live availability or special requests, call 0325 3922121.';
-            }
-            return 'Sorry, I can only help with Sialkot Sweets and bakery-related questions. 💚 You can ask about our menu, sweets, bakery products, prices, listed ingredients, opening hours or branches.';
-        }
-
-        function addMessage(text, who) {
-            const message = document.createElement('div');
-            message.className = 'ss-chat-message ' + (who === 'user' ? 'user' : 'assistant');
-            message.textContent = text;
-            messages.appendChild(message);
-            messages.scrollTop = messages.scrollHeight;
-            messageCounter += 1;
-            return message;
-        }
-        function showTyping() {
-            const typing = document.createElement('div');
-            typing.className = 'ss-chat-message assistant ss-chat-typing';
-            typing.setAttribute('aria-label', 'Assistant is preparing a response');
-            typing.innerHTML = '<span></span><span></span><span></span>';
-            messages.appendChild(typing);
-            messages.scrollTop = messages.scrollHeight;
-            return typing;
-        }
-        function openChat() {
-            if (isOpen) return;
-            isOpen = true;
-            panel.hidden = false;
-            panel.setAttribute('aria-hidden', 'false');
-            launcher.setAttribute('aria-expanded', 'true');
-            requestAnimationFrame(() => panel.classList.add('is-open'));
-            if (window.matchMedia('(min-width: 641px)').matches) window.setTimeout(() => input.focus({ preventScroll: true }), 260);
-        }
-        function closeChat() {
-            if (!isOpen) return;
-            isOpen = false;
-            panel.classList.remove('is-open');
-            panel.setAttribute('aria-hidden', 'true');
-            launcher.setAttribute('aria-expanded', 'false');
-            window.setTimeout(() => { if (!isOpen) panel.hidden = true; }, 440);
-            launcher.focus({ preventScroll: true });
-        }
-        function submitQuestion(question) {
-            const clean = String(question || '').trim();
-            if (!clean) return;
-            if (pendingTimer) window.clearTimeout(pendingTimer);
-            if (suggestions) suggestions.hidden = true;
-            addMessage(clean, 'user');
-            const typing = showTyping();
-            pendingTimer = window.setTimeout(() => {
-                if (typing.parentNode) typing.parentNode.removeChild(typing);
-                addMessage(answer(clean), 'assistant');
-                pendingTimer = null;
-            }, 320);
-        }
-
-        launcher.addEventListener('click', () => isOpen ? closeChat() : openChat());
-        closeButton.addEventListener('click', closeChat);
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const value = input.value;
-            input.value = '';
-            submitQuestion(value);
+    function money(item) {
+        const price=Number(item.price);
+        return Number.isFinite(price)?'Rs. '+price.toLocaleString('en-PK')+(item.unit?' / '+item.unit:''):'Please contact the branch for the current price.';
+    }
+    const ingredientTranslations = {
+        hi: [
+            ['Pure Desi Ghee','pure desi ghee'],['Desi Ghee','desi ghee'],['Fresh Khoya','taaza khoya'],['Fresh Chenna','taaza chenna'],['Green Cardamom','sabz elaichi'],['Cardamom','elaichi'],['Rose Water','gulab jal'],['Cottage Cheese','cottage cheese/paneer'],['Mozzarella Cheese','mozzarella cheese'],['Danish Cheese','Danish cheese'],['Fresh Dough','fresh dough'],['Sugar','cheeni'],['Milk','doodh'],['Cream','cream'],['Almonds','badam'],['Pistachios','pista'],['Walnuts','akhrot'],['Flour','maida/atta'],['Butter','makhan'],['Eggs','anday'],['Chocolate','chocolate'],['Tomato Sauce','tomato sauce'],['Fresh Potatoes','taazay aloo'],['Chicken','chicken'],['Onion','pyaaz'],['Garlic','lehsan'],['Salt','namak'],['Honey','shehad']
+        ],
+        ur: [
+            ['Pure Desi Ghee','خالص دیسی گھی'],['Desi Ghee','دیسی گھی'],['Fresh Khoya','تازہ کھویا'],['Fresh Chenna','تازہ چھینا'],['Green Cardamom','سبز الائچی'],['Cardamom','الائچی'],['Rose Water','عرقِ گلاب'],['Cottage Cheese','پنیر'],['Mozzarella Cheese','موزریلا چیز'],['Danish Cheese','ڈینش چیز'],['Fresh Dough','تازہ آٹا'],['Sugar','چینی'],['Milk','دودھ'],['Cream','کریم'],['Almonds','بادام'],['Pistachios','پستے'],['Walnuts','اخروٹ'],['Flour','میدہ'],['Butter','مکھن'],['Eggs','انڈے'],['Chocolate','چاکلیٹ'],['Tomato Sauce','ٹماٹر کی چٹنی'],['Fresh Potatoes','تازہ آلو'],['Chicken','چکن'],['Onion','پیاز'],['Garlic','لہسن'],['Salt','نمک'],['Honey','شہد']
+        ]
+    };
+    function translateIngredients(text, lang) {
+        if(!text || lang==='en') return text;
+        let result=String(text);
+        (ingredientTranslations[lang]||[]).slice().sort((a,b)=>b[0].length-a[0].length).forEach(([from,to])=>{
+            result=result.replace(new RegExp(from.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),to);
         });
-        suggestions.addEventListener('click', (event) => {
-            const button = event.target.closest('[data-ss-chat-question]');
-            if (button) submitQuestion(button.getAttribute('data-ss-chat-question'));
-        });
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && isOpen) closeChat();
-        });
-    })();
-    </script>
+        return result;
+    }
+    function productName(item,lang){ return lang==='ur' && item.urduName ? item.urduName+' ('+item.name+')' : item.name; }
+    function productLine(item, mode, lang) {
+        const name=productName(item,lang), l=copy[lang];
+        if(mode==='price') return `${name}: ${l.priceLabel} — ${money(item)}`;
+        if(mode==='ingredients') return `${name}: ${l.ingredientsLabel} — ${item.ingredients ? translateIngredients(item.ingredients,lang) : l.noIngredients}`;
+        const description=item.description||'';
+        const ingredients=item.ingredients ? `\n${l.ingredientsLabel}: ${translateIngredients(item.ingredients,lang)}` : `\n${l.noIngredients}`;
+        return `${name} — ${money(item)}\n${l.descriptionLabel}: ${description}${ingredients}`;
+    }
+    function getMenuCounts(lang) {
+        const counts={}; products.forEach(item=>{counts[item.category]=(counts[item.category]||0)+1;});
+        return Object.keys(categoryNames).filter(key=>counts[key]).map(key=>`${categoryNames[key][lang]}: ${counts[key]}`).join('\n');
+    }
+    function findCategory(q) {
+        const aliases = [
+            ['fastfood',['fast food','fastfood','pizza','burger','fries','shawarma','sandwich','فاسٹ فوڈ','فاسٹ فوڈ']],
+            ['sweets',['traditional sweets','sweets','mithai','meethai','مٹھائی','مٹھائیاں']],
+            ['arabian',['arabian','baklava','kunafa','arabic sweets','عربی مٹھائیاں']],
+            ['halwa',['halwa','halva','halwa jaat','حلوہ','حلوہ جات']],
+            ['biscuits',['biscuit','biscuits','cookie','cookies','khatai','nankhatai','بسکٹ','کھٹائی']],
+            ['cakerusk',['cake rusk','cake rusks','rusk','rusks','کیک رسک']]
+        ];
+        for(const [category,terms] of aliases) if(terms.some(t=>q.includes(norm(t)))) return category;
+        return null;
+    }
+    function categoryItems(category){ return products.filter(item=>item.category===category); }
+    function getProductList(items,lang,limit=8){
+        const shown=items.slice(0,limit).map(item=>`${productName(item,lang)} · ${money(item)}`).join('\n');
+        return shown+(items.length>limit?'\n'+copy[lang].listMore:'');
+    }
+    function hasProductRequest(q) { return includesAny(q,['price','prices','cost','how much','rate','rates','qeemat','keemat','ingredient','ingredients','made of','made from','contains','contain','details','description','what is','what are','information about','tell me about','product','item']); }
+    function isBakeryRelated(q, raw) {
+        if(productMatches(raw).length) return true;
+        const words=['bakery','bake','baking','cake','sweet','mithai','dessert','bread','pastry','biscuit','cookie','biscotti','rusk','halwa','jamun','barfi','guldasta','pizza','burger','fries','shawarma','sandwich','panini','roll','wrap','pasta','kunafa','baklava','food','menu','price','ingredient','branch','opening','hours','contact','order','delivery','khoya','ghee','nankhatai','khatai','rasmalai','rasgulla','chum cham','patisa','amratti','sohan','flour','dough','yeast','frosting','icing','buttercream','croissant','muffin','cupcake','donut','bun','tart','brownie','pie','chocolate','cocoa','cream','sugar','almond','pistachio','cardamom','syrup','sell','purchase','buy','oven','baking powder','baking soda','recipe','fermentation','proofing','gluten','maida','atta','khameer','khoya','mawa','qeemat','keemat','kitna','kitni','ingredients','mithai','ajza','ajzaat','خمیر','بیکری','کیک','مٹھائی','بیکنگ','چینی','قیمت','اجزاء','کھویا','گھی','روٹی','بریڈ','پیسٹری','بسکٹ'];
+        return includesAny(q,words) || /[\u0600-\u06FF]/.test(raw);
+    }
+
+    function generalFaq(q,lang) {
+        const l=copy[lang];
+        if(includesAny(q,['baking powder','baking soda','bicarbonate','baking soda and powder','powder vs soda','soda vs powder'])) return l.powderSoda;
+        if(includesAny(q,['yeast','khameer','khamir','خمیر','proofing','fermentation','ferment'])) return l.yeast;
+        if(includesAny(q,['what is flour','flour type','which flour','maida','atta','گلُوٹن','gluten'])) return l.flour;
+        if(includesAny(q,['cake vs pastry','difference between cake and pastry','cake and pastry difference','cake aur pastry','cake pastry mein farq','کیک اور پیسٹری'])) return l.cakePastry;
+        if(includesAny(q,['eggless','without egg','no egg','anday ke baghair','egg substitute','انڈے کے بغیر'])) return l.eggless;
+        if(includesAny(q,['baking temperature','oven temperature','what temperature','how hot oven','oven kitna','درجہ حرارت','اوون کا درجہ'])) return l.bakeTemp;
+        if(includesAny(q,['storage','store','keep fresh','freshness','expire','expiry','shelf life','how to store','fresh kaise','kaise rakhein','محفوظ','تازہ کیسے'])) return l.storage;
+        if(includesAny(q,['what is desi ghee','what is ghee','desi ghee kya','ghee kya','ghee what is','ghee meaning','دیسی گھی کیا']) || (q.includes('ghee') && includesAny(q,['meaning','define','what is','kya','explain']))) return l.ghee;
+        if(includesAny(q,['what is khoya','khoya kya','what is mawa','mawa kya','khoya what is','mawa what is','khoya meaning','mawa meaning','کھویا کیا','ماوا کیا']) || ((q.includes('khoya')||q.includes('mawa')) && includesAny(q,['meaning','define','what is','kya','explain']))) return l.khoya;
+        if(includesAny(q,['frosting','icing','buttercream','butter cream','cake decoration','کیک کی فراسٹنگ'])) return l.frosting;
+        if(includesAny(q,['ganache','chocolate cream','چاکلیٹ گناش'])) return l.ganache;
+        if(includesAny(q,['cake sink','cake sinking','cake collapse','cake baith','cake baithna','cake beech se','کیک بیٹھ','کیک پچک'])) return l.cakeSinks;
+        if(includesAny(q,['dough not rise','dough not rising','bread not rise','bread dough rise','dough rise nahi','khameer kaam nahi','آٹا نہیں پھول','آٹا نہیں اٹھ'])) return l.doughRise;
+        if(includesAny(q,['cookie spread','cookies spread','biscuit spread','biscuits spread','cookies flat','biscuit phail','بسکٹ پھیل'])) return l.cookiesSpread;
+        if(includesAny(q,['how to make cake','cake recipe','basic cake','cake kaise ban','cake banana','کیک کیسے بن','کیک کی ترکیب'])) return l.basicCake;
+        if(includesAny(q,['difference between','what is','what are','how does','how do','why does','why do','recipe','bake at home','baking tip','baking tips'])) return l.bakeryGeneral;
+        return null;
+    }
+
+    function answer(rawText, lang) {
+        const q=canonicalizeQuery(rawText);
+        const l=copy[lang];
+        if(!q) return l.needQuestion;
+        const greeting=/^(hi|hello|hey|salam|assalamualaikum|aoa|good morning|good afternoon|good evening)(\s|$|!|\.)/.test(q);
+        if(greeting || includesAny(q,['السلام علیکم','assalamualaikum','salam'])) return l.greeting;
+        if(includesAny(q,['thank you','thanks','jazak','shukriya','cheers','شکریہ'])) return l.thanks;
+        if(includesAny(q,['help','what can you do','how can you help','support','madad','مدد'])) return l.help;
+
+        const qWithTypos=autocorrectQuery(q);
+        const qForIntents=norm(qWithTypos);
+        const matches=productMatches(rawText);
+        const namedMatches=specificallyNamedProducts(rawText);
+        const asksPrice=includesAny(qForIntents,['price','prices','cost','how much','rate','rates','qeemat','keemat','rupee','rupees','rs ','قیمت','دام']);
+        const asksIngredients=includesAny(qForIntents,['ingredient','ingredients','made of','made from','contains','contain','what is inside','andar kya','kis cheez','kis se bana','ajza','ajzaat','اجزاء','اجزا']);
+        const asksDietary=includesAny(qForIntents,['allerg','allergy','allergen','gluten free','gluten-free','nut free','nut-free','vegan','vegetarian','halal','sugar free','sugar-free','diabetic','dairy free','dairy-free','حلال','الرجی']);
+        const asksHours=includesAny(qForIntents,['opening hour','opening hours','timing','timings','hours','open now','what time','close','closing time','business hours','khula','band hota','kitnay bajay','kitne bajay','waqt','اوقات','کھلتا','بند ہوتا','کس وقت']);
+        const asksBranches=includesAny(qForIntents,['branch','branches','address','location','where are','where is','located','map','directions','kahan','kidhar','برانچ','پتہ','کہاں','لوکیشن']);
+        const asksContact=includesAny(qForIntents,['phone','phone number','contact','call','email','whatsapp','number','talk to','speak to','rabta','raabta','رابطہ','فون','ای میل','نمبر']);
+        const asksRecommend=includesAny(qForIntents,['recommend','recommendation','suggest','popular','best sweet','best item','favourite','favorite','what should i try','try first','mashhoor','suggestion','kaunsi achi','kaunsa acha','اچھی مٹھائی','مشورہ']);
+        const asksMenu=includesAny(qForIntents,['menu','all products','all items','what do you sell','what do you have','do you have','list products','show products','categories','available items','mithai','bakery items','show me items','show me the items','show me the menu','products list','مینو','کیا ملتا ہے','کیا دستیاب ہے']);
+        const category=findCategory(qForIntents);
+
+        if(asksHours) return l.opening;
+        if(asksBranches) return l.branchesIntro+'\n\n'+branches.map((b,i)=>`${i+1}. ${b.name}\n${b.address}\n${lang==='ur'?'فون':lang==='hi'?'Phone':'Phone'}: ${b.phone}`).join('\n\n')+'\n\n'+l.branchesEnd;
+        if(asksContact) return l.contact+'\n'+branches.map(b=>`${b.name}: ${b.phone}`).join('\n');
+
+        const genericProductType = ['pizza','burger','fries','shawarma','sandwich','biscuit','biscuits','cookie','cookies','halwa','sweets','mithai','baklava','rusk','rusks','pastry','pastries'].some(term=>qForIntents.includes(term));
+        const productAnswerMatches = namedMatches.length ? namedMatches : (genericProductType ? matches : []);
+        if(productAnswerMatches.length && asksIngredients) return productAnswerMatches.slice(0,3).map(item=>productLine(item,'ingredients',lang)).join('\n\n');
+        if(productAnswerMatches.length && asksPrice) return productAnswerMatches.slice(0,4).map(item=>productLine(item,'price',lang)).join('\n');
+        if(productAnswerMatches.length && asksDietary) return productAnswerMatches.slice(0,3).map(item=>productLine(item,'ingredients',lang)).join('\n\n')+'\n\n'+l.dietary;
+
+        if(asksRecommend) {
+            let preferred=products.filter(item=>['sweets','arabian','halwa','biscuits','cakerusk'].includes(item.category)).sort((a,b)=>(b.rating||0)-(a.rating||0)).slice(0,4);
+            if(!preferred.length) preferred=products.slice(0,4);
+            return l.recommendIntro+'\n\n'+preferred.map(item=>`${productName(item,lang)} · ${item.rating||'—'}★ · ${money(item)}`).join('\n')+'\n\n'+l.recommendEnd;
+        }
+        if(asksMenu) return l.menuIntro(products.length)+'\n\n'+getMenuCounts(lang)+'\n\n'+l.menuEnd;
+
+        if(category && (includesAny(qForIntents,['all','list','show','menu','what','which','items','products','options','sare','sab','tamam','listado','کون سے','تمام','دکھائیں']) || !matches.length)) {
+            const list=categoryItems(category);
+            if(list.length) return l.categoryIntro+'\n\n'+getProductList(list,lang,10)+'\n\n'+l.categoryEnd;
+        }
+
+        if(namedMatches.length && asksProductIntent(qForIntents)) return namedMatches.slice(0,3).map(item=>productLine(item,'details',lang)).join('\n\n');
+        if(namedMatches.length && namedMatches[0] && !category) return namedMatches.slice(0,2).map(item=>productLine(item,'details',lang)).join('\n\n');
+        if(asksDietary) return l.dietary;
+        if(includesAny(qForIntents,['order','ordering','delivery','deliver','home delivery','custom cake','custom order','bulk order','wedding order','stock','in stock','available now','availability','payment','cash on delivery','discount','offer','fresh today','today available','online order','book','buy','purchase','delivery charges','deliver karte','delivery hai','order karna','آرڈر','ڈیلیوری'])) return l.order;
+
+        const faq=generalFaq(qForIntents,lang);
+        if(faq) return faq;
+        if(includesAny(qForIntents,['bakery','bake','baking','cake','sweet','mithai','dessert','bread','pastry','biscuit','cookie','biscotti','rusk','halwa','jamun','barfi','guldasta','pizza','burger','fries','shawarma','sandwich','panini','roll','wrap','pasta','kunafa','baklava','food','menu','price','ingredient','flour','dough','yeast','recipe','frosting','icing','buttercream','croissant','muffin','cupcake','donut','bun','tart','brownie','pie','chocolate','cocoa','cream','sugar','almond','pistachio','cardamom','syrup','khoya','ghee','oven','bread','gluten','maida','atta','proofing','fermentation','baking powder','baking soda','khameer','khoya','mawa','مٹھائی','بیکری','کیک','بیکنگ'])) return l.bakeryGeneral;
+        return l.offTopic;
+    }
+    function asksProductIntent(q){ return includesAny(q,['price','prices','cost','how much','rate','ingredient','ingredients','made of','made from','details','description','what is','what are','information','tell me','product','item','price','qeemat','keemat']); }
+
+    function addMessage(text, who, lang='en') {
+        const message=document.createElement('div');
+        message.className='ss-chat-message '+(who==='user'?'user':'assistant');
+        if (/^[\s\S]*[\u0600-\u06FF]/.test(text) && lang==='ur') message.setAttribute('dir','rtl');
+        else message.setAttribute('dir','auto');
+        message.lang=lang==='ur'?'ur':lang==='hi'?'en-PK':'en';
+        message.textContent=text;
+        messages.appendChild(message);
+        messages.scrollTop=messages.scrollHeight;
+        return message;
+    }
+    function showTyping(lang) {
+        const typing=document.createElement('div');
+        typing.className='ss-chat-message assistant ss-chat-typing';
+        typing.setAttribute('aria-label',lang==='ur'?'جواب تیار کیا جا رہا ہے':lang==='hi'?'Jawab tayyar ho raha hai':'Assistant is preparing a response');
+        typing.innerHTML='<span></span><span></span><span></span>';
+        messages.appendChild(typing); messages.scrollTop=messages.scrollHeight; return typing;
+    }
+    function renderLanguage(lang, announce) {
+        const l=copy[lang]||copy.en;
+        document.getElementById('ss-chat-subtitle').textContent=l.subtitle;
+        languageLabel.textContent=l.language; languageSelect.setAttribute('aria-label',l.language);
+        input.placeholder=l.placeholder; input.setAttribute('aria-label',l.inputLabel);
+        document.getElementById('ss-chat-send').setAttribute('aria-label',l.send);
+        document.getElementById('ss-chat-send').title=l.send;
+        closeButton.setAttribute('aria-label',l.close); closeButton.title=l.close;
+        launcher.setAttribute('aria-label',lang==='ur'?'سیالکوٹ سویٹس چیٹ کھولیں':lang==='hi'?'Sialkot Sweets chat kholein':'Open Sialkot Sweets chat');
+        const launcherLabel=launcher.querySelector('.ss-chat-launcher-label'); if(launcherLabel) launcherLabel.textContent=l.launcherLabel;
+        const btns=suggestions ? [...suggestions.querySelectorAll('[data-ss-chat-label]')] : [];
+        const labels={popular:l.popular,hours:l.hoursChip,branches:l.branchesChip,menu:l.menuChip};
+        btns.forEach(btn=>{const key=btn.getAttribute('data-ss-chat-label');if(labels[key])btn.textContent=labels[key];});
+        if(!chatHasUserMessages && welcome) welcome.textContent=l.welcome;
+        else if(announce) addMessage(l.languageChanged,'assistant',lang);
+        widget.setAttribute('lang',lang==='ur'?'ur':lang==='hi'?'en-PK':'en');
+    }
+    function openChat(){
+        if(isOpen)return; isOpen=true; panel.hidden=false; panel.setAttribute('aria-hidden','false'); launcher.setAttribute('aria-expanded','true');
+        requestAnimationFrame(()=>panel.classList.add('is-open'));
+        if(window.matchMedia('(min-width: 641px)').matches) window.setTimeout(()=>input.focus({preventScroll:true}),260);
+    }
+    function closeChat(){
+        if(!isOpen)return; isOpen=false; panel.classList.remove('is-open'); panel.setAttribute('aria-hidden','true'); launcher.setAttribute('aria-expanded','false');
+        window.setTimeout(()=>{if(!isOpen)panel.hidden=true;},440); launcher.focus({preventScroll:true});
+    }
+    function submitQuestion(question){
+        const clean=String(question||'').trim(); if(!clean)return;
+        if(pendingTimer)window.clearTimeout(pendingTimer);
+        if(suggestions)suggestions.hidden=true;
+        chatHasUserMessages=true;
+        const lang=responseLanguage(clean);
+        const inputLang=detectTypedLanguage(clean);
+        addMessage(clean,'user',inputLang==='ur'?'ur':inputLang==='hi'?'hi':lang);
+        const typing=showTyping(lang);
+        pendingTimer=window.setTimeout(()=>{
+            if(typing.parentNode)typing.parentNode.removeChild(typing);
+            addMessage(answer(clean,lang),'assistant',lang); pendingTimer=null;
+        },220);
+    }
+
+    renderLanguage('en',false);
+    languageSelect.value='en';
+    languageSelect.addEventListener('change',()=>{
+        preferredLanguage=['en','hi','ur'].includes(languageSelect.value)?languageSelect.value:'en';
+        renderLanguage(preferredLanguage,chatHasUserMessages);
+    });
+    launcher.addEventListener('click',()=>isOpen?closeChat():openChat());
+    closeButton.addEventListener('click',closeChat);
+    form.addEventListener('submit',event=>{event.preventDefault();const value=input.value;input.value='';submitQuestion(value);});
+    if(suggestions) suggestions.addEventListener('click',event=>{const btn=event.target.closest('[data-ss-chat-question]');if(btn)submitQuestion(btn.getAttribute('data-ss-chat-question'));});
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&isOpen)closeChat();});
+})();
+</script>
 
 </body>
 </html>
