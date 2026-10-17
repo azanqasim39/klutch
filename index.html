@@ -400,15 +400,9 @@
         }
 
     
-        /* Trilingual chat controls; isolated to the chatbot only. */
-        .ss-chat-language-row { display:flex; align-items:center; justify-content:flex-end; gap:8px; margin:0 2px 8px; }
-        .ss-chat-language-label { color:rgba(236,253,245,.72); font:600 10px/1.3 Inter,ui-sans-serif,sans-serif; }
-        #ss-chat-language { max-width:140px; min-width:112px; padding:6px 24px 6px 9px; border:1px solid rgba(253,224,71,.28); border-radius:10px; background:rgba(255,255,255,.09); color:#fff6d5; font:600 10px/1.3 Inter,ui-sans-serif,sans-serif; outline:none; cursor:pointer; }
-        #ss-chat-language:focus-visible { outline:2px solid #fcd34d; outline-offset:2px; }
-        #ss-chat-language option { color:#17352c; background:#f8fafc; }
+        /* Correct right-to-left text rendering for Urdu responses. */
         .ss-chat-message[dir="rtl"] { text-align:right; direction:rtl; }
         .ss-chat-message[dir="rtl"] .ss-chat-suggestions { justify-content:flex-start; }
-        @media (max-width:480px) { #ss-chat-language { min-width:104px; } }
 </style>
 </head>
 <body class="bg-stone-50 text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-900" x-data="sialkotSweetsApp()">
@@ -2435,14 +2429,6 @@
                 </div>
             </div>
             <div class="ss-chat-input-area">
-                <div class="ss-chat-language-row">
-                    <label class="ss-chat-language-label" for="ss-chat-language" id="ss-chat-language-label">Language</label>
-                    <select id="ss-chat-language" aria-label="Chat language">
-                        <option value="en" selected>English</option>
-                        <option value="hi">Hinglish</option>
-                        <option value="ur">اردو</option>
-                    </select>
-                </div>
                 <form id="ss-chat-form" class="ss-chat-form" autocomplete="off">
                     <input id="ss-chat-input" type="text" name="question" maxlength="500" placeholder="Ask about our bakery…" aria-label="Ask a bakery question" required>
                     <button id="ss-chat-send" type="submit" aria-label="Send message" title="Send message">
@@ -2474,15 +2460,15 @@
     const form = document.getElementById('ss-chat-form');
     const input = document.getElementById('ss-chat-input');
     const suggestions = document.getElementById('ss-chat-suggestions');
-    const languageSelect = document.getElementById('ss-chat-language');
-    const languageLabel = document.getElementById('ss-chat-language-label');
     const welcome = document.getElementById('ss-chat-welcome');
-    if (!panel || !launcher || !closeButton || !messages || !form || !input || !languageSelect) return;
+    if (!panel || !launcher || !closeButton || !messages || !form || !input) return;
 
     let isOpen = false;
     let pendingTimer = null;
     let chatHasUserMessages = false;
-    let preferredLanguage = 'en'; // English is the default by design.
+    let lastDetectedLanguage = 'en'; // English is the initial default.
+    let lastMentionedProduct = null;
+    let lastMentionedCategory = null;
 
     // Use the menu data already embedded in this HTML; no API/network calls are made.
     let products = [];
@@ -2527,7 +2513,7 @@
             menuEnd:'Ask for a product name to see its listed price, description or ingredients. Live stock availability is not shown here.',
             categoryIntro:'Here are the matching items listed on the menu:',
             categoryEnd:'Prices are the ones currently shown on this website; please call to confirm current pricing and availability.',
-            priceLabel:'Listed price', ingredientsLabel:'Ingredients listed on the website', descriptionLabel:'Description listed on the website (kept in its original wording)',
+            priceLabel:'Listed price', priceOptionsLabel:'Available sizes and prices', ingredientsLabel:'Ingredients listed on the website', descriptionLabel:'Description listed on the website (kept in its original wording)', nutritionInfo:'Verified nutrition and calorie values are not listed on this website, so I should not guess them. Please contact the branch for product-specific information.',
             noIngredients:'Ingredients are not listed for this item on the website.',
             dietary:'I can show the ingredients listed for a product, but the website does not provide verified allergen, gluten-free, vegan or halal certification details. Please call 0325 3922121 before ordering if this matters for your dietary needs.',
             order:'I can share the menu details shown on this website, but I can’t confirm live stock, delivery, custom orders, discounts or payments from this chat. Please call 0325 3922121 or email sialkotsweets.org@gmail.com to confirm directly.',
@@ -2546,6 +2532,21 @@
             doughRise:'If dough is not rising, the yeast may be inactive, the liquid may have been too hot or cold, or the room may be too cool. Give it time in a comfortably warm place and check the yeast expiry date.',
             cookiesSpread:'Cookies may spread too much when the butter is too warm, the dough is warm, there is too little flour, or the baking tray is hot. Chilling dough can help, depending on the recipe.',
             basicCake:'For a basic cake, follow a tested recipe: prepare the pan, preheat the oven as directed, measure ingredients accurately, mix only as instructed, and check doneness with a skewer. Ratios and baking time vary by recipe and pan.',
+            cakeDry:"A dry cake is often caused by overbaking, too much flour, too little fat or liquid, or inaccurate measuring. Check oven temperature and bake only until a skewer comes out with a few moist crumbs; follow the recipe's measurements.",
+            cakeDense:"A dense cake can result from overmixing after adding flour, old or insufficient leavening, incorrect ingredient ratios, or opening the oven too early. Measure accurately and mix only as directed.",
+            breadDense:"Dense bread often means the dough did not proof enough, the yeast was inactive, too much flour was added, or the loaf was underbaked. Check yeast freshness and let the dough rise until visibly puffy, not only by the clock.",
+            cookiesSoft:"To keep cookies soft, store them in an airtight container after they cool. To keep them crisp, let them cool completely and store them in a dry, airtight container; humidity makes crisp cookies soften.",
+            sourdough:"Sourdough uses a starter containing wild yeast and lactic-acid bacteria instead of relying only on commercial yeast. The starter needs regular feeding, and fermentation time varies with room temperature and starter activity.",
+            glutenInfo:"Gluten is a network of proteins formed mainly when wheat flour is mixed with water. It gives many breads stretch and structure. Anyone with coeliac disease or a gluten-related medical need should rely on verified ingredients and cross-contact information, not guesses.",
+            creamWhip:"Cream usually whips best when it has enough fat and is very cold, along with a chilled bowl and beaters. Low-fat cream may not whip well. Stop when peaks form; overwhipping can make it grainy and eventually turn it into butter.",
+            pizzaDough:"For pizza dough, measure flour and water accurately, knead until elastic, and allow enough fermentation time. Warm conditions speed fermentation. Avoid adding too much extra flour while kneading, which can make the crust hard.",
+            breadFresh:"Let fresh bread cool before storing so trapped steam does not make it soggy. A paper bag can help preserve a crust; an airtight bag helps retain softness. Freeze extra bread for longer storage, and follow food-safety guidance for fillings.",
+            measureIngredients:"For reliable baking, use a digital scale by weight when possible, level dry ingredients, and measure liquids in a suitable jug. Do not pack flour unless the recipe says so, and measure leavening agents carefully.",
+            chocolateBloom:"A white or grey film on chocolate is often bloom: cocoa butter or sugar has moved to the surface after temperature changes or moisture. It can affect appearance and texture but does not by itself prove spoilage. If unsure, check smell, storage and expiry information.",
+            pastryFlaky:"Flaky pastry depends on keeping the fat cool and creating distinct layers. Handle dough gently, avoid adding too much extra flour, rest or chill it when the recipe asks, and ensure the oven is fully preheated.",
+            butterOil:"Butter adds flavour and can help structure when creamed with sugar; oil stays liquid and can make cakes feel moist. They behave differently, so substituting one for the other can change texture and usually is not a simple equal swap.",
+            brownie:"Fudgy brownies are usually not overbaked and have a higher proportion of fat or chocolate to flour; cakey brownies often use more flour or leavening, or more aeration. Follow the recipe and let brownies cool before cutting.",
+            preheat:"Preheating brings the oven to the target temperature before baking, helping products rise and set predictably. Let the oven finish preheating rather than relying only on the indicator light.",
             bakeryGeneral:'That’s a bakery-related question. I can explain general baking concepts and share what this website lists about Sialkot Sweets’ products. I don’t have verified shop-specific information for that exact detail, so please ask about a menu item or call 0325 3922121.',
             offTopic:'Sorry, I can only help with Sialkot Sweets, our menu and bakery-related questions. 💚 Try asking about a sweet, cake, ingredient, price, baking tip, opening hours or branch.',
             noProducts:'I couldn’t match that to a specific item on the current menu. Please try the product’s name, a shorter spelling, or ask for the menu/category list.',
@@ -2571,7 +2572,7 @@
             menuEnd:'Kisi product ka naam poochhein to listed price, description ya ingredients bata sakta hoon. Live stock yahan show nahi hota.',
             categoryIntro:'Menu mein yeh matching items listed hain:',
             categoryEnd:'Yeh website par listed prices hain. Current price aur availability ke liye branch se confirm karein.',
-            priceLabel:'Website par listed qeemat', ingredientsLabel:'Website par listed ingredients', descriptionLabel:'Website par listed description (original wording mein)',
+            priceLabel:'Website par listed qeemat', priceOptionsLabel:'Available sizes aur unki prices', ingredientsLabel:'Website par listed ingredients', descriptionLabel:'Website ki listed description (jahan mumkin ho local terms translate kiye gaye hain)', nutritionInfo:'Is website par verified nutrition ya calories ki values listed nahi hain, is liye main guess nahi karunga. Exact product ke liye branch se confirm karein.',
             noIngredients:'Is item ke ingredients website par listed nahi hain.',
             dietary:'Main website par listed ingredients dikha sakta hoon, lekin verified allergy, gluten-free, vegan ya halal certification ki information nahi hai. Dietary concern ho to order se pehle 0325 3922121 par confirm karein.',
             order:'Website ke menu details share kar sakta hoon, lekin live stock, delivery, custom order, discount ya payment confirm nahi kar sakta. Confirm karne ke liye 0325 3922121 par call karein ya sialkotsweets.org@gmail.com par email karein.',
@@ -2590,6 +2591,21 @@
             doughRise:'Agar dough rise nahi ho raha to yeast inactive ho sakta hai, liquid bohat garam ya thanda ho sakta hai, ya jagah thandi ho sakti hai. Dough ko munasib warm jagah par waqt dein aur yeast ki expiry check karein.',
             cookiesSpread:'Cookies zyada phail sakti hain agar butter bohat soft ho, dough garam ho, flour kam ho ya baking tray pehle se garam ho. Recipe ke mutabiq dough chill karna madad kar sakta hai.',
             basicCake:'Basic cake ke liye tested recipe follow karein: pan tayyar karein, oven recipe ke mutabiq preheat karein, ingredients sahi measure karein, mixing instructions follow karein aur skewer se doneness check karein. Ratios aur time recipe aur pan ke mutabiq badalte hain.',
+            cakeDry:"Cake dry ho to aksar wajah overbaking, maida zyada, fat/liquid kam, ya ingredients ko inaccurate measure karna hoti hai. Oven temperature check karein aur cake ko recipe ke mutabiq bake karein; skewer par kuch moist crumbs aana aksar theek sign hota hai.",
+            cakeDense:"Cake dense ho sakta hai agar flour dalne ke baad batter zyada mix ho, raising agent purana ya kam ho, ingredients ka ratio galat ho, ya oven jaldi khola jaye. Measurements sahi rakhein aur recipe ki mixing instructions follow karein.",
+            breadDense:"Bread heavy ya dense ho to dough ko proofing ka waqt kam mila ho, yeast inactive ho, flour zyada dala gaya ho, ya loaf underbaked ho sakta hai. Yeast ki freshness check karein aur dough ko visibly phoolne dein.",
+            cookiesSoft:"Cookies soft rakhne ke liye thanda hone ke baad airtight container mein rakhein. Crispy cookies ke liye unhein poori tarah cool karein aur dry airtight container mein rakhein; humidity se crispy cookies naram ho jati hain.",
+            sourdough:"Sourdough bread ek starter se banti hai jisme wild yeast aur lactic-acid bacteria hote hain; sirf commercial yeast par depend nahi karti. Starter ko regularly feed karna hota hai, aur fermentation ka waqt temperature aur starter ki activity par depend karta hai.",
+            glutenInfo:"Gluten proteins ka network hai jo wheat flour pani ke saath milne par banta hai. Ye kai breads ko stretch aur structure deta hai. Celiac disease ya gluten-related medical need ho to verified ingredients aur cross-contact information zaroor check karein.",
+            creamWhip:"Cream achhi tarah whip karne ke liye high-fat cream ko bohat thanda rakhein, aur bowl/beaters bhi chilled hon. Low-fat cream aksar achhi whip nahi hoti. Peaks banne par ruk jaayein; zyada whip karne se cream grainy ho kar butter ban sakti hai.",
+            pizzaDough:"Pizza dough ke liye flour aur pani sahi measure karein, dough ko elastic hone tak knead karein aur fermentation ka kaafi waqt dein. Garam jagah par fermentation tez hoti hai. Kneading ke dauran bohat extra flour na daalein warna crust hard ho sakti hai.",
+            breadFresh:"Fresh bread ko store karne se pehle cool hone dein taa-ke steam se bread soggy na ho. Crust ke liye paper bag aur softness ke liye airtight bag madad kar sakta hai. Extra bread ko zyada arsay ke liye freeze kar sakte hain; filled items ke food-safety rules follow karein.",
+            measureIngredients:"Reliable baking ke liye mumkin ho to digital scale se weight measure karein, dry ingredients ko level karein aur liquids ke liye suitable jug use karein. Flour ko tabhi pack karein jab recipe kahe, aur baking powder/soda ko carefully measure karein.",
+            chocolateBloom:"Chocolate par safed ya grey layer aksar bloom hoti hai: temperature change ya moisture ki wajah se cocoa butter ya sugar surface par aa jati hai. Is se look/texture badal sakte hain, lekin sirf safed layer spoilage ka proof nahi. Doubt ho to smell, storage aur expiry check karein.",
+            pastryFlaky:"Flaky pastry ke liye fat ko thanda rakhna aur layers ko alag banana zaroori hota hai. Dough ko gently handle karein, extra flour zyada na daalein, recipe ke mutabiq rest/chill karein aur oven ko pehle se poori tarah preheat karein.",
+            butterOil:"Butter flavour deta hai aur sugar ke saath cream karne par structure mein madad karta hai; oil liquid rehta hai aur cake ko moist feel de sakta hai. Dono ka effect alag hota hai, is liye equal quantity mein replace karne se texture badal sakta hai.",
+            brownie:"Fudgy brownies aam tor par zyada bake nahi ki jatin aur in mein fat/chocolate ka ratio flour se zyada hota hai; cakey brownies mein flour ya leavening zyada ho sakti hai. Recipe follow karein aur cut karne se pehle brownies cool hone dein.",
+            preheat:"Oven preheat karne se baking shuru hone se pehle target temperature milta hai, jis se item ka rise aur set hona consistent hota hai. Sirf indicator light par depend na karein; oven ko poori tarah preheat hone dein.",
             bakeryGeneral:'Yeh bakery se related sawal hai. Main general baking concepts samjha sakta hoon aur Sialkot Sweets ki website par listed information bata sakta hoon. Is exact baat ki shop-specific verified info nahi hai; menu item poochhein ya 0325 3922121 par call karein.',
             offTopic:'Maaf kijiye, main sirf Sialkot Sweets, hamare menu aur bakery se related sawalon mein madad kar sakta hoon. 💚 Mithai, cake, ingredients, qeemat, baking tip, timings ya branch ke baare mein poochhein.',
             noProducts:'Mujhe current menu mein is naam ka specific item nahi mila. Product ka naam, chhoti spelling ya menu/category poochh kar try karein.',
@@ -2615,7 +2631,7 @@
             menuEnd:'کسی آئٹم کی درج شدہ قیمت، تفصیل یا اجزاء کے لیے اس کا نام پوچھیں۔ لائیو اسٹاک یہاں دستیاب نہیں۔',
             categoryIntro:'مینو میں یہ متعلقہ آئٹمز درج ہیں:',
             categoryEnd:'یہ ویب سائٹ پر درج قیمتیں ہیں۔ موجودہ قیمت اور دستیابی برانچ سے تصدیق کریں۔',
-            priceLabel:'ویب سائٹ پر درج قیمت', ingredientsLabel:'ویب سائٹ پر درج اجزاء', descriptionLabel:'ویب سائٹ پر درج تفصیل (اصل عبارت میں)',
+            priceLabel:'ویب سائٹ پر درج قیمت', priceOptionsLabel:'دستیاب سائز اور قیمتیں', ingredientsLabel:'ویب سائٹ پر درج اجزاء', descriptionLabel:'ویب سائٹ پر درج تفصیل (جہاں ممکن ہو مقامی اصطلاحات کا ترجمہ کیا گیا ہے)', nutritionInfo:'ویب سائٹ پر تصدیق شدہ غذائی معلومات یا کیلوریز درج نہیں ہیں، اس لیے میں اندازہ نہیں لگاؤں گا۔ درست معلومات کے لیے متعلقہ برانچ سے رابطہ کریں۔',
             noIngredients:'اس آئٹم کے اجزاء ویب سائٹ پر درج نہیں ہیں۔',
             dietary:'میں درج شدہ اجزاء دکھا سکتا ہوں، لیکن ویب سائٹ پر الرجی، گلوٹن فری، ویگن یا حلال سرٹیفیکیشن کی تصدیق موجود نہیں۔ غذائی مسئلہ ہو تو آرڈر سے پہلے 0325 3922121 پر تصدیق کریں۔',
             order:'میں ویب سائٹ کے مینو کی معلومات دے سکتا ہوں، لیکن لائیو اسٹاک، ڈیلیوری، خصوصی آرڈر، رعایت یا ادائیگی کی تصدیق نہیں کر سکتا۔ براہِ کرم 0325 3922121 پر کال کریں یا ای میل کریں۔',
@@ -2634,6 +2650,21 @@
             doughRise:'اگر آٹا نہیں پھول رہا تو خمیر غیر فعال ہو سکتا ہے، مائع بہت گرم یا ٹھنڈا ہو سکتا ہے، یا جگہ ٹھنڈی ہو سکتی ہے۔ آٹے کو مناسب گرم جگہ پر وقت دیں اور خمیر کی میعاد چیک کریں۔',
             cookiesSpread:'بسکٹ زیادہ پھیل سکتے ہیں اگر مکھن بہت نرم ہو، آٹا گرم ہو، میدہ کم ہو یا ٹرے پہلے سے گرم ہو۔ ترکیب کے مطابق آٹے کو ٹھنڈا کرنا مدد دے سکتا ہے۔',
             basicCake:'بنیادی کیک کے لیے آزمودہ ترکیب پر عمل کریں: پین تیار کریں، اوون کو ہدایت کے مطابق گرم کریں، اجزاء درست ناپیں، مکس کرنے کی ہدایات پر عمل کریں، اور سیخ سے کیک کے پکنے کا جائزہ لیں۔ مقدار اور وقت ترکیب کے مطابق بدلتے ہیں۔',
+            cakeDry:"کیک خشک ہو تو اس کی عام وجوہات زیادہ دیر بیک کرنا، میدہ زیادہ ہونا، چکنائی یا مائع کم ہونا، یا اجزاء غلط ناپنا ہیں۔ اوون کا درجہ حرارت چیک کریں اور ترکیب کے مطابق بیک کریں؛ سیخ پر چند نم ذرات آنا اکثر مناسب علامت ہے۔",
+            cakeDense:"کیک بھاری یا گھنا اس وقت ہو سکتا ہے جب میدہ ڈالنے کے بعد بیٹر زیادہ مکس کیا جائے، بیکنگ پاؤڈر پرانا یا کم ہو، اجزاء کا تناسب غلط ہو، یا اوون جلد کھول دیا جائے۔ اجزاء درست ناپیں اور ترکیب کے مطابق مکس کریں۔",
+            breadDense:"بریڈ گھنی ہو تو آٹے کو پھولنے کے لیے کم وقت ملا ہو، خمیر غیر فعال ہو، میدہ زیادہ ڈالا گیا ہو، یا بریڈ پوری نہ پکی ہو۔ خمیر کی تازگی چیک کریں اور آٹے کو واضح طور پر پھولنے دیں۔",
+            cookiesSoft:"بسکٹ نرم رکھنے کے لیے ٹھنڈے ہونے کے بعد انہیں ہوا بند ڈبے میں رکھیں۔ خستہ بسکٹ کے لیے مکمل ٹھنڈا کریں اور خشک، ہوا بند ڈبے میں رکھیں؛ نمی سے خستہ بسکٹ نرم ہو جاتے ہیں۔",
+            sourdough:"ساور ڈو بریڈ ایک اسٹارٹر سے بنتی ہے جس میں قدرتی خمیر اور لیکٹک ایسڈ بیکٹیریا ہوتے ہیں؛ یہ صرف عام تجارتی خمیر پر منحصر نہیں ہوتی۔ اسٹارٹر کو باقاعدگی سے خوراک دینا ہوتی ہے، جبکہ خمیر اٹھنے کا وقت درجہ حرارت اور اسٹارٹر کی سرگرمی پر منحصر ہے۔",
+            glutenInfo:"گلوٹن پروٹین کا ایک جال ہے جو عموماً گندم کے آٹے کو پانی سے ملانے پر بنتا ہے۔ یہ کئی اقسام کی بریڈ کو لچک اور ساخت دیتا ہے۔ سیلیک بیماری یا گلوٹن سے متعلق طبی ضرورت ہو تو تصدیق شدہ اجزاء اور کراس کانٹیکٹ کی معلومات پر انحصار کریں۔",
+            creamWhip:"کریم بہتر پھینٹنے کے لیے اس میں مناسب چکنائی ہونی چاہیے اور اسے اچھی طرح ٹھنڈا ہونا چاہیے؛ پیالہ اور بیٹر بھی ٹھنڈے ہوں تو بہتر ہے۔ کم چکنائی والی کریم اچھی طرح نہیں پھینٹ سکتی۔ چوٹی بننے پر رک جائیں، ورنہ کریم دانے دار ہو کر مکھن بن سکتی ہے۔",
+            pizzaDough:"پیزا ڈو کے لیے میدہ اور پانی درست ناپیں، آٹے کو لچکدار ہونے تک گوندھیں اور خمیر اٹھنے کے لیے کافی وقت دیں۔ گرم ماحول میں یہ عمل تیز ہوتا ہے۔ گوندھتے وقت بہت زیادہ اضافی میدہ نہ ڈالیں، ورنہ کرسٹ سخت ہو سکتی ہے۔",
+            breadFresh:"تازہ بریڈ کو محفوظ کرنے سے پہلے ٹھنڈا ہونے دیں تاکہ بھاپ سے وہ گیلی نہ ہو۔ کرسٹ برقرار رکھنے کے لیے کاغذی تھیلا اور نرمی کے لیے ہوا بند تھیلا مدد دے سکتا ہے۔ اضافی بریڈ کو زیادہ عرصے کے لیے فریز کریں اور فلنگ والی اشیاء کے لیے فوڈ سیفٹی ہدایات پر عمل کریں۔",
+            measureIngredients:"بہتر بیکنگ کے لیے ممکن ہو تو ڈیجیٹل اسکیل سے اجزاء وزن کے مطابق ناپیں، خشک اجزاء کو برابر کریں اور مائع کے لیے مناسب جگ استعمال کریں۔ میدہ صرف اسی وقت دبائیں جب ترکیب کہے، اور بیکنگ پاؤڈر/سوڈا احتیاط سے ناپیں۔",
+            chocolateBloom:"چاکلیٹ پر سفید یا سرمئی تہہ اکثر بلوم ہوتی ہے: درجہ حرارت کی تبدیلی یا نمی سے کوکو بٹر یا چینی سطح پر آ جاتی ہے۔ اس سے شکل اور ساخت بدل سکتی ہے، مگر صرف سفید تہہ خراب ہونے کا ثبوت نہیں۔ شک ہو تو خوشبو، ذخیرہ کرنے کا طریقہ اور میعاد چیک کریں۔",
+            pastryFlaky:"خستہ تہہ دار پیسٹری کے لیے چکنائی ٹھنڈی رکھنا اور تہیں الگ بنانا ضروری ہے۔ آٹے کو نرمی سے سنبھالیں، زیادہ اضافی میدہ نہ ڈالیں، ترکیب کے مطابق آرام یا ٹھنڈا کریں، اور اوون مکمل طور پر پہلے گرم کریں۔",
+            butterOil:"مکھن ذائقہ دیتا ہے اور چینی کے ساتھ پھینٹنے پر ساخت میں مدد دے سکتا ہے؛ تیل مائع رہتا ہے اور کیک کو نم محسوس کرا سکتا ہے۔ دونوں مختلف طرح کام کرتے ہیں، اس لیے ایک کو دوسرے کے برابر بدلنے سے ساخت بدل سکتی ہے۔",
+            brownie:"فجی براؤنیز عموماً زیادہ نہیں پکائی جاتیں اور ان میں میدے کے مقابلے میں چکنائی یا چاکلیٹ کا تناسب زیادہ ہوتا ہے؛ کیکی براؤنیز میں میدہ یا لیوننگ ایجنٹ زیادہ ہو سکتا ہے۔ ترکیب پر عمل کریں اور کاٹنے سے پہلے ٹھنڈا ہونے دیں۔",
+            preheat:"اوون پہلے گرم کرنے سے بیکنگ شروع ہونے سے پہلے مطلوبہ درجہ حرارت ملتا ہے، جس سے چیز کا پھولنا اور سیٹ ہونا بہتر رہتا ہے۔ صرف اشارے والی لائٹ پر انحصار نہ کریں؛ اوون کو مکمل گرم ہونے دیں۔",
             bakeryGeneral:'یہ بیکری سے متعلق سوال ہے۔ میں عام بیکنگ کے تصورات سمجھا سکتا ہوں اور سیالکوٹ سویٹس کی ویب سائٹ پر درج معلومات بتا سکتا ہوں۔ اس خاص بات کی دکان سے تصدیق شدہ معلومات موجود نہیں؛ مینو کے کسی آئٹم کے بارے میں پوچھیں یا 0325 3922121 پر کال کریں۔',
             offTopic:'معذرت، میں صرف سیالکوٹ سویٹس، ہمارے مینو اور بیکری سے متعلق سوالات میں مدد کر سکتا ہوں۔ 💚 مٹھائی، کیک، اجزاء، قیمت، بیکنگ یا برانچ کے بارے میں پوچھیں۔',
             noProducts:'مجھے موجودہ مینو میں اس نام کا مخصوص آئٹم نہیں ملا۔ پروڈکٹ کا نام، آسان املا یا مینو کی قسم پوچھ کر دوبارہ کوشش کریں۔',
@@ -2647,16 +2678,64 @@
     const includesAny = (text, phrases) => phrases.some(phrase => text.includes(phrase));
     const stopWords = new Set(('a an and the of for is are in on with what whats tell me about please show find give want know details item items product products sweet sweets bakery bakerys ingredient ingredients made from contains contain ki ka ke hai hain hy kya kia mujhe aap apko apke batao btao do have your how much many can we does sell selling').split(/\s+/));
 
+    // Detect the language from each message. Urdu script wins immediately;
+    // Roman Urdu/Hinglish uses a weighted vocabulary so product names alone
+    // (e.g. "Gulab Jamun") do not accidentally change the response language.
     function detectTypedLanguage(text) {
         const raw = String(text || '');
         if (/[\u0600-\u06FF]/.test(raw)) return 'ur';
         const q = norm(raw);
-        const romanUrdu = ['kya','kia','hai','hain','hy','ki','ka','ke','qeemat','keemat','kitna','kitni','kitne','kitnay','batao','btao','mujhe','aap','ap','kahan','kidhar','kab','khula','khule','band','waqt','andar','kis','chahiye','milta','milti','hota','hotay','shukriya','salam','assalamualaikum','acha','accha','aur','mein','mai','kaise','bana','banaya','hai'];
-        return q.split(/\s+/).some(token => romanUrdu.includes(token)) ? 'hi' : 'en';
+        const tokens = q.split(/\s+/).filter(Boolean);
+        if (!tokens.length) return 'en';
+
+        const strongRomanUrdu = new Set([
+            'kya','kia','hai','hain','hein','hy','qeemat','keemat','qimat','kimat',
+            'kitna','kitni','kitne','kitnay','batao','btao','bataiye','bataein',
+            'mujhe','mujhay','mujhy','aap','ap','aapko','apko','aapke','apke',
+            'kahan','kidhar','kab','khula','khule','band','waqt','chahiye','chahye',
+            'milta','milti','milte','milega','hota','hoti','hote','nahi','nahin','ni',
+            'kyun','kyu','kaise','kaisay','kaisa','kaisi','acha','achha','achi','achhi',
+            'shukriya','salam','assalamualaikum','waalaikum','waalaikumassalam',
+            'mashhoor','mithai','meethai','khana','khaana','pasand','bana','banaya',
+            'banane','bananay','banao','karna','karo','karein','karega','krna','krdo',
+            'dikhayein','dikhao','sasta','mehnga','mehngi','kitnay','mein','main','mera',
+            'meri','mere','hamara','hamari','hamare','apna','apni','apne','hum','ham',
+            'toh','han','haan','acha','acha','acha'
+        ]);
+        const weakRomanUrdu = new Set([
+            'ka','ki','ke','ko','se','say','mein','mai','aur','ya','par','ye','yeh',
+            'wo','woh','toh','tou','bhi','bohat','bahut','koi','sab','sare','saare',
+            'wala','wali','walay','wale','kis','kesi','kese','kisay','jaisa','jaisi'
+        ]);
+        const strongCount = tokens.filter(t => strongRomanUrdu.has(t)).length;
+        const weakCount = tokens.filter(t => weakRomanUrdu.has(t)).length;
+        const strongPhrases = [
+            /\b(kya|kia)\s+(hai|hain|hy|hota|hoti)\b/,
+            /\b(kitna|kitni|kitne)\s+(ka|ki|ke|hai|hain|hain)\b/,
+            /\b(qeemat|keemat|qimat)\s+(kya|kia|batao|kitni)\b/,
+            /\b(mujhe|mujhay|mujhy)\s+(batao|btao|chahiye|dikhao)\b/,
+            /\b(kaise|kaisay)\s+(banta|banti|banate|banaye|bana)\b/,
+            /\b(kahan|kidhar)\s+(hai|hain|par|milta)\b/,
+            /\b(ke|ki|ka)\s+(baare|bare)\s+mein\b/
+        ];
+        if (strongCount >= 1 || strongPhrases.some(pattern => pattern.test(q))) return 'hi';
+        if (tokens.length >= 3 && weakCount >= 2) return 'hi';
+        if (tokens.length >= 3 && weakCount >= 1 && tokens.some(t => ['ka','ki','ke','ko','se','mein','mai','aur','bhi','wala','wali','walay','wale'].includes(t)) &&
+            includesAny(q, ['cake','sweet','sweets','mithai','menu','price','qeemat','bakery','bread','biscuit','biscuits','halwa','jamun','ghee','khoya','ingredients','pizza','branch','timing','hours'])) return 'hi';
+        return 'en';
     }
+
     function responseLanguage(text) {
-        if (preferredLanguage !== 'en') return preferredLanguage;
-        return detectTypedLanguage(text);
+        const detected = detectTypedLanguage(text);
+        if (detected !== 'en') return detected;
+
+        // Short follow-ups such as "price?" inherit the last language so a
+        // conversation can naturally continue in Hinglish/Urdu.
+        const q = norm(text);
+        const tokens = q.split(/\s+/).filter(Boolean);
+        const clearlyEnglish = /\b(what|why|how|when|where|which|can|could|would|do|does|did|is|are|the|my|your|please|tell me|show me|thank you|thanks|hello|hi|hey|good morning|good evening|okay|ok)\b/.test(q);
+        if (tokens.length <= 3 && !clearlyEnglish && lastDetectedLanguage !== 'en') return lastDetectedLanguage;
+        return 'en';
     }
 
     // Canonicalize common Urdu-script and Roman Urdu bakery phrases before intent matching.
@@ -2666,8 +2745,12 @@
             [/گلاب\s*جامن/g,' gulab jamun '], [/رس\s*ملائی/g,' rasmalai '], [/رس\s*گلہ|رسگلہ/g,' rasgulla '],
             [/اخروٹ\s*حلوہ/g,' akhrot halwa '], [/چم\s*چم/g,' cham cham '], [/باکلاوا|بقلاوہ/g,' baklava '], [/کنافہ|کنافة/g,' kunafa '],
             [/گلاب\s*جامن/g,' gulab jamun '], [/قیمتیں|قیمت|دام|ریٹ/g,' price '], [/اجزاء|اجزا/g,' ingredients '],
+            [/انڈے|انڈہ/g,' eggs '], [/مونگ\s*پھلی/g,' peanuts '], [/گری\s*دار\s*میوے/g,' nuts '], [/الرجی|حساسیت/g,' allergy '], [/حلال/g,' halal '], [/ویگن/g,' vegan '], [/سبزی\s*خور/g,' vegetarian '], [/گلوٹن\s*فری/g,' gluten free '], [/شوگر\s*فری|چینی\s*کے\s*بغیر/g,' sugar free '],
             [/برانچز|برانچیں|برانچ|شاخیں/g,' branches '], [/پتہ|کہاں|کدھر|لوکیشن/g,' location '], [/اوقات|ٹائمنگ|وقتِ کار|کھلنے کے اوقات/g,' hours '],
             [/مینو|فہرست/g,' menu '], [/مٹھائیاں|مٹھائی/g,' sweets mithai '], [/بسکٹ/g,' biscuit '], [/کھٹائی/g,' khatai '], [/پیزا/g,' pizza '], [/برگر/g,' burger '],
+            [/کیک/g,' cake '], [/بریڈ|روٹی/g,' bread '], [/خشک/g,' dry '], [/چاکلیٹ/g,' chocolate '], [/کریم/g,' cream '], [/آٹا/g,' dough flour '],
+            [/اوون|تنور/g,' oven '], [/گلوٹن|گلُوٹن/g,' gluten '], [/پیمائش|ناپ تول/g,' measuring '], [/تازہ/g,' fresh '], [/مکھن/g,' butter '],
+            [/خمیر/g,' yeast '], [/سخت/g,' hard '], [/نرم/g,' soft '], [/کیوں/g,' why '], [/کیسے/g,' how '], [/ذائقہ/g,' taste '], [/ترکیب/g,' recipe '],
             [/ڈیلیوری|ترسیل/g,' delivery '], [/آرڈر|آرڈر کرنا/g,' order '], [/دودھ/g,' milk '], [/کھویا|ماوا/g,' khoya '], [/گھی/g,' ghee '], [/شکر|چینی/g,' sugar '],
             [/السلام\s*علیکم|سلام/g,' salam '], [/شکریہ/g,' thanks '], [/مدد/g,' help '], [/تجویز|مشورہ/g,' recommend '], [/دستیاب|دستیابی/g,' available '],
             [/کیا\s*ملتا\s*ہے/g,' menu '], [/کیا\s*ہے/g,' what is '], [/کیسے\s*بنائیں|بنانے\s*کا\s*طریقہ/g,' recipe ']
@@ -2676,11 +2759,16 @@
         let q = norm(s);
         const romanMap = [
             [/\b(?:gulabjamun|gulabjaman|gulaab jamun|gulab jamn|gulab jaman|gulab jamoon)\b/g,' gulab jamun '],
-            [/\b(?:baklva|baklavah|baklawa|bakalava)\b/g,' baklava '],
+            [/\b(?:baklva|baklavaah|baklavah|baklawa|bakalava|baklava)\b/g,' baklava '],
+            [/\b(?:kya hai|kia hai|kya hota hai|kia hota hai|kya hoti hai|kia hoti hai|matlab kya hai)\b/g,' what is '],
+            [/\b(?:kyun|kyu|kyunke|wajah)\b/g,' why '],
+            [/\b(?:kaise|kaisay|kesay|kesy)\b/g,' how '],
+            [/\b(?:sukha|sookha|sukhi|sookhi|khushk)\b/g,' dry '],
+            [/\b(?:farq|faraq)\b/g,' difference '],
             [/\b(?:rasmali|ras malai|rasmalay)\b/g,' rasmalai '],
             [/\b(?:rasgula|rasgolla|rasgulla)\b/g,' rasgulla '],
             [/\b(?:chamcham|chumchum|chum cham)\b/g,' cham cham '],
-            [/\b(?:qeemat|keemat|qimat|kimat|kitna|kitni|kitne|kitnay|rate kya)\b/g,' price '],
+            [/\b(?:qeemat|keemat|qimat|kimat|rate kya)\b/g,' price '],
             [/\b(?:khulne ka waqt|opening time|timing kya|kab khulta|kab khulti|kitnay bajay)\b/g,' opening hours '],
             [/\b(?:kahan hai|kidhar hai|branch kahan|address kya|location kya)\b/g,' branch location '],
             [/\b(?:ajza|ajzaat|ingredients kya|kis cheez se bana|kis se bana|andar kya hai)\b/g,' ingredients '],
@@ -2694,7 +2782,7 @@
 
     const correctionVocabulary = new Set();
     function addWords(value) { norm(value).split(/\s+/).filter(w => w.length >= 3).forEach(w => correctionVocabulary.add(w)); }
-    const vocabularyText = 'price prices cost costs rate rates qeemat keemat kitna kitni kitne kitnay rupee rupees ingredient ingredients made contains contain inside allergy allergen allergic gluten vegan vegetarian halal sugar free dairy free opening hour hours timing timings open close closing business shop today daily branch branches address location located map directions where phone number contact call email whatsapp recommend recommendation suggest popular best favourite favorite try menu product products category categories item items available availability stock delivery order ordering payment discount offer fresh bakery bake baked baking cake cakes sweet sweets mithai dessert desserts bread pastry pastries biscuit biscuits cookie cookies biscotti rusk rusks halwa halva jamun barfi guldasta pizza burger fries shawarma sandwich panini roll wrap pasta kunafa kunafeh baklava khoya ghee nankhatai khatai rasmalai rasgulla rasgulle chum cham patisa amratti sohan flour dough yeast frosting icing buttercream croissant muffin muffins cupcake cupcakes donut doughnut bun buns tart brownie pie chocolate cocoa cream almond pistachio cardamom syrup qeemat keemat kya kia hai hain hy ka ki ke mujhe apko aapko batao btao kahan kidhar kab khula band waqt andar kis chahiye milta milti hota hoti banana baking powder soda yeast mawa khameer khamir recipe storage fresh price flavours flavour texture difference meaning halal allergy nuts eggs milk wheat cream fondant ganache sponge proofing fermentation nutrition calories'.split(/\s+/);
+    const vocabularyText = 'price prices cost costs rate rates qeemat keemat kitna kitni kitne kitnay rupee rupees ingredient ingredients made contains contain inside allergy allergen allergic gluten vegan vegetarian halal sugar free dairy free opening hour hours timing timings open close closing business shop today daily branch branches address location located map directions where phone number contact call email whatsapp recommend recommendation suggest popular best favourite favorite try menu product products category categories item items available availability stock delivery order ordering payment discount offer fresh bakery bake baked baking cake cakes sweet sweets mithai dessert desserts bread pastry pastries biscuit biscuits cookie cookies biscotti rusk rusks halwa halva jamun barfi guldasta pizza burger fries shawarma sandwich panini roll wrap pasta kunafa kunafeh baklava khoya ghee nankhatai khatai rasmalai rasgulla rasgulle chum cham patisa amratti sohan flour dough yeast frosting icing buttercream croissant muffin muffins cupcake cupcakes donut doughnut bun buns tart brownie pie chocolate cocoa cream almond pistachio cardamom syrup qeemat keemat kya kia hai hain hy ka ki ke mujhe apko aapko batao btao kahan kidhar kab khula band waqt andar kis chahiye milta milti hota hoti banana baking powder soda yeast mawa khameer khamir recipe storage fresh price flavours flavour texture difference meaning halal allergy nuts eggs milk wheat cream fondant ganache sponge proofing fermentation nutrition calories dense soggy stale sourdough gluten celiac coeliac proofing underproof underbaked overbaked dry moist fudgy cakey fluffy crumb crust flaky layers lamination knead kneading whipping whipped whip curdle curdled preheat preheated preheating scale weigh weighing measurement measurements accurately substitution substitute substitutes replacer shelf-life breadbox mould mold bloom humidity caramel caramelized piping pastrycream custard fondant marzipan gelatin gelatine pectin cocoabutter creamcheese chocolatechip chips filling fillings topping toppings batter consistency temperature troubleshooting spongy rubbery chewy tough soft crisp crunchy ingredientlist wheat almond peanut hazelnut walnut pistachio sesame soy eggless lactose intolerant crosscontact crosscontamination glutenfree dairyfree nutfree'.split(/\s+/);
     vocabularyText.forEach(addWords);
     const customAliases = {
         'gulab jamun':['gulab jamn','gulab jaman','gulab jamoon','gulabjaman','gulaab jamun','golab jamun'],
@@ -2793,10 +2881,14 @@
     }
     const ingredientTranslations = {
         hi: [
-            ['Pure Desi Ghee','pure desi ghee'],['Desi Ghee','desi ghee'],['Fresh Khoya','taaza khoya'],['Fresh Chenna','taaza chenna'],['Green Cardamom','sabz elaichi'],['Cardamom','elaichi'],['Rose Water','gulab jal'],['Cottage Cheese','cottage cheese/paneer'],['Mozzarella Cheese','mozzarella cheese'],['Danish Cheese','Danish cheese'],['Fresh Dough','fresh dough'],['Sugar','cheeni'],['Milk','doodh'],['Cream','cream'],['Almonds','badam'],['Pistachios','pista'],['Walnuts','akhrot'],['Flour','maida/atta'],['Butter','makhan'],['Eggs','anday'],['Chocolate','chocolate'],['Tomato Sauce','tomato sauce'],['Fresh Potatoes','taazay aloo'],['Chicken','chicken'],['Onion','pyaaz'],['Garlic','lehsan'],['Salt','namak'],['Honey','shehad']
+            ['Pure Desi Ghee','pure desi ghee'],['Desi Ghee','desi ghee'],['Fresh Khoya','taaza khoya'],['Fresh Chenna','taaza chenna'],['Green Cardamom','sabz elaichi'],['Cardamom','elaichi'],['Rose Water','gulab jal'],['Cottage Cheese','cottage cheese/paneer'],['Mozzarella Cheese','mozzarella cheese'],['Danish Cheese','Danish cheese'],['Fresh Dough','fresh dough'],['Sugar','cheeni'],['Milk','doodh'],['Cream','cream'],['Almonds','badam'],['Pistachios','pista'],['Walnuts','akhrot'],['Flour','maida/atta'],['Butter','makhan'],['Eggs','anday'],['Chocolate','chocolate'],['Tomato Sauce','tomato sauce'],['Fresh Potatoes','taazay aloo'],['Chicken','chicken'],['Onion','pyaaz'],['Garlic','lehsan'],['Salt','namak'],['Honey','shehad'],
+            ['Soft milk-solid dumplings','naram khoya ke golay'],['fried in pure desi ghee','pure desi ghee mein tale gaye'],['soaked in aromatic cardamom sugar syrup','elaichi ki khushbudaar cheeni ki chashni mein doobay hue'],['Soft and spongy fresh cottage cheese balls','naram aur spongy taaza paneer ke golay'],['Classic rich milk fudge','classic rich milk fudge'],['tiny gram flour pearls','besan ke chhotay moti'],['Crispy, multi-layered flaky sweet','crunchy, multi-layered parat-daar sweet'],['roasted gram flour','bhuna hua besan'],['fresh khoya','taaza khoya'],['roasted walnuts','bhunay hue akhrot'],['crushed pistachios','kuchla hua pista'],['green pistachios','hara pista'],['whole almonds','sabut badam'],['sugar syrup','cheeni ki chashni'],['rose essence','gulab essence'],['sweetened with honey syrup','shehad ki chashni se meetha kiya gaya'],['Crispy shredded kunafa rolls','crunchy shredded kunafa rolls'],['spun kataifi dough','kataifi dough'],['orange blossom syrup','orange blossom syrup'],['Traditional Arabian semolina cake','traditional Arabian suji cake'],['roasted gram flour crunchy cookies','bhunay besan ke crunchy cookies'],['Double-baked crunchy almond biscotti slices','do baar bake kiye gaye crunchy badam biscotti slices'],['Twice-baked golden sponge cake slices','do baar bake kiye gaye golden sponge cake slices'],
+            ['Capsicum','shimla mirch'],['Sweet Corn','sweet corn'],['Achari Chicken','achari chicken'],['Fajita Chicken','fajita chicken'],['Tomato','tamatar'],['Olives','olives'],['Black Olives','black olives'],['Jalapeno','jalapeno'],['Pineapple','pineapple'],['Thousand Sauce','thousand sauce'],['Mayo','mayo'],['Cucumber','kheera'],['Crispy','crunchy'],['Golden','sunhera'],['Freshly baked','taaza bake kiya gaya'],['freshly baked','taaza bake kiya gaya'],['flaky','parat-daar'],['seasoned','masalon ke saath'],['stuffed','bhara hua'],['melted','pighla hua'],['fried','tala hua'],['soft','naram'],['fresh','taaza'],['roasted','bhuna hua'],['crushed','kuchla hua'],['sliced','kate hue']
         ],
         ur: [
-            ['Pure Desi Ghee','خالص دیسی گھی'],['Desi Ghee','دیسی گھی'],['Fresh Khoya','تازہ کھویا'],['Fresh Chenna','تازہ چھینا'],['Green Cardamom','سبز الائچی'],['Cardamom','الائچی'],['Rose Water','عرقِ گلاب'],['Cottage Cheese','پنیر'],['Mozzarella Cheese','موزریلا چیز'],['Danish Cheese','ڈینش چیز'],['Fresh Dough','تازہ آٹا'],['Sugar','چینی'],['Milk','دودھ'],['Cream','کریم'],['Almonds','بادام'],['Pistachios','پستے'],['Walnuts','اخروٹ'],['Flour','میدہ'],['Butter','مکھن'],['Eggs','انڈے'],['Chocolate','چاکلیٹ'],['Tomato Sauce','ٹماٹر کی چٹنی'],['Fresh Potatoes','تازہ آلو'],['Chicken','چکن'],['Onion','پیاز'],['Garlic','لہسن'],['Salt','نمک'],['Honey','شہد']
+            ['Pure Desi Ghee','خالص دیسی گھی'],['Desi Ghee','دیسی گھی'],['Fresh Khoya','تازہ کھویا'],['Fresh Chenna','تازہ چھینا'],['Green Cardamom','سبز الائچی'],['Cardamom','الائچی'],['Rose Water','عرقِ گلاب'],['Cottage Cheese','پنیر'],['Mozzarella Cheese','موزریلا چیز'],['Danish Cheese','ڈینش چیز'],['Fresh Dough','تازہ آٹا'],['Sugar','چینی'],['Milk','دودھ'],['Cream','کریم'],['Almonds','بادام'],['Pistachios','پستے'],['Walnuts','اخروٹ'],['Flour','میدہ'],['Butter','مکھن'],['Eggs','انڈے'],['Chocolate','چاکلیٹ'],['Tomato Sauce','ٹماٹر کی چٹنی'],['Fresh Potatoes','تازہ آلو'],['Chicken','چکن'],['Onion','پیاز'],['Garlic','لہسن'],['Salt','نمک'],['Honey','شہد'],
+            ['Soft milk-solid dumplings','نرم کھوئے کے گولے'],['fried in pure desi ghee','خالص دیسی گھی میں تلے گئے'],['soaked in aromatic cardamom sugar syrup','الائچی کی خوشبودار چینی کی چاشنی میں ڈوبے ہوئے'],['Soft and spongy fresh cottage cheese balls','نرم اور اسپونجی تازہ پنیر کے گولے'],['Classic rich milk fudge','دودھ اور کھوئے کی روایتی مٹھائی'],['tiny gram flour pearls','بیسن کے چھوٹے موتی'],['Crispy, multi-layered flaky sweet','خستہ، کئی تہوں والی میٹھی چیز'],['roasted gram flour','بھنا ہوا بیسن'],['fresh khoya','تازہ کھویا'],['roasted walnuts','بھنے ہوئے اخروٹ'],['crushed pistachios','پسا ہوا پستہ'],['green pistachios','سبز پستہ'],['whole almonds','ثابت بادام'],['sugar syrup','چینی کی چاشنی'],['rose essence','گلاب کا ایسنس'],['sweetened with honey syrup','شہد کی چاشنی سے میٹھا کیا گیا'],['Crispy shredded kunafa rolls','خستہ کنافہ رول'],['spun kataifi dough','کاتایفی ڈو'],['orange blossom syrup','اورنج بلاسم سیرپ'],['Traditional Arabian semolina cake','روایتی عربی سوجی کا کیک'],['roasted gram flour crunchy cookies','بھنے بیسن کے خستہ بسکٹ'],['Double-baked crunchy almond biscotti slices','دو بار بیک کیے گئے بادام کے خستہ بسکوٹی سلائس'],['Twice-baked golden sponge cake slices','دو بار بیک کیے گئے سنہری اسپنج کیک کے سلائس'],
+            ['Capsicum','شملہ مرچ'],['Sweet Corn','سویٹ کارن'],['Achari Chicken','اچاری چکن'],['Fajita Chicken','فاہیتا چکن'],['Tomato','ٹماٹر'],['Olives','زیتون'],['Black Olives','کالے زیتون'],['Jalapeno','جالاپینو'],['Pineapple','انناس'],['Thousand Sauce','تھاؤزنڈ ساس'],['Mayo','مایونیز'],['Cucumber','کھیرا'],['Crispy','خستہ'],['Golden','سنہری'],['Freshly baked','تازہ بیک کیا گیا'],['freshly baked','تازہ بیک کیا گیا'],['flaky','تہہ دار'],['seasoned','مصالحے دار'],['stuffed','بھرا ہوا'],['melted','پگھلا ہوا'],['fried','تلا ہوا'],['soft','نرم'],['fresh','تازہ'],['roasted','بھنا ہوا'],['crushed','پسا ہوا'],['sliced','سلائس کیے گئے']
         ]
     };
     function translateIngredients(text, lang) {
@@ -2809,12 +2901,15 @@
     }
     function productName(item,lang){ return lang==='ur' && item.urduName ? item.urduName+' ('+item.name+')' : item.name; }
     function productLine(item, mode, lang) {
-        const name=productName(item,lang), l=copy[lang];
-        if(mode==='price') return `${name}: ${l.priceLabel} — ${money(item)}`;
-        if(mode==='ingredients') return `${name}: ${l.ingredientsLabel} — ${item.ingredients ? translateIngredients(item.ingredients,lang) : l.noIngredients}`;
-        const description=item.description||'';
-        const ingredients=item.ingredients ? `\n${l.ingredientsLabel}: ${translateIngredients(item.ingredients,lang)}` : `\n${l.noIngredients}`;
-        return `${name} — ${money(item)}\n${l.descriptionLabel}: ${description}${ingredients}`;
+        const name = productName(item, lang), l = copy[lang];
+        const sizePrices = Array.isArray(item.sizes) && item.sizes.length
+            ? `\n${l.priceOptionsLabel}: ${item.sizes.map(size => `${size.name}: Rs. ${Number(size.price).toLocaleString('en-PK')}`).join(' · ')}`
+            : '';
+        if (mode === 'price') return `${name}: ${l.priceLabel} — ${money(item)}${sizePrices}`;
+        if (mode === 'ingredients') return `${name}: ${l.ingredientsLabel} — ${item.ingredients ? translateIngredients(item.ingredients, lang) : l.noIngredients}`;
+        const description = translateIngredients(item.description || '', lang);
+        const ingredients = item.ingredients ? `\n${l.ingredientsLabel}: ${translateIngredients(item.ingredients, lang)}` : `\n${l.noIngredients}`;
+        return `${name} — ${money(item)}${sizePrices}\n${l.descriptionLabel}: ${description}${ingredients}`;
     }
     function getMenuCounts(lang) {
         const counts={}; products.forEach(item=>{counts[item.category]=(counts[item.category]||0)+1;});
@@ -2846,22 +2941,39 @@
 
     function generalFaq(q,lang) {
         const l=copy[lang];
+        // Common baking troubleshooting and ingredient questions, with English,
+        // Roman Urdu/Hinglish and Urdu-script variants.
+        if((q.includes('cake') && includesAny(q,['dry','sukha','sookha','khushk','خشک'])) || includesAny(q,['dry cake','cake dried','کیک خشک','کیک سوکھ'])) return l.cakeDry;
+        if((q.includes('cake') && includesAny(q,['dense','heavy','rubbery','hard','bhaari','bhari','گھنا','بھاری','سخت'])) || includesAny(q,['dense cake','heavy cake'])) return l.cakeDense;
+        if((q.includes('bread') && includesAny(q,['dense','heavy','hard','rubbery','bhaari','گھنی','سخت','not fluffy','less fluffy','does not rise'])) || includesAny(q,['roti hard','روٹی سخت'])) return l.breadDense;
+        if((includesAny(q,['cookie','cookies','biscuit','biscuits','بسکٹ']) && includesAny(q,['soft','crisp','crispy','naram','khasta','خستہ','نرم']))) return l.cookiesSoft;
+        if(includesAny(q,['sourdough','sour dough','what is sourdough','sourdough kya','ساور ڈو'])) return l.sourdough;
+        if(includesAny(q,['what is gluten','gluten meaning','gluten kya','gluten kya hai','gluten explain','گلوٹن کیا','گلُوٹن کیا'])) return l.glutenInfo;
+        if(includesAny(q,['cream not whipping','cream not whip','whipping cream not','cream whip nahi','cream whip nahin','cream phaint','cream phent','کریم نہیں پھینٹ'])) return l.creamWhip;
+        if(includesAny(q,['pizza dough','pizza base','pizza crust','pizza dough recipe','pizza dough tips','pizza ka dough','پیزا ڈو','پیزا کا آٹا'])) return l.pizzaDough;
+        if(includesAny(q,['store bread','store fresh bread','keep bread fresh','bread freshness','bread storage','bread soggy','bread stale','bread ko fresh','بریڈ تازہ','روٹی تازہ','بریڈ محفوظ'])) return l.breadFresh;
+        if(includesAny(q,['measure ingredients','measuring ingredients','measure flour','accurate measurement','weigh baking ingredients','ingredients kaise measure','ingredients naap','اجزاء ناپ','اجزاء کی پیمائش'])) return l.measureIngredients;
+        if(includesAny(q,['white film on chocolate','white chocolate film','chocolate bloom','chocolate turned white','chocolate white layer','chocolate par safed','چاکلیٹ پر سفید'])) return l.chocolateBloom;
+        if(includesAny(q,['flaky pastry','pastry not flaky','pastry layers','puff pastry layers','pastry phool','پیسٹری خستہ','پیسٹری کی تہیں'])) return l.pastryFlaky;
+        if(includesAny(q,['butter vs oil','butter or oil','oil instead of butter','butter instead of oil','butter aur oil','makhan ya oil','مکھن یا تیل'])) return l.butterOil;
+        if(includesAny(q,['fudgy brownie','cakey brownie','brownie fudgy','brownies fudgy','brownie dry','براونی'])) return l.brownie;
+        if(includesAny(q,['preheat oven','why preheat','preheating','oven preheat','oven preheat kyun','اوون پہلے گرم'])) return l.preheat;
         if(includesAny(q,['baking powder','baking soda','bicarbonate','baking soda and powder','powder vs soda','soda vs powder'])) return l.powderSoda;
         if(includesAny(q,['yeast','khameer','khamir','خمیر','proofing','fermentation','ferment'])) return l.yeast;
-        if(includesAny(q,['what is flour','flour type','which flour','maida','atta','گلُوٹن','gluten'])) return l.flour;
+        if(includesAny(q,['what is flour','flour type','which flour','maida','atta','flour for cake','bread flour','cake flour']) || (q.includes('flour') && includesAny(q,['wheat','types','type','meaning','difference','what is','which','best']))) return l.flour;
         if(includesAny(q,['cake vs pastry','difference between cake and pastry','cake and pastry difference','cake aur pastry','cake pastry mein farq','کیک اور پیسٹری'])) return l.cakePastry;
         if(includesAny(q,['eggless','without egg','no egg','anday ke baghair','egg substitute','انڈے کے بغیر'])) return l.eggless;
         if(includesAny(q,['baking temperature','oven temperature','what temperature','how hot oven','oven kitna','درجہ حرارت','اوون کا درجہ'])) return l.bakeTemp;
         if(includesAny(q,['storage','store','keep fresh','freshness','expire','expiry','shelf life','how to store','fresh kaise','kaise rakhein','محفوظ','تازہ کیسے'])) return l.storage;
         if(includesAny(q,['what is desi ghee','what is ghee','desi ghee kya','ghee kya','ghee what is','ghee meaning','دیسی گھی کیا']) || (q.includes('ghee') && includesAny(q,['meaning','define','what is','kya','explain']))) return l.ghee;
         if(includesAny(q,['what is khoya','khoya kya','what is mawa','mawa kya','khoya what is','mawa what is','khoya meaning','mawa meaning','کھویا کیا','ماوا کیا']) || ((q.includes('khoya')||q.includes('mawa')) && includesAny(q,['meaning','define','what is','kya','explain']))) return l.khoya;
-        if(includesAny(q,['frosting','icing','buttercream','butter cream','cake decoration','کیک کی فراسٹنگ'])) return l.frosting;
+        if(includesAny(q,['frosting','icing','buttercream','butter cream','fondant','cake decoration','cake decorate','کیک کی فراسٹنگ'])) return l.frosting;
         if(includesAny(q,['ganache','chocolate cream','چاکلیٹ گناش'])) return l.ganache;
-        if(includesAny(q,['cake sink','cake sinking','cake collapse','cake baith','cake baithna','cake beech se','کیک بیٹھ','کیک پچک'])) return l.cakeSinks;
+        if(includesAny(q,['cake sink','cake sinking','cake collapse','cake baith','cake baithna','cake beech se','cake not rise','cake not rising','cake rise nahi','cake phool nahi','کیک بیٹھ','کیک پچک','کیک نہیں پھول'])) return l.cakeSinks;
         if(includesAny(q,['dough not rise','dough not rising','bread not rise','bread dough rise','dough rise nahi','khameer kaam nahi','آٹا نہیں پھول','آٹا نہیں اٹھ'])) return l.doughRise;
         if(includesAny(q,['cookie spread','cookies spread','biscuit spread','biscuits spread','cookies flat','biscuit phail','بسکٹ پھیل'])) return l.cookiesSpread;
-        if(includesAny(q,['how to make cake','cake recipe','basic cake','cake kaise ban','cake banana','کیک کیسے بن','کیک کی ترکیب'])) return l.basicCake;
-        if(includesAny(q,['difference between','what is','what are','how does','how do','why does','why do','recipe','bake at home','baking tip','baking tips'])) return l.bakeryGeneral;
+        if(includesAny(q,['how to make cake','how to bake a cake','how do i bake cake','cake recipe','recipe for cake','basic cake','cake kaise ban','cake banana','cake banane ka tareeqa','cake banane ka tarika','کیک کیسے بن','کیک کی ترکیب'])) return l.basicCake;
+        if(includesAny(q,['bake at home','baking tip','baking tips','bakery question'])) return l.bakeryGeneral;
         return null;
     }
 
@@ -2878,28 +2990,46 @@
         const qForIntents=norm(qWithTypos);
         const matches=productMatches(rawText);
         const namedMatches=specificallyNamedProducts(rawText);
-        const asksPrice=includesAny(qForIntents,['price','prices','cost','how much','rate','rates','qeemat','keemat','rupee','rupees','rs ','قیمت','دام']);
-        const asksIngredients=includesAny(qForIntents,['ingredient','ingredients','made of','made from','contains','contain','what is inside','andar kya','kis cheez','kis se bana','ajza','ajzaat','اجزاء','اجزا']);
-        const asksDietary=includesAny(qForIntents,['allerg','allergy','allergen','gluten free','gluten-free','nut free','nut-free','vegan','vegetarian','halal','sugar free','sugar-free','diabetic','dairy free','dairy-free','حلال','الرجی']);
+        const asksPrice=includesAny(qForIntents,['price','prices','cost','how much','how much is','how much does','rate','rates','qeemat','keemat','rupee','rupees','rs ','kitna price','kitni price','kitne rupay','قیمت','دام']) || (includesAny(qForIntents,['kitna','kitni','kitne','kitnay']) && (namedMatches.length > 0 || matches.length > 0));
+        const asksIngredients=includesAny(qForIntents,['ingredient','ingredients','made of','made from','contains','contain','what is inside','inside it','andar kya','kis cheez','kis se bana','ajza','ajzaat','اجزاء','اجزا','has egg','have egg','contains egg','contains nuts','has nuts','made with milk','contains milk']);
+        const asksDietary=includesAny(qForIntents,['allerg','allergy','allergen','gluten free','gluten-free','gluten allergy','contains gluten','gluten in','nut free','nut-free','vegan','vegetarian','halal','sugar free','sugar-free','diabetic','dairy free','dairy-free','eggless','without egg','nut allergy','milk allergy','contains egg','has egg','contains nuts','has nuts','peanuts','tree nut','lactose intolerant','حلال','الرجی']);
         const asksHours=includesAny(qForIntents,['opening hour','opening hours','timing','timings','hours','open now','what time','close','closing time','business hours','khula','band hota','kitnay bajay','kitne bajay','waqt','اوقات','کھلتا','بند ہوتا','کس وقت']);
         const asksBranches=includesAny(qForIntents,['branch','branches','address','location','where are','where is','located','map','directions','kahan','kidhar','برانچ','پتہ','کہاں','لوکیشن']);
         const asksContact=includesAny(qForIntents,['phone','phone number','contact','call','email','whatsapp','number','talk to','speak to','rabta','raabta','رابطہ','فون','ای میل','نمبر']);
-        const asksRecommend=includesAny(qForIntents,['recommend','recommendation','suggest','popular','best sweet','best item','favourite','favorite','what should i try','try first','mashhoor','suggestion','kaunsi achi','kaunsa acha','اچھی مٹھائی','مشورہ']);
-        const asksMenu=includesAny(qForIntents,['menu','all products','all items','what do you sell','what do you have','do you have','list products','show products','categories','available items','mithai','bakery items','show me items','show me the items','show me the menu','products list','مینو','کیا ملتا ہے','کیا دستیاب ہے']);
-        const category=findCategory(qForIntents);
+        const asksNutrition=includesAny(qForIntents,['nutrition','calories','calorie','protein content','carbs','carbohydrates','fat content','sugar content','nutritional information','غذائی معلومات','کیلوریز']);
+        const asksRecommend=includesAny(qForIntents,['recommend','recommendation','suggest','popular','most popular','best sweet','best sweets','best item','best cake','best dessert','which sweet','which sweets','which product','which item','best one','birthday cake','favourite','favorite','what should i try','try first','mashhoor','suggestion','kaunsi achi','kaunsa acha','birthday ke liye cake','for guests','for a gift','gift box','for wedding','for party','with tea','tea time','chai ke sath','mehmaan','mehman','dawat','tohfa','اچھی مٹھائی','مشورہ','تحفہ','مہمان']);
+        const asksMenu=includesAny(qForIntents,['menu','all products','all items','what do you sell','what do you have','do you have','list products','show products','categories','available items','mithai','bakery items','show me items','show me the items','show me the menu','products list','list of items','show menu','what items','مینو','کیا ملتا ہے','کیا دستیاب ہے']);
+        let category=findCategory(qForIntents);
+        if (!category && lastMentionedCategory && includesAny(qForIntents,['more','other items','more items','aur','mazeed','baqi','aur items','aur mithai','مزید','اور'])) category=lastMentionedCategory;
+        if (findCategory(qForIntents)) lastMentionedCategory=findCategory(qForIntents);
 
+        if(asksNutrition) return (namedMatches.length ? productName(namedMatches[0],lang)+': ' : '') + l.nutritionInfo;
         if(asksHours) return l.opening;
         if(asksBranches) return l.branchesIntro+'\n\n'+branches.map((b,i)=>`${i+1}. ${b.name}\n${b.address}\n${lang==='ur'?'فون':lang==='hi'?'Phone':'Phone'}: ${b.phone}`).join('\n\n')+'\n\n'+l.branchesEnd;
         if(asksContact) return l.contact+'\n'+branches.map(b=>`${b.name}: ${b.phone}`).join('\n');
 
-        const genericProductType = ['pizza','burger','fries','shawarma','sandwich','biscuit','biscuits','cookie','cookies','halwa','sweets','mithai','baklava','rusk','rusks','pastry','pastries'].some(term=>qForIntents.includes(term));
-        const productAnswerMatches = namedMatches.length ? namedMatches : (genericProductType ? matches : []);
+        const genericProductType = ['pizza','burger','fries','shawarma','sandwich','biscuit','biscuits','cookie','cookies','halwa','sweets','mithai','baklava','rusk','rusks','pastry','pastries','cake','cakes','bread','pastries'].some(term=>qForIntents.includes(term));
+        const asksFollowUpDetails = includesAny(qForIntents,['more details','tell me more','more information','more info','what about it','and ingredients','and price','aur batao','aur tafseel','mazeed batao','is mein kya','iss mein kya','us ke ingredients','uski qeemat','iski price','and this item']);
+        let productAnswerMatches = namedMatches.length ? namedMatches : (genericProductType ? matches : []);
+        if (!productAnswerMatches.length && lastMentionedProduct && (asksPrice || asksIngredients || asksDietary || asksFollowUpDetails)) {
+            productAnswerMatches = [lastMentionedProduct];
+        }
+        if (namedMatches.length) lastMentionedProduct = namedMatches[0];
+        else if (matches.length === 1 && (asksPrice || asksIngredients || asksDietary || asksProductIntent(qForIntents))) lastMentionedProduct = matches[0];
+        if(productAnswerMatches.length && asksDietary) return productAnswerMatches.slice(0,3).map(item=>productLine(item,'ingredients',lang)).join('\n\n')+'\n\n'+l.dietary;
         if(productAnswerMatches.length && asksIngredients) return productAnswerMatches.slice(0,3).map(item=>productLine(item,'ingredients',lang)).join('\n\n');
         if(productAnswerMatches.length && asksPrice) return productAnswerMatches.slice(0,4).map(item=>productLine(item,'price',lang)).join('\n');
-        if(productAnswerMatches.length && asksDietary) return productAnswerMatches.slice(0,3).map(item=>productLine(item,'ingredients',lang)).join('\n\n')+'\n\n'+l.dietary;
+        if(productAnswerMatches.length && asksFollowUpDetails) return productAnswerMatches.slice(0,2).map(item=>productLine(item,'details',lang)).join('\n\n');
+        if ((asksPrice || asksIngredients) && !productAnswerMatches.length && !asksMenu) {
+            return lang === 'ur'
+                ? 'براہِ کرم پروڈکٹ کا نام بتائیں، مثلاً گلاب جامن، بیکلاوا یا اخروٹ حلوہ؛ پھر میں ویب سائٹ پر درج قیمت یا اجزاء بتا دوں گا۔'
+                : lang === 'hi'
+                    ? 'Product ka naam bata dein—jaise Gulab Jamun, Baklava ya Akhrot Halwa—phir main website par listed price ya ingredients bata dunga.'
+                    : 'Please name the product (for example, Gulab Jamun, Baklava or Akhrot Halwa), and I can show its listed price or ingredients.';
+        }
 
         if(asksRecommend) {
-            let preferred=products.filter(item=>['sweets','arabian','halwa','biscuits','cakerusk'].includes(item.category)).sort((a,b)=>(b.rating||0)-(a.rating||0)).slice(0,4);
+            let preferred = matches.length ? matches.slice(0,4) : products.filter(item=>['sweets','arabian','halwa','biscuits','cakerusk'].includes(item.category)).sort((a,b)=>(b.rating||0)-(a.rating||0)).slice(0,4);
             if(!preferred.length) preferred=products.slice(0,4);
             return l.recommendIntro+'\n\n'+preferred.map(item=>`${productName(item,lang)} · ${item.rating||'—'}★ · ${money(item)}`).join('\n')+'\n\n'+l.recommendEnd;
         }
@@ -2913,11 +3043,11 @@
         if(namedMatches.length && asksProductIntent(qForIntents)) return namedMatches.slice(0,3).map(item=>productLine(item,'details',lang)).join('\n\n');
         if(namedMatches.length && namedMatches[0] && !category) return namedMatches.slice(0,2).map(item=>productLine(item,'details',lang)).join('\n\n');
         if(asksDietary) return l.dietary;
-        if(includesAny(qForIntents,['order','ordering','delivery','deliver','home delivery','custom cake','custom order','bulk order','wedding order','stock','in stock','available now','availability','payment','cash on delivery','discount','offer','fresh today','today available','online order','book','buy','purchase','delivery charges','deliver karte','delivery hai','order karna','آرڈر','ڈیلیوری'])) return l.order;
+        if(includesAny(qForIntents,['order','ordering','delivery','deliver','home delivery','custom cake','custom order','bulk order','wedding order','stock','in stock','available now','availability','payment','cash on delivery','discount','offer','fresh today','today available','online order','book','buy','purchase','delivery charges','deliver karte','delivery hai','order karna','home deliver','do you deliver','do you take orders','online payment','آرڈر','ڈیلیوری','ہوم ڈیلیوری'])) return l.order;
 
         const faq=generalFaq(qForIntents,lang);
         if(faq) return faq;
-        if(includesAny(qForIntents,['bakery','bake','baking','cake','sweet','mithai','dessert','bread','pastry','biscuit','cookie','biscotti','rusk','halwa','jamun','barfi','guldasta','pizza','burger','fries','shawarma','sandwich','panini','roll','wrap','pasta','kunafa','baklava','food','menu','price','ingredient','flour','dough','yeast','recipe','frosting','icing','buttercream','croissant','muffin','cupcake','donut','bun','tart','brownie','pie','chocolate','cocoa','cream','sugar','almond','pistachio','cardamom','syrup','khoya','ghee','oven','bread','gluten','maida','atta','proofing','fermentation','baking powder','baking soda','khameer','khoya','mawa','مٹھائی','بیکری','کیک','بیکنگ'])) return l.bakeryGeneral;
+        if(includesAny(qForIntents,['bakery','bake','baking','cake','sweet','mithai','dessert','bread','pastry','biscuit','cookie','biscotti','rusk','halwa','jamun','barfi','guldasta','pizza','burger','fries','shawarma','sandwich','panini','roll','wrap','pasta','kunafa','baklava','food','menu','price','ingredient','flour','dough','yeast','recipe','frosting','icing','buttercream','croissant','muffin','cupcake','donut','bun','tart','brownie','pie','chocolate','cocoa','cream','sugar','almond','pistachio','cardamom','syrup','khoya','ghee','oven','gluten','maida','atta','proofing','fermentation','baking powder','baking soda','khameer','mawa','custard','meringue','fondant','marzipan','sourdough','crumb','crust','puff pastry','macaron','macaroon','ganache','caramel','vanilla','cocoa butter','dough rise','temperature','bake time','mixing','kneading','butter','margarine','emulsifier','baking tin','cake tin','sugar syrup','cream cheese','milk powder','whey','food colouring','filling','topping','bakery science','مٹھائی','بیکری','کیک','بیکنگ','خمیر','آٹا','چاکلیٹ','کریم','گلوٹن'])) return l.bakeryGeneral;
         return l.offTopic;
     }
     function asksProductIntent(q){ return includesAny(q,['price','prices','cost','how much','rate','ingredient','ingredients','made of','made from','details','description','what is','what are','information','tell me','product','item','price','qeemat','keemat']); }
@@ -2940,22 +3070,32 @@
         typing.innerHTML='<span></span><span></span><span></span>';
         messages.appendChild(typing); messages.scrollTop=messages.scrollHeight; return typing;
     }
-    function renderLanguage(lang, announce) {
-        const l=copy[lang]||copy.en;
-        document.getElementById('ss-chat-subtitle').textContent=l.subtitle;
-        languageLabel.textContent=l.language; languageSelect.setAttribute('aria-label',l.language);
-        input.placeholder=l.placeholder; input.setAttribute('aria-label',l.inputLabel);
-        document.getElementById('ss-chat-send').setAttribute('aria-label',l.send);
-        document.getElementById('ss-chat-send').title=l.send;
-        closeButton.setAttribute('aria-label',l.close); closeButton.title=l.close;
-        launcher.setAttribute('aria-label',lang==='ur'?'سیالکوٹ سویٹس چیٹ کھولیں':lang==='hi'?'Sialkot Sweets chat kholein':'Open Sialkot Sweets chat');
-        const launcherLabel=launcher.querySelector('.ss-chat-launcher-label'); if(launcherLabel) launcherLabel.textContent=l.launcherLabel;
-        const btns=suggestions ? [...suggestions.querySelectorAll('[data-ss-chat-label]')] : [];
-        const labels={popular:l.popular,hours:l.hoursChip,branches:l.branchesChip,menu:l.menuChip};
-        btns.forEach(btn=>{const key=btn.getAttribute('data-ss-chat-label');if(labels[key])btn.textContent=labels[key];});
-        if(!chatHasUserMessages && welcome) welcome.textContent=l.welcome;
-        else if(announce) addMessage(l.languageChanged,'assistant',lang);
-        widget.setAttribute('lang',lang==='ur'?'ur':lang==='hi'?'en-PK':'en');
+    function renderLanguage(lang) {
+        const l = copy[lang] || copy.en;
+        const subtitle = document.getElementById('ss-chat-subtitle');
+        const sendButton = document.getElementById('ss-chat-send');
+        if (subtitle) subtitle.textContent = l.subtitle;
+        input.placeholder = l.placeholder;
+        input.setAttribute('aria-label', l.inputLabel);
+        if (sendButton) {
+            sendButton.setAttribute('aria-label', l.send);
+            sendButton.title = l.send;
+        }
+        closeButton.setAttribute('aria-label', l.close);
+        closeButton.title = l.close;
+        launcher.setAttribute('aria-label', lang === 'ur' ? 'سیالکوٹ سویٹس چیٹ کھولیں' : lang === 'hi' ? 'Sialkot Sweets chat kholein' : 'Open Sialkot Sweets chat');
+        const launcherLabel = launcher.querySelector('.ss-chat-launcher-label');
+        if (launcherLabel) launcherLabel.textContent = l.launcherLabel;
+        const btns = suggestions ? [...suggestions.querySelectorAll('[data-ss-chat-label]')] : [];
+        const labels = { popular: l.popular, hours: l.hoursChip, branches: l.branchesChip, menu: l.menuChip };
+        btns.forEach(btn => {
+            const key = btn.getAttribute('data-ss-chat-label');
+            if (labels[key]) btn.textContent = labels[key];
+        });
+        // The welcome is English by default; once the visitor starts in another
+        // language, subsequent static controls follow their detected language.
+        if (!chatHasUserMessages && welcome) welcome.textContent = copy.en.welcome;
+        widget.setAttribute('lang', lang === 'ur' ? 'ur' : lang === 'hi' ? 'en-PK' : 'en');
     }
     function openChat(){
         if(isOpen)return; isOpen=true; panel.hidden=false; panel.setAttribute('aria-hidden','false'); launcher.setAttribute('aria-expanded','true');
@@ -2966,27 +3106,26 @@
         if(!isOpen)return; isOpen=false; panel.classList.remove('is-open'); panel.setAttribute('aria-hidden','true'); launcher.setAttribute('aria-expanded','false');
         window.setTimeout(()=>{if(!isOpen)panel.hidden=true;},440); launcher.focus({preventScroll:true});
     }
-    function submitQuestion(question){
-        const clean=String(question||'').trim(); if(!clean)return;
-        if(pendingTimer)window.clearTimeout(pendingTimer);
-        if(suggestions)suggestions.hidden=true;
-        chatHasUserMessages=true;
-        const lang=responseLanguage(clean);
-        const inputLang=detectTypedLanguage(clean);
-        addMessage(clean,'user',inputLang==='ur'?'ur':inputLang==='hi'?'hi':lang);
-        const typing=showTyping(lang);
-        pendingTimer=window.setTimeout(()=>{
-            if(typing.parentNode)typing.parentNode.removeChild(typing);
-            addMessage(answer(clean,lang),'assistant',lang); pendingTimer=null;
-        },220);
+    function submitQuestion(question) {
+        const clean = String(question || '').trim();
+        if (!clean) return;
+        if (pendingTimer) window.clearTimeout(pendingTimer);
+        if (suggestions) suggestions.hidden = true;
+        const typedLanguage = detectTypedLanguage(clean);
+        const lang = responseLanguage(clean);
+        lastDetectedLanguage = lang;
+        chatHasUserMessages = true;
+        renderLanguage(lang);
+        addMessage(clean, 'user', typedLanguage !== 'en' ? typedLanguage : lang);
+        const typing = showTyping(lang);
+        pendingTimer = window.setTimeout(() => {
+            if (typing.parentNode) typing.parentNode.removeChild(typing);
+            addMessage(answer(clean, lang), 'assistant', lang);
+            pendingTimer = null;
+        }, 180);
     }
 
-    renderLanguage('en',false);
-    languageSelect.value='en';
-    languageSelect.addEventListener('change',()=>{
-        preferredLanguage=['en','hi','ur'].includes(languageSelect.value)?languageSelect.value:'en';
-        renderLanguage(preferredLanguage,chatHasUserMessages);
-    });
+    renderLanguage('en');
     launcher.addEventListener('click',()=>isOpen?closeChat():openChat());
     closeButton.addEventListener('click',closeChat);
     form.addEventListener('submit',event=>{event.preventDefault();const value=input.value;input.value='';submitQuestion(value);});
