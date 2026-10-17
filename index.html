@@ -99,19 +99,18 @@
             background: rgba(255,255,255,0.07);
             border: 1px solid rgba(255,255,255,0.12);
             box-shadow: 0 18px 60px rgba(0,0,0,0.18);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         .premium-glass-light {
             background: rgba(255,255,255,0.82);
             border: 1px solid rgba(15,23,42,0.08);
             box-shadow: 0 18px 50px rgba(15,23,42,0.08);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         .premium-card {
             transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
-            will-change: transform;
         }
         .premium-card:hover {
             transform: translateY(-6px);
@@ -122,8 +121,8 @@
             background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
             border: 1px solid rgba(251,191,36,0.28);
             box-shadow: 0 20px 70px rgba(0,0,0,0.22);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         .branch-number {
             width: 42px; height: 42px;
@@ -146,7 +145,7 @@
             transform: scaleX(0); transform-origin: center; transition: transform .3s ease;
         }
         .nav-link:hover::after { transform: scaleX(1); }
-        .menu-backdrop { background: rgba(2,44,34,.58); backdrop-filter: blur(8px); }
+        .menu-backdrop { background: rgba(2,44,34,.58); backdrop-filter: blur(3px); }
         .section-eyebrow { letter-spacing: .22em; }
         .hero-orb { border-radius: 999px; filter: blur(48px); opacity: .23; }
         .hero-grid { background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 34px 34px; }
@@ -265,8 +264,8 @@
         background: rgba(4,45,35,.88) !important;
         border-bottom: 1px solid rgba(246,191,67,.32) !important;
         box-shadow: 0 18px 42px rgba(1,30,23,.19) !important;
-        -webkit-backdrop-filter: blur(24px) saturate(155%);
-        backdrop-filter: blur(24px) saturate(155%);
+        -webkit-backdrop-filter: blur(7px);
+        backdrop-filter: blur(7px);
       }
       header > div { max-width: 1340px; }
       header .w-14.h-14 {
@@ -318,15 +317,15 @@
       #home-section .inline-flex.items-center.gap-2.bg-amber-500\/10 {
         border-color: rgba(246,191,67,.38) !important;
         background: rgba(255,255,255,.075) !important;
-        -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
         box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
       }
       #home-section .branch-feature {
         background: linear-gradient(130deg, rgba(255,255,255,.115), rgba(255,255,255,.04)) !important;
         border-color: rgba(255,231,160,.32) !important;
         border-radius: 23px !important;
-        -webkit-backdrop-filter: blur(22px) saturate(145%);
-        backdrop-filter: blur(22px) saturate(145%);
+        -webkit-backdrop-filter: blur(7px);
+        backdrop-filter: blur(7px);
         box-shadow: 0 22px 60px rgba(0,0,0,.17), inset 0 1px 0 rgba(255,255,255,.12) !important;
       }
       #home-section .relative.rounded-3xl.overflow-hidden {
@@ -345,7 +344,7 @@
       #home-section .relative.flex.items-center.bg-white\/10 {
         background: rgba(255,255,255,.095) !important;
         border-color: rgba(255,221,137,.48) !important;
-        -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
         box-shadow: 0 16px 42px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.12) !important;
       }
 
@@ -372,7 +371,7 @@
       #about-heritage .mt-12.bg-gradient-to-r {
         border-radius: 28px !important;
         background: linear-gradient(115deg,rgba(246,191,67,.16),rgba(255,255,255,.045),rgba(246,191,67,.12)) !important;
-        -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
         box-shadow: 0 22px 55px rgba(0,0,0,.13), inset 0 1px 0 rgba(255,255,255,.12);
       }
       #specialties {
@@ -385,7 +384,7 @@
         overflow: hidden; border-radius: 24px !important;
         border-color: rgba(7,59,46,.11) !important;
         background: linear-gradient(145deg,rgba(255,255,255,.94),rgba(255,255,255,.75)) !important;
-        -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
         box-shadow: 0 12px 34px rgba(14,49,37,.055), inset 0 1px 0 rgba(255,255,255,.94) !important;
       }
       #specialties .premium-card:hover, #reviews .premium-card:hover {
@@ -415,7 +414,7 @@
         border: 1px solid rgba(255,255,255,.92) !important;
         border-radius: 21px !important;
         background: rgba(255,255,255,.70) !important;
-        -webkit-backdrop-filter: blur(22px) saturate(135%); backdrop-filter: blur(22px) saturate(135%);
+        -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
         box-shadow: 0 14px 34px rgba(12,48,37,.055), inset 0 1px 0 rgba(255,255,255,.9) !important;
       }
       #menu-section select {
@@ -426,8 +425,9 @@
         position: relative; border: 1px solid rgba(255,255,255,.95) !important;
         border-radius: 25px !important; background: rgba(255,255,255,.82) !important;
         box-shadow: 0 12px 36px rgba(13,48,38,.075), inset 0 1px 0 rgba(255,255,255,.96) !important;
-        -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
-        transition: transform .4s cubic-bezier(.2,.75,.2,1), box-shadow .4s ease, border-color .4s ease !important;
+        /* Avoid per-card backdrop filters in the large product grid. */
+        -webkit-backdrop-filter: none; backdrop-filter: none;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease !important;
       }
       #menu-section .menu-card:hover {
         transform: translateY(-8px) !important; border-color: rgba(220,165,54,.58) !important;
@@ -525,6 +525,42 @@
         #home-section .hero-orb, #home-section h1, #home-section .hero-showcase-img { animation: none !important; }
         .ss-motion-enabled .ss-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
         #menu-section .menu-card, #branches .branch-feature, .premium-card { transition: none !important; }
+      }
+    </style>
+
+
+    <style id="ss-performance-pass">
+      /* Performance pass: preserve the premium palette, avoid continuous GPU work. */
+      .premium-card { will-change: auto !important; }
+      #home-section .hero-orb { display: none !important; animation: none !important; filter: none !important; }
+      #home-section h1, #home-section .hero-showcase-img { animation: none !important; }
+      .cta-sheen::before { content: none !important; animation: none !important; }
+      #menu-section .menu-card { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+      #menu-section .menu-card,
+      #specialties .premium-card,
+      #reviews .premium-card,
+      #branches .branch-feature,
+      #about-heritage .grid > div[class~="bg-white/5"] {
+        transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease !important;
+      }
+      #menu-section .menu-card:hover { transform: translateY(-2px) !important; box-shadow: 0 12px 28px rgba(12,48,37,.11) !important; }
+      #menu-section .menu-card img { transition: transform .2s ease !important; filter: none !important; }
+      #menu-section .menu-card:hover img { transform: scale(1.02) !important; filter: none !important; }
+      #branches .branch-feature:hover,
+      #specialties .premium-card:hover,
+      #reviews .premium-card:hover,
+      #about-heritage .grid > div[class~="bg-white/5"]:hover { transform: translateY(-2px) !important; }
+      header { -webkit-backdrop-filter: blur(5px) !important; backdrop-filter: blur(5px) !important; }
+      @media (hover: none), (pointer: coarse) {
+        #menu-section .menu-card:hover,
+        #branches .branch-feature:hover,
+        #specialties .premium-card:hover,
+        #reviews .premium-card:hover,
+        #about-heritage .grid > div[class~="bg-white/5"]:hover { transform: none !important; }
+        #menu-section .menu-card:hover img { transform: none !important; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
       }
     </style>
 
@@ -726,7 +762,7 @@
                 <div class="md:col-span-5 relative">
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-400/40 group">
                         <img 
-                            src="https://images.pexels.com/photos/35041879/pexels-photo-35041879.jpeg?auto=compress&cs=tinysrgb&w=900&q=82" 
+                            src="https://images.pexels.com/photos/35041879/pexels-photo-35041879.jpeg?auto=compress&cs=tinysrgb&w=800&q=74" 
                             alt="Famous Sialkoti Guldasta Sweets Hamper" 
                             class="hero-showcase-img w-full h-[360px] sm:h-[420px] object-cover transform group-hover:scale-105 transition duration-700"
                             fetchpriority="high" decoding="async"
@@ -800,7 +836,7 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-4">
                             <img 
-                                src="https://images.pexels.com/photos/7406887/pexels-photo-7406887.jpeg?auto=compress&cs=tinysrgb&w=600&q=78" 
+                                src="https://images.pexels.com/photos/7406887/pexels-photo-7406887.jpeg?auto=compress&cs=tinysrgb&w=480&q=68" 
                                 alt="Traditional Desi Ghee Gulab Jamun Crafting" 
                                 class="rounded-2xl shadow-xl h-56 object-cover w-full border border-amber-500/30"
                                 loading="lazy" decoding="async" fetchpriority="low"
@@ -816,7 +852,7 @@
                                 <span class="text-xs text-stone-300">Oldest Sweet Shop</span>
                             </div>
                             <img 
-                                src="https://images.pexels.com/photos/18488299/pexels-photo-18488299.jpeg?auto=compress&cs=tinysrgb&w=600&q=78" 
+                                src="https://images.pexels.com/photos/18488299/pexels-photo-18488299.jpeg?auto=compress&cs=tinysrgb&w=480&q=68" 
                                 alt="Khoya Barfi Artisanal Preparation" 
                                 class="rounded-2xl shadow-xl h-56 object-cover w-full border border-amber-500/30"
                                 loading="lazy" decoding="async" fetchpriority="low"
@@ -1422,7 +1458,7 @@
                         isHeritage: false,
                         isBestseller: true,
                         badge: 'Tender Boti',
-                        image: 'https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        image: 'https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=480&q=68',
                         description: 'Capsicum, Sweet Corn, Achari Chicken, Onion, Mozzarella Cheese, Achari Sauce.',
                         ingredients: 'Tender Malai Boti Chicken, Mozzarella Cheese, Capsicum, Sweet Corn, Onion.',
                         sizes: [
@@ -1445,7 +1481,7 @@
                         isHeritage: false,
                         isBestseller: false,
                         badge: 'Mexican Flavor',
-                        image: 'https://images.pexels.com/photos/1653877/pexels-photo-1653877.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        image: 'https://images.pexels.com/photos/1653877/pexels-photo-1653877.jpeg?auto=compress&cs=tinysrgb&w=480&q=68',
                         description: 'Fajita Chicken, Cheese, Tomato, Pizza Sauce, Capsicum, Onion.',
                         ingredients: 'Marinated Fajita Chicken, Cheese, Fresh Tomatoes, Capsicum, Onion, Red Sauce.',
                         sizes: [
@@ -1468,7 +1504,7 @@
                         isHeritage: false,
                         isBestseller: true,
                         badge: 'Smoky BBQ',
-                        image: 'https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        image: 'https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=480&q=68',
                         description: 'BBQ Chicken, Cheese, Tomato, Jalapeno, Onion, Olives & Pizza Sauce, BBQ Sauce.',
                         ingredients: 'BBQ Chicken, Mozzarella Cheese, Jalapeños, Black Olives, BBQ Drizzle.',
                         sizes: [
@@ -1491,7 +1527,7 @@
                         isHeritage: false,
                         isBestseller: false,
                         badge: 'Desi Spice',
-                        image: 'https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        image: 'https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg?auto=compress&cs=tinysrgb&w=480&q=68',
                         description: 'Chicken Tandoori, Onion, Black Olives, Cheese, Sweet Corn & Tandoori Sauce.',
                         ingredients: 'Tandoori Chunks, Black Olives, Mozzarella Cheese, Sweet Corn, Tandoori Sauce.',
                         sizes: [
@@ -1514,7 +1550,7 @@
                         isHeritage: false,
                         isBestseller: false,
                         badge: 'Hot & Fiery',
-                        image: 'https://images.pexels.com/photos/1566837/pexels-photo-1566837.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        image: 'https://images.pexels.com/photos/1566837/pexels-photo-1566837.jpeg?auto=compress&cs=tinysrgb&w=480&q=68',
                         description: 'Chicken Peri Peri, Onion, Black Olives, Cheese, Sweet Corn & Peri Peri Sauce.',
                         ingredients: 'Peri Peri Chicken, Mozzarella, Black Olives, Sweet Corn, Tangy Peri Peri Sauce.',
                         sizes: [
@@ -1537,7 +1573,7 @@
                         isHeritage: false,
                         isBestseller: false,
                         badge: 'Flame Grilled',
-                        image: 'https://images.pexels.com/photos/803290/pexels-photo-803290.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        image: 'https://images.pexels.com/photos/803290/pexels-photo-803290.jpeg?auto=compress&cs=tinysrgb&w=480&q=68',
                         description: 'Grill Chicken, Cheese, Tomato, Jalapeno, Onions, Olives, Pizza Sauce, BBQ Sauce.',
                         ingredients: 'Char-grilled Chicken, Cheese, Jalapeños, Tomatoes, Olives, BBQ Sauce.',
                         sizes: [
@@ -1560,7 +1596,7 @@
                         isHeritage: false,
                         isBestseller: true,
                         badge: 'All-Time Classic',
-                        image: 'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        image: 'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=480&q=68',
                         description: 'Marinated Tikka Chicken, Cheese, Capsicum, Onion, Pizza Sauce.',
                         ingredients: 'Tikka Chunks, Mozzarella Cheese, Capsicum, Sliced Onion, Traditional Pizza Sauce.',
                         sizes: [
@@ -1583,7 +1619,7 @@
                         isHeritage: false,
                         isBestseller: false,
                         badge: 'Sweet & Savory',
-                        image: 'https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        image: 'https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?auto=compress&cs=tinysrgb&w=480&q=68',
                         description: 'Marinated Tikka Chicken, Cheese, Capsicum, Onion, Pizza Sauce & Pineapple.',
                         ingredients: 'Tikka Chicken, Pineapple Chunks, Mozzarella, Capsicum, Onion.',
                         sizes: [
@@ -1908,7 +1944,7 @@
                         isHeritage: false,
                         isBestseller: true,
                         badge: 'Poppable Bite',
-                        image: 'https://images.pexels.com/photos/60616/fried-chicken-chicken-fried-crunchy-60616.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        image: 'https://images.pexels.com/photos/60616/fried-chicken-chicken-fried-crunchy-60616.jpeg?auto=compress&cs=tinysrgb&w=480&q=68',
                         description: '10 pieces of bite-sized spicy fried chicken nuggets cooked to perfection with crispy batter.',
                         ingredients: 'Boneless Chicken Bites, Spicy Batter, Secret Herbs, Dip.',
                         tags: ['10 Pieces', 'Spicy Nuggets']
@@ -2529,39 +2565,5 @@
             }
         }
     </script>
-
-
-
-<script id="ss-scroll-reveal">
-(function () {
-  try {
-    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const selectors = [
-      '#specialties .premium-card', '#menu-section .menu-card', '#reviews .premium-card',
-      '#branches .branch-feature', '#about-heritage .grid > div[class~="bg-white/5"]',
-      '#home-section .branch-feature', 'footer .grid > div'
-    ];
-    const nodes = Array.from(document.querySelectorAll(selectors.join(',')));
-    if (!nodes.length) return;
-    nodes.forEach((node, i) => {
-      node.classList.add('ss-reveal');
-      node.style.setProperty('--ss-reveal-delay', `${(i % 4) * 55}ms`);
-    });
-    document.documentElement.classList.add('ss-motion-enabled');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('ss-in-view');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
-    nodes.forEach((node) => observer.observe(node));
-  } catch (error) {
-    /* Visual enhancements fail open: the site content and controls remain visible. */
-  }
-})();
-</script>
-
 </body>
 </html>
