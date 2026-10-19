@@ -189,3 +189,72 @@ body {
     html { scroll-behavior: auto !important; }
     .cta-sheen::before { animation: none !important; }
 }
+
+/* Hero slideshow: each photo eases into a gentle 8% zoom, then fades to the next every 5 seconds. */
+.hero-carousel {
+    isolation: isolate;
+    overflow: hidden;
+    background: #3b202f;
+}
+.hero-slide {
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1);
+    transition: opacity 900ms ease-in-out, visibility 0s linear 900ms;
+    will-change: opacity, transform;
+}
+.hero-slide.is-active {
+    z-index: 2;
+    opacity: 1;
+    visibility: visible;
+    animation: hero-slow-zoom 5s cubic-bezier(.22, .61, .36, 1) forwards;
+    transition: opacity 900ms ease-in-out, visibility 0s;
+}
+/* The outgoing picture stays above the incoming photo while it fades away. */
+.hero-slide.is-leaving {
+    z-index: 3;
+    opacity: 0;
+    visibility: visible;
+    transition: opacity 900ms ease-in-out, visibility 0s;
+}
+@keyframes hero-slow-zoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.085); }
+}
+.hero-slide-caption {
+    display: inline-block;
+    padding: .5rem .75rem;
+    border: 1px solid rgba(200,165,106,.48);
+    border-radius: 999px;
+    background: rgba(43,23,34,.78);
+    color: #f8edda;
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .025em;
+    line-height: 1.25;
+    box-shadow: 0 8px 22px rgba(0,0,0,.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.hero-slide-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 1px solid rgba(255,255,255,.88);
+    border-radius: 999px;
+    background: rgba(255,255,255,.56);
+    cursor: pointer;
+    transition: width 220ms ease, background-color 220ms ease, border-color 220ms ease;
+}
+.hero-slide-dot.is-active {
+    width: 22px;
+    background: #c8a56a;
+    border-color: #e0c79e;
+}
+.hero-slide-dot:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+    .hero-slide, .hero-slide-dot { transition: none !important; animation: none !important; }
+    .hero-slide.is-active { transform: none !important; }
+}
+
