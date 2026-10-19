@@ -61,7 +61,7 @@ body { font-family: 'Inter', sans-serif; }
         }
         .branch-feature {
             background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
-            border: 1px solid rgba(251,191,36,0.28);
+            border: 1px solid rgba(200,165,106,0.32);
             box-shadow: 0 20px 70px rgba(0,0,0,0.22);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
@@ -71,9 +71,9 @@ body { font-family: 'Inter', sans-serif; }
             display: inline-flex; align-items: center; justify-content: center;
             border-radius: 14px;
             background: linear-gradient(135deg, #D5B784, #B08D57);
-            color: #022c22;
+            color: #3b202f;
             font-weight: 900;
-            box-shadow: 0 10px 25px rgba(217,119,6,0.28);
+            box-shadow: 0 10px 25px rgba(176,141,87,0.22);
         }
         .branch-link {
             transition: all .3s ease;
@@ -190,71 +190,147 @@ body {
     .cta-sheen::before { animation: none !important; }
 }
 
-/* Hero slideshow: each photo eases into a gentle 8% zoom, then fades to the next every 5 seconds. */
+/* ---------------------------------------------------------
+   Refined Sialkot Sweets design system
+   Warm cream, muted wine, and champagne — intentionally restrained.
+   --------------------------------------------------------- */
+:root {
+    --ss-wine-950: #2b1722;
+    --ss-wine-900: #3b202f;
+    --ss-wine-800: #573043;
+    --ss-wine-700: #6e4155;
+    --ss-champagne: #c8a56a;
+    --ss-champagne-light: #e0c79e;
+    --ss-cream: #faf7f2;
+    --ss-ink: #31272c;
+    --ss-muted: #786d70;
+    --ss-border: rgba(59, 32, 47, .11);
+    --ss-shadow: 0 16px 44px rgba(43, 23, 34, .085);
+}
+
+html { scroll-padding-top: 88px; }
+body {
+    color: var(--ss-ink);
+    background:
+        radial-gradient(ellipse at 4% 0%, rgba(200,165,106,.075), transparent 28rem),
+        radial-gradient(ellipse at 100% 16%, rgba(87,48,67,.045), transparent 32rem),
+        var(--ss-cream);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+::selection { background: rgba(200,165,106,.35); color: var(--ss-wine-950); }
+a, button, input, select { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid var(--ss-champagne); outline-offset: 3px; }
+img { image-rendering: auto; }
+
+/* Quiet, consistent interactions instead of overdone motion. */
+header {
+    box-shadow: 0 8px 28px rgba(43,23,34,.14);
+    border-bottom-color: rgba(200,165,106,.28) !important;
+}
+.nav-link::after { height: 2px; border-radius: 999px; }
+.cta-sheen::before { opacity: .55; }
+.premium-card,
+.menu-card,
+.branch-link,
+button,
+a {
+    transition-timing-function: cubic-bezier(.2,.7,.2,1);
+}
+.premium-card {
+    box-shadow: 0 6px 22px rgba(43,23,34,.045);
+    border-color: var(--ss-border);
+}
+.premium-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ss-shadow);
+    border-color: rgba(200,165,106,.55) !important;
+}
+.menu-card {
+    border-color: rgba(59,32,47,.10);
+    box-shadow: 0 8px 26px rgba(43,23,34,.055);
+}
+.menu-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 42px rgba(43,23,34,.13);
+    border-color: rgba(200,165,106,.62);
+}
+.menu-card img { backface-visibility: hidden; }
+.menu-card h3 { line-height: 1.35; }
+.branch-feature { border-color: rgba(200,165,106,.32); }
+.branch-number { color: var(--ss-wine-950); }
+.branch-link { border-color: rgba(200,165,106,.26); }
+.branch-link:hover { border-color: rgba(200,165,106,.65); }
+
+/* Subtle entrance motion is enabled only when JavaScript is available. */
+html.ss-motion-ready .ss-reveal:not(.is-revealed) {
+    opacity: 0;
+    transform: translateY(14px);
+}
+.ss-reveal {
+    transition: opacity 520ms ease, transform 520ms cubic-bezier(.2,.7,.2,1);
+}
+.ss-reveal.is-revealed { opacity: 1; transform: translateY(0); }
+
+/* Four-photo hero slideshow: photos only, no labels, dots, or captions. */
 .hero-carousel {
-    isolation: isolate;
+    position: relative;
+    display: block;
+    width: 100%;
     overflow: hidden;
-    background: #3b202f;
+    isolation: isolate;
+    background: var(--ss-wine-900);
+    aspect-ratio: 5 / 4;
 }
 .hero-slide {
-    z-index: 1;
+    position: absolute !important;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
     opacity: 0;
     visibility: hidden;
+    z-index: 1;
     transform: scale(1);
-    transition: opacity 900ms ease-in-out, visibility 0s linear 900ms;
+    transition: opacity 900ms ease-in-out, transform 900ms ease-in-out, visibility 0s linear 900ms;
     will-change: opacity, transform;
+    backface-visibility: hidden;
 }
 .hero-slide.is-active {
-    z-index: 2;
     opacity: 1;
     visibility: visible;
-    animation: hero-slow-zoom 5s cubic-bezier(.22, .61, .36, 1) forwards;
+    z-index: 2;
     transition: opacity 900ms ease-in-out, visibility 0s;
+    animation: ss-hero-slow-zoom 5s cubic-bezier(.18,.63,.35,1) both;
 }
-/* The outgoing picture stays above the incoming photo while it fades away. */
 .hero-slide.is-leaving {
-    z-index: 3;
     opacity: 0;
     visibility: visible;
-    transition: opacity 900ms ease-in-out, visibility 0s;
+    z-index: 3;
+    transform: scale(1.085);
+    transition: opacity 900ms ease-in-out, transform 900ms ease-in-out, visibility 0s;
 }
-@keyframes hero-slow-zoom {
+@keyframes ss-hero-slow-zoom {
     from { transform: scale(1); }
     to { transform: scale(1.085); }
 }
-.hero-slide-caption {
-    display: inline-block;
-    padding: .5rem .75rem;
-    border: 1px solid rgba(200,165,106,.48);
-    border-radius: 999px;
-    background: rgba(43,23,34,.78);
-    color: #f8edda;
-    font-size: .7rem;
-    font-weight: 800;
-    letter-spacing: .025em;
-    line-height: 1.25;
-    box-shadow: 0 8px 22px rgba(0,0,0,.18);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+
+@media (hover: hover) and (pointer: fine) {
+    .hero-frame:hover .hero-slide.is-active { filter: saturate(1.025); }
 }
-.hero-slide-dot {
-    width: 8px;
-    height: 8px;
-    padding: 0;
-    border: 1px solid rgba(255,255,255,.88);
-    border-radius: 999px;
-    background: rgba(255,255,255,.56);
-    cursor: pointer;
-    transition: width 220ms ease, background-color 220ms ease, border-color 220ms ease;
+@media (max-width: 767px) {
+    .hero-carousel { aspect-ratio: 4 / 4.1; }
+    .premium-card:hover, .menu-card:hover { transform: none; }
 }
-.hero-slide-dot.is-active {
-    width: 22px;
-    background: #c8a56a;
-    border-color: #e0c79e;
-}
-.hero-slide-dot:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
-    .hero-slide, .hero-slide-dot { transition: none !important; animation: none !important; }
+    html.ss-motion-ready .ss-reveal:not(.is-revealed) { opacity: 1; transform: none; }
+    .ss-reveal { transition: none !important; }
+    .hero-slide, .hero-slide.is-active, .hero-slide.is-leaving {
+        animation: none !important;
+        transition: opacity 350ms ease !important;
+    }
     .hero-slide.is-active { transform: none !important; }
 }
-

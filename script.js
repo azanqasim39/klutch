@@ -1312,126 +1312,82 @@ const sectionRoutes = {
             }
         }
 
-/* Four-photo hero slideshow: continuous loop, five seconds per image, slow zoom + crossfade. */
+/* Reliable image-only hero slideshow.
+   Five seconds per image: each image slowly zooms, then cross-fades to the next.
+   No titles/captions/dots are rendered and hovering never pauses the loop. */
 (function initSialkotHeroSlideshow() {
     function setup() {
         const carousel = document.querySelector('[data-hero-carousel]');
-        if (!carousel) return;
-
+        if (!carousel || carousel.dataset.slideshowReady === 'true') return;
         const slides = Array.from(carousel.querySelectorAll('[data-hero-slide]'));
-        const dots = Array.from(carousel.querySelectorAll('[data-hero-dot]'));
-        const caption = carousel.querySelector('[data-hero-caption]');
         if (slides.length < 2) return;
 
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-        const slideDurationMs = 5000;
-        const fadeDurationMs = 900;
-        let current = Math.max(0, slides.findIndex(slide => slide.classList.contains('is-active')));
+        carousel.dataset.slideshowReady = 'true';
+        const interval = 5000;
+        const fade = 900;
+        let current = slides.findIndex(slide => slide.classList.contains('is-active'));
+        if (current < 0) current = 0;
         let timer = null;
-        const cleanupTimers = new WeakMap();
+        let cleanupTimer = null;
 
-        function updateControls() {
-            slides.forEach((slide, i) => {
-                slide.setAttribute('aria-hidden', i === current ? 'false' : 'true');
-            });
-            dots.forEach((dot, i) => {
-                const active = i === current;
-                dot.classList.toggle('is-active', active);
-                dot.setAttribute('aria-current', active ? 'true' : 'false');
-            });
-            if (caption) caption.textContent = slides[current].dataset.caption || '';
-        }
+        // Normalize initial classes and restart the first 5-second zoom only after setup.
+        slides.forEach((slide, index) => {
+            slide.classList.remove('is-active', 'is-leaving');
+            slide.setAttribute('aria-hidden', index === current ? 'false' : 'true');
+            slide.alt = slide.alt || 'Sialkot Sweets product photograph';
+        });
+        void slides[current].offsetWidth;
+        slides[current].classList.add('is-active');
 
-        function show(index) {
-            const nextIndex = (index + slides.length) % slides.length;
-            if (nextIndex === current) {
-                // Clicking the selected dot restarts its zoom gently, without changing slides.
-                const selected = slides[current];
-                selected.classList.remove('is-active');
-                selected.style.animation = 'none';
-                void selected.offsetWidth;
-                selected.style.animation = '';
-                requestAnimationFrame(() => selected.classList.add('is-active'));
-                updateControls();
-                return;
-            }
-
+        function showNext() {
+            const next = (current + 1) % slides.length;
             const outgoing = slides[current];
-            const incoming = slides[nextIndex];
-            const existingTimer = cleanupTimers.get(outgoing);
-            if (existingTimer) {
-                window.clearTimeout(existingTimer);
-                cleanupTimers.delete(outgoing);
-            }
-            const incomingCleanupTimer = cleanupTimers.get(incoming);
-            if (incomingCleanupTimer) {
-                window.clearTimeout(incomingCleanupTimer);
-                cleanupTimers.delete(incoming);
-            }
+            const incoming = slides[next];
 
-            // Freeze the outgoing image at its current zoom while it fades, avoiding a snap-back.
-            const currentTransform = window.getComputedStyle(outgoing).transform;
-            outgoing.style.transform = currentTransform === 'none' ? 'scale(1)' : currentTransform;
+            if (cleanupTimer !== null) window.clearTimeout(cleanupTimer);
             outgoing.classList.remove('is-active');
             outgoing.classList.add('is-leaving');
-
-            const cleanupTimer = window.setTimeout(() => {
-                outgoing.classList.remove('is-leaving');
-                outgoing.style.transform = '';
-                cleanupTimers.delete(outgoing);
-            }, fadeDurationMs + 80);
-            cleanupTimers.set(outgoing, cleanupTimer);
-
-            incoming.style.transform = '';
-            incoming.style.animation = '';
-            incoming.classList.remove('is-leaving');
-            // Force animation restart if this slide has been used before.
-            incoming.classList.remove('is-active');
+            incoming.classList.remove('is-leaving', 'is-active');
             void incoming.offsetWidth;
             incoming.classList.add('is-active');
+            outgoing.setAttribute('aria-hidden', 'true');
+            incoming.setAttribute('aria-hidden', 'false');
+            current = next;
 
-            current = nextIndex;
-            updateControls();
+            cleanupTimer = window.setTimeout(() => {
+                outgoing.classList.remove('is-leaving');
+                cleanupTimer = null;
+            }, fade + 80);
         }
 
-        function stop() {
-            if (timer !== null) {
-                window.clearTimeout(timer);
-                timer = null;
-            }
-        }
-
-        function start() {
-            if (timer !== null || document.hidden || reduceMotion.matches) return;
+        function scheduleNext() {
+            if (timer !== null || document.hidden) return;
             timer = window.setTimeout(() => {
                 timer = null;
-                show(current + 1);
-                start();
-            }, slideDurationMs);
+                showNext();
+                scheduleNext();
+            }, interval);
+        }
+        function stopTimer() {
+            if (timer !== null) window.clearTimeout(timer);
+            timer = null;
+        }
+        function restartCurrentZoom() {
+            const active = slides[current];
+            active.classList.remove('is-active');
+            void active.offsetWidth;
+            active.classList.add('is-active');
         }
 
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                stop();
-                show(index);
-                start();
-            });
-        });
-
-        // Do not pause on hover: the requested hero effect keeps looping while being viewed.
         document.addEventListener('visibilitychange', () => {
-            if (document.hidden) stop();
-            else start();
+            if (document.hidden) {
+                stopTimer();
+            } else {
+                restartCurrentZoom();
+                scheduleNext();
+            }
         });
-        if (typeof reduceMotion.addEventListener === 'function') {
-            reduceMotion.addEventListener('change', () => {
-                if (reduceMotion.matches) stop();
-                else start();
-            });
-        }
-
-        updateControls();
-        start();
+        scheduleNext();
     }
 
     if (document.readyState === 'loading') {
@@ -1441,3 +1397,30 @@ const sectionRoutes = {
     }
 })();
 
+/* Subtle reveal of static content cards as they enter the viewport. */
+(function initSialkotScrollReveal() {
+    function setup() {
+        if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const selector = '.premium-card, #reviews .grid > div, #branches .grid > div';
+        const targets = Array.from(new Set(document.querySelectorAll(selector)));
+        if (!targets.length) return;
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -24px 0px' });
+        targets.forEach(target => {
+            target.classList.add('ss-reveal');
+            observer.observe(target);
+        });
+        document.documentElement.classList.add('ss-motion-ready');
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setup, { once: true });
+    } else {
+        setup();
+    }
+})();
