@@ -1311,3 +1311,133 @@ const sectionRoutes = {
                 }
             }
         }
+
+/* Four-photo hero slideshow: continuous loop, five seconds per image, slow zoom + crossfade. */
+(function initSialkotHeroSlideshow() {
+    function setup() {
+        const carousel = document.querySelector('[data-hero-carousel]');
+        if (!carousel) return;
+
+        const slides = Array.from(carousel.querySelectorAll('[data-hero-slide]'));
+        const dots = Array.from(carousel.querySelectorAll('[data-hero-dot]'));
+        const caption = carousel.querySelector('[data-hero-caption]');
+        if (slides.length < 2) return;
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const slideDurationMs = 5000;
+        const fadeDurationMs = 900;
+        let current = Math.max(0, slides.findIndex(slide => slide.classList.contains('is-active')));
+        let timer = null;
+        const cleanupTimers = new WeakMap();
+
+        function updateControls() {
+            slides.forEach((slide, i) => {
+                slide.setAttribute('aria-hidden', i === current ? 'false' : 'true');
+            });
+            dots.forEach((dot, i) => {
+                const active = i === current;
+                dot.classList.toggle('is-active', active);
+                dot.setAttribute('aria-current', active ? 'true' : 'false');
+            });
+            if (caption) caption.textContent = slides[current].dataset.caption || '';
+        }
+
+        function show(index) {
+            const nextIndex = (index + slides.length) % slides.length;
+            if (nextIndex === current) {
+                // Clicking the selected dot restarts its zoom gently, without changing slides.
+                const selected = slides[current];
+                selected.classList.remove('is-active');
+                selected.style.animation = 'none';
+                void selected.offsetWidth;
+                selected.style.animation = '';
+                requestAnimationFrame(() => selected.classList.add('is-active'));
+                updateControls();
+                return;
+            }
+
+            const outgoing = slides[current];
+            const incoming = slides[nextIndex];
+            const existingTimer = cleanupTimers.get(outgoing);
+            if (existingTimer) {
+                window.clearTimeout(existingTimer);
+                cleanupTimers.delete(outgoing);
+            }
+            const incomingCleanupTimer = cleanupTimers.get(incoming);
+            if (incomingCleanupTimer) {
+                window.clearTimeout(incomingCleanupTimer);
+                cleanupTimers.delete(incoming);
+            }
+
+            // Freeze the outgoing image at its current zoom while it fades, avoiding a snap-back.
+            const currentTransform = window.getComputedStyle(outgoing).transform;
+            outgoing.style.transform = currentTransform === 'none' ? 'scale(1)' : currentTransform;
+            outgoing.classList.remove('is-active');
+            outgoing.classList.add('is-leaving');
+
+            const cleanupTimer = window.setTimeout(() => {
+                outgoing.classList.remove('is-leaving');
+                outgoing.style.transform = '';
+                cleanupTimers.delete(outgoing);
+            }, fadeDurationMs + 80);
+            cleanupTimers.set(outgoing, cleanupTimer);
+
+            incoming.style.transform = '';
+            incoming.style.animation = '';
+            incoming.classList.remove('is-leaving');
+            // Force animation restart if this slide has been used before.
+            incoming.classList.remove('is-active');
+            void incoming.offsetWidth;
+            incoming.classList.add('is-active');
+
+            current = nextIndex;
+            updateControls();
+        }
+
+        function stop() {
+            if (timer !== null) {
+                window.clearTimeout(timer);
+                timer = null;
+            }
+        }
+
+        function start() {
+            if (timer !== null || document.hidden || reduceMotion.matches) return;
+            timer = window.setTimeout(() => {
+                timer = null;
+                show(current + 1);
+                start();
+            }, slideDurationMs);
+        }
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                stop();
+                show(index);
+                start();
+            });
+        });
+
+        // Do not pause on hover: the requested hero effect keeps looping while being viewed.
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) stop();
+            else start();
+        });
+        if (typeof reduceMotion.addEventListener === 'function') {
+            reduceMotion.addEventListener('change', () => {
+                if (reduceMotion.matches) stop();
+                else start();
+            });
+        }
+
+        updateControls();
+        start();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setup, { once: true });
+    } else {
+        setup();
+    }
+})();
+

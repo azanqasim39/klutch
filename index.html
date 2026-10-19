@@ -218,16 +218,67 @@
                     </div>
                 </div>
 
-                <!-- Right Hero Image Showcase -->
+                <!-- Right Hero Image Showcase: slow-zoom four-photo crossfade -->
                 <div class="md:col-span-5 relative">
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-400/40 group">
-                        <img 
-                            src="https://images.pexels.com/photos/35041879/pexels-photo-35041879.jpeg?auto=compress&cs=tinysrgb&w=900&q=82" 
-                            alt="Famous Sialkoti Guldasta Sweets Hamper" 
-                            class="hero-showcase-img w-full h-[360px] sm:h-[420px] object-cover transform group-hover:scale-105 transition duration-700"
-                            fetchpriority="high" decoding="async"
+                        <div
+                            class="hero-carousel hero-showcase-img relative h-[360px] sm:h-[420px]"
+                            data-hero-carousel
+                            role="region"
+                            aria-label="Featured Sialkot Sweets products"
+                            aria-roledescription="carousel"
                         >
-                        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent"></div>
+                            <img
+                                src="./guldasta.webp"
+                                alt="Sialkoti Guldasta signature assorted sweets gift box"
+                                class="hero-slide is-active absolute inset-0 w-full h-full object-cover"
+                                data-hero-slide
+                                data-caption="Sialkoti Guldasta · Signature Gift Box"
+                                aria-hidden="false"
+                                fetchpriority="high"
+                                decoding="async"
+                            >
+                            <img
+                                src="./gulab jamun.webp"
+                                alt="Desi ghee Gulab Jamun, a favourite traditional sweet"
+                                class="hero-slide absolute inset-0 w-full h-full object-cover"
+                                data-hero-slide
+                                data-caption="Desi Ghee Gulab Jamun · Fresh Daily"
+                                aria-hidden="true"
+                                loading="eager"
+                                decoding="async"
+                            >
+                            <img
+                                src="./chum chum.webp"
+                                alt="Traditional Cham Cham sweets coated with khoya"
+                                class="hero-slide absolute inset-0 w-full h-full object-cover"
+                                data-hero-slide
+                                data-caption="Cham Cham · Traditional Favourite"
+                                aria-hidden="true"
+                                loading="eager"
+                                decoding="async"
+                            >
+                            <img
+                                src="./motichoor ladu barik.webp"
+                                alt="Motichoor ladoo made with fine boondi"
+                                class="hero-slide absolute inset-0 w-full h-full object-cover"
+                                data-hero-slide
+                                data-caption="Motichoor Ladoo · A Festival Classic"
+                                aria-hidden="true"
+                                loading="eager"
+                                decoding="async"
+                            >
+                            <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent pointer-events-none"></div>
+                            <div class="hero-slide-caption-wrap absolute bottom-4 left-4 right-24 z-10 pointer-events-none">
+                                <span class="hero-slide-caption" data-hero-caption>Sialkoti Guldasta · Signature Gift Box</span>
+                            </div>
+                            <div class="hero-slide-dots absolute bottom-5 right-4 z-10 flex items-center gap-2" aria-label="Choose featured product photo">
+                                <button type="button" class="hero-slide-dot is-active" data-hero-dot="0" aria-label="Show Sialkoti Guldasta photo" aria-current="true"></button>
+                                <button type="button" class="hero-slide-dot" data-hero-dot="1" aria-label="Show Gulab Jamun photo" aria-current="false"></button>
+                                <button type="button" class="hero-slide-dot" data-hero-dot="2" aria-label="Show Cham Cham photo" aria-current="false"></button>
+                                <button type="button" class="hero-slide-dot" data-hero-dot="3" aria-label="Show Motichoor Ladoo photo" aria-current="false"></button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Floating Badge -->
