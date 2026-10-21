@@ -513,7 +513,12 @@
                                         <span class="bg-emerald-900 text-amber-300 font-bold text-[10px] uppercase px-2 py-0.5 rounded shadow border border-amber-400/40">Heritage Special</span>
                                     </template>
                                     <template x-if="item.badge">
-                                        <span class="bg-burgundy-800 text-white font-bold text-[10px] uppercase px-2 py-0.5 rounded shadow" x-text="item.badge"></span>
+                                        <span :class="(item.badge.includes('FLAVOUR') || item.badge.includes('SIZE')) ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-emerald-950 font-black text-[11px] uppercase px-2.5 py-1 rounded-md shadow-md border border-amber-300 tracking-wider flex items-center gap-1 ring-1 ring-amber-400/50' : 'bg-burgundy-800 text-white font-bold text-[10px] uppercase px-2 py-0.5 rounded shadow'">
+                                            <template x-if="item.badge.includes('FLAVOUR') || item.badge.includes('SIZE')">
+                                                <i class="fa-solid fa-layer-group text-[9px]"></i>
+                                            </template>
+                                            <span x-text="item.badge"></span>
+                                        </span>
                                     </template>
                                 </div>
 
@@ -530,6 +535,13 @@
                                     <h3 class="font-serif font-bold text-lg text-emerald-950 group-hover:text-amber-600 transition" x-text="item.name"></h3>
                                     <span class="font-urdu text-amber-700 text-lg font-bold shrink-0 dir-rtl" x-text="item.urduName"></span>
                                 </div>
+
+                                <template x-if="item.highlight">
+                                    <div class="mt-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-300 text-amber-900 font-extrabold text-[10.5px]">
+                                        <i class="fa-solid fa-circle-check text-amber-600 text-[9px]"></i>
+                                        <span x-text="item.highlight"></span>
+                                    </div>
+                                </template>
 
                                 <p class="text-stone-500 text-xs mt-2 line-clamp-2 leading-relaxed" x-text="item.description"></p>
 

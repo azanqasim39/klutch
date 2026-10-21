@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fries — 3 Sizes | Sialkot Sweets &amp; Bakers</title>
+    <meta name="description" content="Crispy golden potato fries available in Small, Large, and Family Pack sizes at Sialkot Sweets &amp; Bakers in Gujranwala.">
+    <meta name="theme-color" content="#022c22">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            850: '#064e3b',
+                            900: '#022c22',
+                            950: '#022c22'
+                        },
+                        amber: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            450: '#f59e0b',
+                            500: '#f59e0b',
+                            550: '#d97706',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        urdu: ['Amiri', 'serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 10% 0%, rgba(245,158,11,.055), transparent 28%), radial-gradient(circle at 95% 8%, rgba(6,78,59,.08), transparent 24%), #fafaf9;
+        }
+        .font-playfair { font-family: 'Playfair Display', Georgia, serif; }
+        .font-urdu { font-family: 'Amiri', serif; }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #92400e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .action-link { transition: transform .2s ease, box-shadow .2s ease; }
+        .action-link:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(2,44,34,.18); }
+        .size-box {
+            transition: all .18s ease;
+        }
+        .size-box:hover {
+            border-color: #f59e0b;
+            background-color: #fffbeb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(2,44,34,.06);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .001ms !important; }
+        }
+
+        /* Mobile header & announcement bar consistency */
+        @media (max-width: 639px) {
+            body { font-size: 13px !important; overflow-x: hidden !important; }
+            body > div:first-child {
+                padding: 7px 12px !important;
+                font-size: 11px !important;
+                line-height: 1.35 !important;
+            }
+            body > div:first-child > div.max-w-7xl {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                gap: 6px !important;
+            }
+            body > div:first-child > div.max-w-7xl > div {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                justify-content: flex-start !important;
+                align-items: center !important;
+                width: auto !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                gap: 5px 8px !important;
+                font-size: 11px !important;
+                line-height: 1.3 !important;
+            }
+            #product-open-indicator {
+                padding: 1px 8px !important;
+                font-size: 11px !important;
+                line-height: 1.2 !important;
+                gap: 5px !important;
+            }
+            #product-open-indicator > span:first-child {
+                width: 5px !important;
+                height: 5px !important;
+            }
+            body > div:first-child > div.max-w-7xl > div:first-child > span:nth-child(2) {
+                display: none !important;
+            }
+            header > div.max-w-7xl {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                height: 58px !important;
+                min-height: 58px !important;
+                max-height: 58px !important;
+                padding: 6px 10px !important;
+                gap: 6px !important;
+                flex-wrap: nowrap !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] {
+                min-width: 0 !important;
+                flex: 1 1 auto !important;
+                gap: 6px !important;
+                overflow: hidden !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] > span:first-child {
+                width: 38px !important;
+                height: 38px !important;
+                min-width: 38px !important;
+                min-height: 38px !important;
+                padding: 2.5px !important;
+            }
+            header a[aria-label="Sialkot Sweets home"] .font-playfair {
+                font-size: 13px !important;
+                line-height: 1.1 !important;
+                letter-spacing: -.015em !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+            header a.action-link {
+                flex: 0 0 auto !important;
+                max-width: 48% !important;
+                min-width: 0 !important;
+                padding: 6px 9px !important;
+                gap: 5px !important;
+                font-size: 10px !important;
+                line-height: 1.15 !important;
+                border-radius: 7px !important;
+                white-space: nowrap !important;
+                text-align: center !important;
+            }
+            footer > .max-w-7xl > .grid {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+                gap: 14px 10px !important;
+                margin-bottom: 14px !important;
+            }
+            footer > .max-w-7xl > .grid > div:first-child,
+            footer > .max-w-7xl > .grid > div:nth-child(4) {
+                grid-column: 1 / -1 !important;
+            }
+        }
+
+        /* Explicit Green Theme matching Tortilla Wrap and all other product pages */
+        .bg-emerald-950,
+        div.bg-emerald-950,
+        footer.bg-emerald-950 {
+            background-color: #022c22 !important;
+        }
+        header.bg-emerald-950\/95,
+        header {
+            background-color: rgba(2, 44, 34, 0.95) !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-900 text-sm">
+
+    <!-- Top Announcement Bar (Emerald Green) -->
+    <div class="bg-emerald-950 text-amber-300 text-[11px] sm:text-xs py-1.5 px-3 sm:px-4 border-b border-amber-500/30">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-x-4 gap-y-1">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span id="product-open-indicator" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold border bg-amber-500/20 text-amber-300 border-amber-500/30 transition-colors duration-300">
+                    <span id="product-open-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="product-open-status">OPEN NOW</span>
+                </span>
+                <span class="hidden md:inline"><i class="fa-solid fa-clock text-amber-400 mr-1"></i> Open Daily · 6:00 AM – 1:00 AM</span>
+                <span><i class="fa-solid fa-location-dot text-amber-400 mr-1"></i> Gujranwala</span>
+            </div>
+            <div class="flex items-center flex-wrap gap-x-3 gap-y-1">
+                <a href="tel:03253922121" class="hover:text-amber-100 transition font-semibold inline-flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-phone text-amber-400"></i> 0325 3922121</a>
+                <span class="hidden sm:inline text-emerald-700">|</span>
+                <div class="flex items-center text-amber-400 whitespace-nowrap"><i class="fa-solid fa-star text-[10px] mr-1"></i><span class="font-bold text-white">4.4</span><span class="text-stone-400 text-[10px] ml-1">(53 Google Reviews)</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Navigation (Emerald Green) -->
+    <header class="sticky top-0 z-40 bg-emerald-950/95 backdrop-blur-xl text-white shadow-xl border-b border-amber-500/20">
+        <div class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-7 min-h-[58px] sm:min-h-[60px] flex items-center justify-between gap-3">
+            <a href="../?section=home" class="flex items-center gap-2 min-w-0 shrink-0" aria-label="Sialkot Sweets home">
+                <span class="w-8 h-8 sm:w-9 sm:h-9 shrink-0 rounded-full bg-white p-1 shadow border border-amber-400/40 overflow-hidden flex items-center justify-center">
+                    <img src="../sialkot-sweets-logo.png" alt="Sialkot Sweets logo" class="w-full h-full object-contain rounded-full">
+                </span>
+                <span class="min-w-0">
+                    <span class="flex items-center gap-1.5">
+                        <span class="block font-playfair text-sm sm:text-base font-bold tracking-tight leading-tight">SIALKOT SWEETS</span>
+                        <span class="hidden xl:inline-block bg-amber-500/20 text-amber-300 text-[8px] px-1 py-0.5 rounded uppercase tracking-wider font-bold border border-amber-400/30">Est. 1951</span>
+                    </span>
+                    <span class="block text-[8px] sm:text-[9px] text-amber-200/80 tracking-[.12em] uppercase leading-tight">Bakery &amp; Traditional Sweets</span>
+                </span>
+            </a>
+            <nav class="hidden lg:flex items-center gap-3 xl:gap-4 text-[11px] xl:text-xs font-semibold whitespace-nowrap" aria-label="Main navigation">
+                <a href="../?section=about" class="text-white/90 hover:text-amber-300 transition">About Us</a>
+                <a href="../?section=menu" class="text-white/90 hover:text-amber-300 transition">Our Menu</a>
+                <a href="../?section=specialties" class="text-white/90 hover:text-amber-300 transition">Specialties</a>
+                <a href="../?section=reviews" class="text-white/90 hover:text-amber-300 transition">Reviews</a>
+                <a href="../?section=branches" class="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-2.5 py-1.5 rounded-lg shadow-sm"><i class="fa-solid fa-location-dot"></i> Our Branches</a>
+            </nav>
+            <a href="../?section=menu" class="action-link inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-2.5 sm:px-3 py-1.5 text-[10px] sm:text-xs shadow-md whitespace-nowrap"><i class="fa-solid fa-arrow-left"></i><span>Back to Menu</span></a>
+        </div>
+    </header>
+
+    <main class="py-4 sm:py-6 lg:py-7">
+        <div class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-7">
+            <!-- Breadcrumb Navigation -->
+            <nav class="text-[11px] text-stone-500 mb-3.5 sm:mb-4 flex items-center flex-wrap gap-1" aria-label="Breadcrumb">
+                <a href="../?section=home" class="hover:text-amber-700 transition">Home</a>
+                <span class="mx-1 text-stone-300">/</span>
+                <a href="../?section=menu" class="hover:text-amber-700 transition">Our Menu</a>
+                <span class="mx-1 text-stone-300">/</span>
+                <span class="text-emerald-950 font-semibold">Fries</span>
+            </nav>
+
+            <!-- Compact 2-Column Product Showcase Layout -->
+            <div class="flex flex-col lg:flex-row gap-5 lg:gap-7 items-start">
+
+                <!-- Left Column: Single Showcase Card (Sticky, Compact & Professional) -->
+                <div class="w-full lg:w-[36%] shrink-0">
+                    <div class="lg:sticky lg:top-20">
+                        <div class="relative overflow-hidden rounded-2xl border border-stone-200/90 bg-white p-2.5 sm:p-3 shadow-xs">
+                            <!-- Flavours Count Badge -->
+                            <span class="absolute top-4 right-4 z-10 rounded-full bg-amber-600 text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 shadow-sm">
+                                3 SIZES
+                            </span>
+
+                            <!-- Single Featured Image -->
+                            <div class="relative overflow-hidden rounded-xl aspect-[4/3] bg-stone-100 flex items-center justify-center">
+                                <img
+                                    id="main-product-image"
+                                    src="fries.webp"
+                                    alt="Fries"
+                                    class="w-full h-full object-cover rounded-xl transition-transform duration-300 hover:scale-105"
+                                    fetchpriority="high"
+                                >
+                            </div>
+
+                            <!-- Compact Product Highlight Info Under Image -->
+                            <div class="pt-3 px-1">
+                                <div class="flex items-center justify-between gap-1.5">
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-amber-50 text-amber-800 border border-amber-200">
+                                        <i class="fa-solid fa-fire text-amber-500 text-[8px]"></i> Golden &amp; Crispy
+                                    </span>
+                                    <span class="text-[11px] font-bold text-amber-600">★ 4.8 Rating</span>
+                                </div>
+                                <h2 class="font-playfair text-lg sm:text-xl font-bold text-emerald-950 mt-1.5 leading-tight">Fries</h2>
+                                <p class="font-urdu text-sm text-amber-700 leading-tight" dir="rtl" lang="ur">فرائز</p>
+                                <p class="text-[11px] text-stone-500 mt-1.5 leading-relaxed">
+                                    Fresh potato fries cooked to a crispy golden finish, lightly salted, and served piping hot with tomato ketchup and dips.
+                                </p>
+                                <div class="mt-2.5 pt-2.5 border-t border-stone-100 flex items-center justify-between text-[11px]">
+                                    <span class="text-stone-500 text-[10px]">Call to order:</span>
+                                    <a href="tel:03253922121" class="font-bold text-emerald-950 hover:text-amber-700 transition flex items-center gap-1 text-[11px]">
+                                        <i class="fa-solid fa-phone text-amber-500 text-[10px]"></i> 0325 3922121
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Compact Flavour Cards with Clean Size Buttons -->
+                <div class="w-full lg:w-[64%] flex-1">
+
+                    <!-- Compact Top Overview Header -->
+                    <div class="mb-3.5 pb-2.5 border-b border-stone-200/90 flex flex-wrap items-baseline justify-between gap-2">
+                        <div>
+                            <div class="flex items-baseline gap-2">
+                                <span class="font-playfair text-2xl sm:text-3xl font-extrabold text-amber-800">From Rs. 90</span>
+                                <span class="text-[11px] text-stone-500 font-medium">Small (Rs. 90) to Family Pack (Rs. 300)</span>
+                            </div>
+                            <p class="text-[11px] text-emerald-800 font-medium mt-0.5 flex items-center gap-1">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-[10px]"></i> Select any serving size below • Fried fresh on order
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Flavours List (Compact, Professional & High-Density) -->
+                    <div class="space-y-2.5 sm:space-y-3">
+
+                        <!-- Size 1: Small Fries -->
+                        <article class="bg-white rounded-xl border border-stone-200/90 p-2.5 sm:p-3 shadow-xs hover:border-amber-300/80 transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="min-w-0">
+                                    <div class="flex items-center flex-wrap gap-x-2 gap-y-0.5">
+                                        <h3 class="font-bold text-xs sm:text-sm tracking-tight text-stone-900 uppercase">
+                                            1. Small Fries
+                                        </h3>
+                                        <span class="font-urdu text-xs text-amber-700" dir="rtl" lang="ur">فرائز سمال</span>
+                                    </div>
+                                    <p class="text-[10.5px] text-stone-500 mt-0.5">Hot and crispy golden salted potato fries in a personal snack-size box.</p>
+                                </div>
+                                <span class="text-[10px] font-semibold text-stone-500 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200 shrink-0">Snack Size</span>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 mt-2">
+                                <div class="size-box rounded-lg border border-amber-300 bg-amber-50/50 py-1.5 px-3 text-center">
+                                    <span class="block font-bold text-[11px] text-emerald-950 leading-tight">Small Box</span>
+                                    <span class="block text-[11px] font-bold text-amber-800 leading-tight mt-0.5">Rs. 90</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Size 2: Large Fries -->
+                        <article class="bg-white rounded-xl border border-stone-200/90 p-2.5 sm:p-3 shadow-xs hover:border-amber-300/80 transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="min-w-0">
+                                    <div class="flex items-center flex-wrap gap-x-2 gap-y-0.5">
+                                        <h3 class="font-bold text-xs sm:text-sm tracking-tight text-stone-900 uppercase">
+                                            2. Large Fries
+                                        </h3>
+                                        <span class="font-urdu text-xs text-amber-700" dir="rtl" lang="ur">فرائز لارج</span>
+                                    </div>
+                                    <p class="text-[10.5px] text-stone-500 mt-0.5">Generous portion of hot &amp; crispy golden potato fries, seasoned and served fresh.</p>
+                                </div>
+                                <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 shrink-0">Golden Crisp</span>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 mt-2">
+                                <div class="size-box rounded-lg border border-amber-300 bg-amber-50/50 py-1.5 px-3 text-center">
+                                    <span class="block font-bold text-[11px] text-emerald-950 leading-tight">Large Box</span>
+                                    <span class="block text-[11px] font-bold text-amber-800 leading-tight mt-0.5">Rs. 180</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Size 3: Family Pack Fries -->
+                        <article class="bg-white rounded-xl border border-stone-200/90 p-2.5 sm:p-3 shadow-xs hover:border-amber-300/80 transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="min-w-0">
+                                    <div class="flex items-center flex-wrap gap-x-2 gap-y-0.5">
+                                        <h3 class="font-bold text-xs sm:text-sm tracking-tight text-stone-900 uppercase">
+                                            3. Family Pack Fries
+                                        </h3>
+                                        <span class="font-urdu text-xs text-amber-700" dir="rtl" lang="ur">فیملی پیک فرائز</span>
+                                    </div>
+                                    <p class="text-[10.5px] text-stone-500 mt-0.5">Extra large family sharing portion of hot crispy potato fries served with tomato ketchup.</p>
+                                </div>
+                                <span class="text-[10px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 shrink-0">Bestseller</span>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 mt-2">
+                                <div class="size-box rounded-lg border border-amber-300 bg-amber-50/50 py-1.5 px-3 text-center">
+                                    <span class="block font-bold text-[11px] text-emerald-950 leading-tight">Family Pack</span>
+                                    <span class="block text-[11px] font-bold text-amber-800 leading-tight mt-0.5">Rs. 300</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Special Option: Loaded Cheese Fries -->
+                        <article class="bg-white rounded-xl border border-stone-200/90 p-2.5 sm:p-3 shadow-xs hover:border-amber-300/80 transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="min-w-0">
+                                    <div class="flex items-center flex-wrap gap-x-2 gap-y-0.5">
+                                        <h3 class="font-bold text-xs sm:text-sm tracking-tight text-stone-900 uppercase">
+                                            Special: Loaded Cheese Fries
+                                        </h3>
+                                        <span class="font-urdu text-xs text-amber-700" dir="rtl" lang="ur">لوڈڈ چیز فرائز</span>
+                                    </div>
+                                    <p class="text-[10.5px] text-stone-500 mt-0.5">Golden fries layered with melted cheese sauce, tender chicken chunks, spicy jalapeños &amp; signature drip.</p>
+                                </div>
+                                <span class="text-[10px] font-semibold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300 shrink-0">Chef's Special</span>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 mt-2">
+                                <div class="size-box rounded-lg border border-amber-300 bg-amber-50/50 py-1.5 px-3 text-center">
+                                    <span class="block font-bold text-[11px] text-emerald-950 leading-tight">Per Serving</span>
+                                    <span class="block text-[11px] font-bold text-amber-800 leading-tight mt-0.5">Rs. 600</span>
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
+
+                    <!-- Compact Call To Order Quick Banner -->
+                    <div class="mt-5 rounded-xl bg-gradient-to-r from-emerald-950 to-emerald-900 text-white p-3.5 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-3 border border-amber-500/30 shadow-md">
+                        <div>
+                            <h4 class="font-serif text-sm sm:text-base font-bold text-amber-300">Craving Hot Crispy Fries?</h4>
+                            <p class="text-[11px] text-stone-300 mt-0.5">Call our Branch now for hot &amp; freshly fried fries.</p>
+                        </div>
+                        <a href="tel:03253922121" class="action-link inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-4 py-2 rounded-lg shadow-sm text-xs whitespace-nowrap">
+                            <i class="fa-solid fa-phone text-[10px]"></i> Call 0325 3922121
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (matching Tortilla Wrap & main website) -->
+    <footer class="mt-10 sm:mt-14 bg-emerald-950 text-white border-t border-amber-500/30 py-8 sm:py-9">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7 mb-5">
+                <div class="space-y-2">
+                    <div class="font-serif text-base sm:text-lg font-bold text-amber-300">SIALKOT SWEETS &amp; BAKERS</div>
+                    <p class="text-[11px] text-stone-400 leading-relaxed">Gujranwala's oldest and most loved traditional mithai &amp; fresh bakery house since 1951. Prepared daily with pure ghee and genuine passion.</p>
+                </div>
+                <div>
+                    <h4 class="text-amber-400 font-bold text-[10px] uppercase tracking-wider mb-2">Popular Categories</h4>
+                    <ul class="space-y-1 text-[11px] text-stone-300">
+                        <li><a href="../?section=menu" class="hover:text-amber-300 transition">Traditional Sweets</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300 transition">Fast Food &amp; Pizzas</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300 transition">Arabian Sweets &amp; Baklava</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300 transition">Akhrot &amp; Sohan Halwa</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300 transition">Fresh Biscuits &amp; Khatai</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300 transition">Crispy Cake Rusk</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-amber-400 font-bold text-[10px] uppercase tracking-wider mb-2">Quick Links</h4>
+                    <ul class="space-y-1 text-[11px] text-stone-300">
+                        <li><a href="../?section=about" class="hover:text-amber-300 transition">About Our Heritage</a></li>
+                        <li><a href="../?section=menu" class="hover:text-amber-300 transition">Food Menu</a></li>
+                        <li><a href="../?section=specialties" class="hover:text-amber-300 transition">Specialties</a></li>
+                        <li><a href="../?section=reviews" class="hover:text-amber-300 transition">Google Reviews (4.4★)</a></li>
+                        <li><a href="../?section=branches" class="hover:text-amber-300 transition">Our Branches</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-amber-400 font-bold text-[10px] uppercase tracking-wider mb-2">Contact Us</h4>
+                    <p class="text-[11px] text-stone-300 mb-1">Call the branch for general inquiries:</p>
+                    <a href="tel:03253922121" class="text-sm sm:text-base font-bold text-amber-300 hover:underline block">0325 3922121</a>
+                    <a href="mailto:sialkotsweets.org@gmail.com" class="text-xs text-amber-200 hover:text-amber-100 hover:underline block mt-1 break-all">sialkotsweets.org@gmail.com</a>
+                    <span class="text-[10px] text-emerald-400 block mt-1">Gujranwala</span>
+                    <div class="flex items-center gap-2 mt-2.5">
+                        <a href="https://www.instagram.com/sialkotsweets.pk/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Sialkot Sweets on Instagram" class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-pink-300 hover:bg-pink-500 hover:text-white hover:border-pink-400 flex items-center justify-center transition-all duration-200"><i class="fa-brands fa-instagram text-sm"></i></a>
+                        <a href="https://www.facebook.com/share/1Cn22NBPbY/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Sialkot Sweets on Facebook" class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-blue-300 hover:bg-blue-600 hover:text-white hover:border-blue-500 flex items-center justify-center transition-all duration-200"><i class="fa-brands fa-facebook-f text-sm"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-[9px] text-stone-500 mt-4 pt-2.5 border-t border-emerald-900/60"><span class="text-amber-400 font-semibold">Photo credits:</span> Product photos sourced from royalty-free media repositories under standard licenses.</div>
+            <div class="pt-4 mt-2.5 border-t border-emerald-900 flex flex-col sm:flex-row items-start sm:items-center justify-between text-[10px] sm:text-[11px] text-stone-400 gap-2">
+                <p>© 1951 - 2026 Ishaq &amp; Sons — Sialkot Sweets &amp; Bakers (Gujranwala). All rights reserved.</p>
+                <a href="tel:03253922121" aria-label="Call Sialkot Sweets" class="text-amber-400 hover:text-amber-300 shrink-0"><i class="fa-solid fa-phone text-sm"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Live open/close indicator script -->
+    <script>
+        (function updateProductOpenStatus() {
+            const status = document.getElementById('product-open-status');
+            const indicator = document.getElementById('product-open-indicator');
+            const dot = document.getElementById('product-open-dot');
+            if (!status || !indicator || !dot) return;
+            function update() {
+                let hour;
+                try {
+                    const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Karachi', hour: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+                    hour = Number(parts.find(part => part.type === 'hour')?.value);
+                } catch (error) {
+                    hour = new Date().getHours();
+                }
+                const isOpen = hour >= 6 || hour < 1;
+                status.textContent = isOpen ? 'OPEN NOW' : 'CLOSED NOW';
+                indicator.classList.toggle('bg-amber-500/20', isOpen);
+                indicator.classList.toggle('text-amber-300', isOpen);
+                indicator.classList.toggle('border-amber-500/30', isOpen);
+                indicator.classList.toggle('bg-red-500/20', !isOpen);
+                indicator.classList.toggle('text-red-300', !isOpen);
+                indicator.classList.toggle('border-red-500/30', !isOpen);
+                dot.classList.toggle('bg-emerald-400', isOpen);
+                dot.classList.toggle('animate-pulse', isOpen);
+                dot.classList.toggle('bg-red-500', !isOpen);
+            }
+            update();
+            window.setInterval(update, 60000);
+        })();
+    </script>
+</body>
+</html>
