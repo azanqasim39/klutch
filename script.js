@@ -56,6 +56,242 @@ tailwind.config = {
     }
 };
 
+
+
+/* The ten original pizza flavour records are kept here for the single Sialkot Special Pizza page. */
+window.SIALKOT_PIZZA_FLAVOURS = [
+{
+                        id: 'ff1',
+                        name: 'Sialkot Special Pizza',
+                        urduName: 'سیالکوٹ اسپیشل پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.9,
+                        isHeritage: true,
+                        isBestseller: true,
+                        badge: 'House Special',
+                        image: 'Z.png',
+                        description: 'Mozzarella, Danish Cheese, Tomato Sauce, Oregano.',
+                        ingredients: 'Mozzarella Cheese, Danish Cheese, Signature Tomato Sauce, Oregano, Fresh Dough.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1950 },
+                            { name: 'Large (12")', price: 2450 },
+                            { name: 'XL (14")', price: 2700 }
+                        ],
+                        tags: ['House Special', 'Loaded Cheese', 'Fresh Baked']
+                    },
+{
+                        id: 'ff2',
+                        name: 'Chicken Creamy Pizza',
+                        urduName: 'چکن کریمی پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Creamy Achari',
+                        image: 'https://lh3.googleusercontent.com/grass-cs/ACvplmNtMjlFATt56PZoi3CAs78Qfz6ia-_Gv_tSqb_NvF67oeydAoW-SBeaUcwry52morAQsK00lxTQduzMBiiZoWi1oD05mfIG_nlJGcQenvOaeIg-055i3OZZJIAnR37D0gUY0rVor-x-_BKq=s680-w680-h510-rw',
+                        description: 'Capsicum, Sweet Corn, Achari Chicken, Onion, Mozzarella Cheese, Achari Sauce.',
+                        ingredients: 'Achari Chicken, Mozzarella Cheese, Capsicum, Sweet Corn, Onion, Creamy Achari Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Creamy', 'Achari Flavor', 'Sweet Corn']
+                    },
+{
+                        id: 'ff3',
+                        name: 'Chicken Malai Boti Pizza',
+                        urduName: 'چکن ملائی بوٹی پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.9,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Tender Boti',
+                        image: 'https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Capsicum, Sweet Corn, Achari Chicken, Onion, Mozzarella Cheese, Achari Sauce.',
+                        ingredients: 'Tender Malai Boti Chicken, Mozzarella Cheese, Capsicum, Sweet Corn, Onion.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Malai Boti', 'Mild Spicy', 'Juicy']
+                    },
+{
+                        id: 'ff4',
+                        name: 'Chicken Fajita Pizza',
+                        urduName: 'چکن فجیتا پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Mexican Flavor',
+                        image: 'https://images.pexels.com/photos/1653877/pexels-photo-1653877.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Fajita Chicken, Cheese, Tomato, Pizza Sauce, Capsicum, Onion.',
+                        ingredients: 'Marinated Fajita Chicken, Cheese, Fresh Tomatoes, Capsicum, Onion, Red Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Fajita Spice', 'Classic Favorite']
+                    },
+{
+                        id: 'ff5',
+                        name: 'Chicken Bar B.Q Pizza',
+                        urduName: 'چکن بار بی کیو پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'Smoky BBQ',
+                        image: 'https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'BBQ Chicken, Cheese, Tomato, Jalapeno, Onion, Olives & Pizza Sauce, BBQ Sauce.',
+                        ingredients: 'BBQ Chicken, Mozzarella Cheese, Jalapeños, Black Olives, BBQ Drizzle.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Smoky BBQ', 'Jalapeño Kick']
+                    },
+{
+                        id: 'ff6',
+                        name: 'Chicken Tandoori Pizza',
+                        urduName: 'چکن تندوری پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Desi Spice',
+                        image: 'https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Chicken Tandoori, Onion, Black Olives, Cheese, Sweet Corn & Tandoori Sauce.',
+                        ingredients: 'Tandoori Chunks, Black Olives, Mozzarella Cheese, Sweet Corn, Tandoori Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Tandoori Spice', 'Black Olives']
+                    },
+{
+                        id: 'ff7',
+                        name: 'Peri Peri Chicken Pizza',
+                        urduName: 'پیری پیری چکن پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Hot & Fiery',
+                        image: 'https://images.pexels.com/photos/1566837/pexels-photo-1566837.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Chicken Peri Peri, Onion, Black Olives, Cheese, Sweet Corn & Peri Peri Sauce.',
+                        ingredients: 'Peri Peri Chicken, Mozzarella, Black Olives, Sweet Corn, Tangy Peri Peri Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Peri Peri', 'Spicy Tang']
+                    },
+{
+                        id: 'ff8',
+                        name: 'Chicken Grilled Pizza',
+                        urduName: 'چکن گرلڈ پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.7,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Flame Grilled',
+                        image: 'https://images.pexels.com/photos/803290/pexels-photo-803290.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Grill Chicken, Cheese, Tomato, Jalapeno, Onions, Olives, Pizza Sauce, BBQ Sauce.',
+                        ingredients: 'Char-grilled Chicken, Cheese, Jalapeños, Tomatoes, Olives, BBQ Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Flame Grilled', 'Jalapeno']
+                    },
+{
+                        id: 'ff9',
+                        name: 'Chicken Tikka Pizza',
+                        urduName: 'چکن تکہ پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.8,
+                        isHeritage: false,
+                        isBestseller: true,
+                        badge: 'All-Time Classic',
+                        image: 'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Marinated Tikka Chicken, Cheese, Capsicum, Onion, Pizza Sauce.',
+                        ingredients: 'Tikka Chunks, Mozzarella Cheese, Capsicum, Sliced Onion, Traditional Pizza Sauce.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Tikka Flavor', 'Classic']
+                    },
+{
+                        id: 'ff10',
+                        name: 'Hawain Pizza',
+                        urduName: 'ہوائین پیزا',
+                        category: 'fastfood',
+                        price: 700,
+                        unit: 'Mini 6" (Up to XL)',
+                        rating: 4.6,
+                        isHeritage: false,
+                        isBestseller: false,
+                        badge: 'Sweet & Savory',
+                        image: 'https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
+                        description: 'Marinated Tikka Chicken, Cheese, Capsicum, Onion, Pizza Sauce & Pineapple.',
+                        ingredients: 'Tikka Chicken, Pineapple Chunks, Mozzarella, Capsicum, Onion.',
+                        sizes: [
+                            { name: 'Mini (6")', price: 700 },
+                            { name: 'Small (8")', price: 1400 },
+                            { name: 'Medium (10")', price: 1900 },
+                            { name: 'Large (12")', price: 2400 },
+                            { name: 'XL (14")', price: 2600 }
+                        ],
+                        tags: ['Pineapple', 'Sweet & Spicy']
+                    }
+];
+
 const sectionRoutes = {
             home: 'home-section',
             about: 'about-heritage',
@@ -149,234 +385,12 @@ const sectionRoutes = {
                 items: [
                     // FAST FOOD SECTION ITEMS
                     {
-                        id: 'ff1',
+                        ...window.SIALKOT_PIZZA_FLAVOURS[0],
                         name: 'Sialkot Special Pizza',
-                        urduName: 'سیالکوٹ اسپیشل پیزا',
-                        category: 'fastfood',
-                        price: 700,
-                        unit: 'Mini 6" (Up to XL)',
-                        rating: 4.9,
-                        isHeritage: true,
-                        isBestseller: true,
-                        badge: 'House Special',
-                        image: 'https://lh3.googleusercontent.com/grass-cs/ACvplmOPe09IlGylcUcDY2Bu2JGJMjHmVAikkaOL9Z-ydbIZj4Kv5BKUAwk9YwDrIRpZ5jHJj5XssXx5TOL2YRcprRrZ8eBSlu4pUoCX__cbr292Ff85pAGbrKNS5xGpNlI8fMlEA7XrPlvYymXK=s680-w680-h510-rw',
-                        description: 'Mozzarella, Danish Cheese, Tomato Sauce, Oregano.',
-                        ingredients: 'Mozzarella Cheese, Danish Cheese, Signature Tomato Sauce, Oregano, Fresh Dough.',
-                        sizes: [
-                            { name: 'Mini (6")', price: 700 },
-                            { name: 'Small (8")', price: 1400 },
-                            { name: 'Medium (10")', price: 1950 },
-                            { name: 'Large (12")', price: 2450 },
-                            { name: 'XL (14")', price: 2700 }
-                        ],
-                        tags: ['House Special', 'Loaded Cheese', 'Fresh Baked']
-                    },
-                    {
-                        id: 'ff2',
-                        name: 'Chicken Creamy Pizza',
-                        urduName: 'چکن کریمی پیزا',
-                        category: 'fastfood',
-                        price: 700,
-                        unit: 'Mini 6" (Up to XL)',
-                        rating: 4.8,
-                        isHeritage: false,
-                        isBestseller: true,
-                        badge: 'Creamy Achari',
-                        image: 'https://lh3.googleusercontent.com/grass-cs/ACvplmNtMjlFATt56PZoi3CAs78Qfz6ia-_Gv_tSqb_NvF67oeydAoW-SBeaUcwry52morAQsK00lxTQduzMBiiZoWi1oD05mfIG_nlJGcQenvOaeIg-055i3OZZJIAnR37D0gUY0rVor-x-_BKq=s680-w680-h510-rw',
-                        description: 'Capsicum, Sweet Corn, Achari Chicken, Onion, Mozzarella Cheese, Achari Sauce.',
-                        ingredients: 'Achari Chicken, Mozzarella Cheese, Capsicum, Sweet Corn, Onion, Creamy Achari Sauce.',
-                        sizes: [
-                            { name: 'Mini (6")', price: 700 },
-                            { name: 'Small (8")', price: 1400 },
-                            { name: 'Medium (10")', price: 1900 },
-                            { name: 'Large (12")', price: 2400 },
-                            { name: 'XL (14")', price: 2600 }
-                        ],
-                        tags: ['Creamy', 'Achari Flavor', 'Sweet Corn']
-                    },
-                    {
-                        id: 'ff3',
-                        name: 'Chicken Malai Boti Pizza',
-                        urduName: 'چکن ملائی بوٹی پیزا',
-                        category: 'fastfood',
-                        price: 700,
-                        unit: 'Mini 6" (Up to XL)',
-                        rating: 4.9,
-                        isHeritage: false,
-                        isBestseller: true,
-                        badge: 'Tender Boti',
-                        image: 'https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
-                        description: 'Capsicum, Sweet Corn, Achari Chicken, Onion, Mozzarella Cheese, Achari Sauce.',
-                        ingredients: 'Tender Malai Boti Chicken, Mozzarella Cheese, Capsicum, Sweet Corn, Onion.',
-                        sizes: [
-                            { name: 'Mini (6")', price: 700 },
-                            { name: 'Small (8")', price: 1400 },
-                            { name: 'Medium (10")', price: 1900 },
-                            { name: 'Large (12")', price: 2400 },
-                            { name: 'XL (14")', price: 2600 }
-                        ],
-                        tags: ['Malai Boti', 'Mild Spicy', 'Juicy']
-                    },
-                    {
-                        id: 'ff4',
-                        name: 'Chicken Fajita Pizza',
-                        urduName: 'چکن فجیتا پیزا',
-                        category: 'fastfood',
-                        price: 700,
-                        unit: 'Mini 6" (Up to XL)',
-                        rating: 4.8,
-                        isHeritage: false,
-                        isBestseller: false,
-                        badge: 'Mexican Flavor',
-                        image: 'https://images.pexels.com/photos/1653877/pexels-photo-1653877.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
-                        description: 'Fajita Chicken, Cheese, Tomato, Pizza Sauce, Capsicum, Onion.',
-                        ingredients: 'Marinated Fajita Chicken, Cheese, Fresh Tomatoes, Capsicum, Onion, Red Sauce.',
-                        sizes: [
-                            { name: 'Mini (6")', price: 700 },
-                            { name: 'Small (8")', price: 1400 },
-                            { name: 'Medium (10")', price: 1900 },
-                            { name: 'Large (12")', price: 2400 },
-                            { name: 'XL (14")', price: 2600 }
-                        ],
-                        tags: ['Fajita Spice', 'Classic Favorite']
-                    },
-                    {
-                        id: 'ff5',
-                        name: 'Chicken Bar B.Q Pizza',
-                        urduName: 'چکن بار بی کیو پیزا',
-                        category: 'fastfood',
-                        price: 700,
-                        unit: 'Mini 6" (Up to XL)',
-                        rating: 4.8,
-                        isHeritage: false,
-                        isBestseller: true,
-                        badge: 'Smoky BBQ',
-                        image: 'https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
-                        description: 'BBQ Chicken, Cheese, Tomato, Jalapeno, Onion, Olives & Pizza Sauce, BBQ Sauce.',
-                        ingredients: 'BBQ Chicken, Mozzarella Cheese, Jalapeños, Black Olives, BBQ Drizzle.',
-                        sizes: [
-                            { name: 'Mini (6")', price: 700 },
-                            { name: 'Small (8")', price: 1400 },
-                            { name: 'Medium (10")', price: 1900 },
-                            { name: 'Large (12")', price: 2400 },
-                            { name: 'XL (14")', price: 2600 }
-                        ],
-                        tags: ['Smoky BBQ', 'Jalapeño Kick']
-                    },
-                    {
-                        id: 'ff6',
-                        name: 'Chicken Tandoori Pizza',
-                        urduName: 'چکن تندوری پیزا',
-                        category: 'fastfood',
-                        price: 700,
-                        unit: 'Mini 6" (Up to XL)',
-                        rating: 4.7,
-                        isHeritage: false,
-                        isBestseller: false,
-                        badge: 'Desi Spice',
-                        image: 'https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
-                        description: 'Chicken Tandoori, Onion, Black Olives, Cheese, Sweet Corn & Tandoori Sauce.',
-                        ingredients: 'Tandoori Chunks, Black Olives, Mozzarella Cheese, Sweet Corn, Tandoori Sauce.',
-                        sizes: [
-                            { name: 'Mini (6")', price: 700 },
-                            { name: 'Small (8")', price: 1400 },
-                            { name: 'Medium (10")', price: 1900 },
-                            { name: 'Large (12")', price: 2400 },
-                            { name: 'XL (14")', price: 2600 }
-                        ],
-                        tags: ['Tandoori Spice', 'Black Olives']
-                    },
-                    {
-                        id: 'ff7',
-                        name: 'Peri Peri Chicken Pizza',
-                        urduName: 'پیری پیری چکن پیزا',
-                        category: 'fastfood',
-                        price: 700,
-                        unit: 'Mini 6" (Up to XL)',
-                        rating: 4.8,
-                        isHeritage: false,
-                        isBestseller: false,
-                        badge: 'Hot & Fiery',
-                        image: 'https://images.pexels.com/photos/1566837/pexels-photo-1566837.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
-                        description: 'Chicken Peri Peri, Onion, Black Olives, Cheese, Sweet Corn & Peri Peri Sauce.',
-                        ingredients: 'Peri Peri Chicken, Mozzarella, Black Olives, Sweet Corn, Tangy Peri Peri Sauce.',
-                        sizes: [
-                            { name: 'Mini (6")', price: 700 },
-                            { name: 'Small (8")', price: 1400 },
-                            { name: 'Medium (10")', price: 1900 },
-                            { name: 'Large (12")', price: 2400 },
-                            { name: 'XL (14")', price: 2600 }
-                        ],
-                        tags: ['Peri Peri', 'Spicy Tang']
-                    },
-                    {
-                        id: 'ff8',
-                        name: 'Chicken Grilled Pizza',
-                        urduName: 'چکن گرلڈ پیزا',
-                        category: 'fastfood',
-                        price: 700,
-                        unit: 'Mini 6" (Up to XL)',
-                        rating: 4.7,
-                        isHeritage: false,
-                        isBestseller: false,
-                        badge: 'Flame Grilled',
-                        image: 'https://images.pexels.com/photos/803290/pexels-photo-803290.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
-                        description: 'Grill Chicken, Cheese, Tomato, Jalapeno, Onions, Olives, Pizza Sauce, BBQ Sauce.',
-                        ingredients: 'Char-grilled Chicken, Cheese, Jalapeños, Tomatoes, Olives, BBQ Sauce.',
-                        sizes: [
-                            { name: 'Mini (6")', price: 700 },
-                            { name: 'Small (8")', price: 1400 },
-                            { name: 'Medium (10")', price: 1900 },
-                            { name: 'Large (12")', price: 2400 },
-                            { name: 'XL (14")', price: 2600 }
-                        ],
-                        tags: ['Flame Grilled', 'Jalapeno']
-                    },
-                    {
-                        id: 'ff9',
-                        name: 'Chicken Tikka Pizza',
-                        urduName: 'چکن تکہ پیزا',
-                        category: 'fastfood',
-                        price: 700,
-                        unit: 'Mini 6" (Up to XL)',
-                        rating: 4.8,
-                        isHeritage: false,
-                        isBestseller: true,
-                        badge: 'All-Time Classic',
-                        image: 'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
-                        description: 'Marinated Tikka Chicken, Cheese, Capsicum, Onion, Pizza Sauce.',
-                        ingredients: 'Tikka Chunks, Mozzarella Cheese, Capsicum, Sliced Onion, Traditional Pizza Sauce.',
-                        sizes: [
-                            { name: 'Mini (6")', price: 700 },
-                            { name: 'Small (8")', price: 1400 },
-                            { name: 'Medium (10")', price: 1900 },
-                            { name: 'Large (12")', price: 2400 },
-                            { name: 'XL (14")', price: 2600 }
-                        ],
-                        tags: ['Tikka Flavor', 'Classic']
-                    },
-                    {
-                        id: 'ff10',
-                        name: 'Hawain Pizza',
-                        urduName: 'ہوائین پیزا',
-                        category: 'fastfood',
-                        price: 700,
-                        unit: 'Mini 6" (Up to XL)',
-                        rating: 4.6,
-                        isHeritage: false,
-                        isBestseller: false,
-                        badge: 'Sweet & Savory',
-                        image: 'https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?auto=compress&cs=tinysrgb&w=600&q=78',
-                        description: 'Marinated Tikka Chicken, Cheese, Capsicum, Onion, Pizza Sauce & Pineapple.',
-                        ingredients: 'Tikka Chicken, Pineapple Chunks, Mozzarella, Capsicum, Onion.',
-                        sizes: [
-                            { name: 'Mini (6")', price: 700 },
-                            { name: 'Small (8")', price: 1400 },
-                            { name: 'Medium (10")', price: 1900 },
-                            { name: 'Large (12")', price: 2400 },
-                            { name: 'XL (14")', price: 2600 }
-                        ],
-                        tags: ['Pineapple', 'Sweet & Spicy']
+                        description: 'Explore all 10 flavours: Sialkot Special, Chicken Creamy, Chicken Malai Boti, Chicken Fajita, Chicken Bar B.Q, Chicken Tandoori, Peri Peri Chicken, Chicken Grilled, Chicken Tikka and Hawain.',
+                        ingredients: 'All ten flavour descriptions, ingredients, and size prices are listed on the Sialkot Special Pizza page.',
+                        badge: '10 Pizza Flavours',
+                        tags: ['10 Pizza Flavours', 'Multiple Sizes', 'House Special']
                     },
                     {
                         id: 'ff11',
@@ -1424,3 +1438,127 @@ const sectionRoutes = {
         setup();
     }
 })();
+
+
+/* Single Sialkot Special Pizza detail page: render the ten original flavour records. */
+(function initSialkotPizzaFlavourPage() {
+    function addTextElement(parent, tag, className, text) {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        element.textContent = text == null ? '' : String(text);
+        parent.appendChild(element);
+        return element;
+    }
+
+    function render() {
+        const container = document.querySelector('[data-pizza-flavours]');
+        if (!container || container.dataset.pizzaRendered === 'true') return;
+        const flavours = window.SIALKOT_PIZZA_FLAVOURS;
+        if (!Array.isArray(flavours) || flavours.length !== 10) {
+            container.textContent = 'Pizza flavour details could not be loaded. Please refresh the page or return to the menu.';
+            return;
+        }
+
+        container.dataset.pizzaRendered = 'true';
+        const fragment = document.createDocumentFragment();
+
+        flavours.forEach((flavour, index) => {
+            const article = document.createElement('article');
+            article.className = 'pizza-flavour-card bg-white rounded-2xl overflow-hidden border border-stone-200 flex flex-col';
+
+            const photoWrap = document.createElement('div');
+            photoWrap.className = 'pizza-flavour-photo';
+            const photo = document.createElement('img');
+            photo.src = flavour.image || '';
+            photo.alt = flavour.name || 'Pizza flavour';
+            photo.loading = index === 0 ? 'eager' : 'lazy';
+            photo.decoding = 'async';
+            photo.referrerPolicy = 'no-referrer';
+            photo.addEventListener('error', () => {
+                photo.classList.add('is-broken');
+                photo.alt = (flavour.name || 'Pizza flavour') + ' image unavailable';
+            }, { once: true });
+            photoWrap.appendChild(photo);
+            article.appendChild(photoWrap);
+
+            const content = document.createElement('div');
+            content.className = 'pizza-flavour-content';
+            const topLine = document.createElement('div');
+            topLine.className = 'flex items-start justify-between gap-3';
+            const titleWrap = document.createElement('div');
+            titleWrap.className = 'min-w-0';
+            addTextElement(titleWrap, 'p', 'pizza-flavour-number', 'FLAVOUR ' + String(index + 1).padStart(2, '0'));
+            addTextElement(titleWrap, 'h2', 'font-playfair text-xl sm:text-2xl font-bold text-emerald-950 mt-1', flavour.name);
+            if (flavour.urduName) {
+                const urdu = addTextElement(titleWrap, 'p', 'font-urdu text-lg text-amber-700 mt-1', flavour.urduName);
+                urdu.setAttribute('dir', 'rtl');
+                urdu.setAttribute('lang', 'ur');
+            }
+            topLine.appendChild(titleWrap);
+            const rating = document.createElement('span');
+            rating.className = 'pizza-flavour-rating';
+            rating.textContent = '★ ' + (flavour.rating == null ? '—' : flavour.rating);
+            rating.setAttribute('aria-label', 'Rating ' + (flavour.rating == null ? 'not provided' : flavour.rating + ' out of 5'));
+            topLine.appendChild(rating);
+            content.appendChild(topLine);
+
+            addTextElement(content, 'p', 'pizza-flavour-description', flavour.description || 'Details coming soon.');
+
+            const ingredientsSection = document.createElement('section');
+            ingredientsSection.className = 'pizza-flavour-ingredients';
+            addTextElement(ingredientsSection, 'h3', 'pizza-flavour-section-title', 'Ingredients & notes');
+            addTextElement(ingredientsSection, 'p', 'text-sm leading-relaxed text-stone-600', flavour.ingredients || 'Please contact the branch for ingredient details.');
+            content.appendChild(ingredientsSection);
+
+            if (Array.isArray(flavour.tags) && flavour.tags.length) {
+                const tags = document.createElement('div');
+                tags.className = 'flex flex-wrap gap-1.5 mt-4';
+                flavour.tags.forEach(tag => addTextElement(tags, 'span', 'pizza-flavour-tag', tag));
+                content.appendChild(tags);
+            }
+
+            const sizeSection = document.createElement('section');
+            sizeSection.className = 'pizza-flavour-sizes';
+            addTextElement(sizeSection, 'h3', 'pizza-flavour-section-title', 'Available sizes & prices');
+            const sizeGrid = document.createElement('div');
+            sizeGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-2';
+            if (Array.isArray(flavour.sizes) && flavour.sizes.length) {
+                flavour.sizes.forEach(size => {
+                    const sizeRow = document.createElement('div');
+                    sizeRow.className = 'pizza-size-row';
+                    addTextElement(sizeRow, 'span', 'text-sm text-stone-700', size.name);
+                    addTextElement(sizeRow, 'strong', 'text-sm font-bold text-emerald-950', 'Rs. ' + Number(size.price).toLocaleString('en-PK'));
+                    sizeGrid.appendChild(sizeRow);
+                });
+            } else {
+                addTextElement(sizeGrid, 'p', 'text-sm text-stone-500', 'Please contact the branch for sizes and prices.');
+            }
+            sizeSection.appendChild(sizeGrid);
+            content.appendChild(sizeSection);
+
+            const callWrap = document.createElement('div');
+            callWrap.className = 'mt-auto pt-5';
+            const call = document.createElement('a');
+            call.href = 'tel:03253922121';
+            call.className = 'pizza-flavour-call';
+            call.innerHTML = '<span>Call to confirm availability</span><span aria-hidden="true">↗</span>';
+            callWrap.appendChild(call);
+            content.appendChild(callWrap);
+
+            article.appendChild(content);
+            fragment.appendChild(article);
+        });
+        container.replaceChildren(fragment);
+        const loading = document.querySelector('[data-pizza-loading]');
+        if (loading) loading.remove();
+        const count = document.querySelector('[data-pizza-flavour-count]');
+        if (count) count.textContent = String(flavours.length);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', render, { once: true });
+    } else {
+        render();
+    }
+})();
+

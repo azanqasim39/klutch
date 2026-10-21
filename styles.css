@@ -334,3 +334,68 @@ html.ss-motion-ready .ss-reveal:not(.is-revealed) {
     }
     .hero-slide.is-active { transform: none !important; }
 }
+
+
+/* Sialkot Special Pizza — ten flavours on one product page (Emerald & Amber theme). */
+.pizza-page-hero {
+    background: radial-gradient(ellipse at 85% 10%, rgba(245,158,11,.16), transparent 34%),
+                radial-gradient(ellipse at 0% 100%, rgba(6,78,59,.45), transparent 42%),
+                #022c22;
+}
+.pizza-flavour-card {
+    box-shadow: 0 12px 32px rgba(2,44,34,.07);
+    transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+}
+.pizza-flavour-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(217,119,6,.45);
+    box-shadow: 0 20px 42px rgba(2,44,34,.13);
+}
+.pizza-flavour-photo {
+    position: relative;
+    height: 210px;
+    overflow: hidden;
+    background: linear-gradient(145deg, rgba(2,44,34,.06), rgba(217,119,6,.08));
+}
+.pizza-flavour-photo img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform .65s cubic-bezier(.2,.7,.2,1);
+}
+.pizza-flavour-card:hover .pizza-flavour-photo img { transform: scale(1.035); }
+.pizza-flavour-photo img.is-broken { display: none; }
+.pizza-flavour-content { display: flex; flex-direction: column; flex: 1; padding: 20px; }
+.pizza-flavour-number { color: #b45309; font-size: 9px; font-weight: 800; letter-spacing: .17em; }
+.pizza-flavour-rating {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 8px;
+    border-radius: 999px;
+    color: #92400e;
+    background: #fef3c7;
+    border: 1px solid rgba(245,158,11,.35);
+    font-size: 11px;
+    font-weight: 800;
+}
+.pizza-flavour-description { margin-top: 13px; color: #57534e; font-size: 13px; line-height: 1.7; }
+.pizza-flavour-ingredients { margin-top: 17px; padding-top: 14px; border-top: 1px solid rgba(2,44,34,.08); }
+.pizza-flavour-section-title { margin-bottom: 8px; color: #064e3b; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.pizza-flavour-tag { padding: 5px 8px; border-radius: 7px; background: #fafaf9; border: 1px solid #e7e5e4; color: #57534e; font-size: 10px; font-weight: 600; }
+.pizza-flavour-sizes { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(2,44,34,.08); }
+.pizza-size-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 11px; border: 1px solid rgba(217,119,6,.24); border-radius: 10px; background: rgba(254,243,199,.25); }
+.pizza-flavour-call { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 13px; border-radius: 10px; background: #022c22; color: #fde68a; font-size: 11px; font-weight: 800; transition: background .2s ease, transform .2s ease, box-shadow .2s ease; }
+.pizza-flavour-call:hover { background: #064e3b; color: #ffffff; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(2,44,34,.25); }
+@media (max-width: 639px) {
+    .pizza-flavour-photo { height: 184px; }
+    .pizza-flavour-content { padding: 14px; }
+    .pizza-flavour-description { font-size: 12px; line-height: 1.6; }
+    .pizza-size-row { padding: 8px 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .pizza-flavour-card, .pizza-flavour-photo img, .pizza-flavour-call { transition: none !important; }
+    .pizza-flavour-card:hover, .pizza-flavour-card:hover .pizza-flavour-photo img, .pizza-flavour-call:hover { transform: none !important; }
+}
+
