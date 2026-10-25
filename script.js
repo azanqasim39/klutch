@@ -336,9 +336,12 @@ const sectionRoutes = {
                 if (route) scrollToSectionRoute(route, true);
             });
 
-            const initialSection = new URLSearchParams(window.location.search).get('section');
+            const initialParams = new URLSearchParams(window.location.search);
+            const initialSection = initialParams.get('section');
             if (initialSection && sectionRoutes[initialSection]) {
                 requestAnimationFrame(() => requestAnimationFrame(() => scrollToSectionRoute(initialSection, false)));
+            } else if (initialParams.get('category') || initialParams.get('cat')) {
+                requestAnimationFrame(() => requestAnimationFrame(() => scrollToSectionRoute('menu', false)));
             }
         }
 
@@ -355,6 +358,58 @@ const sectionRoutes = {
                 sortBy: 'popular',
                 mobileMenuOpen: false,
                 isOpen: true,
+                quickViewItem: null,
+                faqOpen: 0,
+                toastMessage: '',
+                toastVisible: false,
+                toastTimer: null,
+
+                openQuickView(item) {
+                    this.quickViewItem = item;
+                    document.body.style.overflow = 'hidden';
+                },
+
+                closeQuickView() {
+                    this.quickViewItem = null;
+                    document.body.style.overflow = '';
+                },
+
+                toggleFaq(index) {
+                    this.faqOpen = this.faqOpen === index ? null : index;
+                },
+
+                showToast(msg) {
+                    this.toastMessage = msg;
+                    this.toastVisible = true;
+                    if (this.toastTimer) clearTimeout(this.toastTimer);
+                    this.toastTimer = setTimeout(() => {
+                        this.toastVisible = false;
+                    }, 3500);
+                },
+
+                copyText(text, successMsg) {
+                    const fallback = () => {
+                        try {
+                            const input = document.createElement('input');
+                            input.value = text;
+                            document.body.appendChild(input);
+                            input.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(input);
+                            this.showToast(successMsg || 'Copied to clipboard!');
+                        } catch (e) {
+                            this.showToast('Copied: ' + text);
+                        }
+                    };
+
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(() => {
+                            this.showToast(successMsg || 'Copied to clipboard!');
+                        }).catch(() => fallback());
+                    } else {
+                        fallback();
+                    }
+                },
 
                 init() {
                     this.updateOpenStatus();
@@ -363,6 +418,32 @@ const sectionRoutes = {
                     });
                     // Re-check status every 60 seconds
                     setInterval(() => this.updateOpenStatus(), 60000);
+
+                    // Check URL for category routing
+                    const params = new URLSearchParams(window.location.search);
+                    const catQuery = params.get('category') || params.get('cat');
+                    if (catQuery) {
+                        const resolved = this.resolveCategorySlug(catQuery);
+                        if (resolved) {
+                            this.selectedCategory = resolved;
+                            requestAnimationFrame(() => {
+                                const menuEl = document.getElementById('menu-section');
+                                if (menuEl) menuEl.scrollIntoView({ behavior: 'auto', block: 'start' });
+                            });
+                        }
+                    }
+
+                    // Handle browser back and forward navigation
+                    window.addEventListener('popstate', () => {
+                        const currentParams = new URLSearchParams(window.location.search);
+                        const cat = currentParams.get('category') || currentParams.get('cat');
+                        if (cat) {
+                            const resolved = this.resolveCategorySlug(cat);
+                            if (resolved) this.selectedCategory = resolved;
+                        } else if (currentParams.get('section') === 'menu') {
+                            this.selectedCategory = 'all';
+                        }
+                    });
                 },
 
                 updateOpenStatus() {
@@ -373,13 +454,13 @@ const sectionRoutes = {
                 },
 
                 categories: [
-                    { id: 'all', name: 'All Sweets & Bakery', icon: '🍽️' },
-                    { id: 'fastfood', name: 'Fast Food', icon: '🍔' },
-                    { id: 'sweets', name: 'Traditional Sweets', icon: '🍯' },
-                    { id: 'arabian', name: 'Arabian Sweets', icon: '✨' },
-                    { id: 'halwa', name: 'Halwa Jaat', icon: '🍲' },
-                    { id: 'biscuits', name: 'Biscuits', icon: '🍪' },
-                    { id: 'cakerusk', name: 'Cake Rusk', icon: '🥖' }
+                    { id: 'all', slug: 'all-sweets-and-bakery', name: 'All Sweets & Bakery', icon: '🍽️' },
+                    { id: 'fastfood', slug: 'fast-food', name: 'Fast Food', icon: '🍔' },
+                    { id: 'sweets', slug: 'traditional-sweets', name: 'Traditional Sweets', icon: '🍯' },
+                    { id: 'arabian', slug: 'arabian-sweets', name: 'Arabian Sweets', icon: '✨' },
+                    { id: 'halwa', slug: 'halwa-jaat', name: 'Halwa Jaat', icon: '🍲' },
+                    { id: 'biscuits', slug: 'biscuits', name: 'Biscuits', icon: '🍪' },
+                    { id: 'cakerusk', slug: 'cake-rusk', name: 'Cake Rusk', icon: '🥖' }
                 ],
 
                 items: [
@@ -443,7 +524,7 @@ const sectionRoutes = {
                         isBestseller: true,
                         badge: '3 FLAVOURS',
                         highlight: '3 FLAVOURS IN 1 • Crispy Paratha & Twister',
-                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnvU2Dq-0TOpBnL-2kKmnIqpm6BUSzzOiWayQXdtSBGA&s=10',
+                        image: 'paratha roll.png',
                         description: 'Explore all 3 handcrafted rolls: Classic Chicken Paratha Roll, Zinger Twister Roll, and Kabab Paratha Roll.',
                         ingredients: 'Hot flaky golden parathas and wraps with BBQ chicken, zinger strips, seekh kababs & garlic mint sauce.',
                         tags: ['3 Flavours', 'Paratha Roll', 'Twister Roll', 'Kabab Roll']
@@ -554,7 +635,7 @@ const sectionRoutes = {
                         isHeritage: false,
                         isBestseller: true,
                         badge: 'Creamy Baked',
-                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4PLwNdlDkmNYwh6WRBVi2Rg2msjuvg_VmfYK5dT4jyQ&s=10',
+                        image: 'chicken pasta.png',
                         description: 'Macaroni pasta baked in white creamy garlic sauce with tender chicken and melted cheese.',
                         ingredients: 'Macaroni Pasta, White Cream Sauce, Mozzarella Cheese, Seasoned Chicken, Herbs.',
                         tags: ['White Sauce', 'Baked Cheese']
@@ -1111,10 +1192,65 @@ const sectionRoutes = {
                     return this.items.filter(i => i.category === catId).length;
                 },
 
-                setCategory(catId) {
-                    this.selectedCategory = catId;
+                resolveCategorySlug(slug) {
+                    if (!slug) return null;
+                    const s = String(slug).toLowerCase().trim().replace(/_/g, '-');
+                    const mapping = {
+                        'all': 'all',
+                        'all-sweets': 'all',
+                        'all-sweets-and-bakery': 'all',
+                        'all-sweets-bakery': 'all',
+                        'bakery': 'all',
+                        'fastfood': 'fastfood',
+                        'fast-food': 'fastfood',
+                        'fast-food-and-pizzas': 'fastfood',
+                        'fast-food-pizzas': 'fastfood',
+                        'pizzas': 'fastfood',
+                        'pizza': 'fastfood',
+                        'sweets': 'sweets',
+                        'traditional': 'sweets',
+                        'traditional-sweets': 'sweets',
+                        'mithai': 'sweets',
+                        'arabian': 'arabian',
+                        'arabian-sweets': 'arabian',
+                        'arabian-sweets-and-baklava': 'arabian',
+                        'baklava': 'arabian',
+                        'halwa': 'halwa',
+                        'halwa-jaat': 'halwa',
+                        'halwas': 'halwa',
+                        'sohan-halwa': 'halwa',
+                        'biscuits': 'biscuits',
+                        'biscuit': 'biscuits',
+                        'fresh-biscuits': 'biscuits',
+                        'khatai': 'biscuits',
+                        'cakerusk': 'cakerusk',
+                        'cake-rusk': 'cakerusk',
+                        'rusk': 'cakerusk'
+                    };
+                    return mapping[s] || (this.categories.some(c => c.id === s) ? s : null);
+                },
+
+                getCategoryUrl(catId) {
+                    const cat = this.categories.find(c => c.id === catId);
+                    const slug = cat ? (cat.slug || cat.id) : catId;
+                    return `?section=menu&category=${encodeURIComponent(slug)}`;
+                },
+
+                setCategory(catId, smoothScroll = true) {
+                    const resolved = this.resolveCategorySlug(catId) || catId;
+                    this.selectedCategory = resolved;
+                    try {
+                        const cat = this.categories.find(c => c.id === resolved);
+                        const slug = cat ? (cat.slug || cat.id) : resolved;
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('section', 'menu');
+                        url.searchParams.set('category', slug);
+                        window.history.pushState({ section: 'menu', category: slug }, '', url);
+                    } catch (e) {}
                     const menuEl = document.getElementById('menu-section');
-                    if (menuEl) menuEl.scrollIntoView({ behavior: 'smooth' });
+                    if (menuEl) {
+                        menuEl.scrollIntoView({ behavior: smoothScroll ? 'smooth' : 'auto', block: 'start' });
+                    }
                 },
 
                 setSearch(term) {
@@ -1160,6 +1296,36 @@ const sectionRoutes = {
         let timer = null;
         let cleanupTimer = null;
 
+        // Build dots indicator container
+        const dotsContainer = document.createElement('div');
+        dotsContainer.className = 'absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/60 backdrop-blur-md border border-white/20';
+        dotsContainer.setAttribute('role', 'tablist');
+        dotsContainer.setAttribute('aria-label', 'Featured sweets gallery');
+
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('button');
+            dot.className = 'hero-dot' + (idx === current ? ' is-active' : '');
+            dot.setAttribute('aria-label', 'Go to photo ' + (idx + 1));
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                goToSlide(idx);
+            });
+            dotsContainer.appendChild(dot);
+        });
+        carousel.parentElement.appendChild(dotsContainer);
+
+        function updateDots() {
+            if (!dotsContainer) return;
+            const dots = dotsContainer.querySelectorAll('.hero-dot');
+            dots.forEach((dot, idx) => {
+                if (idx === current) {
+                    dot.classList.add('is-active');
+                } else {
+                    dot.classList.remove('is-active');
+                }
+            });
+        }
+
         // Normalize initial classes and restart the first 5-second zoom only after setup.
         slides.forEach((slide, index) => {
             slide.classList.remove('is-active', 'is-leaving');
@@ -1168,6 +1334,31 @@ const sectionRoutes = {
         });
         void slides[current].offsetWidth;
         slides[current].classList.add('is-active');
+
+        function goToSlide(target) {
+            if (target === current || target < 0 || target >= slides.length) return;
+            stopTimer();
+            const outgoing = slides[current];
+            const incoming = slides[target];
+
+            if (cleanupTimer !== null) window.clearTimeout(cleanupTimer);
+            outgoing.classList.remove('is-active');
+            outgoing.classList.add('is-leaving');
+            incoming.classList.remove('is-leaving', 'is-active');
+            void incoming.offsetWidth;
+            incoming.classList.add('is-active');
+            outgoing.setAttribute('aria-hidden', 'true');
+            incoming.setAttribute('aria-hidden', 'false');
+            current = target;
+            updateDots();
+
+            cleanupTimer = window.setTimeout(() => {
+                outgoing.classList.remove('is-leaving');
+                cleanupTimer = null;
+            }, fade + 80);
+
+            scheduleNext();
+        }
 
         function showNext() {
             const next = (current + 1) % slides.length;
@@ -1183,6 +1374,7 @@ const sectionRoutes = {
             outgoing.setAttribute('aria-hidden', 'true');
             incoming.setAttribute('aria-hidden', 'false');
             current = next;
+            updateDots();
 
             cleanupTimer = window.setTimeout(() => {
                 outgoing.classList.remove('is-leaving');
@@ -1378,3 +1570,410 @@ const sectionRoutes = {
     }
 })();
 
+
+
+/* =========================================================
+   CINEMATIC UPGRADE — World-Class JS Features
+   Sialkot Sweets & Bakers — Ultra Professional System
+   ========================================================= */
+
+(function ssUpgrade() {
+    'use strict';
+
+    /* ---- 1. Scroll Progress Bar ---- */
+    const progressBar = document.createElement('div');
+    progressBar.className = 'ss-progress-bar';
+    progressBar.setAttribute('aria-hidden', 'true');
+    document.body.prepend(progressBar);
+
+    /* ---- 2. Back-to-Top Button with Circular SVG Progress Ring ---- */
+    const fabTop = document.createElement('button');
+    fabTop.className = 'ss-fab ss-fab-top';
+    fabTop.setAttribute('aria-label', 'Scroll back to top');
+    fabTop.innerHTML = `
+        <svg class="ss-progress-ring" width="50" height="50" viewBox="0 0 50 50" aria-hidden="true">
+            <circle class="ss-progress-ring-bg" stroke-width="3" fill="none" r="22" cx="25" cy="25"/>
+            <circle class="ss-progress-ring-circle" stroke="url(#ss-fab-gold-grad)" stroke-width="3" stroke-linecap="round" fill="none" r="22" cx="25" cy="25"/>
+            <defs>
+                <linearGradient id="ss-fab-gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fde047"/>
+                    <stop offset="50%" stop-color="#f59e0b"/>
+                    <stop offset="100%" stop-color="#d97706"/>
+                </linearGradient>
+            </defs>
+        </svg>
+        <span class="ss-fab-top-icon"><i class="fa-solid fa-arrow-up"></i></span>
+    `;
+    fabTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    document.body.appendChild(fabTop);
+
+    const ringRadius = 22;
+    const ringCircumference = 2 * Math.PI * ringRadius; // ~138.23
+    const ringCircle = fabTop.querySelector('.ss-progress-ring-circle');
+    if (ringCircle) {
+        ringCircle.style.strokeDasharray = `${ringCircumference} ${ringCircumference}`;
+        ringCircle.style.strokeDashoffset = ringCircumference;
+    }
+
+    function updateProgressBar() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = Math.min(scrollPercent, 100) + '%';
+
+        if (ringCircle) {
+            const offset = ringCircumference - (Math.min(scrollPercent, 100) / 100) * ringCircumference;
+            ringCircle.style.strokeDashoffset = offset;
+        }
+    }
+
+    function updateFabTop() {
+        if (window.scrollY > 400) {
+            fabTop.classList.add('is-visible');
+        } else {
+            fabTop.classList.remove('is-visible');
+        }
+    }
+
+    /* ---- 3. Optimized Scroll Handler ---- */
+    let scrollTicking = false;
+    window.addEventListener('scroll', function() {
+        if (!scrollTicking) {
+            requestAnimationFrame(function() {
+                updateProgressBar();
+                updateFabTop();
+                scrollTicking = false;
+            });
+            scrollTicking = true;
+        }
+    }, { passive: true });
+
+    /* ---- 4. Scroll-Triggered Reveal Animations (IntersectionObserver) ---- */
+    function initScrollReveal() {
+        const revealElements = document.querySelectorAll('.ss-reveal, .ss-reveal-left, .ss-reveal-right, .ss-reveal-scale');
+        if (!revealElements.length) return;
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.08,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(function(el) {
+            observer.observe(el);
+        });
+    }
+
+    /* ---- 5. Animated Counter for Stats ---- */
+    function animateCounter(el, target, suffix) {
+        suffix = suffix || '';
+        var duration = 2200;
+        var startTime = null;
+        var startVal = 0;
+
+        function easeOutExpo(t) {
+            return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+        }
+
+        function step(timestamp) {
+            if (!startTime) startTime = timestamp;
+            var progress = Math.min((timestamp - startTime) / duration, 1);
+            var easedProgress = easeOutExpo(progress);
+            var current = Math.floor(startVal + (target - startVal) * easedProgress);
+            el.textContent = current.toLocaleString() + suffix;
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                el.textContent = target.toLocaleString() + suffix;
+            }
+        }
+
+        requestAnimationFrame(step);
+    }
+
+    function initCounters() {
+        var counters = document.querySelectorAll('[data-ss-counter]');
+        if (!counters.length) return;
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var target = parseInt(entry.target.dataset.ssCounter, 10);
+                    var suffix = entry.target.dataset.ssSuffix || '';
+                    animateCounter(entry.target, target, suffix);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(function(el) { observer.observe(el); });
+    }
+
+    /* ---- 6. Typed Placeholder Effect ---- */
+    function initTypedPlaceholder() {
+        var input = document.querySelector('#home-section input[type="text"]');
+        if (!input) return;
+
+        var phrases = [
+            'Search Gulab Jamun, Baklava, Pizza...',
+            'Try "Sialkoti Guldasta"...',
+            'Craving Akhrot Halwa?...',
+            'Looking for Zinger Burger?...',
+            'Search Kunafa, Barfi, Fries...'
+        ];
+        var phraseIdx = 0;
+        var charIdx = 0;
+        var isDeleting = false;
+        var typeSpeed = 65;
+        var deleteSpeed = 35;
+        var pauseDuration = 2500;
+
+        // Only run typed effect when user hasn't typed anything
+        function isUserTyping() {
+            return document.activeElement === input || input.value.length > 0;
+        }
+
+        function typeStep() {
+            if (isUserTyping()) {
+                setTimeout(typeStep, 500);
+                return;
+            }
+
+            var currentPhrase = phrases[phraseIdx];
+
+            if (!isDeleting) {
+                input.placeholder = currentPhrase.substring(0, charIdx + 1);
+                charIdx++;
+                if (charIdx === currentPhrase.length) {
+                    isDeleting = true;
+                    setTimeout(typeStep, pauseDuration);
+                    return;
+                }
+                setTimeout(typeStep, typeSpeed);
+            } else {
+                input.placeholder = currentPhrase.substring(0, charIdx - 1);
+                charIdx--;
+                if (charIdx === 0) {
+                    isDeleting = false;
+                    phraseIdx = (phraseIdx + 1) % phrases.length;
+                    setTimeout(typeStep, 400);
+                    return;
+                }
+                setTimeout(typeStep, deleteSpeed);
+            }
+        }
+
+        // Start after a delay
+        setTimeout(typeStep, 3000);
+    }
+
+    /* ---- 7. Hero Parallax Effect on Orbs ---- */
+    function initParallax() {
+        var orbs = document.querySelectorAll('.hero-orb');
+        if (!orbs.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        var heroSection = document.getElementById('home-section');
+        if (!heroSection) return;
+
+        window.addEventListener('scroll', function() {
+            var rect = heroSection.getBoundingClientRect();
+            if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+            var scrolled = window.scrollY * 0.15;
+            orbs.forEach(function(orb, i) {
+                var direction = i % 2 === 0 ? 1 : -1;
+                orb.style.transform = 'translateY(' + (scrolled * direction) + 'px)';
+            });
+        }, { passive: true });
+    }
+
+    /* ---- 8. Welcome Toast (First Visit Only) ---- */
+    function initWelcomeToast() {
+        var storageKey = 'ss_welcomed';
+        try {
+            if (sessionStorage.getItem(storageKey)) return;
+        } catch (e) { return; }
+
+        var toast = document.createElement('div');
+        toast.className = 'ss-toast';
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
+        toast.innerHTML =
+            '<div class="ss-toast-icon">🍯</div>' +
+            '<div style="flex:1;min-width:0">' +
+                '<div style="font-weight:700;font-size:0.8rem;">Welcome to Sialkot Sweets!</div>' +
+                '<div style="font-size:0.68rem;color:rgba(255,255,255,0.6);margin-top:3px;">Explore 75+ years of pure desi ghee mithai & bakery.</div>' +
+            '</div>' +
+            '<button class="ss-toast-close" aria-label="Dismiss notification"><i class="fa-solid fa-xmark"></i></button>';
+
+        document.body.appendChild(toast);
+
+        var closeBtn = toast.querySelector('.ss-toast-close');
+        function dismissToast() {
+            toast.classList.remove('is-visible');
+            try { sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+            setTimeout(function() { toast.remove(); }, 600);
+        }
+        closeBtn.addEventListener('click', dismissToast);
+
+        setTimeout(function() { toast.classList.add('is-visible'); }, 2800);
+        setTimeout(dismissToast, 10000);
+    }
+
+    /* ---- 9. Active Nav Link Highlight on Scroll ---- */
+    function initActiveNavHighlight() {
+        var sections = document.querySelectorAll('section[id]');
+        var navLinks = document.querySelectorAll('.nav-link');
+        if (!sections.length || !navLinks.length) return;
+
+        var sectionMap = {};
+        navLinks.forEach(function(link) {
+            var route = link.dataset.sectionRoute || link.getAttribute('href');
+            if (route) sectionMap[route] = link;
+        });
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var sectionId = entry.target.id;
+                    // Resolve section ID to route name
+                    var routeName = null;
+                    for (var key in window.__sectionRoutes || {}) {
+                        if (window.__sectionRoutes[key] === sectionId) { routeName = key; break; }
+                    }
+                    if (!routeName) return;
+                    navLinks.forEach(function(l) { l.classList.remove('is-active'); });
+                    var matchingLink = sectionMap[routeName];
+                    if (matchingLink) matchingLink.classList.add('is-active');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '-80px 0px -50% 0px' });
+
+        sections.forEach(function(section) { observer.observe(section); });
+    }
+
+    // Expose sectionRoutes for the active nav highlight
+    if (typeof sectionRoutes !== 'undefined') {
+        window.__sectionRoutes = sectionRoutes;
+    }
+
+    /* ---- 10. Image Lazy Load Skeleton ---- */
+    function initImageSkeletons() {
+        var images = document.querySelectorAll('.menu-card img, .hero-slide');
+        images.forEach(function(img) {
+            if (img.complete) return;
+            var parent = img.closest('.relative') || img.parentElement;
+            if (parent && !parent.querySelector('.ss-skeleton-overlay')) {
+                var skeleton = document.createElement('div');
+                skeleton.className = 'ss-skeleton-overlay';
+                skeleton.style.cssText = 'position:absolute;inset:0;background:linear-gradient(90deg,#f0ede8 25%,#e8e3db 50%,#f0ede8 75%);background-size:200% 100%;animation:ss-shimmer 1.5s ease-in-out infinite;z-index:1;pointer-events:none;';
+                parent.style.position = 'relative';
+                parent.appendChild(skeleton);
+                img.addEventListener('load', function() {
+                    skeleton.style.opacity = '0';
+                    skeleton.style.transition = 'opacity 0.4s ease';
+                    setTimeout(function() { skeleton.remove(); }, 500);
+                }, { once: true });
+            }
+        });
+    }
+
+    /* ---- 11. Interactive Dynamic 3D Card Physics Tilt ---- */
+    function initPhysicsTilt() {
+        if (window.matchMedia('(hover: none) or (prefers-reduced-motion: reduce)').matches) return;
+
+        function attachTilt(card) {
+            if (!card || card.dataset.tiltActive === 'true') return;
+            card.dataset.tiltActive = 'true';
+
+            let rect = null;
+            let centerX = 0, centerY = 0;
+            let currentX = 0, currentY = 0;
+            let targetX = 0, targetY = 0;
+            let isHovered = false;
+            let animId = null;
+
+            function onMouseEnter() {
+                rect = card.getBoundingClientRect();
+                centerX = rect.width / 2;
+                centerY = rect.height / 2;
+                isHovered = true;
+                loop();
+            }
+
+            function onMouseMove(e) {
+                if (!rect) rect = card.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                targetX = ((mouseY - centerY) / centerY) * -5;
+                targetY = ((mouseX - centerX) / centerX) * 5;
+            }
+
+            function onMouseLeave() {
+                isHovered = false;
+                targetX = 0;
+                targetY = 0;
+            }
+
+            function loop() {
+                currentX += (targetX - currentX) * 0.12;
+                currentY += (targetY - currentY) * 0.12;
+
+                card.style.transform = `perspective(850px) rotateX(${currentX.toFixed(2)}deg) rotateY(${currentY.toFixed(2)}deg) translateY(${isHovered ? '-6px' : '0'})`;
+
+                if (isHovered || Math.abs(targetX - currentX) > 0.04 || Math.abs(targetY - currentY) > 0.04) {
+                    animId = requestAnimationFrame(loop);
+                } else {
+                    card.style.transform = '';
+                    cancelAnimationFrame(animId);
+                    animId = null;
+                }
+            }
+
+            card.addEventListener('mouseenter', onMouseEnter, { passive: true });
+            card.addEventListener('mousemove', onMouseMove, { passive: true });
+            card.addEventListener('mouseleave', onMouseLeave, { passive: true });
+        }
+
+        // Attach to initial elements
+        document.querySelectorAll('.ss-tilt, .menu-card, .branch-feature, .ss-purity-card, .premium-card').forEach(attachTilt);
+
+        // Attach to dynamically rendered cards in menu
+        const menuContainer = document.getElementById('menu-section');
+        if (menuContainer) {
+            const observer = new MutationObserver(() => {
+                menuContainer.querySelectorAll('.menu-card').forEach(attachTilt);
+            });
+            observer.observe(menuContainer, { childList: true, subtree: true });
+        }
+    }
+
+    /* ---- INIT ---- */
+    function init() {
+        initScrollReveal();
+        initCounters();
+        initTypedPlaceholder();
+        initParallax();
+        initWelcomeToast();
+        initActiveNavHighlight();
+        initImageSkeletons();
+        initPhysicsTilt();
+
+        // Trigger initial scroll state
+        updateProgressBar();
+        updateFabTop();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+        init();
+    }
+})();

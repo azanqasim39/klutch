@@ -99,7 +99,7 @@ body { font-family: 'Inter', sans-serif; }
         }
         @keyframes sheen { from { transform: translateX(-20%) rotate(16deg);} to { transform: translateX(120%) rotate(16deg);} }
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+            *:not(.ss-marquee-track), *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
         }
 
         /* Premium product grid */
@@ -399,3 +399,575 @@ html.ss-motion-ready .ss-reveal:not(.is-revealed) {
     .pizza-flavour-card:hover, .pizza-flavour-card:hover .pizza-flavour-photo img, .pizza-flavour-call:hover { transform: none !important; }
 }
 
+
+
+/* =========================================================
+   CINEMATIC UPGRADE — World-Class Animations & Visual Polish
+   Sialkot Sweets & Bakers — Ultra Professional System
+   ========================================================= */
+
+/* 1. Elegant Page Load Fade-In */
+@keyframes ss-page-fadein {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+body { animation: ss-page-fadein 0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* 2. Scroll Progress Bar (top of viewport) */
+.ss-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--ss-champagne), #e0c79e, var(--ss-champagne));
+    z-index: 9999;
+    transition: width 0.12s ease-out;
+    box-shadow: 0 0 12px rgba(200,165,106,0.55);
+    pointer-events: none;
+}
+
+/* 3. Enhanced Scroll Reveal System */
+.ss-reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.ss-reveal-left {
+    opacity: 0;
+    transform: translateX(-44px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.ss-reveal-right {
+    opacity: 0;
+    transform: translateX(44px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.ss-reveal-scale {
+    opacity: 0;
+    transform: scale(0.88);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.ss-reveal.is-revealed,
+.ss-reveal-left.is-revealed,
+.ss-reveal-right.is-revealed,
+.ss-reveal-scale.is-revealed {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+}
+
+/* Stagger delays for grid children */
+.ss-stagger > *:nth-child(1) { transition-delay: 0ms; }
+.ss-stagger > *:nth-child(2) { transition-delay: 100ms; }
+.ss-stagger > *:nth-child(3) { transition-delay: 200ms; }
+.ss-stagger > *:nth-child(4) { transition-delay: 300ms; }
+.ss-stagger > *:nth-child(5) { transition-delay: 400ms; }
+.ss-stagger > *:nth-child(6) { transition-delay: 500ms; }
+.ss-stagger > *:nth-child(7) { transition-delay: 600ms; }
+.ss-stagger > *:nth-child(8) { transition-delay: 700ms; }
+
+/* 4. Image Shine Sweep on Hover */
+.ss-shine { position: relative; overflow: hidden; }
+.ss-shine::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.22) 50%, transparent 62%);
+    transform: translateX(-110%);
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 3;
+    pointer-events: none;
+}
+.ss-shine:hover::after { transform: translateX(110%); }
+
+/* 5. Subtle 3D Perspective Tilt on Cards */
+.ss-tilt {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+    transform-style: preserve-3d;
+    perspective: 800px;
+}
+@media (hover: hover) and (pointer: fine) {
+    .ss-tilt:hover {
+        transform: perspective(800px) rotateX(2deg) rotateY(-2deg) translateY(-4px);
+    }
+}
+
+/* 6. Floating Action Buttons (WhatsApp + Back to Top) */
+.ss-fab {
+    position: fixed;
+    z-index: 55;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.4s ease,
+                box-shadow 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+}
+.ss-fab:hover {
+    transform: scale(1.12) translateY(-2px);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.3);
+}
+.ss-fab:active { transform: scale(0.95); }
+
+.ss-fab-whatsapp {
+    bottom: 24px;
+    right: 24px;
+    width: 58px;
+    height: 58px;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: white;
+    font-size: 28px;
+    animation: ss-fab-entrance 0.6s 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.ss-fab-whatsapp::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: 0 0 0 0 rgba(37,211,102,0.5);
+    animation: ss-whatsapp-ping 2.5s ease-in-out infinite 2.5s;
+}
+
+.ss-fab-top {
+    bottom: 24px;
+    right: 24px;
+    width: 50px;
+    height: 50px;
+    background: var(--ss-wine-950);
+    color: var(--ss-champagne);
+    font-size: 16px;
+    opacity: 0;
+    pointer-events: none;
+    border: 1px solid rgba(200,165,106,0.35);
+    position: fixed;
+    z-index: 60;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.4s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+}
+.ss-fab-top:hover {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 16px 40px rgba(200,165,106,0.35);
+    border-color: rgba(200,165,106,0.8);
+}
+.ss-fab-top.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+.ss-progress-ring {
+    position: absolute;
+    inset: -1px;
+    transform: rotate(-90deg);
+    pointer-events: none;
+}
+.ss-progress-ring-bg {
+    stroke: rgba(200,165,106,0.18);
+}
+.ss-progress-ring-circle {
+    transition: stroke-dashoffset 0.15s ease-out;
+}
+.ss-fab-top-icon {
+    position: relative;
+    z-index: 2;
+    transition: transform 0.25s ease;
+}
+.ss-fab-top:hover .ss-fab-top-icon {
+    transform: translateY(-2px);
+}
+
+@keyframes ss-fab-entrance {
+    from { opacity: 0; transform: scale(0) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes ss-whatsapp-ping {
+    0%, 70%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.45); }
+    35% { box-shadow: 0 0 0 14px rgba(37,211,102,0); }
+}
+
+/* 7. Animated Stats Counter Bar */
+.ss-stats-bar {
+    background: linear-gradient(135deg, var(--ss-wine-950) 0%, #321a28 50%, var(--ss-wine-950) 100%);
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(200,165,106,0.2);
+    border-bottom: 1px solid rgba(200,165,106,0.2);
+}
+.ss-stats-bar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(200,165,106,0.1), transparent 60%),
+        radial-gradient(ellipse at 80% 50%, rgba(200,165,106,0.08), transparent 60%);
+    pointer-events: none;
+}
+.ss-stats-bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+                       linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+}
+.ss-stat-item {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    padding: 0 0.5rem;
+}
+.ss-stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.25rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #e0c79e, #c8a56a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.15;
+}
+.ss-stat-label {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-top: 0.3rem;
+    font-weight: 600;
+}
+.ss-stat-divider {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(180deg, transparent, rgba(200,165,106,0.35), transparent);
+    flex-shrink: 0;
+}
+
+/* 8. Gradient Section Dividers */
+.ss-divider {
+    height: 1px;
+    border: none;
+    background: linear-gradient(90deg, transparent 5%, rgba(200,165,106,0.4) 50%, transparent 95%);
+    margin: 0;
+}
+
+/* 9. Pulse Ring on Badges / Rating Stars */
+.ss-pulse-ring {
+    animation: ss-pulse-glow 2.5s ease-in-out infinite;
+}
+@keyframes ss-pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,165,106,0.35); }
+    50% { box-shadow: 0 0 0 10px rgba(200,165,106,0); }
+}
+
+/* 10. Toast Welcome Notification */
+.ss-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(24px);
+    max-width: 400px;
+    width: calc(100% - 40px);
+    z-index: 90;
+    background: var(--ss-wine-950);
+    color: white;
+    border: 1px solid rgba(200,165,106,0.35);
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 0 24px 60px rgba(43,23,34,0.35);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+.ss-toast.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+}
+.ss-toast-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(200,165,106,0.2), rgba(200,165,106,0.08));
+    border: 1px solid rgba(200,165,106,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+.ss-toast-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    color: rgba(255,255,255,0.4);
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s;
+}
+.ss-toast-close:hover { color: white; }
+
+/* 11. Skip-to-Content Link (Accessibility) */
+.ss-skip-link {
+    position: fixed;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99999;
+    background: var(--ss-wine-950);
+    color: var(--ss-champagne);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0 0 12px 12px;
+    border: 1px solid rgba(200,165,106,0.4);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    text-decoration: none;
+    transition: top 0.2s ease;
+}
+.ss-skip-link:focus { top: 0; outline: none; }
+
+/* 12. Enhanced Header Glassmorphism */
+header {
+    background: rgba(43,23,34,0.88) !important;
+    backdrop-filter: blur(24px) saturate(1.6) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(1.6) !important;
+}
+
+/* 13. Smooth Gradient Hero Parallax Enhancement */
+.ss-parallax-orb {
+    transition: transform 0.1s linear;
+    will-change: transform;
+}
+
+/* 14. Review Card Quote Mark Enhancement */
+.ss-quote-mark {
+    position: absolute;
+    top: -8px;
+    right: 16px;
+    font-size: 4.5rem;
+    font-family: 'Playfair Display', serif;
+    color: rgba(200,165,106,0.12);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* 15. Smooth Horizontal Scroll Fade Hints (Category Tabs) */
+.ss-scroll-fade {
+    -webkit-mask-image: linear-gradient(90deg, black 85%, transparent 100%);
+    mask-image: linear-gradient(90deg, black 85%, transparent 100%);
+}
+
+/* 16. Hero Title Text Reveal Animation */
+@keyframes ss-text-reveal {
+    from { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.ss-hero-text-1 { animation: ss-text-reveal 0.8s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.ss-hero-text-2 { animation: ss-text-reveal 0.8s 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.ss-hero-text-3 { animation: ss-text-reveal 0.8s 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.ss-hero-text-4 { animation: ss-text-reveal 0.8s 0.75s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.ss-hero-text-5 { animation: ss-text-reveal 0.8s 0.95s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* 17. Active Nav Link Indicator Glow */
+.nav-link.is-active {
+    color: var(--ss-champagne) !important;
+}
+.nav-link.is-active::after {
+    transform: scaleX(1) !important;
+    opacity: 1;
+}
+
+/* 18. Smooth Input Focus Glow */
+input:focus, select:focus {
+    box-shadow: 0 0 0 3px rgba(200,165,106,0.2) !important;
+    border-color: rgba(200,165,106,0.5) !important;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* 19. Footer Social Icons Lift Animation */
+footer a[aria-label] {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+footer a[aria-label]:hover {
+    transform: translateY(-3px) scale(1.08) !important;
+}
+
+/* 20. Section Label Subtle Glow */
+.ss-section-glow {
+    text-shadow: 0 0 24px rgba(200,165,106,0.3);
+}
+
+/* 21. Cinematic Vertical Rhythm Lines on About Section */
+.ss-about-deco-line {
+    position: absolute;
+    width: 1px;
+    height: 60%;
+    top: 20%;
+    background: linear-gradient(180deg, transparent, rgba(200,165,106,0.15), transparent);
+    pointer-events: none;
+}
+
+/* 22. Card hover border gradient animation */
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+@keyframes ss-border-rotate {
+    to { --angle: 360deg; }
+}
+
+/* 23. Mobile refinements for floating buttons */
+@media (max-width: 767px) {
+    .ss-fab-top { width: 44px; height: 44px; bottom: 20px; right: 20px; }
+    .ss-stats-bar { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+    .ss-stat-number { font-size: 1.65rem; }
+    .ss-stat-label { font-size: 0.55rem; letter-spacing: 0.1em; }
+    .ss-stat-divider { height: 36px; }
+    .ss-toast { bottom: 84px; padding: 12px 14px; gap: 10px; }
+    .ss-toast-icon { width: 36px; height: 36px; font-size: 16px; }
+}
+
+/* 24. Golden Announcement Marquee Ticker - Infinite Continuous Slide Left */
+.ss-marquee-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    background: linear-gradient(90deg, #1f0f18 0%, #2b1722 50%, #1f0f18 100%);
+    cursor: default;
+}
+.ss-marquee-track {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 2rem;
+    padding-right: 2rem;
+    will-change: transform;
+    animation: ss-marquee-scroll 28s linear infinite !important;
+    -webkit-animation: ss-marquee-scroll 28s linear infinite !important;
+}
+.ss-marquee-dot {
+    color: var(--ss-champagne);
+    opacity: 0.7;
+    font-size: 0.65rem;
+}
+@keyframes ss-marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+@-webkit-keyframes ss-marquee-scroll {
+    0% { -webkit-transform: translateX(0); }
+    100% { -webkit-transform: translateX(-100%); }
+}
+
+/* 25. FAQ Accordion Grid Height Animations */
+.faq-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    opacity: 0;
+}
+.faq-answer.is-open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+.faq-answer-inner {
+    overflow: hidden;
+}
+
+/* 26. Floating Micro-Animations */
+@keyframes ss-float-slow {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-7px); }
+}
+.ss-float-slow {
+    animation: ss-float-slow 3.8s ease-in-out infinite;
+}
+
+/* 27. Purity Standard Card Enhancements */
+.ss-purity-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.ss-purity-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 50px rgba(43,23,34,0.12);
+    border-color: rgba(200,165,106,0.6) !important;
+}
+
+/* 28. Hero Slide Dots & Navigation */
+.hero-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.35);
+    border: 1px solid rgba(255,255,255,0.4);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+.hero-dot.is-active {
+    width: 28px;
+    background: var(--ss-champagne);
+    box-shadow: 0 0 12px rgba(200,165,106,0.65);
+}
+
+/* 29. Smooth Category Card Entrance */
+.menu-card {
+    animation: ss-card-enter 0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+@keyframes ss-card-enter {
+    from { opacity: 0; transform: translateY(14px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 30. Prefers Reduced Motion — disable all cinematic effects */
+@media (prefers-reduced-motion: reduce) {
+    body { animation: none !important; }
+    .ss-reveal, .ss-reveal-left, .ss-reveal-right, .ss-reveal-scale {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    .ss-shine::after { display: none; }
+    .ss-pulse-ring { animation: none !important; }
+    .ss-hero-text-1, .ss-hero-text-2, .ss-hero-text-3, .ss-hero-text-4, .ss-hero-text-5 {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+    }
+    .ss-tilt:hover { transform: none !important; }
+    .ss-progress-bar { display: none; }
+    .ss-float-slow { animation: none !important; }
+}

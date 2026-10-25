@@ -4,9 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#2b1722">
-    <meta name="description" content="Explore traditional sweets, bakery favourites and signature Sialkoti Guldasta from Sialkot Sweets & Bakers in Gujranwala.">
-    <title>Sialkot Sweets & Bakers | Gujranwala</title>
+    <meta name="description" content="Explore traditional sweets, bakery favourites and signature Sialkoti Guldasta from Sialkot Sweets & Bakers in Gujranwala. Since 1951 — 100% pure desi ghee mithai, fresh bakery, Arabian sweets, and fast food.">
+    <title>Sialkot Sweets & Bakers | Gujranwala — Traditional Mithai Since 1951</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <link rel="canonical" href="./">
+
+    <!-- SEO: Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Sialkot Sweets & Bakers — Gujranwala's Legendary Sweet House Since 1951">
+    <meta property="og:description" content="Handcrafted desi ghee mithai, Arabian Baklava, fresh bakery, and fast food. Home of the famous Sialkoti Guldasta. Visit our 3 branches in Gujranwala.">
+    <meta property="og:image" content="./Hero Banner1.jpeg">
+    <meta property="og:url" content="./">
+    <meta property="og:site_name" content="Sialkot Sweets & Bakers">
+    <meta property="og:locale" content="en_PK">
+
+    <!-- SEO: Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sialkot Sweets & Bakers | Since 1951">
+    <meta name="twitter:description" content="Gujranwala's most iconic mithai & bakery house. Pure desi ghee sweets, Baklava, fast food & more.">
+    <meta name="twitter:image" content="./Hero Banner1.jpeg">
+
+    <!-- Security & Performance -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+
+    <!-- SEO: Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "Sialkot Sweets & Bakers",
+        "image": "./Hero Banner1.jpeg",
+        "description": "Gujranwala's oldest and most loved traditional mithai & fresh bakery house since 1951. 100% pure desi ghee sweets, Arabian Baklava, fast food, and more.",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Gayb Chowk, Islampura",
+            "addressLocality": "Gujranwala",
+            "addressRegion": "Punjab",
+            "addressCountry": "PK"
+        },
+        "telephone": "+923253922121",
+        "email": "sialkotsweets.org@gmail.com",
+        "url": "./",
+        "openingHours": "Mo-Su 06:00-01:00",
+        "servesCuisine": ["Pakistani", "Sweets", "Bakery", "Arabian", "Fast Food"],
+        "priceRange": "$$",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.4",
+            "reviewCount": "53",
+            "bestRating": "5"
+        },
+        "foundingDate": "1951",
+        "founder": {
+            "@type": "Person",
+            "name": "Ishaq & Sons"
+        },
+        "sameAs": [
+            "https://www.instagram.com/sialkotsweets.pk/",
+            "https://www.facebook.com/share/1Cn22NBPbY/"
+        ]
+    }
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="./script.js"></script>
@@ -26,6 +87,9 @@
 
 </head>
 <body class="bg-stone-50 text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-900" x-data="sialkotSweetsApp()">
+
+    <!-- Skip-to-Content (Accessibility) -->
+    <a href="#menu-section" class="ss-skip-link">Skip to Menu</a>
 
     <!-- Top Announcement Bar -->
     <div class="bg-emerald-950 text-amber-300 text-xs sm:text-sm py-2 px-4 border-b border-amber-500/30">
@@ -53,6 +117,38 @@
                     <span class="text-stone-400 text-xs ml-1">(53 Google Reviews)</span>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Golden Announcement Marquee Ticker -->
+    <div class="ss-marquee-container border-b border-amber-500/20 py-1.5 text-[11px] sm:text-xs font-semibold tracking-wider text-amber-200/90 select-none">
+        <div class="ss-marquee-track">
+            <span>✨ Pure Desi Ghee Mithai Since 1951</span>
+            <span class="ss-marquee-dot">✦</span>
+            <span>🏆 Gujranwala's Iconic Sialkoti Guldasta</span>
+            <span class="ss-marquee-dot">✦</span>
+            <span>📍 1st: Chand Da Qila · 2nd: Satellite Town · 3rd: Gayb Chowk</span>
+            <span class="ss-marquee-dot">✦</span>
+            <span>🍯 100% Buffalo Khoya & Artisanal Arabian Baklava</span>
+            <span class="ss-marquee-dot">✦</span>
+            <span>📞 Order Hotline: 0308 3922121 / 0325 3922121</span>
+            <span class="ss-marquee-dot">✦</span>
+            <span>⭐ Rated 4.4 on Google (53+ Verified Reviews)</span>
+            <span class="ss-marquee-dot">✦</span>
+        </div>
+        <div class="ss-marquee-track" aria-hidden="true">
+            <span>✨ Pure Desi Ghee Mithai Since 1951</span>
+            <span class="ss-marquee-dot">✦</span>
+            <span>🏆 Gujranwala's Iconic Sialkoti Guldasta</span>
+            <span class="ss-marquee-dot">✦</span>
+            <span>📍 1st: Chand Da Qila · 2nd: Satellite Town · 3rd: Gayb Chowk</span>
+            <span class="ss-marquee-dot">✦</span>
+            <span>🍯 100% Buffalo Khoya & Artisanal Arabian Baklava</span>
+            <span class="ss-marquee-dot">✦</span>
+            <span>📞 Order Hotline: 0308 3922121 / 0325 3922121</span>
+            <span class="ss-marquee-dot">✦</span>
+            <span>⭐ Rated 4.4 on Google (53+ Verified Reviews)</span>
+            <span class="ss-marquee-dot">✦</span>
         </div>
     </div>
 
@@ -145,20 +241,20 @@
                 
                 <!-- Left Content -->
                 <div class="md:col-span-7 space-y-6 text-center md:text-left">
-                    <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 px-3.5 py-1.5 rounded-full text-amber-300 text-xs sm:text-sm font-medium">
+                    <div class="ss-hero-text-1 inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 px-3.5 py-1.5 rounded-full text-amber-300 text-xs sm:text-sm font-medium">
                         <i class="fa-solid fa-crown text-amber-400"></i> Gujranwala's Most Iconic Sweet House Since 1951
                     </div>
 
-                    <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white">
+                    <h1 class="ss-hero-text-2 font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white">
                         Taste Gujranwala’s <br/>
                         <span class="gold-gradient-text">Legendary Sweets & Bakery</span>
                     </h1>
 
-                    <p class="text-stone-300 text-base sm:text-lg max-w-2xl leading-relaxed">
-                        Handcrafted with pure desi ghee, fresh daily khoya, and decades of royal heritage. Home of the famous <strong class="text-amber-300">Sialkoti Guldasta</strong>, <strong class="text-amber-300">Baklava</strong>, and <strong class="text-amber-300">Akhrot Halwa</strong> at Gayb Chowk, Gujranwala.
+                    <p class="ss-hero-text-3 text-stone-300 text-base sm:text-lg max-w-2xl leading-relaxed">
+                        Handcrafted with pure desi ghee, fresh daily khoya, and decades of royal heritage. Home of the famous <strong class="text-amber-300">Sialkoti Guldasta</strong>, <strong class="text-amber-300">Baklava</strong>, and <strong class="text-amber-300">Akhrot Halwa</strong> across our 3 branches in Gujranwala.
                     </p>
 
-                    <div class="branch-feature rounded-2xl p-4 sm:p-5 max-w-xl">
+                    <div class="ss-hero-text-4 branch-feature rounded-2xl p-4 sm:p-5 max-w-xl">
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <div class="section-eyebrow text-[10px] text-amber-300 font-black uppercase">Three destinations • one legacy</div>
@@ -176,7 +272,7 @@
                     </div>
 
                     <!-- Search Bar in Hero -->
-                    <div class="pt-2 max-w-xl mx-auto md:mx-0">
+                    <div class="ss-hero-text-5 pt-2 max-w-xl mx-auto md:mx-0">
                         <div class="relative flex items-center bg-white/10 backdrop-blur-md p-1.5 rounded-2xl border border-amber-400/40 shadow-2xl">
                             <i class="fa-solid fa-magnifying-glass text-amber-300 text-lg ml-3 mr-2"></i>
                             <input 
@@ -199,6 +295,22 @@
                             <button @click="setSearch('Pizza')" class="underline hover:text-amber-300">Special Pizza</button> ·
                             <button @click="setSearch('Zinger')" class="underline hover:text-amber-300">Zinger Burger</button>
                         </p>
+
+                        <!-- Quick Mood / Occasion Filter Chips -->
+                        <div class="mt-3 flex flex-wrap gap-1.5 justify-center md:justify-start">
+                            <button @click="setCategory('sweets')" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-amber-400 hover:text-emerald-950 text-white text-xs font-semibold border border-white/15 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-sm">
+                                <span>🍯</span> Traditional Mithai
+                            </button>
+                            <button @click="setCategory('arabian')" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-amber-400 hover:text-emerald-950 text-white text-xs font-semibold border border-white/15 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-sm">
+                                <span>✨</span> Arabian Baklava
+                            </button>
+                            <button @click="setCategory('fastfood')" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-amber-400 hover:text-emerald-950 text-white text-xs font-semibold border border-white/15 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-sm">
+                                <span>🍕</span> Pizzas & Fast Food
+                            </button>
+                            <button @click="setCategory('biscuits')" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-amber-400 hover:text-emerald-950 text-white text-xs font-semibold border border-white/15 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-sm">
+                                <span>🍪</span> Fresh Biscuits
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Highlights Badges -->
@@ -212,15 +324,21 @@
                             <span class="text-stone-400">Baked Morning & Evening</span>
                         </div>
                         <div class="text-center md:text-left">
-                            <span class="block font-bold text-amber-400 text-base sm:text-lg">6 AM – 1 AM</span>
-                            <span class="text-stone-400">Visit Our Gayb Chowk Branch</span>
+                            <span class="block font-bold text-amber-400 text-base sm:text-lg">3 Branches</span>
+                            <span class="text-stone-400">Open 6 AM – 1 AM Daily</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Featured product photography: four-image, image-only fade slideshow -->
                 <div class="md:col-span-5 relative">
-                    <div class="hero-frame relative rounded-3xl overflow-hidden shadow-2xl border border-amber-400/40">
+                    <!-- Fresh batch floating guarantee badge -->
+                    <div class="absolute -top-3.5 -left-3.5 z-20 bg-emerald-950/95 backdrop-blur-md border border-amber-400/60 rounded-2xl px-3.5 py-1.5 shadow-2xl flex items-center gap-2 text-[11px] font-bold text-amber-300 ss-float-slow">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span>Fresh Daily · 100% Desi Ghee</span>
+                    </div>
+
+                    <div class="hero-frame ss-tilt relative rounded-3xl overflow-hidden shadow-2xl border border-amber-400/40">
                         <div class="hero-carousel hero-showcase-img relative h-[360px] sm:h-[420px]" data-hero-carousel role="region" aria-label="Featured Sialkot Sweets product photographs" aria-roledescription="carousel">
                             <img src="./Hero Banner1.jpeg" alt="Sialkoti Guldasta signature gift box" class="hero-slide is-active" data-hero-slide aria-hidden="false" fetchpriority="high" loading="eager" decoding="async">
                             <img src="./Hero Banner2.jpeg" alt="Traditional Gulab Jamun" class="hero-slide" data-hero-slide aria-hidden="true" loading="eager" decoding="async">
@@ -244,6 +362,31 @@
         </div>
     </section>
 
+    <!-- Animated Heritage Stats Bar -->
+    <div class="ss-stats-bar py-6 px-4">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-around gap-4 sm:gap-6">
+            <div class="ss-stat-item">
+                <div class="ss-stat-number" data-ss-counter="75" data-ss-suffix="+">75+</div>
+                <div class="ss-stat-label">Years of Heritage (Since 1951)</div>
+            </div>
+            <div class="ss-stat-divider hidden sm:block"></div>
+            <div class="ss-stat-item">
+                <div class="ss-stat-number" data-ss-counter="100" data-ss-suffix="%">100%</div>
+                <div class="ss-stat-label">Pure Desi Ghee Mithai</div>
+            </div>
+            <div class="ss-stat-divider hidden sm:block"></div>
+            <div class="ss-stat-item">
+                <div class="ss-stat-number" data-ss-counter="3" data-ss-suffix=" Branches">3 Branches</div>
+                <div class="ss-stat-label">Across Gujranwala</div>
+            </div>
+            <div class="ss-stat-divider hidden md:block"></div>
+            <div class="ss-stat-item">
+                <div class="ss-stat-number" data-ss-counter="50" data-ss-suffix="+">50+</div>
+                <div class="ss-stat-label">Handcrafted Delicacies</div>
+            </div>
+        </div>
+    </div>
+
     <!-- Detailed About Us & Heritage Section -->
     <section id="about-heritage" class="py-20 bg-emerald-950 text-white relative overflow-hidden border-b-4 border-amber-500">
         <!-- Background Pattern -->
@@ -251,7 +394,7 @@
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <!-- Header Header -->
-            <div class="text-center max-w-3xl mx-auto mb-16">
+            <div class="text-center max-w-3xl mx-auto mb-16 ss-reveal">
                 <span class="inline-flex items-center gap-2 bg-amber-500/20 text-amber-300 text-xs font-bold px-4 py-1.5 rounded-full border border-amber-500/30 uppercase tracking-widest">
                     <i class="fa-solid fa-landmark"></i> The Story of Sialkot Sweets & Bakers
                 </span>
@@ -264,7 +407,7 @@
 
             <!-- Content Grid 1: The Origin Story -->
             <div class="grid md:grid-cols-12 gap-12 items-center mb-16">
-                <div class="md:col-span-6 space-y-5">
+                <div class="md:col-span-6 space-y-5 ss-reveal-left">
                     <h3 class="font-serif text-2xl sm:text-3xl font-bold text-amber-300">
                         Founded by Ishaq & Sons
                     </h3>
@@ -290,7 +433,7 @@
                     </div>
                 </div>
 
-                <div class="md:col-span-6 relative">
+                <div class="md:col-span-6 relative ss-reveal-right">
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-4">
                             <img 
@@ -321,8 +464,8 @@
             </div>
 
             <!-- Content Grid 2: Core Pillars / What Sets Us Apart -->
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-white/10">
-                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-white/10 ss-stagger">
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
                     <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
                         <i class="fa-solid fa-cow"></i>
                     </div>
@@ -332,7 +475,7 @@
                     </p>
                 </div>
 
-                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition">
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
                     <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
                         <i class="fa-solid fa-gift"></i>
                     </div>
@@ -342,17 +485,17 @@
                     </p>
                 </div>
 
-                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition">
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
                     <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
                         <i class="fa-solid fa-cookie-bite"></i>
                     </div>
                     <h4 class="font-serif font-bold text-lg text-white">Arabian Sweets & Bakery</h4>
                     <p class="text-stone-300 text-xs leading-relaxed">
-                        Evolution alongside tradition. Enjoy authentic Baklava, Kunafa, fresh biscuits, cake rusks, and halwa specialties at our Gayb Chowk branch.
+                        Evolution alongside tradition. Enjoy authentic Baklava, Kunafa, fresh biscuits, cake rusks, and halwa specialties across all 3 of our branches in Gujranwala.
                     </p>
                 </div>
 
-                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition">
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
                     <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
                         <i class="fa-solid fa-heart"></i>
                     </div>
@@ -364,7 +507,7 @@
             </div>
 
             <!-- Banner Quote -->
-            <div class="mt-12 bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-amber-500/20 border border-amber-500/30 rounded-3xl p-8 text-center max-w-4xl mx-auto">
+            <div class="mt-12 bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-amber-500/20 border border-amber-500/30 rounded-3xl p-8 text-center max-w-4xl mx-auto ss-reveal-scale">
                 <i class="fa-solid fa-quote-left text-amber-400 text-3xl mb-3 block"></i>
                 <p class="font-serif text-lg sm:text-xl text-amber-100 italic leading-relaxed">
                     "Trends come and go, but the authentic taste of pure desi ghee mithai prepared with genuine love remains timeless. Since 1951, we serve trust in every box."
@@ -384,46 +527,46 @@
                 <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
             </div>
 
-            <div class="grid sm:grid-cols-3 gap-6">
+            <div class="grid sm:grid-cols-3 gap-6 ss-stagger">
                 <!-- Specialty 1 -->
-                <div class="premium-card bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0">
+                <div class="premium-card ss-reveal ss-tilt bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0 ss-pulse-ring">
                         🎁
                     </div>
                     <div>
                         <h3 class="font-serif font-bold text-lg text-emerald-950">Sialkoti Guldasta</h3>
                         <p class="text-xs text-stone-600 mt-1">An extravagant platter box containing rich Gulab Jamun, Cham Cham, Barfi & Motichoor Ladoo in one box.</p>
-                        <button @click="setCategory('sweets')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
+                        <a :href="getCategoryUrl('sweets')" @click.prevent="setCategory('sweets')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
                             Explore Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
                 <!-- Specialty 2 -->
-                <div class="premium-card bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0">
+                <div class="premium-card ss-reveal ss-tilt bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0 ss-pulse-ring">
                         ✨
                     </div>
                     <div>
                         <h3 class="font-serif font-bold text-lg text-emerald-950">Arabian Baklava & Delights</h3>
                         <p class="text-xs text-stone-600 mt-1">Royal Middle-Eastern delicacies including Baklava, Mabroumeh, Osh El Bulbul, and authentic Kunafa.</p>
-                        <button @click="setCategory('arabian')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
+                        <a :href="getCategoryUrl('arabian')" @click.prevent="setCategory('arabian')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
                             View Arabian Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
                 <!-- Specialty 3 -->
-                <div class="premium-card bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0">
+                <div class="premium-card ss-reveal ss-tilt bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0 ss-pulse-ring">
                         🍯
                     </div>
                     <div>
                         <h3 class="font-serif font-bold text-lg text-emerald-950">Desi Ghee Gulab Jamun</h3>
                         <p class="text-xs text-stone-600 mt-1">Soft, melt-in-mouth milk solids soaked in warm cardamom syrup, prepared exclusively in 100% pure Desi Ghee.</p>
-                        <button @click="setCategory('sweets')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
+                        <a :href="getCategoryUrl('sweets')" @click.prevent="setCategory('sweets')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
                             View Traditional Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -449,15 +592,16 @@
                 <!-- Category Tabs -->
                 <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
                     <template x-for="cat in categories" :key="cat.id">
-                        <button 
-                            @click="selectedCategory = cat.id"
+                        <a 
+                            :href="getCategoryUrl(cat.id)"
+                            @click.prevent="setCategory(cat.id)"
                             :class="selectedCategory === cat.id ? 'bg-emerald-900 text-amber-300 font-bold shadow-md border-amber-500' : 'bg-white text-stone-700 hover:bg-stone-100 border-stone-200'"
-                            class="px-4 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition border flex items-center gap-2"
+                            class="px-4 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition border flex items-center gap-2 cursor-pointer"
                         >
                             <span x-text="cat.icon"></span>
                             <span x-text="cat.name"></span>
                             <span x-show="getCategoryCount(cat.id) > 0" x-text="getCategoryCount(cat.id)" class="text-[10px] bg-stone-100 text-stone-600 font-semibold px-1.5 py-0.2 rounded-full border border-stone-300 ml-1"></span>
-                        </button>
+                        </a>
                     </template>
                 </div>
             </div>
@@ -493,11 +637,11 @@
             <!-- Dish Cards Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <template x-for="item in filteredItems" :key="item.id">
-                    <a :href="getProductUrl(item)" :aria-label="'View product details for ' + item.name" class="menu-card bg-white rounded-2xl overflow-hidden border border-stone-200/80 flex flex-col justify-between group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2">
+                    <a :href="getProductUrl(item)" :aria-label="'View product details for ' + item.name" class="menu-card ss-tilt bg-white rounded-2xl overflow-hidden border border-stone-200/80 flex flex-col justify-between group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2">
                         
                         <div>
                             <!-- Image Container -->
-                            <div class="relative h-48 sm:h-52 overflow-hidden bg-stone-100">
+                            <div class="relative ss-shine h-48 sm:h-52 overflow-hidden bg-stone-100">
                                 <img 
                                     :src="item.image" 
                                     :alt="item.name" 
@@ -527,6 +671,19 @@
                                     <span x-text="item.rating"></span>
                                 </div>
 
+                                <!-- Quick View Hover Pill -->
+                                <div class="absolute inset-0 bg-stone-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none z-10">
+                                    <button 
+                                        type="button"
+                                        @click.prevent.stop="openQuickView(item)" 
+                                        class="pointer-events-auto inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 hover:bg-white text-emerald-950 text-xs font-bold shadow-xl border border-amber-400/50 transform translate-y-2 group-hover:translate-y-0 transition duration-300 hover:scale-105 active:scale-95"
+                                        aria-label="Quick preview item"
+                                    >
+                                        <i class="fa-solid fa-eye text-amber-600 text-xs"></i>
+                                        <span>Quick View</span>
+                                    </button>
+                                </div>
+
                             </div>
 
                             <!-- Content -->
@@ -553,21 +710,68 @@
                             </div>
                         </div>
 
-                        <!-- Footer Price -->
-                        <div class="px-5 pb-5 pt-2 border-t border-stone-100">
+                        <!-- Footer Price & Details -->
+                        <div class="px-5 pb-5 pt-3 border-t border-stone-100 flex items-center justify-between">
                             <div>
-                                <span class="text-xs text-stone-400 block">Price</span>
+                                <span class="text-[11px] text-stone-400 block font-medium">Price</span>
                                 <span class="font-bold text-emerald-950 text-base">
                                     Rs. <span x-text="item.price.toLocaleString()"></span>
                                     <span class="text-[11px] font-normal text-stone-500" x-text="'/ ' + item.unit"></span>
                                 </span>
                             </div>
+                            <span class="text-xs text-amber-700 font-bold group-hover:translate-x-1 transition duration-300 inline-flex items-center gap-1">
+                                Details <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </span>
                         </div>
 
                     </a>
                 </template>
             </div>
 
+        </div>
+    </section>
+
+    <!-- Luxury Catering & Wedding Gifting Showcase -->
+    <section class="py-14 bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 text-white relative overflow-hidden border-b border-amber-500/30">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fbbf24_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="bg-gradient-to-r from-amber-500/15 via-white/5 to-amber-500/15 border border-amber-400/30 rounded-3xl p-8 sm:p-12 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8 ss-reveal">
+                <div class="max-w-2xl text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 bg-amber-400/20 text-amber-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-amber-400/30 mb-3">
+                        <i class="fa-solid fa-gift text-amber-400"></i> Royal Wedding & Corporate Gifting
+                    </span>
+                    <h3 class="font-serif text-2xl sm:text-4xl font-extrabold text-white leading-tight">
+                        Elevate Your Special Occasions With <br>
+                        <span class="gold-gradient-text">Custom Sialkoti Guldasta Hampers</span>
+                    </h3>
+                    <p class="text-stone-300 text-sm mt-3 leading-relaxed">
+                        Handcrafted luxury boxes customized for weddings, mehndi giveaways, Eid celebrations, and corporate gifts. Available in 1kg, 2kg, and 5kg royal presentations with customized ribbons and greeting cards across Gujranwala.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mt-6 justify-center lg:justify-start text-xs text-amber-200">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-amber-400"></i> Custom Box Personalization</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-amber-400"></i> Special Bulk Pricing</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-amber-400"></i> Travel-Safe Packaging</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0 w-full sm:w-auto">
+                    <a 
+                        href="tel:03083922121" 
+                        class="cta-sheen inline-flex items-center justify-center gap-3 bg-gradient-to-r from-yellow-300 via-amber-400 to-amber-500 text-emerald-950 font-black px-6 py-4 rounded-2xl shadow-xl hover:brightness-110 transition text-sm text-center"
+                    >
+                        <i class="fa-solid fa-phone text-base"></i>
+                        <span>Inquire Bulk Orders: 0308 3922121</span>
+                    </a>
+                    <a 
+                        href="?section=menu&category=traditional-sweets" 
+                        @click.prevent="setCategory('sweets')"
+                        class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3.5 rounded-2xl border border-white/20 transition text-xs text-center"
+                    >
+                        <span>Explore Guldasta & Sweets</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -582,13 +786,14 @@
                 <h2 class="font-serif text-3xl font-extrabold text-emerald-950 mt-1">
                     Loved by 4.4 Stars on Google (53+ Reviews)
                 </h2>
-                <p class="text-stone-500 text-sm mt-1">Here is what food lovers in Gujranwala say about our Gayb Chowk branch.</p>
+                <p class="text-stone-500 text-sm mt-1">Here is what food lovers in Gujranwala say about our 3 branches.</p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-6">
+            <div class="grid md:grid-cols-3 gap-6 ss-stagger">
                 <!-- Review 1 -->
-                <div class="premium-card bg-stone-50 rounded-2xl p-6 border border-stone-200 shadow-sm relative">
-                    <div class="flex items-center gap-3 mb-3">
+                <div class="premium-card ss-reveal ss-tilt bg-stone-50 rounded-2xl p-6 border border-stone-200 shadow-sm relative overflow-hidden">
+                    <span class="ss-quote-mark" aria-hidden="true">“</span>
+                    <div class="flex items-center gap-3 mb-3 relative z-10">
                         <div class="w-10 h-10 rounded-full bg-emerald-800 text-amber-300 font-bold flex items-center justify-center">
                             MA
                         </div>
@@ -597,15 +802,16 @@
                             <div class="text-amber-500 text-xs">★★★★★ · Local Guide</div>
                         </div>
                     </div>
-                    <p class="text-xs text-stone-600 leading-relaxed font-serif italic">
+                    <p class="text-xs text-stone-600 leading-relaxed font-serif italic relative z-10">
                         "The Desi Ghee Gulab Jamun and Baklava here are legendary in Gujranwala! Always warm, fresh, and perfectly sweet. Best place in Islampura!"
                     </p>
-                    <span class="text-[10px] text-stone-400 mt-3 block">Reviewed on Google</span>
+                    <span class="text-[10px] text-stone-400 mt-3 block relative z-10">Reviewed on Google</span>
                 </div>
 
                 <!-- Review 2 -->
-                <div class="premium-card bg-stone-50 rounded-2xl p-6 border border-stone-200 shadow-sm relative">
-                    <div class="flex items-center gap-3 mb-3">
+                <div class="premium-card ss-reveal ss-tilt bg-stone-50 rounded-2xl p-6 border border-stone-200 shadow-sm relative overflow-hidden">
+                    <span class="ss-quote-mark" aria-hidden="true">“</span>
+                    <div class="flex items-center gap-3 mb-3 relative z-10">
                         <div class="w-10 h-10 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center">
                             SK
                         </div>
@@ -614,15 +820,16 @@
                             <div class="text-amber-500 text-xs">★★★★★ · Verified Buyer</div>
                         </div>
                     </div>
-                    <p class="text-xs text-stone-600 leading-relaxed font-serif italic">
-                        "Whenever guests arrive from Lahore or Islamabad, I take Sialkoti Guldasta and Akhrot Halwa from Gayb Chowk branch. Never disappoints!"
+                    <p class="text-xs text-stone-600 leading-relaxed font-serif italic relative z-10">
+                        "Whenever guests arrive from Lahore or Islamabad, I take Sialkoti Guldasta and Akhrot Halwa from Sialkot Sweets. Never disappoints!"
                     </p>
-                    <span class="text-[10px] text-stone-400 mt-3 block">Reviewed on Google</span>
+                    <span class="text-[10px] text-stone-400 mt-3 block relative z-10">Reviewed on Google</span>
                 </div>
 
                 <!-- Review 3 -->
-                <div class="premium-card bg-stone-50 rounded-2xl p-6 border border-stone-200 shadow-sm relative">
-                    <div class="flex items-center gap-3 mb-3">
+                <div class="premium-card ss-reveal ss-tilt bg-stone-50 rounded-2xl p-6 border border-stone-200 shadow-sm relative overflow-hidden">
+                    <span class="ss-quote-mark" aria-hidden="true">“</span>
+                    <div class="flex items-center gap-3 mb-3 relative z-10">
                         <div class="w-10 h-10 rounded-full bg-burgundy-800 text-white font-bold flex items-center justify-center">
                             HA
                         </div>
@@ -631,11 +838,141 @@
                             <div class="text-amber-500 text-xs">★★★★★ · Morning Regular</div>
                         </div>
                     </div>
-                    <p class="text-xs text-stone-600 leading-relaxed font-serif italic">
+                    <p class="text-xs text-stone-600 leading-relaxed font-serif italic relative z-10">
                         "Their fresh Badam Khatai biscuits and Cake Rusks with evening tea are top-class. Outstanding clean packaging and traditional taste."
                     </p>
-                    <span class="text-[10px] text-stone-400 mt-3 block">Reviewed on Google</span>
+                    <span class="text-[10px] text-stone-400 mt-3 block relative z-10">Reviewed on Google</span>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Frequently Asked Questions (FAQ) Section -->
+    <section id="faq-section" class="py-16 bg-stone-50 border-b border-stone-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12 ss-reveal">
+                <span class="text-amber-700 font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-question text-amber-500"></i> Customer Help & FAQs
+                </span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-1">
+                    Frequently Asked Questions
+                </h2>
+                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
+                <p class="text-stone-600 text-sm mt-2">Everything you need to know about our ingredients, ordering, and branch locations across Gujranwala.</p>
+            </div>
+
+            <!-- FAQ Accordion -->
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden transition-all duration-300">
+                    <button 
+                        @click="toggleFaq(0)" 
+                        class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-emerald-950 hover:text-amber-700 transition"
+                        :aria-expanded="faqOpen === 0"
+                    >
+                        <span>Do you use 100% pure Desi Ghee in your traditional sweets?</span>
+                        <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 0 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+                    </button>
+                    <div class="faq-answer" :class="{ 'is-open': faqOpen === 0 }">
+                        <div class="faq-answer-inner px-6 pb-5 text-stone-600 text-xs sm:text-sm leading-relaxed border-t border-stone-100 pt-3">
+                            Yes, absolutely. Since 1951, Ishaq & Sons has maintained a strict purity standard: zero hydrogenated vegetable oil (dalda) and zero artificial flavourings. All our signature sweets—including Gulab Jamun, Akhrot Halwa, Barfi, and Motichoor Ladoo—are cooked in 100% certified organic Desi Ghee and fresh daily buffalo khoya.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden transition-all duration-300">
+                    <button 
+                        @click="toggleFaq(1)" 
+                        class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-emerald-950 hover:text-amber-700 transition"
+                        :aria-expanded="faqOpen === 1"
+                    >
+                        <span>What makes the Sialkoti Guldasta box so famous?</span>
+                        <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 1 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+                    </button>
+                    <div class="faq-answer" :class="{ 'is-open': faqOpen === 1 }">
+                        <div class="faq-answer-inner px-6 pb-5 text-stone-600 text-xs sm:text-sm leading-relaxed border-t border-stone-100 pt-3">
+                            The Sialkoti Guldasta is Gujranwala’s most celebrated mix-sweet box. Instead of a single sweet, it brings together a royal floral arrangement of our best varieties: warm Gulab Jamun, delicate Cham Cham, rich Pista Barfi, and saffron Motichoor Ladoo in an exquisite presentation box designed especially for weddings, Eid, and VIP guests.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden transition-all duration-300">
+                    <button 
+                        @click="toggleFaq(2)" 
+                        class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-emerald-950 hover:text-amber-700 transition"
+                        :aria-expanded="faqOpen === 2"
+                    >
+                        <span>Where are your three branches located in Gujranwala and what are the opening hours?</span>
+                        <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 2 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+                    </button>
+                    <div class="faq-answer" :class="{ 'is-open': faqOpen === 2 }">
+                        <div class="faq-answer-inner px-6 pb-5 text-stone-600 text-xs sm:text-sm leading-relaxed border-t border-stone-100 pt-3">
+                            All three branches serve the same authentic Sialkot Sweets quality and are open daily from <strong>6:00 AM to 1:00 AM</strong>:
+                            <ul class="list-disc pl-5 mt-2 space-y-1.5 text-xs">
+                                <li><strong>1st Branch:</strong> Chand Da Qila, Gujranwala · Phone: <strong>0308 3922121</strong></li>
+                                <li><strong>2nd Branch:</strong> C Block, Satellite Town, Gujranwala · Phone: <strong>055 3840066</strong></li>
+                                <li><strong>3rd Branch:</strong> Gayb Chowk, Islampura, Gujranwala · Phone: <strong>0325 3922121</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden transition-all duration-300">
+                    <button 
+                        @click="toggleFaq(3)" 
+                        class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-emerald-950 hover:text-amber-700 transition"
+                        :aria-expanded="faqOpen === 3"
+                    >
+                        <span>Can I place bulk orders for weddings, family events, or corporate gifting?</span>
+                        <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 3 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+                    </button>
+                    <div class="faq-answer" :class="{ 'is-open': faqOpen === 3 }">
+                        <div class="faq-answer-inner px-6 pb-5 text-stone-600 text-xs sm:text-sm leading-relaxed border-t border-stone-100 pt-3">
+                            Yes! We supply wedding giveaway boxes, corporate gift hampers, and party catering orders across Gujranwala. We offer customized box branding, personalized ribbons, and special bulk pricing. Call our hotline at <strong>0308 3922121</strong> or <strong>0325 3922121</strong> to book in advance.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden transition-all duration-300">
+                    <button 
+                        @click="toggleFaq(4)" 
+                        class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-emerald-950 hover:text-amber-700 transition"
+                        :aria-expanded="faqOpen === 4"
+                    >
+                        <span>How long do your sweets and halwas stay fresh during travel?</span>
+                        <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 4 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+                    </button>
+                    <div class="faq-answer" :class="{ 'is-open': faqOpen === 4 }">
+                        <div class="faq-answer-inner px-6 pb-5 text-stone-600 text-xs sm:text-sm leading-relaxed border-t border-stone-100 pt-3">
+                            Our dry sweets, Akhrot Halwa, Sohan Halwa, Badam Khatai, and Arabian Baklava are specially suited for travel and stay fresh for several weeks when stored in an airtight container at room temperature. For international travel, ask our counter team for travel-safe hermetic packs.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Still have questions card -->
+            <div class="mt-8 p-6 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-amber-500/10 border border-amber-300/40 text-center flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-left">
+                    <h4 class="font-bold text-emerald-950 text-sm">Have a question or custom catering inquiry?</h4>
+                    <p class="text-stone-500 text-xs mt-0.5">Call any of our 3 branches daily between 6:00 AM and 1:00 AM.</p>
+                </div>
+                <a href="tel:03083922121" class="inline-flex items-center gap-2 bg-emerald-950 text-amber-300 hover:text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow">
+                    <i class="fa-solid fa-phone"></i> Call 0308 3922121
+                </a>
             </div>
         </div>
     </section>
@@ -655,54 +992,95 @@
                 </div>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="branch-feature premium-card rounded-3xl p-6">
-                    <div class="flex items-center justify-between gap-4">
-                        <span class="branch-number">01</span>
-                        <span class="text-[10px] uppercase tracking-[.18em] text-amber-300 font-black">First Branch</span>
+            <div class="grid md:grid-cols-3 gap-6 ss-stagger">
+                <!-- Branch 01: Chand Da Qila -->
+                <div class="branch-feature premium-card ss-reveal ss-tilt rounded-3xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-4">
+                            <span class="branch-number">01</span>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                First Branch · Open 6AM–1AM
+                            </span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-white mt-5">Chand Da Qila</h3>
+                        <p class="text-stone-300 text-sm mt-1.5">Chand Da Qila, Gujranwala</p>
+                        <button 
+                            type="button"
+                            @click="copyText('Chand Da Qila, Gujranwala', 'Chand Da Qila branch address copied!')"
+                            class="mt-2 text-xs text-amber-300 hover:text-amber-200 inline-flex items-center gap-1.5 font-medium transition"
+                        >
+                            <i class="fa-regular fa-copy text-[11px]"></i>
+                            <span>Copy Address</span>
+                        </button>
                     </div>
-                    <h3 class="font-serif text-2xl font-bold text-white mt-6">Chand Da Qila</h3>
-                    <p class="text-stone-400 text-sm mt-2">Chand Da Qila, Gujranwala</p>
                     <div class="mt-6 space-y-3">
-                        <a href="tel:03083922121" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white/5 px-4 py-3 text-amber-300 font-bold">
+                        <a href="tel:03083922121" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white/5 hover:bg-white/10 px-4 py-3 text-amber-300 font-bold">
                             <span><i class="fa-solid fa-phone mr-2"></i>0308 3922121</span><i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                         </a>
-                        <a href="https://maps.app.goo.gl/fDoLx4UR35qkKPcQ6" target="_blank" rel="noopener" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-amber-500 text-emerald-950 px-4 py-3 font-extrabold">
+                        <a href="https://maps.app.goo.gl/fDoLx4UR35qkKPcQ6" target="_blank" rel="noopener noreferrer" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 px-4 py-3 font-extrabold">
                             <span><i class="fa-solid fa-map-location-dot mr-2"></i>Open in Google Maps</span><i class="fa-solid fa-arrow-right text-xs"></i>
                         </a>
                     </div>
                 </div>
 
-                <div class="branch-feature premium-card rounded-3xl p-6">
-                    <div class="flex items-center justify-between gap-4">
-                        <span class="branch-number">02</span>
-                        <span class="text-[10px] uppercase tracking-[.18em] text-amber-300 font-black">Second Branch</span>
+                <!-- Branch 02: Satellite Town -->
+                <div class="branch-feature premium-card ss-reveal ss-tilt rounded-3xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-4">
+                            <span class="branch-number">02</span>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                Second Branch · Open 6AM–1AM
+                            </span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-white mt-5">Satellite Town</h3>
+                        <p class="text-stone-300 text-sm mt-1.5">C Block, Satellite Town, Gujranwala</p>
+                        <button 
+                            type="button"
+                            @click="copyText('C Block, Satellite Town, Gujranwala', 'Satellite Town branch address copied!')"
+                            class="mt-2 text-xs text-amber-300 hover:text-amber-200 inline-flex items-center gap-1.5 font-medium transition"
+                        >
+                            <i class="fa-regular fa-copy text-[11px]"></i>
+                            <span>Copy Address</span>
+                        </button>
                     </div>
-                    <h3 class="font-serif text-2xl font-bold text-white mt-6">Satellite Town</h3>
-                    <p class="text-stone-400 text-sm mt-2">C Block, Satellite Town, Gujranwala</p>
                     <div class="mt-6 space-y-3">
-                        <a href="tel:0553840066" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white/5 px-4 py-3 text-amber-300 font-bold">
+                        <a href="tel:0553840066" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white/5 hover:bg-white/10 px-4 py-3 text-amber-300 font-bold">
                             <span><i class="fa-solid fa-phone mr-2"></i>055 3840066</span><i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                         </a>
-                        <a href="https://maps.app.goo.gl/LJqxdTXMe1LMsrTHA" target="_blank" rel="noopener" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-amber-500 text-emerald-950 px-4 py-3 font-extrabold">
+                        <a href="https://maps.app.goo.gl/LJqxdTXMe1LMsrTHA" target="_blank" rel="noopener noreferrer" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 px-4 py-3 font-extrabold">
                             <span><i class="fa-solid fa-map-location-dot mr-2"></i>Open in Google Maps</span><i class="fa-solid fa-arrow-right text-xs"></i>
                         </a>
                     </div>
                 </div>
 
-                <div class="branch-feature premium-card rounded-3xl p-6 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-28 h-28 bg-amber-500/10 blur-2xl rounded-full"></div>
-                    <div class="flex items-center justify-between gap-4 relative z-10">
-                        <span class="branch-number">03</span>
-                        <span class="text-[10px] uppercase tracking-[.18em] text-amber-300 font-black">Third Branch</span>
+                <!-- Branch 03: Gayb Chowk -->
+                <div class="branch-feature premium-card ss-reveal ss-tilt rounded-3xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-4">
+                            <span class="branch-number">03</span>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                Third Branch · Open 6AM–1AM
+                            </span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-white mt-5">Gayb Chowk</h3>
+                        <p class="text-stone-300 text-sm mt-1.5">Gayb Chowk, Islampura, Gujranwala</p>
+                        <button 
+                            type="button"
+                            @click="copyText('Gayb Chowk, Islampura, Gujranwala', 'Gayb Chowk branch address copied!')"
+                            class="mt-2 text-xs text-amber-300 hover:text-amber-200 inline-flex items-center gap-1.5 font-medium transition"
+                        >
+                            <i class="fa-regular fa-copy text-[11px]"></i>
+                            <span>Copy Address</span>
+                        </button>
                     </div>
-                    <h3 class="font-serif text-2xl font-bold text-white mt-6 relative z-10">Gayb Chowk</h3>
-                    <p class="text-stone-400 text-sm mt-2 relative z-10">Gayb Chowk, Islampura, Gujranwala</p>
-                    <div class="mt-6 space-y-3 relative z-10">
-                        <a href="tel:03253922121" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white/5 px-4 py-3 text-amber-300 font-bold">
+                    <div class="mt-6 space-y-3">
+                        <a href="tel:03253922121" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white/5 hover:bg-white/10 px-4 py-3 text-amber-300 font-bold">
                             <span><i class="fa-solid fa-phone mr-2"></i>0325 3922121</span><i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                         </a>
-                        <a href="https://maps.app.goo.gl/m65KBoHMCyRHPaVh9" target="_blank" rel="noopener" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-amber-500 text-emerald-950 px-4 py-3 font-extrabold">
+                        <a href="https://maps.app.goo.gl/m65KBoHMCyRHPaVh9" target="_blank" rel="noopener noreferrer" class="branch-link w-full inline-flex items-center justify-between gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 px-4 py-3 font-extrabold">
                             <span><i class="fa-solid fa-map-location-dot mr-2"></i>Open in Google Maps</span><i class="fa-solid fa-arrow-right text-xs"></i>
                         </a>
                     </div>
@@ -736,12 +1114,13 @@
                 <div>
                     <h4 class="text-amber-400 font-bold text-xs uppercase tracking-wider mb-3">Popular Categories</h4>
                     <ul class="space-y-2 text-xs text-stone-300">
-                        <li><button @click="setCategory('sweets')" class="hover:text-amber-300">Traditional Sweets</button></li>
-                        <li><button @click="setCategory('fastfood')" class="hover:text-amber-300">Fast Food & Pizzas</button></li>
-                        <li><button @click="setCategory('arabian')" class="hover:text-amber-300">Arabian Sweets & Baklava</button></li>
-                        <li><button @click="setCategory('halwa')" class="hover:text-amber-300">Akhrot & Sohan Halwa</button></li>
-                        <li><button @click="setCategory('biscuits')" class="hover:text-amber-300">Fresh Biscuits & Khatai</button></li>
-                        <li><button @click="setCategory('cakerusk')" class="hover:text-amber-300">Crispy Cake Rusk</button></li>
+                        <li><a :href="getCategoryUrl('all')" @click.prevent="setCategory('all')" class="hover:text-amber-300 transition">All Sweets &amp; Bakery</a></li>
+                        <li><a :href="getCategoryUrl('fastfood')" @click.prevent="setCategory('fastfood')" class="hover:text-amber-300 transition">Fast Food &amp; Pizzas</a></li>
+                        <li><a :href="getCategoryUrl('sweets')" @click.prevent="setCategory('sweets')" class="hover:text-amber-300 transition">Traditional Sweets</a></li>
+                        <li><a :href="getCategoryUrl('arabian')" @click.prevent="setCategory('arabian')" class="hover:text-amber-300 transition">Arabian Sweets &amp; Baklava</a></li>
+                        <li><a :href="getCategoryUrl('halwa')" @click.prevent="setCategory('halwa')" class="hover:text-amber-300 transition">Akhrot &amp; Sohan Halwa</a></li>
+                        <li><a :href="getCategoryUrl('biscuits')" @click.prevent="setCategory('biscuits')" class="hover:text-amber-300 transition">Fresh Biscuits &amp; Khatai</a></li>
+                        <li><a :href="getCategoryUrl('cakerusk')" @click.prevent="setCategory('cakerusk')" class="hover:text-amber-300 transition">Crispy Cake Rusk</a></li>
                     </ul>
                 </div>
 
@@ -786,10 +1165,161 @@
         </div>
     </footer>
 
-    
+    <!-- Product Quick-View Modal -->
+    <div 
+        x-show="quickViewItem" 
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-emerald-950/80 backdrop-blur-md"
+        style="display: none;"
+        @click.self="closeQuickView()"
+        @keydown.escape.window="closeQuickView()"
+    >
+        <div 
+            x-show="quickViewItem"
+            x-transition:enter="transition cubic-bezier(0.16, 1, 0.3, 1) duration-400"
+            x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+            x-transition:leave-end="opacity-0 scale-95 translate-y-4"
+            class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-amber-500/30 flex flex-col md:flex-row max-h-[90vh]"
+            @click.stop
+        >
+            <!-- Close Button -->
+            <button 
+                type="button"
+                @click="closeQuickView()"
+                class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-stone-900/60 hover:bg-stone-900 text-white flex items-center justify-center transition shadow-lg backdrop-blur-md border border-white/20"
+                aria-label="Close preview"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
 
+            <!-- Product Image Side -->
+            <div class="relative md:w-1/2 h-56 md:h-auto bg-stone-100 overflow-hidden shrink-0">
+                <img 
+                    :src="quickViewItem?.image" 
+                    :alt="quickViewItem?.name"
+                    class="w-full h-full object-cover"
+                >
+                <div class="absolute inset-0 bg-gradient-to-t from-stone-950/60 via-transparent to-transparent md:hidden"></div>
+                <!-- Badge Overlay -->
+                <div class="absolute top-4 left-4 flex flex-col gap-1.5">
+                    <template x-if="quickViewItem?.isBestseller">
+                        <span class="bg-amber-500 text-emerald-950 font-black text-[10px] uppercase px-2.5 py-1 rounded-md shadow-md tracking-wider">Bestseller</span>
+                    </template>
+                    <template x-if="quickViewItem?.isHeritage">
+                        <span class="bg-emerald-950 text-amber-300 font-bold text-[10px] uppercase px-2.5 py-1 rounded-md shadow-md border border-amber-400/40">Heritage Special</span>
+                    </template>
+                </div>
+            </div>
 
+            <!-- Product Content Side -->
+            <div class="p-6 md:p-8 flex flex-col justify-between overflow-y-auto md:w-1/2 bg-white">
+                <div>
+                    <!-- Category & Rating -->
+                    <div class="flex items-center justify-between text-xs text-amber-700 font-bold uppercase tracking-wider mb-2">
+                        <span x-text="categories.find(c => c.id === quickViewItem?.category)?.name || 'Delicacy'"></span>
+                        <div class="flex items-center gap-1 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                            <span>⭐</span>
+                            <span class="text-stone-800" x-text="quickViewItem?.rating"></span>
+                        </div>
+                    </div>
 
+                    <!-- Titles -->
+                    <h3 class="font-serif text-2xl font-extrabold text-emerald-950" x-text="quickViewItem?.name"></h3>
+                    <div class="font-urdu text-xl text-amber-700 font-bold mt-1" x-text="quickViewItem?.urduName"></div>
+
+                    <!-- Highlight Badge -->
+                    <template x-if="quickViewItem?.highlight">
+                        <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-900 font-bold text-xs">
+                            <i class="fa-solid fa-crown text-amber-600 text-xs"></i>
+                            <span x-text="quickViewItem?.highlight"></span>
+                        </div>
+                    </template>
+
+                    <!-- Description -->
+                    <p class="text-stone-600 text-xs sm:text-sm mt-3 leading-relaxed" x-text="quickViewItem?.description"></p>
+
+                    <!-- Ingredients / Purity Notes -->
+                    <template x-if="quickViewItem?.ingredients">
+                        <div class="mt-4 p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-600">
+                            <div class="font-bold text-stone-800 flex items-center gap-1.5 mb-1">
+                                <i class="fa-solid fa-leaf text-emerald-700"></i> Pure Ingredients:
+                            </div>
+                            <span x-text="quickViewItem?.ingredients"></span>
+                        </div>
+                    </template>
+
+                    <!-- Tags -->
+                    <div class="mt-4 flex flex-wrap gap-1.5">
+                        <template x-for="tag in quickViewItem?.tags" :key="tag">
+                            <span class="text-[11px] bg-stone-100 text-stone-700 px-2.5 py-0.5 rounded-full border border-stone-200 font-medium" x-text="tag"></span>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Footer / CTA -->
+                <div class="mt-6 pt-4 border-t border-stone-200 flex flex-col gap-3">
+                    <div class="flex items-baseline justify-between">
+                        <span class="text-xs text-stone-500 font-medium">Price:</span>
+                        <div class="text-right">
+                            <span class="text-xl font-black text-emerald-950 font-serif">
+                                Rs. <span x-text="quickViewItem?.price?.toLocaleString()"></span>
+                            </span>
+                            <span class="text-xs text-stone-500" x-text="'/ ' + quickViewItem?.unit"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a 
+                            :href="getProductUrl(quickViewItem)" 
+                            class="inline-flex items-center justify-center gap-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-xs py-3 transition border border-stone-300"
+                        >
+                            <span>Full Details</span>
+                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                        <a 
+                            href="tel:03083922121" 
+                            class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 font-black text-xs py-3 transition shadow-md"
+                        >
+                            <i class="fa-solid fa-phone"></i>
+                            <span>Call to Order</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Dynamic Toast Notification -->
+    <div 
+        x-show="toastVisible" 
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-4"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 translate-y-4"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] max-w-md w-[calc(100%-2rem)] bg-emerald-950 text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-amber-400/40 flex items-center justify-between gap-3 backdrop-blur-xl"
+        style="display: none;"
+    >
+        <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0 text-sm">
+                <i class="fa-solid fa-bell"></i>
+            </span>
+            <span class="text-xs sm:text-sm font-medium text-stone-100" x-text="toastMessage"></span>
+        </div>
+        <button @click="toastVisible = false" class="text-stone-400 hover:text-white text-xs p-1" aria-label="Dismiss">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
 
 </body>
 </html>
