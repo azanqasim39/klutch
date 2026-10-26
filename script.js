@@ -1296,36 +1296,6 @@ const sectionRoutes = {
         let timer = null;
         let cleanupTimer = null;
 
-        // Build dots indicator container
-        const dotsContainer = document.createElement('div');
-        dotsContainer.className = 'absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/60 backdrop-blur-md border border-white/20';
-        dotsContainer.setAttribute('role', 'tablist');
-        dotsContainer.setAttribute('aria-label', 'Featured sweets gallery');
-
-        slides.forEach((_, idx) => {
-            const dot = document.createElement('button');
-            dot.className = 'hero-dot' + (idx === current ? ' is-active' : '');
-            dot.setAttribute('aria-label', 'Go to photo ' + (idx + 1));
-            dot.addEventListener('click', (e) => {
-                e.stopPropagation();
-                goToSlide(idx);
-            });
-            dotsContainer.appendChild(dot);
-        });
-        carousel.parentElement.appendChild(dotsContainer);
-
-        function updateDots() {
-            if (!dotsContainer) return;
-            const dots = dotsContainer.querySelectorAll('.hero-dot');
-            dots.forEach((dot, idx) => {
-                if (idx === current) {
-                    dot.classList.add('is-active');
-                } else {
-                    dot.classList.remove('is-active');
-                }
-            });
-        }
-
         // Normalize initial classes and restart the first 5-second zoom only after setup.
         slides.forEach((slide, index) => {
             slide.classList.remove('is-active', 'is-leaving');
@@ -1350,7 +1320,6 @@ const sectionRoutes = {
             outgoing.setAttribute('aria-hidden', 'true');
             incoming.setAttribute('aria-hidden', 'false');
             current = target;
-            updateDots();
 
             cleanupTimer = window.setTimeout(() => {
                 outgoing.classList.remove('is-leaving');
@@ -1374,7 +1343,6 @@ const sectionRoutes = {
             outgoing.setAttribute('aria-hidden', 'true');
             incoming.setAttribute('aria-hidden', 'false');
             current = next;
-            updateDots();
 
             cleanupTimer = window.setTimeout(() => {
                 outgoing.classList.remove('is-leaving');
@@ -1556,7 +1524,12 @@ const sectionRoutes = {
             article.appendChild(content);
             fragment.appendChild(article);
         });
-        container.replaceChildren(fragment);
+        if (typeof container.replaceChildren === 'function') {
+            container.replaceChildren(fragment);
+        } else {
+            container.innerHTML = '';
+            container.appendChild(fragment);
+        }
         const loading = document.querySelector('[data-pizza-loading]');
         if (loading) loading.remove();
         const count = document.querySelector('[data-pizza-flavour-count]');
@@ -1580,44 +1553,53 @@ const sectionRoutes = {
 (function ssUpgrade() {
     'use strict';
 
-    /* ---- 1. Scroll Progress Bar ---- */
-    const progressBar = document.createElement('div');
-    progressBar.className = 'ss-progress-bar';
-    progressBar.setAttribute('aria-hidden', 'true');
-    document.body.prepend(progressBar);
+    /* ---- 1. Scroll Progress Bar & Back-to-Top Button ---- */
+    let progressBar = null;
+    let fabTop = null;
+    let ringCircle = null;
+    let ringCircumference = 0;
 
-    /* ---- 2. Back-to-Top Button with Circular SVG Progress Ring ---- */
-    const fabTop = document.createElement('button');
-    fabTop.className = 'ss-fab ss-fab-top';
-    fabTop.setAttribute('aria-label', 'Scroll back to top');
-    fabTop.innerHTML = `
-        <svg class="ss-progress-ring" width="50" height="50" viewBox="0 0 50 50" aria-hidden="true">
-            <circle class="ss-progress-ring-bg" stroke-width="3" fill="none" r="22" cx="25" cy="25"/>
-            <circle class="ss-progress-ring-circle" stroke="url(#ss-fab-gold-grad)" stroke-width="3" stroke-linecap="round" fill="none" r="22" cx="25" cy="25"/>
-            <defs>
-                <linearGradient id="ss-fab-gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#fde047"/>
-                    <stop offset="50%" stop-color="#f59e0b"/>
-                    <stop offset="100%" stop-color="#d97706"/>
-                </linearGradient>
-            </defs>
-        </svg>
-        <span class="ss-fab-top-icon"><i class="fa-solid fa-arrow-up"></i></span>
-    `;
-    fabTop.addEventListener('click', function() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-    document.body.appendChild(fabTop);
+    function initProgressBarAndFab() {
+        if (!document.body || progressBar) return;
 
-    const ringRadius = 22;
-    const ringCircumference = 2 * Math.PI * ringRadius; // ~138.23
-    const ringCircle = fabTop.querySelector('.ss-progress-ring-circle');
-    if (ringCircle) {
-        ringCircle.style.strokeDasharray = `${ringCircumference} ${ringCircumference}`;
-        ringCircle.style.strokeDashoffset = ringCircumference;
+        progressBar = document.createElement('div');
+        progressBar.className = 'ss-progress-bar';
+        progressBar.setAttribute('aria-hidden', 'true');
+        document.body.prepend(progressBar);
+
+        fabTop = document.createElement('button');
+        fabTop.className = 'ss-fab ss-fab-top';
+        fabTop.setAttribute('aria-label', 'Scroll back to top');
+        fabTop.innerHTML = `
+            <svg class="ss-progress-ring" width="50" height="50" viewBox="0 0 50 50" aria-hidden="true">
+                <circle class="ss-progress-ring-bg" stroke-width="3" fill="none" r="22" cx="25" cy="25"/>
+                <circle class="ss-progress-ring-circle" stroke="url(#ss-fab-gold-grad)" stroke-width="3" stroke-linecap="round" fill="none" r="22" cx="25" cy="25"/>
+                <defs>
+                    <linearGradient id="ss-fab-gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#fde047"/>
+                        <stop offset="50%" stop-color="#f59e0b"/>
+                        <stop offset="100%" stop-color="#d97706"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <span class="ss-fab-top-icon"><i class="fa-solid fa-arrow-up"></i></span>
+        `;
+        fabTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        document.body.appendChild(fabTop);
+
+        const ringRadius = 22;
+        ringCircumference = 2 * Math.PI * ringRadius; // ~138.23
+        ringCircle = fabTop.querySelector('.ss-progress-ring-circle');
+        if (ringCircle) {
+            ringCircle.style.strokeDasharray = `${ringCircumference} ${ringCircumference}`;
+            ringCircle.style.strokeDashoffset = ringCircumference;
+        }
     }
 
     function updateProgressBar() {
+        if (!progressBar) return;
         const scrollTop = window.scrollY;
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
@@ -1630,6 +1612,7 @@ const sectionRoutes = {
     }
 
     function updateFabTop() {
+        if (!fabTop) return;
         if (window.scrollY > 400) {
             fabTop.classList.add('is-visible');
         } else {
@@ -1655,21 +1638,41 @@ const sectionRoutes = {
         const revealElements = document.querySelectorAll('.ss-reveal, .ss-reveal-left, .ss-reveal-right, .ss-reveal-scale');
         if (!revealElements.length) return;
 
+        function revealElement(el) {
+            el.classList.add('is-revealed');
+        }
+
+        const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isMobileScreen = window.innerWidth < 768;
+
+        if (!('IntersectionObserver' in window) || isReducedMotion || isMobileScreen) {
+            revealElements.forEach(revealElement);
+            document.documentElement.classList.add('ss-motion-ready');
+            return;
+        }
+
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('is-revealed');
+                    revealElement(entry.target);
                     observer.unobserve(entry.target);
                 }
             });
         }, {
-            threshold: 0.08,
-            rootMargin: '0px 0px -40px 0px'
+            threshold: 0.01,
+            rootMargin: '0px 0px 80px 0px'
         });
 
         revealElements.forEach(function(el) {
-            observer.observe(el);
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight + 80) {
+                revealElement(el);
+            } else {
+                observer.observe(el);
+            }
         });
+
+        document.documentElement.classList.add('ss-motion-ready');
     }
 
     /* ---- 5. Animated Counter for Stats ---- */
@@ -1738,7 +1741,7 @@ const sectionRoutes = {
 
         // Only run typed effect when user hasn't typed anything
         function isUserTyping() {
-            return document.activeElement === input || input.value.length > 0;
+            return Boolean(input && (document.activeElement === input || (input.value && input.value.length > 0)));
         }
 
         function typeStep() {
@@ -1887,7 +1890,7 @@ const sectionRoutes = {
 
     /* ---- 11. Interactive Dynamic 3D Card Physics Tilt ---- */
     function initPhysicsTilt() {
-        if (window.matchMedia('(hover: none) or (prefers-reduced-motion: reduce)').matches) return;
+        if (window.matchMedia('(hover: none), (prefers-reduced-motion: reduce)').matches) return;
 
         function attachTilt(card) {
             if (!card || card.dataset.tiltActive === 'true') return;
@@ -1957,6 +1960,7 @@ const sectionRoutes = {
 
     /* ---- INIT ---- */
     function init() {
+        initProgressBarAndFab();
         initScrollReveal();
         initCounters();
         initTypedPlaceholder();

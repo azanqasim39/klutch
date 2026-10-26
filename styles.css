@@ -138,15 +138,50 @@ body { font-family: 'Inter', sans-serif; }
             #home-section .grid.grid-cols-3 { gap: .35rem !important; }
             #home-section .grid.grid-cols-3 span:first-child { font-size: .9rem !important; }
             #home-section .grid.grid-cols-3 span:last-child { font-size: .62rem !important; line-height: 1.25 !important; }
+            #home-section input[type="text"] { font-size: 0.8rem !important; }
+            #home-section .relative.flex.items-center a { padding: 0.5rem 0.85rem !important; font-size: 0.75rem !important; }
 
             section.py-20 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
-            section.py-16 { padding-top: 2.8rem !important; padding-bottom: 2.8rem !important; }
-            section.py-12 { padding-top: 2.2rem !important; padding-bottom: 2.2rem !important; }
+            section.py-16 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+            section.py-12 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
 
+            #about-heritage { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+            #about-heritage .mb-16 { margin-bottom: 1.75rem !important; }
             #about-heritage .grid.md\:grid-cols-12 { gap: 1.5rem !important; }
-            #about-heritage h2 { font-size: 2rem !important; }
-            #about-heritage h3 { font-size: 1.45rem !important; }
-            #about-heritage p { font-size: .78rem !important; line-height: 1.55 !important; }
+            #about-heritage h2 { font-size: 1.85rem !important; line-height: 1.15 !important; }
+            #about-heritage h3 { font-size: 1.35rem !important; }
+            #about-heritage p { font-size: .82rem !important; line-height: 1.55 !important; }
+            #about-heritage .h-56 { height: 10.5rem !important; }
+            #about-heritage .p-6 { padding: 1.15rem !important; }
+            #about-heritage .p-8 { padding: 1.25rem !important; }
+
+            /* Mobile product grid & card optimizations */
+            #menu-section .grid.grid-cols-2 { gap: 0.75rem !important; }
+            .menu-card .p-5 { padding: 0.75rem !important; }
+            .menu-card .h-48, .menu-card .h-52 { height: 8.5rem !important; }
+            .menu-card h3 { font-size: 0.92rem !important; line-height: 1.25 !important; }
+            .menu-card .font-urdu { font-size: 0.95rem !important; }
+            .menu-card .px-5 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+            .menu-card .pb-5 { padding-bottom: 0.75rem !important; }
+            .menu-card .pt-3 { padding-top: 0.5rem !important; }
+
+            /* Mobile UI enforcement: Never leave any section blank */
+            .ss-reveal,
+            .ss-reveal-left,
+            .ss-reveal-right,
+            .ss-reveal-scale,
+            html.ss-motion-ready .ss-reveal,
+            html.ss-motion-ready .ss-reveal-left,
+            html.ss-motion-ready .ss-reveal-right,
+            html.ss-motion-ready .ss-reveal-scale,
+            html.ss-motion-ready .ss-reveal:not(.is-revealed),
+            html.ss-motion-ready .ss-reveal-left:not(.is-revealed),
+            html.ss-motion-ready .ss-reveal-right:not(.is-revealed),
+            html.ss-motion-ready .ss-reveal-scale:not(.is-revealed) {
+                opacity: 1 !important;
+                transform: none !important;
+                visibility: visible !important;
+            }
 
             #branches .grid.md\:grid-cols-3 { gap: .8rem !important; }
             #branches .p-6 { padding: 1rem !important; }
@@ -155,24 +190,44 @@ body { font-family: 'Inter', sans-serif; }
         }
 
 
-/* Sialkot Sweets — soft burgundy and champagne visual refinements */
+/* ---------------------------------------------------------
+   Sialkot Sweets & Bakers — Elite Design System Tokens
+   Warm cream, muted wine, and champagne — intentionally restrained.
+   --------------------------------------------------------- */
 :root {
     color-scheme: light;
-    --ss-ink: #2b1722;
+    --ss-wine-950: #2b1722;
+    --ss-wine-900: #3b202f;
+    --ss-wine-800: #573043;
+    --ss-wine-700: #6e4155;
     --ss-wine: #3b202f;
     --ss-wine-soft: #6e4155;
     --ss-champagne: #c8a56a;
     --ss-champagne-light: #e0c79e;
     --ss-cream: #faf7f2;
+    --ss-ink: #2b1722;
+    --ss-muted: #786d70;
+    --ss-border: rgba(59, 32, 47, .11);
+    --ss-shadow: 0 16px 44px rgba(43, 23, 34, .085);
 }
+
 body {
     background-color: var(--ss-cream);
-}
-::selection {
-    background: #ead9bc;
     color: var(--ss-ink);
+    background:
+        radial-gradient(ellipse at 4% 0%, rgba(200,165,106,.075), transparent 28rem),
+        radial-gradient(ellipse at 100% 16%, rgba(87,48,67,.045), transparent 32rem),
+        var(--ss-cream);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
 }
-/* Use more restrained shadows and shorter transitions for a calmer, less harsh feel. */
+
+::selection {
+    background: rgba(200,165,106,.35);
+    color: var(--ss-wine-950);
+}
+
+/* Restrained transitions for a calm, professional feel */
 .premium-card,
 .menu-card,
 .branch-link,
@@ -190,35 +245,7 @@ body {
     .cta-sheen::before { animation: none !important; }
 }
 
-/* ---------------------------------------------------------
-   Refined Sialkot Sweets design system
-   Warm cream, muted wine, and champagne — intentionally restrained.
-   --------------------------------------------------------- */
-:root {
-    --ss-wine-950: #2b1722;
-    --ss-wine-900: #3b202f;
-    --ss-wine-800: #573043;
-    --ss-wine-700: #6e4155;
-    --ss-champagne: #c8a56a;
-    --ss-champagne-light: #e0c79e;
-    --ss-cream: #faf7f2;
-    --ss-ink: #31272c;
-    --ss-muted: #786d70;
-    --ss-border: rgba(59, 32, 47, .11);
-    --ss-shadow: 0 16px 44px rgba(43, 23, 34, .085);
-}
-
 html { scroll-padding-top: 88px; }
-body {
-    color: var(--ss-ink);
-    background:
-        radial-gradient(ellipse at 4% 0%, rgba(200,165,106,.075), transparent 28rem),
-        radial-gradient(ellipse at 100% 16%, rgba(87,48,67,.045), transparent 32rem),
-        var(--ss-cream);
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-}
-::selection { background: rgba(200,165,106,.35); color: var(--ss-wine-950); }
 a, button, input, select { -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 3px solid var(--ss-champagne); outline-offset: 3px; }
 img { image-rendering: auto; }
@@ -427,41 +454,46 @@ body { animation: ss-page-fadein 0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
     pointer-events: none;
 }
 
-/* 3. Enhanced Scroll Reveal System */
-.ss-reveal {
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
-}
-.ss-reveal-left {
-    opacity: 0;
-    transform: translateX(-44px);
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
-}
-.ss-reveal-right {
-    opacity: 0;
-    transform: translateX(44px);
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
-}
+/* 3. Enhanced Scroll Reveal System (Progressive Enhancement) */
+.ss-reveal,
+.ss-reveal-left,
+.ss-reveal-right,
 .ss-reveal-scale {
-    opacity: 0;
-    transform: scale(0.88);
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+@media (min-width: 768px) {
+    html.ss-motion-ready .ss-reveal:not(.is-revealed) {
+        opacity: 0;
+        transform: translateY(28px);
+        will-change: opacity, transform;
+    }
+    html.ss-motion-ready .ss-reveal-left:not(.is-revealed) {
+        opacity: 0;
+        transform: translateX(-36px);
+        will-change: opacity, transform;
+    }
+    html.ss-motion-ready .ss-reveal-right:not(.is-revealed) {
+        opacity: 0;
+        transform: translateX(36px);
+        will-change: opacity, transform;
+    }
+    html.ss-motion-ready .ss-reveal-scale:not(.is-revealed) {
+        opacity: 0;
+        transform: scale(0.92);
+        will-change: opacity, transform;
+    }
+}
+
 .ss-reveal.is-revealed,
 .ss-reveal-left.is-revealed,
 .ss-reveal-right.is-revealed,
 .ss-reveal-scale.is-revealed {
-    opacity: 1;
-    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1 !important;
+    transform: translateY(0) translateX(0) scale(1) !important;
 }
 
 /* Stagger delays for grid children */
@@ -925,23 +957,7 @@ footer a[aria-label]:hover {
     border-color: rgba(200,165,106,0.6) !important;
 }
 
-/* 28. Hero Slide Dots & Navigation */
-.hero-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.35);
-    border: 1px solid rgba(255,255,255,0.4);
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    cursor: pointer;
-}
-.hero-dot.is-active {
-    width: 28px;
-    background: var(--ss-champagne);
-    box-shadow: 0 0 12px rgba(200,165,106,0.65);
-}
-
-/* 29. Smooth Category Card Entrance */
+/* 28. Smooth Category Card Entrance */
 .menu-card {
     animation: ss-card-enter 0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards;
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;

@@ -70,7 +70,73 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="./script.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#faf7f2',
+                            100: '#f5efe6',
+                            200: '#eedfc6',
+                            300: '#e0c79e',
+                            400: '#c8a56a',
+                            500: '#b08d57',
+                            600: '#8b596b',
+                            700: '#6e4155',
+                            800: '#573043',
+                            850: '#452335',
+                            900: '#3b202f',
+                            950: '#2b1722'
+                        },
+                        amber: {
+                            50: '#faf7f2',
+                            100: '#f8f3ea',
+                            200: '#f1e4ce',
+                            300: '#e0c79e',
+                            400: '#c8a56a',
+                            500: '#b08d57',
+                            600: '#967440',
+                            700: '#7a5d30',
+                            800: '#5e4521',
+                            900: '#453216'
+                        },
+                        wine: {
+                            50: '#fcf8fa',
+                            100: '#f7edf2',
+                            200: '#eedbe5',
+                            300: '#dfbdd0',
+                            400: '#ca96b4',
+                            500: '#b37197',
+                            600: '#9b567d',
+                            700: '#6e4155',
+                            800: '#573043',
+                            900: '#3b202f',
+                            950: '#2b1722'
+                        },
+                        champagne: {
+                            50: '#fdfbf7',
+                            100: '#f8f3ea',
+                            200: '#eedfc6',
+                            300: '#e0c79e',
+                            400: '#c8a56a',
+                            500: '#b08d57',
+                            600: '#967440',
+                            700: '#7a5d30',
+                            800: '#5e4521',
+                            900: '#453216'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        urdu: ['Amiri', 'serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <script defer src="./script.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
