@@ -1260,6 +1260,7 @@ const sectionRoutes = {
                 },
 
                 getProductSlug(item) {
+                    if (!item || !item.name) return '';
                     const slugify = (value) => value.toLowerCase()
                         .normalize('NFD')
                         .replace(/[\u0300-\u036f]/g, '')
@@ -1272,6 +1273,7 @@ const sectionRoutes = {
                 },
 
                 getProductUrl(item) {
+                    if (!item || !item.name) return '#';
                     // Relative paths keep the routes working on both custom domains and project-site subpaths.
                     return `./${this.getProductSlug(item)}/`;
                 }

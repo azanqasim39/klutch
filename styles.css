@@ -967,6 +967,19 @@ footer a[aria-label]:hover {
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* 29. Quick View Modal Polish & Mobile Reliability */
+.quick-view-dialog {
+    will-change: transform, opacity;
+    box-shadow: 0 25px 60px -15px rgba(26, 15, 22, 0.55);
+}
+@media (max-width: 640px) {
+    .quick-view-dialog {
+        max-height: 86vh !important;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+}
+
 /* 30. Prefers Reduced Motion — disable all cinematic effects */
 @media (prefers-reduced-motion: reduce) {
     body { animation: none !important; }
