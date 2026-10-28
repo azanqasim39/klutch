@@ -1000,3 +1000,63 @@ footer a[aria-label]:hover {
     .ss-progress-bar { display: none; }
     .ss-float-slow { animation: none !important; }
 }
+
+
+/* Quick View mobile reliability patch: one overlay contains both backdrop and dialog. */
+.quick-view-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483000 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+    background: rgba(43, 23, 34, .82);
+    overscroll-behavior: contain;
+}
+.quick-view-dialog {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 auto;
+    width: min(100%, 42rem);
+    max-height: min(86vh, 760px);
+    max-height: min(86dvh, 760px);
+    min-height: 0;
+    margin: auto;
+    isolation: isolate;
+}
+.quick-view-dialog > div:last-child {
+    min-height: 0;
+    -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 767px) {
+    .quick-view-overlay {
+        align-items: center;
+        justify-content: center;
+        padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+    }
+    .quick-view-dialog {
+        width: 100%;
+        max-width: 42rem;
+        max-height: calc(100vh - 20px) !important;
+        max-height: calc(100dvh - max(20px, env(safe-area-inset-top) + env(safe-area-inset-bottom))) !important;
+        margin: auto 0;
+        display: flex;
+        flex-direction: column;
+    }
+    .quick-view-dialog > div:first-child {
+        flex: 0 0 auto;
+        width: 100%;
+        min-height: 9rem;
+    }
+    .quick-view-dialog > div:last-child {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+    }
+}

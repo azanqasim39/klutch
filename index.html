@@ -955,31 +955,12 @@
                         class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-emerald-950 hover:text-amber-700 transition"
                         :aria-expanded="faqOpen === 1"
                     >
-                        <span>What makes the Sialkoti Guldasta box so famous?</span>
+                        <span>Where are your three branches located in Gujranwala and what are the opening hours?</span>
                         <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 1 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
                         </span>
                     </button>
                     <div class="faq-answer" :class="{ 'is-open': faqOpen === 1 }">
-                        <div class="faq-answer-inner px-6 pb-5 text-stone-600 text-xs sm:text-sm leading-relaxed border-t border-stone-100 pt-3">
-                            The Sialkoti Guldasta is Gujranwala’s most celebrated mix-sweet box. Instead of a single sweet, it brings together a royal floral arrangement of our best varieties: warm Gulab Jamun, delicate Cham Cham, rich Pista Barfi, and saffron Motichoor Ladoo in an exquisite presentation box designed especially for weddings, Eid, and VIP guests.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- FAQ Item 3 -->
-                <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden transition-all duration-300">
-                    <button 
-                        @click="toggleFaq(2)" 
-                        class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-emerald-950 hover:text-amber-700 transition"
-                        :aria-expanded="faqOpen === 2"
-                    >
-                        <span>Where are your three branches located in Gujranwala and what are the opening hours?</span>
-                        <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 2 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
-                            <i class="fa-solid fa-chevron-down text-xs"></i>
-                        </span>
-                    </button>
-                    <div class="faq-answer" :class="{ 'is-open': faqOpen === 2 }">
                         <div class="faq-answer-inner px-6 pb-5 text-stone-600 text-xs sm:text-sm leading-relaxed border-t border-stone-100 pt-3">
                             All three branches serve the same authentic Sialkot Sweets quality and are open daily from <strong>6:00 AM to 1:00 AM</strong>:
                             <ul class="list-disc pl-5 mt-2 space-y-1.5 text-xs">
@@ -991,6 +972,25 @@
                     </div>
                 </div>
 
+                <!-- FAQ Item 3 -->
+                <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden transition-all duration-300">
+                    <button 
+                        @click="toggleFaq(2)" 
+                        class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-emerald-950 hover:text-amber-700 transition"
+                        :aria-expanded="faqOpen === 2"
+                    >
+                        <span>Can I place bulk orders for weddings, family events, or corporate gifting?</span>
+                        <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 2 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+                    </button>
+                    <div class="faq-answer" :class="{ 'is-open': faqOpen === 2 }">
+                        <div class="faq-answer-inner px-6 pb-5 text-stone-600 text-xs sm:text-sm leading-relaxed border-t border-stone-100 pt-3">
+                            Yes! We supply wedding giveaway boxes, corporate gift hampers, and party catering orders across Gujranwala. We offer customized box branding, personalized ribbons, and special bulk pricing. Call our hotline at <strong>0308 3922121</strong> or <strong>0325 3922121</strong> to book in advance.
+                        </div>
+                    </div>
+                </div>
+
                 <!-- FAQ Item 4 -->
                 <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden transition-all duration-300">
                     <button 
@@ -998,31 +998,12 @@
                         class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-emerald-950 hover:text-amber-700 transition"
                         :aria-expanded="faqOpen === 3"
                     >
-                        <span>Can I place bulk orders for weddings, family events, or corporate gifting?</span>
+                        <span>How long do your sweets and halwas stay fresh during travel?</span>
                         <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 3 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
                         </span>
                     </button>
                     <div class="faq-answer" :class="{ 'is-open': faqOpen === 3 }">
-                        <div class="faq-answer-inner px-6 pb-5 text-stone-600 text-xs sm:text-sm leading-relaxed border-t border-stone-100 pt-3">
-                            Yes! We supply wedding giveaway boxes, corporate gift hampers, and party catering orders across Gujranwala. We offer customized box branding, personalized ribbons, and special bulk pricing. Call our hotline at <strong>0308 3922121</strong> or <strong>0325 3922121</strong> to book in advance.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- FAQ Item 5 -->
-                <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden transition-all duration-300">
-                    <button 
-                        @click="toggleFaq(4)" 
-                        class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-emerald-950 hover:text-amber-700 transition"
-                        :aria-expanded="faqOpen === 4"
-                    >
-                        <span>How long do your sweets and halwas stay fresh during travel?</span>
-                        <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 4 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
-                            <i class="fa-solid fa-chevron-down text-xs"></i>
-                        </span>
-                    </button>
-                    <div class="faq-answer" :class="{ 'is-open': faqOpen === 4 }">
                         <div class="faq-answer-inner px-6 pb-5 text-stone-600 text-xs sm:text-sm leading-relaxed border-t border-stone-100 pt-3">
                             Our dry sweets, Akhrot Halwa, Sohan Halwa, Badam Khatai, and Arabian Baklava are specially suited for travel and stay fresh for several weeks when stored in an airtight container at room temperature. For international travel, ask our counter team for travel-safe hermetic packs.
                         </div>
@@ -1231,41 +1212,29 @@
         </div>
     </footer>
 
-    <!-- Product Quick-View Modal -->
-    <div 
-        x-show="quickViewItem" 
-        class="fixed inset-0 z-[110] overflow-y-auto"
+    <!-- Product Quick-View Modal: single overlay root for reliable mobile layering -->
+    <div
+        x-show="quickViewItem"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="quick-view-overlay"
         style="display: none;"
         @keydown.escape.window="closeQuickView()"
+        @click.self="closeQuickView()"
+        role="presentation"
     >
-        <!-- Backdrop Overlay -->
-        <div 
-            x-show="quickViewItem"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md"
-            @click="closeQuickView()"
-            aria-hidden="true"
-        ></div>
-
-        <!-- Centering Container for Mobile & Desktop -->
-        <div class="min-h-full flex items-center justify-center p-3 sm:p-4 md:p-6 text-center">
-            <!-- Modal Card Dialog -->
-            <div 
-                x-show="quickViewItem"
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 scale-95 translate-y-4 sm:translate-y-0"
-                x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                x-transition:leave-end="opacity-0 scale-95 translate-y-4 sm:translate-y-0"
-                class="relative w-full max-w-2xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-amber-500/30 flex flex-col md:flex-row max-h-[86vh] text-left transform transition-all quick-view-dialog my-auto"
-                @click.stop
-            >
+        <!-- Modal Card Dialog -->
+        <div
+            class="relative w-full max-w-2xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-amber-500/30 flex flex-col md:flex-row max-h-[86vh] text-left quick-view-dialog"
+            role="dialog"
+            aria-modal="true"
+            :aria-label="quickViewItem ? quickViewItem.name : 'Product quick view'"
+            @click.stop
+        >
                 <!-- Close Button -->
                 <button 
                     type="button"
@@ -1372,7 +1341,6 @@
 
                 </div>
             </div>
-        </div>
     </div>
 
     <!-- Global Dynamic Toast Notification -->

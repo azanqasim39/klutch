@@ -359,19 +359,28 @@ const sectionRoutes = {
                 mobileMenuOpen: false,
                 isOpen: true,
                 quickViewItem: null,
+                quickViewPreviousBodyOverflow: '',
+                quickViewPreviousHtmlOverflow: '',
                 faqOpen: 0,
                 toastMessage: '',
                 toastVisible: false,
                 toastTimer: null,
 
                 openQuickView(item) {
+                    if (!item) return;
+                    if (!this.quickViewItem) {
+                        this.quickViewPreviousBodyOverflow = document.body.style.overflow;
+                        this.quickViewPreviousHtmlOverflow = document.documentElement.style.overflow;
+                    }
                     this.quickViewItem = item;
+                    document.documentElement.style.overflow = 'hidden';
                     document.body.style.overflow = 'hidden';
                 },
 
                 closeQuickView() {
                     this.quickViewItem = null;
-                    document.body.style.overflow = '';
+                    document.body.style.overflow = this.quickViewPreviousBodyOverflow;
+                    document.documentElement.style.overflow = this.quickViewPreviousHtmlOverflow;
                 },
 
                 toggleFaq(index) {
