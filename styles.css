@@ -11,10 +11,9 @@ body { font-family: 'Inter', sans-serif; }
         /* Custom Pattern Background */
         .bg-pattern {
             background-color: #fdfbf7;
-            background-image: radial-gradient(#B08D57 0.75px, transparent 0.75px), radial-gradient(#B08D57 0.75px, #fdfbf7 0.75px);
+            background-image: radial-gradient(rgba(176, 141, 87, 0.12) 0.75px, transparent 0.75px), radial-gradient(rgba(176, 141, 87, 0.12) 0.75px, #fdfbf7 0.75px);
             background-size: 30px 30px;
             background-position: 0 0, 15px 15px;
-            background-opacity: 0.05;
         }
 
         .gold-gradient-text {
@@ -967,6 +966,12 @@ footer a[aria-label]:hover {
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* 29. Skeleton loading shimmer keyframes */
+@keyframes ss-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
 /* 30. Prefers Reduced Motion — disable all cinematic effects */
 @media (prefers-reduced-motion: reduce) {
     body { animation: none !important; }
@@ -986,6 +991,11 @@ footer a[aria-label]:hover {
     .ss-tilt:hover { transform: none !important; }
     .ss-progress-bar { display: none; }
     .ss-float-slow { animation: none !important; }
+    .ss-marquee-track {
+        animation: none !important;
+        -webkit-animation: none !important;
+        transform: none !important;
+    }
 }
 
 

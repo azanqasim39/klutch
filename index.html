@@ -264,10 +264,10 @@
         <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0" class="absolute right-0 top-0 h-full w-[88%] max-w-sm bg-emerald-950 text-white shadow-2xl border-l border-amber-500/30 p-5 overflow-y-auto">
             <div class="flex items-center justify-between pb-5 border-b border-white/10">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-white p-1 border border-amber-400/30 overflow-hidden"><img src="./sialkot-sweets-logo.png" alt="Sialkot Sweets" class="w-full h-full object-contain rounded-full"></div>
+                    <div class="w-10 h-10 rounded-full bg-white p-1 border border-amber-400/30 overflow-hidden"><img src="./sialkot-sweets-logo.png" alt="Sialkot Sweets &amp; Bakers Logo" width="40" height="40" class="w-full h-full object-contain rounded-full"></div>
                     <div><div class="font-serif font-bold text-lg">Sialkot Sweets</div><div class="text-[10px] uppercase tracking-[.18em] text-amber-300">Since 1951</div></div>
                 </div>
-                <button @click="mobileMenuOpen = false" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-white"><i class="fa-solid fa-xmark"></i></button>
+                <button @click="mobileMenuOpen = false" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-white" aria-label="Close navigation menu"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="space-y-2 pt-5">
                 <a href="?section=about" data-section-route="about" @click="mobileMenuOpen=false" class="block rounded-xl px-4 py-3 bg-white/5 hover:bg-amber-500/10 border border-white/10">About Us</a>
@@ -337,17 +337,20 @@
                         </a>
                     </div>
 
+                    <label for="hero-search-input" class="sr-only">Search our menu</label>
                     <!-- Search Bar in Hero -->
                     <div class="ss-hero-text-5 pt-2 max-w-xl mx-auto md:mx-0">
                         <div class="relative flex items-center bg-white/10 backdrop-blur-md p-1.5 rounded-2xl border border-amber-400/40 shadow-2xl">
                             <i class="fa-solid fa-magnifying-glass text-amber-300 text-lg ml-3 mr-2"></i>
                             <input 
+                                id="hero-search-input"
                                 type="text" 
                                 x-model="searchQuery" 
                                 placeholder="Search Gulab Jamun, Baklava, Pizza, Zinger Burger..." 
+                                aria-label="Search menu items"
                                 class="w-full bg-transparent text-white placeholder-stone-300 text-sm focus:outline-none py-2 px-1"
                             >
-                            <button x-show="searchQuery" @click="searchQuery = ''" class="text-stone-300 hover:text-white px-2">
+                            <button x-show="searchQuery" @click="searchQuery = ''" class="text-stone-300 hover:text-white px-2" aria-label="Clear search input">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                             <a href="?section=menu" data-section-route="menu" class="bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold px-5 py-2.5 rounded-xl text-sm transition shrink-0 ml-2">
@@ -505,6 +508,7 @@
                             <img 
                                 src="Hero Banner5.jpeg"
                                 alt="Traditional Desi Ghee Gulab Jamun Crafting" 
+                                width="300" height="224"
                                 class="rounded-2xl shadow-xl h-56 object-cover w-full border border-amber-500/30"
                                 loading="lazy" decoding="async" fetchpriority="low"
                             >
@@ -521,6 +525,7 @@
                             <img 
                                 src="Hero Banner6.jpeg" 
                                 alt="Khoya Barfi Artisanal Preparation" 
+                                width="300" height="224"
                                 class="rounded-2xl shadow-xl h-56 object-cover w-full border border-amber-500/30"
                                 loading="lazy" decoding="async" fetchpriority="low"
                             >
@@ -680,8 +685,8 @@
                 </div>
 
                 <div class="flex items-center space-x-3 text-xs">
-                    <label class="text-stone-600 font-medium">Sort By:</label>
-                    <select x-model="sortBy" class="bg-stone-50 border border-stone-300 text-stone-800 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                    <label for="menu-sort-by" class="text-stone-600 font-medium">Sort By:</label>
+                    <select id="menu-sort-by" x-model="sortBy" aria-label="Sort products by" class="bg-stone-50 border border-stone-300 text-stone-800 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-600">
                         <option value="popular">Most Popular</option>
                         <option value="price-asc">Price: Low to High</option>
                         <option value="price-desc">Price: High to Low</option>
