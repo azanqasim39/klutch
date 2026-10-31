@@ -1858,25 +1858,9 @@ const sectionRoutes = {
         window.__sectionRoutes = sectionRoutes;
     }
 
-    /* ---- 10. Image Lazy Load Skeleton ---- */
+    /* ---- 10. Image Lazy Load Skeleton (Removed to ensure instant image rendering) ---- */
     function initImageSkeletons() {
-        var images = document.querySelectorAll('.menu-card img, .hero-slide');
-        images.forEach(function(img) {
-            if (img.complete) return;
-            var parent = img.closest('.relative') || img.parentElement;
-            if (parent && !parent.querySelector('.ss-skeleton-overlay')) {
-                var skeleton = document.createElement('div');
-                skeleton.className = 'ss-skeleton-overlay';
-                skeleton.style.cssText = 'position:absolute;inset:0;background:linear-gradient(90deg,#f0ede8 25%,#e8e3db 50%,#f0ede8 75%);background-size:200% 100%;animation:ss-shimmer 1.5s ease-in-out infinite;z-index:1;pointer-events:none;';
-                parent.style.position = 'relative';
-                parent.appendChild(skeleton);
-                img.addEventListener('load', function() {
-                    skeleton.style.opacity = '0';
-                    skeleton.style.transition = 'opacity 0.4s ease';
-                    setTimeout(function() { skeleton.remove(); }, 500);
-                }, { once: true });
-            }
-        });
+        // Disabled: images render immediately as default without blocking overlays
     }
 
     /* ---- 11. Interactive Dynamic 3D Card Physics Tilt ---- */
