@@ -363,6 +363,19 @@ const sectionRoutes = {
                 toastVisible: false,
                 toastTimer: null,
 
+                // WhatsApp Ordering & Bag State
+                cart: [],
+                cartOpen: false,
+                quickOrderOpen: false,
+                quickOrderItem: null,
+                quickOrderQty: 1,
+                quickOrderSize: null,
+                customerName: '',
+                customerAddress: '',
+                orderType: 'delivery',
+                selectedBranch: 'Gayb Chowk, Islampura',
+                whatsappPhone: '923253922121',
+
                 toggleFaq(index) {
                     this.faqOpen = this.faqOpen === index ? null : index;
                 },
@@ -402,14 +415,27 @@ const sectionRoutes = {
 
                 init() {
                     this.updateOpenStatus();
+                    this.loadCart();
+
                     window.addEventListener('keydown', (event) => {
-                        if (event.key === 'Escape') this.mobileMenuOpen = false;
+                        if (event.key === 'Escape') {
+                            this.mobileMenuOpen = false;
+                            this.quickOrderOpen = false;
+                            this.cartOpen = false;
+                        }
                     });
+
+                    // Sync cart across browser tabs or windows
+                    window.addEventListener('storage', () => this.loadCart());
+
                     // Re-check status every 60 seconds
                     setInterval(() => this.updateOpenStatus(), 60000);
 
-                    // Check URL for category routing
+                    // Check URL for category routing or cart action
                     const params = new URLSearchParams(window.location.search);
+                    if (params.get('cart') === 'open') {
+                        this.cartOpen = true;
+                    }
                     const catQuery = params.get('category') || params.get('cat');
                     if (catQuery) {
                         const resolved = this.resolveCategorySlug(catQuery);
@@ -433,6 +459,176 @@ const sectionRoutes = {
                             this.selectedCategory = 'all';
                         }
                     });
+                },
+
+                // Cart storage & management
+                loadCart() {
+                    try {
+                        const stored = localStorage.getItem('sialkot_cart');
+                        if (stored) {
+                            this.cart = JSON.parse(stored);
+                        }
+                    } catch (e) {
+                        this.cart = [];
+                    }
+                },
+
+                saveCart() {
+                    try {
+                        localStorage.setItem('sialkot_cart', JSON.stringify(this.cart));
+                    } catch (e) {}
+                },
+
+                openQuickOrder(item) {
+                    this.quickOrderItem = item;
+                    this.quickOrderQty = 1;
+                    if (Array.isArray(item.sizes) && item.sizes.length > 0) {
+                        this.quickOrderSize = item.sizes[0];
+                    } else {
+                        this.quickOrderSize = null;
+                    }
+                    this.quickOrderOpen = true;
+                },
+
+                closeQuickOrder() {
+                    this.quickOrderOpen = false;
+                    this.quickOrderItem = null;
+                },
+
+                get quickOrderUnitPrice() {
+                    if (!this.quickOrderItem) return 0;
+                    if (this.quickOrderSize) return this.quickOrderSize.price;
+                    return this.quickOrderItem.price || 0;
+                },
+
+                get quickOrderTotalPrice() {
+                    return this.quickOrderUnitPrice * this.quickOrderQty;
+                },
+
+                addToCart(item, qty = 1, size = null) {
+                    const unitPrice = size ? size.price : item.price;
+                    const sizeName = size ? size.name : '';
+                    const cartId = item.id + (sizeName ? '-' + sizeName : '');
+
+                    const existingIndex = this.cart.findIndex(c => c.cartId === cartId);
+                    if (existingIndex > -1) {
+                        this.cart[existingIndex].qty += qty;
+                    } else {
+                        this.cart.push({
+                            cartId: cartId,
+                            id: item.id,
+                            name: item.name,
+                            urduName: item.urduName || '',
+                            unit: item.unit || '',
+                            sizeName: sizeName,
+                            price: unitPrice,
+                            image: item.image || '',
+                            qty: qty
+                        });
+                    }
+                    this.saveCart();
+                },
+
+                addToCartFromQuickOrder() {
+                    if (!this.quickOrderItem) return;
+                    this.addToCart(this.quickOrderItem, this.quickOrderQty, this.quickOrderSize);
+                    const name = this.quickOrderItem.name;
+                    this.closeQuickOrder();
+                    this.showToast(`Added ${name} to your order bag!`);
+                },
+
+                updateCartQty(index, delta) {
+                    if (!this.cart[index]) return;
+                    this.cart[index].qty += delta;
+                    if (this.cart[index].qty <= 0) {
+                        this.cart.splice(index, 1);
+                    }
+                    this.saveCart();
+                },
+
+                removeFromCart(index) {
+                    if (!this.cart[index]) return;
+                    this.cart.splice(index, 1);
+                    this.saveCart();
+                    this.showToast('Item removed from order bag');
+                },
+
+                clearCart() {
+                    this.cart = [];
+                    this.saveCart();
+                    this.showToast('Order bag cleared');
+                },
+
+                get cartTotalCount() {
+                    return this.cart.reduce((sum, item) => sum + item.qty, 0);
+                },
+
+                get cartTotalPrice() {
+                    return this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                },
+
+                orderSingleViaWhatsApp(item, qty = 1, size = null) {
+                    if (!item) return;
+                    const unitPrice = size ? size.price : item.price;
+                    const sizeLabel = size ? ` (${size.name})` : (item.unit ? ` (${item.unit})` : '');
+                    const total = unitPrice * qty;
+
+                    let msg = `Assalam-o-Alaikum Sialkot Sweets & Bakers!\n`;
+                    msg += `I would like to place an order:\n\n`;
+                    msg += `*Item:* ${item.name}${sizeLabel}\n`;
+                    msg += `*Quantity:* ${qty}\n`;
+                    msg += `*Price:* Rs. ${total.toLocaleString('en-PK')} (Rs. ${unitPrice.toLocaleString('en-PK')} each)\n\n`;
+
+                    if (this.customerName.trim()) {
+                        msg += `*Name:* ${this.customerName.trim()}\n`;
+                    }
+                    if (this.customerAddress.trim()) {
+                        msg += `*Delivery Address:* ${this.customerAddress.trim()}\n`;
+                    } else {
+                        msg += `*Delivery / Pickup:* Please confirm address\n`;
+                    }
+                    msg += `\nPlease confirm availability and delivery time. Thank you!`;
+
+                    const waUrl = `https://wa.me/${this.whatsappPhone}?text=${encodeURIComponent(msg)}`;
+                    window.open(waUrl, '_blank', 'noopener,noreferrer');
+                    this.closeQuickOrder();
+                },
+
+                sendCartWhatsAppOrder() {
+                    if (this.cart.length === 0) {
+                        this.showToast('Your order bag is empty');
+                        return;
+                    }
+
+                    let msg = `Assalam-o-Alaikum Sialkot Sweets & Bakers!\n`;
+                    msg += `I would like to place an order:\n\n`;
+                    msg += `*Order Items:*\n`;
+
+                    this.cart.forEach((item, i) => {
+                        const sizeInfo = item.sizeName ? ` (${item.sizeName})` : (item.unit ? ` (${item.unit})` : '');
+                        const itemTotal = item.price * item.qty;
+                        msg += `${i + 1}. *${item.name}*${sizeInfo} x${item.qty} = Rs. ${itemTotal.toLocaleString('en-PK')}\n`;
+                    });
+
+                    msg += `\n*Total Items:* ${this.cartTotalCount}\n`;
+                    msg += `*Total Bill:* Rs. ${this.cartTotalPrice.toLocaleString('en-PK')}\n\n`;
+
+                    msg += `*Order Type:* ${this.orderType === 'pickup' ? 'Branch Pickup (' + this.selectedBranch + ')' : 'Home Delivery'}\n`;
+                    if (this.customerName.trim()) {
+                        msg += `*Customer Name:* ${this.customerName.trim()}\n`;
+                    }
+                    if (this.orderType === 'delivery') {
+                        if (this.customerAddress.trim()) {
+                            msg += `*Delivery Address:* ${this.customerAddress.trim()}\n`;
+                        } else {
+                            msg += `*Delivery Address:* (Please share location)\n`;
+                        }
+                    }
+
+                    msg += `\nPlease confirm my order. Thank you!`;
+
+                    const waUrl = `https://wa.me/${this.whatsappPhone}?text=${encodeURIComponent(msg)}`;
+                    window.open(waUrl, '_blank', 'noopener,noreferrer');
                 },
 
                 updateOpenStatus() {
