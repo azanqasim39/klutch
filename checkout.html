@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2b1722">
+    <title>Checkout | Sialkot Sweets &amp; Bakers — Since 1951</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#fbf7f8',
+                            100: '#f2e6ea',
+                            200: '#e4d0d8',
+                            300: '#c9a9b6',
+                            400: '#b88e9d',
+                            500: '#9d7182',
+                            600: '#85596b',
+                            700: '#6e4155',
+                            800: '#573043',
+                            850: '#472637',
+                            900: '#3b202f',
+                            950: '#2b1722'
+                        },
+                        amber: {
+                            50: '#fbf8f1',
+                            100: '#f5ebdc',
+                            200: '#e9d8bc',
+                            300: '#e0c79e',
+                            400: '#d5b784',
+                            450: '#cfad76',
+                            500: '#c8a56a',
+                            550: '#aa8755',
+                            600: '#8b683e',
+                            700: '#725234',
+                            800: '#5c4330',
+                            900: '#3d2c22'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        urdu: ['Amiri', 'serif']
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Base Stylesheet & Cart Script -->
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./cart.js"></script>
+
+    <style>
+        body {
+            background-color: #faf7f2;
+            background-image: radial-gradient(rgba(176, 141, 87, 0.15) 1px, transparent 1px), radial-gradient(rgba(176, 141, 87, 0.15) 1px, #faf7f2 1px);
+            background-size: 28px 28px;
+            background-position: 0 0, 14px 14px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .luxury-card {
+            background: #ffffff;
+            border: 1px solid rgba(176, 141, 87, 0.25);
+            box-shadow: 0 10px 30px -5px rgba(59, 32, 47, 0.08);
+            border-radius: 1.25rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .luxury-card:hover {
+            border-color: rgba(176, 141, 87, 0.45);
+        }
+
+        .gold-pill-active {
+            background: linear-gradient(135deg, #3b202f 0%, #2b1722 100%);
+            border: 1.5px solid #d5b784;
+            color: #fbf8f1;
+        }
+
+        .btn-luxury-sheen {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #d5b784 0%, #b08d57 50%, #8b683e 100%);
+        }
+
+        .btn-luxury-sheen::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: rotate(25deg);
+            animation: btnSheenSweep 4.5s infinite;
+        }
+
+        @keyframes btnSheenSweep {
+            0% { transform: translateX(-100%) rotate(25deg); }
+            20% { transform: translateX(100%) rotate(25deg); }
+            100% { transform: translateX(100%) rotate(25deg); }
+        }
+
+        .form-control-luxury {
+            width: 100%;
+            background-color: #fdfbf7;
+            border: 1.5px solid rgba(176, 141, 87, 0.25);
+            border-radius: 0.875rem;
+            padding: 0.85rem 1rem;
+            font-size: 0.95rem;
+            color: #2b1722;
+            transition: all 0.2s ease;
+        }
+
+        .form-control-luxury:focus {
+            outline: none;
+            border-color: #b08d57;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.18);
+        }
+    </style>
+</head>
+
+<body class="text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-950 pb-28 md:pb-16" x-data="checkoutApp()" x-init="initCheckout()">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-emerald-950 text-amber-300 text-xs py-2 px-4 border-b border-amber-500/30 flex items-center justify-between">
+        <div class="max-w-6xl mx-auto w-full flex items-center justify-between">
+            <span class="inline-flex items-center gap-1.5 font-medium tracking-wide">
+                <i class="fa-solid fa-crown text-amber-400 text-[11px]"></i>
+                <span>Sialkot Sweets &amp; Bakers — Fresh Delivery Across Gujranwala</span>
+            </span>
+            <a href="tel:03253922121" class="hidden sm:inline-flex items-center gap-1.5 text-amber-200 font-bold hover:text-white transition">
+                <i class="fa-solid fa-phone text-xs"></i> 0325 3922121
+            </a>
+        </div>
+    </div>
+
+    <!-- Header / Nav -->
+    <header class="sticky top-0 z-30 bg-emerald-950/95 backdrop-blur-xl border-b border-amber-500/20 py-3.5 px-4 shadow-lg">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="./?section=menu" class="inline-flex items-center gap-2 text-amber-300 hover:text-white text-xs sm:text-sm font-semibold transition px-3 py-1.5 rounded-lg bg-white/5 border border-amber-400/20">
+                <i class="fa-solid fa-arrow-left text-xs"></i>
+                <span>Back to Menu</span>
+            </a>
+
+            <a href="./" class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-full bg-white p-0.5 shadow-md border border-amber-400/40 overflow-hidden flex items-center justify-center">
+                    <img src="./sialkot-sweets-logo.png" alt="Sialkot Sweets" class="w-full h-full object-contain">
+                </div>
+                <div class="text-left">
+                    <span class="font-serif text-base sm:text-lg font-bold text-white tracking-tight block leading-tight">SIALKOT SWEETS</span>
+                    <span class="text-[10px] text-amber-300 uppercase tracking-widest font-medium">Est. 1951 • Gujranwala</span>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-2">
+                <span class="text-[11px] bg-amber-500/15 text-amber-300 border border-amber-400/30 px-2.5 py-1 rounded-full font-bold hidden sm:inline-flex items-center gap-1">
+                    <i class="fa-brands fa-whatsapp text-green-400"></i> WhatsApp Ordering
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10">
+
+        <!-- Page Title & Subtitle -->
+        <div class="mb-6 sm:mb-8 text-center sm:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-800 text-xs font-bold mb-2">
+                <i class="fa-solid fa-bag-shopping text-amber-700"></i> Order Confirmation
+            </div>
+            <h1 class="font-serif text-2xl sm:text-4xl font-extrabold text-emerald-950 tracking-tight">Review &amp; Place Your Order</h1>
+            <p class="text-xs sm:text-sm text-stone-600 mt-1">Please enter your delivery details below. A unique Order ID will be generated to confirm your order on WhatsApp.</p>
+        </div>
+
+        <!-- 2-Column Responsive Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+
+            <!-- LEFT COLUMN: Delivery & Payment Details -->
+            <div class="lg:col-span-7 space-y-6">
+
+                <!-- CARD 1: Delivery Details -->
+                <div class="luxury-card p-5 sm:p-7">
+                    <div class="flex items-center gap-3 pb-4 mb-5 border-b border-amber-500/20">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-950 text-amber-300 flex items-center justify-center font-bold text-sm shadow">
+                            1
+                        </div>
+                        <div>
+                            <h2 class="font-serif text-lg sm:text-xl font-bold text-emerald-950 leading-tight">Delivery Details</h2>
+                            <p class="text-xs text-stone-500">Provide the recipient name and delivery destination in Gujranwala</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Full Name -->
+                        <div>
+                            <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
+                                Full Name <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-sm">
+                                    <i class="fa-regular fa-user"></i>
+                                </span>
+                                <input 
+                                    type="text" 
+                                    x-model="form.fullName" 
+                                    placeholder="e.g. Muhammad Ali" 
+                                    class="form-control-luxury pl-10"
+                                    autocomplete="off"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Phone / WhatsApp Number -->
+                        <div>
+                            <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
+                                WhatsApp / Mobile Number <span class="text-red-500">*</span>
+                            </label>
+                            <div class="flex rounded-xl overflow-hidden shadow-sm">
+                                <div class="bg-stone-100 border border-r-0 border-amber-500/25 px-3.5 py-3 text-xs sm:text-sm font-bold text-emerald-950 flex items-center gap-1.5 select-none shrink-0">
+                                    <span class="text-base leading-none">🇵🇰</span>
+                                    <span>+92</span>
+                                </div>
+                                <input 
+                                    type="tel" 
+                                    x-model="form.phone" 
+                                    placeholder="300 1234567" 
+                                    class="form-control-luxury rounded-l-none"
+                                    autocomplete="off"
+                                    required
+                                >
+                            </div>
+                            <p class="text-[11px] text-stone-500 mt-1">Our staff will communicate order tracking and dispatch confirmation to this WhatsApp number.</p>
+                        </div>
+
+                        <!-- City Selector (Gujranwala Active / Other Pakistan Cities Disabled with Coming Soon) -->
+                        <div>
+                            <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
+                                Delivery Location <span class="text-red-500">*</span>
+                            </label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                <!-- Gujranwala (Active) -->
+                                <div 
+                                    class="p-3.5 rounded-xl text-left gold-pill-active shadow-md flex items-start gap-2.5 select-none"
+                                >
+                                    <i class="fa-solid fa-location-dot mt-0.5 text-amber-400"></i>
+                                    <div>
+                                        <div class="text-xs sm:text-sm font-bold text-amber-300">Gujranwala (Local Delivery)</div>
+                                        <div class="text-[10.5px] text-stone-200 leading-snug mt-0.5">All Items Available (Sweets, Cakes, Pizzas &amp; Bakery)</div>
+                                    </div>
+                                </div>
+
+                                <!-- Other Pakistan Cities (Disabled / Greyed Out / Coming Soon) -->
+                                <div 
+                                    class="p-3.5 rounded-xl text-left bg-stone-100 border border-stone-200 opacity-60 cursor-not-allowed select-none flex items-start justify-between gap-2"
+                                    title="Nationwide courier shipping is coming soon"
+                                >
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-truck-fast mt-0.5 text-stone-400"></i>
+                                        <div>
+                                            <div class="text-xs sm:text-sm font-bold text-stone-600">Other Pakistan Cities</div>
+                                            <div class="text-[10.5px] text-stone-500 leading-snug mt-0.5">Nationwide Courier Delivery</div>
+                                        </div>
+                                    </div>
+                                    <span class="text-[9.5px] font-extrabold uppercase tracking-wider bg-stone-200 text-stone-600 px-2 py-0.5 rounded-full shrink-0">
+                                        Coming Soon
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Address -->
+                        <div>
+                            <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
+                                Complete Delivery Address <span class="text-red-500">*</span>
+                            </label>
+                            <textarea 
+                                x-model="form.address" 
+                                rows="2" 
+                                placeholder="House / Flat No., Street, Sector / Area / Town, Gujranwala" 
+                                class="form-control-luxury text-sm resize-none"
+                                autocomplete="off"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <!-- Nearest Branch & Landmark -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
+                                    Preferred Branch
+                                </label>
+                                <select x-model="form.branch" class="form-control-luxury text-sm">
+                                    <option value="Gayb Chowk (Main Branch)">Gayb Chowk (Main Branch)</option>
+                                    <option value="Model Town Branch">Model Town Branch</option>
+                                    <option value="GT Road Branch">GT Road Branch</option>
+                                    <option value="Nearest Branch (Auto Dispatch)">Nearest Branch (Auto Dispatch)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
+                                    Nearest Landmark (Optional)
+                                </label>
+                                <input 
+                                    type="text" 
+                                    x-model="form.landmark" 
+                                    placeholder="e.g. Near Shell Pump, Hospital" 
+                                    class="form-control-luxury text-sm"
+                                    autocomplete="off"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Special Instructions -->
+                        <div>
+                            <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
+                                Special Instructions / Gift Note (Optional)
+                            </label>
+                            <input 
+                                type="text" 
+                                x-model="form.notes" 
+                                placeholder="e.g. Gift box packaging, congratulations card, etc." 
+                                class="form-control-luxury text-sm"
+                                autocomplete="off"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: Payment Information -->
+                <div class="luxury-card p-5 sm:p-7">
+                    <div class="flex items-center gap-3 pb-4 mb-5 border-b border-amber-500/20">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-950 text-amber-300 flex items-center justify-center font-bold text-sm shadow">
+                            2
+                        </div>
+                        <div>
+                            <h2 class="font-serif text-lg sm:text-xl font-bold text-emerald-950 leading-tight">Payment Method</h2>
+                            <p class="text-xs text-stone-500">Choose your preferred payment method</p>
+                        </div>
+                    </div>
+
+                    <!-- Payment Switcher -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                        <label 
+                            @click="form.paymentMethod = 'bank_transfer'"
+                            :class="form.paymentMethod === 'bank_transfer' ? 'border-amber-500 bg-amber-500/5 ring-2 ring-amber-500/30' : 'border-stone-200 bg-white hover:border-stone-300'"
+                            class="p-4 rounded-xl border-2 cursor-pointer transition flex items-start gap-3 relative"
+                        >
+                            <input type="radio" name="paymentMethod" value="bank_transfer" x-model="form.paymentMethod" class="mt-1 text-amber-600 focus:ring-amber-500">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-sm text-emerald-950">Online Bank Transfer</span>
+                                    <span class="text-[9.5px] uppercase font-extrabold bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Recommended</span>
+                                </div>
+                                <p class="text-xs text-stone-500 mt-1">Meezan Bank (MBL) / Raast. Fast verification on WhatsApp.</p>
+                            </div>
+                        </label>
+
+                        <label 
+                            @click="form.paymentMethod = 'cod'"
+                            :class="form.paymentMethod === 'cod' ? 'border-amber-500 bg-amber-500/5 ring-2 ring-amber-500/30' : 'border-stone-200 bg-white hover:border-stone-300'"
+                            class="p-4 rounded-xl border-2 cursor-pointer transition flex items-start gap-3"
+                        >
+                            <input type="radio" name="paymentMethod" value="cod" x-model="form.paymentMethod" class="mt-1 text-amber-600 focus:ring-amber-500">
+                            <div>
+                                <span class="font-bold text-sm text-emerald-950">Cash on Delivery (COD)</span>
+                                <p class="text-xs text-stone-500 mt-1">Pay with cash upon delivery at your doorstep in Gujranwala.</p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Bank Details Box -->
+                    <div x-show="form.paymentMethod === 'bank_transfer'" x-transition class="space-y-4">
+                        <div class="rounded-xl border border-amber-400/40 bg-gradient-to-br from-amber-50/80 via-white to-amber-50/40 p-4 sm:p-5 relative overflow-hidden">
+                            <div class="flex items-center justify-between pb-3 mb-3 border-b border-amber-200/70">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-building-columns text-amber-700 text-base"></i>
+                                    <span class="font-bold text-xs sm:text-sm text-emerald-950">Official Bakery Bank Account</span>
+                                </div>
+                                <span class="text-[10px] font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded">Meezan Bank</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <div>
+                                    <span class="text-stone-400 block text-[11px]">Bank Name</span>
+                                    <span class="font-bold text-stone-800 text-sm">Meezan Bank Limited (MBL)</span>
+                                </div>
+                                <div>
+                                    <span class="text-stone-400 block text-[11px]">Account Title</span>
+                                    <span class="font-bold text-stone-800 text-sm">Sialkot Sweets &amp; Bakers</span>
+                                </div>
+                                <div>
+                                    <span class="text-stone-400 block text-[11px]">Account Number</span>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <code class="font-mono font-bold text-emerald-950 text-sm bg-white px-2 py-1 rounded border border-stone-200">090501068465711</code>
+                                        <button 
+                                            type="button" 
+                                            @click="copyText('090501068465711', 'Account Number copied!')" 
+                                            class="p-1 text-amber-700 hover:text-amber-900 transition" 
+                                            title="Copy Account Number"
+                                        >
+                                            <i class="fa-regular fa-copy text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-stone-400 block text-[11px]">IBAN</span>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <code class="font-mono font-bold text-emerald-950 text-xs bg-white px-2 py-1 rounded border border-stone-200 break-all">PK97MEZN0009050106846571</code>
+                                        <button 
+                                            type="button" 
+                                            @click="copyText('PK97MEZN0009050106846571', 'IBAN copied!')" 
+                                            class="p-1 text-amber-700 hover:text-amber-900 transition" 
+                                            title="Copy IBAN"
+                                        >
+                                            <i class="fa-regular fa-copy text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Professional Payment Screenshot Notice -->
+                        <div class="p-4 rounded-xl bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 text-white border-2 border-amber-400/60 shadow-xl flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center shrink-0 font-bold text-sm shadow">
+                                <i class="fa-solid fa-camera"></i>
+                            </div>
+                            <div class="text-xs leading-relaxed">
+                                <div class="font-bold text-amber-300 text-sm mb-1 flex items-center gap-1.5">
+                                    <span>Send Payment Screenshot on WhatsApp</span>
+                                    <span class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                                </div>
+                                <p class="text-stone-200">
+                                    After submitting your order, you will receive your <strong class="text-amber-300">Unique Order ID</strong>. Transfer the amount and share your transaction screenshot via WhatsApp to initiate instant preparation.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Hotline Card -->
+                    <div class="mt-5 p-3.5 rounded-xl bg-stone-50 border border-stone-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-green-500/10 text-green-600 flex items-center justify-center font-bold">
+                                <i class="fa-brands fa-whatsapp text-sm"></i>
+                            </span>
+                            <div>
+                                <div class="font-bold text-stone-800">Order Hotline &amp; WhatsApp Support</div>
+                                <div class="text-stone-500 text-[11px]">Available Daily: 6:00 AM – 1:00 AM</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <a href="https://wa.me/923253922121" target="_blank" class="px-2.5 py-1.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-bold text-[11px] inline-flex items-center gap-1 transition">
+                                <i class="fa-brands fa-whatsapp"></i> +92 325 3922121
+                            </a>
+                            <a href="tel:03083922121" class="px-2.5 py-1.5 rounded-lg bg-emerald-950 text-amber-300 font-bold text-[11px] inline-flex items-center gap-1">
+                                <i class="fa-solid fa-phone"></i> 0308 3922121
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: Order Summary (Sticky) -->
+            <div class="lg:col-span-5 space-y-6">
+
+                <!-- Summary Card -->
+                <div class="luxury-card p-5 sm:p-6 lg:sticky lg:top-24">
+                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-amber-500/20">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-receipt text-amber-700"></i>
+                            <h2 class="font-serif text-lg font-bold text-emerald-950">Order Summary</h2>
+                        </div>
+                        <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-900" x-text="cartItems.length + ' item(s)'"></span>
+                    </div>
+
+                    <!-- Cart Items List -->
+                    <div class="divide-y divide-stone-100 max-h-72 overflow-y-auto pr-1">
+                        <template x-for="item in cartItems" :key="item.id">
+                            <div class="py-3 flex items-center justify-between gap-3">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <img :src="item.image || './sialkot-sweets-logo.png'" :alt="item.name" class="w-12 h-12 rounded-xl object-cover border border-stone-200 shrink-0 bg-stone-100">
+                                    <div class="min-w-0">
+                                        <div class="font-bold text-xs sm:text-sm text-emerald-950 truncate" x-text="item.name"></div>
+                                        <div class="text-[11px] text-stone-500" x-text="'Rs. ' + item.price.toLocaleString() + ' / ' + item.unit"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Qty & Total -->
+                                <div class="flex items-center gap-3 shrink-0">
+                                    <div class="flex items-center border border-stone-200 rounded-lg bg-stone-50 overflow-hidden text-xs">
+                                        <button 
+                                            type="button" 
+                                            @click="updateQty(item.id, item.quantity - 1)" 
+                                            class="w-6 h-6 flex items-center justify-center text-stone-600 hover:bg-stone-200 font-bold"
+                                        >-</button>
+                                        <span class="w-7 text-center font-bold text-emerald-950 text-xs" x-text="item.quantity"></span>
+                                        <button 
+                                            type="button" 
+                                            @click="updateQty(item.id, item.quantity + 1)" 
+                                            class="w-6 h-6 flex items-center justify-center text-stone-600 hover:bg-stone-200 font-bold"
+                                        >+</button>
+                                    </div>
+                                    <div class="font-bold text-xs sm:text-sm text-emerald-950 min-w-[65px] text-right">
+                                        Rs. <span x-text="(item.price * item.quantity).toLocaleString()"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Financial Calculations -->
+                    <div class="pt-4 mt-2 border-t border-amber-500/20 space-y-2 text-xs">
+                        <div class="flex justify-between text-stone-600">
+                            <span>Subtotal</span>
+                            <span class="font-bold text-emerald-950">Rs. <span x-text="subtotal.toLocaleString()"></span></span>
+                        </div>
+                        <div class="flex justify-between text-stone-600">
+                            <span>Delivery Charges</span>
+                            <span class="text-amber-800 font-bold">Confirmed on WhatsApp</span>
+                        </div>
+                        <div class="text-[11px] text-stone-400 italic">
+                            * Rider charges confirmed based on distance from the dispatch branch.
+                        </div>
+
+                        <div class="pt-3 border-t border-stone-200 flex justify-between items-baseline">
+                            <div>
+                                <span class="font-serif text-base font-extrabold text-emerald-950 block">Grand Total</span>
+                                <span class="text-[10px] text-stone-400">Taxes included</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="font-serif text-xl sm:text-2xl font-extrabold text-amber-700">
+                                    Rs. <span x-text="subtotal.toLocaleString()"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PLACE ORDER BUTTON -->
+                    <div class="mt-6 pt-2">
+                        <button 
+                            type="button" 
+                            @click="submitOrder()" 
+                            :disabled="cartItems.length === 0 || isSubmitting"
+                            class="btn-luxury-sheen w-full py-4 px-6 rounded-2xl text-emerald-950 font-extrabold text-sm sm:text-base tracking-wide shadow-xl flex items-center justify-center gap-2 hover:brightness-105 active:scale-[0.99] transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                        >
+                            <span x-show="!isSubmitting" class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>Generate Order ID &amp; Place Order</span>
+                            </span>
+                            <span x-show="isSubmitting" class="flex items-center gap-2" style="display: none;">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                <span>Generating Order...</span>
+                            </span>
+                        </button>
+                        <p class="text-[10.5px] text-center text-stone-400 mt-2.5">
+                            By placing this order, you agree to confirm details on WhatsApp.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Global Toast for Copy Actions -->
+    <div 
+        x-show="toastVisible" 
+        x-transition 
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-emerald-950 text-amber-300 border border-amber-400/40 px-4 py-2.5 rounded-full shadow-2xl text-xs sm:text-sm font-semibold flex items-center gap-2"
+        style="display: none;"
+    >
+        <i class="fa-solid fa-circle-check text-green-400"></i>
+        <span x-text="toastMessage"></span>
+    </div>
+
+    <!-- Alpine Logic for Checkout -->
+    <script>
+        function checkoutApp() {
+            return {
+                cartItems: [],
+                subtotal: 0,
+                isSubmitting: false,
+                toastVisible: false,
+                toastMessage: '',
+                form: {
+                    fullName: '',
+                    phone: '',
+                    cityType: 'gujranwala',
+                    address: '',
+                    branch: 'Gayb Chowk (Main Branch)',
+                    landmark: '',
+                    notes: '',
+                    paymentMethod: 'bank_transfer'
+                },
+
+                initCheckout() {
+                    this.loadCart();
+
+                    // REFUSE TO OPEN IF CART IS EMPTY!
+                    if (!this.cartItems || this.cartItems.length === 0) {
+                        alert('Your shopping bag is empty! Please add sweets or bakery items from our menu first.');
+                        window.location.replace('./?section=menu');
+                        return;
+                    }
+
+                    // Listen for external cart changes
+                    window.addEventListener('sialkot-cart-updated', () => {
+                        this.loadCart();
+                        if (this.cartItems.length === 0) {
+                            window.location.replace('./?section=menu');
+                        }
+                    });
+                },
+
+                loadCart() {
+                    if (window.SialkotCart) {
+                        this.cartItems = window.SialkotCart.getItems();
+                        this.subtotal = window.SialkotCart.getSubtotal();
+                    }
+                },
+
+                updateQty(id, qty) {
+                    if (window.SialkotCart) {
+                        this.cartItems = window.SialkotCart.updateQuantity(id, qty);
+                        this.subtotal = window.SialkotCart.getSubtotal();
+                        if (this.cartItems.length === 0) {
+                            alert('All items removed. Redirecting to menu.');
+                            window.location.replace('./?section=menu');
+                        }
+                    }
+                },
+
+                showToast(msg) {
+                    this.toastMessage = msg;
+                    this.toastVisible = true;
+                    setTimeout(() => {
+                        this.toastVisible = false;
+                    }, 2800);
+                },
+
+                copyText(text, msg) {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(() => {
+                            this.showToast(msg || 'Copied to clipboard!');
+                        }).catch(() => {
+                            this.showToast('Copied: ' + text);
+                        });
+                    } else {
+                        this.showToast('Copied: ' + text);
+                    }
+                },
+
+                submitOrder() {
+                    // Validation
+                    if (!this.form.fullName.trim()) {
+                        alert('Please enter your full name.');
+                        return;
+                    }
+                    if (!this.form.phone.trim()) {
+                        alert('Please enter your WhatsApp / mobile phone number.');
+                        return;
+                    }
+                    if (!this.form.address.trim()) {
+                        alert('Please enter your delivery address in Gujranwala.');
+                        return;
+                    }
+                    if (this.cartItems.length === 0) {
+                        alert('Your cart is empty. Please add items before checking out.');
+                        window.location.replace('./?section=menu');
+                        return;
+                    }
+
+                    this.isSubmitting = true;
+
+                    // Generate Unique Order ID: ORD-SS-XXXXXX
+                    const orderId = window.SialkotCart.generateOrderId();
+                    const now = new Date();
+                    const formattedDate = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    const orderPayload = {
+                        orderId: orderId,
+                        orderDate: formattedDate,
+                        customer: {
+                            name: this.form.fullName.trim(),
+                            phone: '+92 ' + this.form.phone.replace(/^0+/, '').trim(),
+                            city: 'Gujranwala (Local Delivery)',
+                            address: this.form.address.trim(),
+                            branch: this.form.branch,
+                            landmark: this.form.landmark.trim(),
+                            notes: this.form.notes.trim()
+                        },
+                        items: this.cartItems,
+                        subtotal: this.subtotal,
+                        deliveryFeeText: 'Confirmed on WhatsApp',
+                        totalAmount: this.subtotal,
+                        paymentMethod: this.form.paymentMethod === 'bank_transfer' ? 'Online Bank Transfer' : 'Cash on Delivery (COD)'
+                    };
+
+                    // Save order temporarily for confirmation page
+                    window.SialkotCart.saveCurrentOrder(orderPayload);
+
+                    // Clear shopping cart
+                    window.SialkotCart.clearCart();
+
+                    // Redirect to order success page
+                    setTimeout(() => {
+                        window.location.href = './order-success.html';
+                    }, 400);
+                }
+            };
+        }
+    </script>
+
+</body>
+</html>

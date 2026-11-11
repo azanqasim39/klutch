@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2b1722">
+    <title>Order Placed Successfully | Sialkot Sweets &amp; Bakers</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#fbf7f8',
+                            100: '#f2e6ea',
+                            200: '#e4d0d8',
+                            300: '#c9a9b6',
+                            400: '#b88e9d',
+                            500: '#9d7182',
+                            600: '#85596b',
+                            700: '#6e4155',
+                            800: '#573043',
+                            850: '#472637',
+                            900: '#3b202f',
+                            950: '#2b1722'
+                        },
+                        amber: {
+                            50: '#fbf8f1',
+                            100: '#f5ebdc',
+                            200: '#e9d8bc',
+                            300: '#e0c79e',
+                            400: '#d5b784',
+                            450: '#cfad76',
+                            500: '#c8a56a',
+                            550: '#aa8755',
+                            600: '#8b683e',
+                            700: '#725234',
+                            800: '#5c4330',
+                            900: '#3d2c22'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        urdu: ['Amiri', 'serif']
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Base Stylesheet & Cart Script -->
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./cart.js"></script>
+
+    <style>
+        body {
+            background-color: #faf7f2;
+            background-image: radial-gradient(rgba(176, 141, 87, 0.15) 1px, transparent 1px), radial-gradient(rgba(176, 141, 87, 0.15) 1px, #faf7f2 1px);
+            background-size: 28px 28px;
+            background-position: 0 0, 14px 14px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Success Animated Checkmark */
+        .success-checkmark-wrapper {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto;
+        }
+
+        .success-ring {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 35px rgba(16, 185, 129, 0.45);
+            animation: pulseSuccess 2.5s infinite;
+        }
+
+        @keyframes pulseSuccess {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+            70% { transform: scale(1.04); box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .checkmark-icon {
+            color: #ffffff;
+            font-size: 42px;
+            animation: popCheck 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popCheck {
+            0% { opacity: 0; transform: scale(0.3) rotate(-20deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .luxury-card {
+            background: #ffffff;
+            border: 1px solid rgba(176, 141, 87, 0.28);
+            box-shadow: 0 12px 35px -5px rgba(59, 32, 47, 0.08);
+            border-radius: 1.5rem;
+        }
+
+        /* WhatsApp Pulsing Sheen Button */
+        .btn-whatsapp-pulse {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            animation: whatsappPulse 3s infinite;
+        }
+
+        @keyframes whatsappPulse {
+            0%, 100% { box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); }
+            50% { box-shadow: 0 12px 35px rgba(37, 211, 102, 0.7); }
+        }
+
+        .btn-whatsapp-pulse::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: rotate(25deg);
+            animation: waSheen 4s infinite;
+        }
+
+        @keyframes waSheen {
+            0% { transform: translateX(-100%) rotate(25deg); }
+            25% { transform: translateX(100%) rotate(25deg); }
+            100% { transform: translateX(100%) rotate(25deg); }
+        }
+    </style>
+</head>
+
+<body class="text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-950 pb-20" x-data="orderSuccessApp()" x-init="initSuccess()">
+
+    <!-- Header / Nav -->
+    <header class="bg-emerald-950 text-white py-3.5 px-4 shadow-lg border-b border-amber-500/20">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <a href="./" class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-full bg-white p-0.5 shadow-md border border-amber-400/40 overflow-hidden flex items-center justify-center">
+                    <img src="./sialkot-sweets-logo.png" alt="Sialkot Sweets" class="w-full h-full object-contain">
+                </div>
+                <div>
+                    <span class="font-serif text-base sm:text-lg font-bold text-white tracking-tight block leading-tight">SIALKOT SWEETS</span>
+                    <span class="text-[10px] text-amber-300 uppercase tracking-widest font-medium">Est. 1951 • Gujranwala</span>
+                </div>
+            </a>
+
+            <a href="./?section=menu" class="text-xs text-amber-300 hover:text-white font-semibold transition px-3 py-1.5 rounded-lg bg-white/5 border border-amber-400/20 inline-flex items-center gap-1.5">
+                <i class="fa-solid fa-house text-xs"></i>
+                <span>Home / Menu</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-2xl mx-auto px-4 pt-8 sm:pt-12">
+
+        <!-- Animated Success Badge & Header -->
+        <div class="text-center mb-8">
+            <div class="success-checkmark-wrapper mb-4">
+                <div class="success-ring">
+                    <i class="fa-solid fa-check checkmark-icon"></i>
+                </div>
+            </div>
+
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-extrabold uppercase tracking-wider mb-2">
+                <i class="fa-solid fa-sparkles text-emerald-600"></i> Order Received
+            </div>
+            
+            <h1 class="font-serif text-2xl sm:text-4xl font-extrabold text-emerald-950 tracking-tight">Order Placed Successfully!</h1>
+            <p class="text-xs sm:text-sm text-stone-600 mt-2 max-w-md mx-auto">
+                Thank you for choosing Sialkot Sweets &amp; Bakers. Please follow the step below to finalize dispatch on WhatsApp.
+            </p>
+        </div>
+
+        <!-- ORDER ID CARD -->
+        <div class="luxury-card p-5 sm:p-7 text-center mb-6 relative overflow-hidden border-2 border-amber-400/50">
+            <div class="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-amber-400/10 blur-xl pointer-events-none"></div>
+            <div class="absolute -bottom-10 -left-10 w-28 h-28 rounded-full bg-emerald-900/10 blur-xl pointer-events-none"></div>
+
+            <div class="text-[11px] font-extrabold uppercase tracking-[0.2em] text-amber-800 mb-1">
+                Your Unique Order ID
+            </div>
+
+            <div class="flex items-center justify-center gap-3 my-2">
+                <span class="font-serif text-2xl sm:text-4xl font-extrabold text-emerald-950 tracking-wider" x-text="order.orderId"></span>
+                <button 
+                    type="button" 
+                    @click="copyText(order.orderId, 'Order ID copied!')"
+                    class="w-10 h-10 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-900 flex items-center justify-center transition"
+                    title="Copy Order ID"
+                >
+                    <i class="fa-regular fa-copy text-sm sm:text-base"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-stone-500">
+                Please save or quote this Order ID for any questions with the bakery staff.
+            </p>
+        </div>
+
+        <!-- SUPER PROMINENT BLOCK: Send Payment Screenshot to WhatsApp for Confirmation -->
+        <div class="rounded-2xl bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 text-white p-5 sm:p-7 shadow-2xl border-2 border-amber-400/80 mb-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
+
+            <!-- Header Badge -->
+            <div class="flex items-center gap-2 mb-3">
+                <span class="px-2.5 py-1 rounded-full bg-amber-400 text-emerald-950 text-[10px] sm:text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow">
+                    <i class="fa-solid fa-camera"></i> Action Required
+                </span>
+                <span class="text-amber-300 text-xs font-bold">Fast Confirmation</span>
+            </div>
+
+            <h2 class="font-serif text-lg sm:text-2xl font-extrabold text-amber-300 leading-snug mb-2">
+                Send Payment Screenshot on WhatsApp
+            </h2>
+
+            <p class="text-xs sm:text-sm text-stone-200 leading-relaxed mb-4">
+                To confirm your order and begin fresh baking or packing immediately, tap the button below to message our official WhatsApp desk.
+            </p>
+
+            <!-- Steps list -->
+            <div class="bg-black/25 rounded-xl p-3.5 border border-white/10 space-y-2 mb-5 text-xs text-stone-200">
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
+                    <span>Tap <strong>"Send Order to WhatsApp"</strong> below (your Order ID &amp; items are already pre-filled).</span>
+                </div>
+                <div class="flex items-start gap-2.5" x-show="order.paymentMethod.includes('Bank')">
+                    <span class="w-5 h-5 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
+                    <span>Attach your <strong>bank transfer or Raast screenshot</strong> in the chat.</span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5" x-text="order.paymentMethod.includes('Bank') ? '3' : '2'"></span>
+                    <span>Our staff will reply with your dispatch ETA and rider contact!</span>
+                </div>
+            </div>
+
+            <!-- GIANT PRIMARY WHATSAPP BUTTON (MOBILE-FIRST) -->
+            <a 
+                :href="whatsappUrl" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="btn-whatsapp-pulse w-full py-4 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-3 transition cursor-pointer text-center"
+            >
+                <i class="fa-brands fa-whatsapp text-2xl sm:text-3xl text-white shrink-0"></i>
+                <div class="text-left">
+                    <div class="leading-tight">Send Order to WhatsApp Now</div>
+                    <div class="text-[11px] opacity-90 font-normal">Official Desk: +92 325 3922121</div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-75 ml-auto"></i>
+            </a>
+
+            <!-- Secondary Backup Number -->
+            <div class="mt-3 text-center">
+                <a 
+                    :href="whatsappBackupUrl" 
+                    target="_blank" 
+                    class="text-xs text-amber-300 hover:text-white underline inline-flex items-center gap-1 transition"
+                >
+                    <i class="fa-brands fa-whatsapp"></i> Or send to Secondary Number: 0308 3922121
+                </a>
+            </div>
+
+        </div>
+
+        <!-- ORDER SUMMARY BREAKDOWN -->
+        <div class="luxury-card p-5 sm:p-7 mb-6">
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-amber-500/20">
+                <h3 class="font-serif text-base sm:text-lg font-bold text-emerald-950 flex items-center gap-2">
+                    <i class="fa-solid fa-box-open text-amber-700"></i>
+                    <span>Order Receipt Breakdown</span>
+                </h3>
+                <span class="text-xs text-stone-500" x-text="order.orderDate"></span>
+            </div>
+
+            <!-- Customer Details Block -->
+            <div class="bg-stone-50 rounded-xl p-3.5 border border-stone-200 grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs mb-4">
+                <div>
+                    <span class="text-stone-400 block text-[10.5px]">Customer Name</span>
+                    <strong class="text-emerald-950 font-bold" x-text="order.customer.name"></strong>
+                </div>
+                <div>
+                    <span class="text-stone-400 block text-[10.5px]">Phone Number</span>
+                    <strong class="text-emerald-950 font-bold" x-text="order.customer.phone"></strong>
+                </div>
+                <div class="sm:col-span-2">
+                    <span class="text-stone-400 block text-[10.5px]">Delivery Destination</span>
+                    <span class="text-stone-800" x-text="order.customer.address + ', ' + order.customer.city"></span>
+                    <span x-show="order.customer.landmark" class="text-stone-500 text-[11px]" x-text="' (' + order.customer.landmark + ')'"></span>
+                </div>
+                <div>
+                    <span class="text-stone-400 block text-[10.5px]">Payment Chosen</span>
+                    <strong class="text-amber-800 font-bold" x-text="order.paymentMethod"></strong>
+                </div>
+                <div>
+                    <span class="text-stone-400 block text-[10.5px]">Assigned Branch</span>
+                    <span class="text-stone-700" x-text="order.customer.branch"></span>
+                </div>
+            </div>
+
+            <!-- Items List -->
+            <div class="divide-y divide-stone-100 text-xs">
+                <template x-for="(item, idx) in order.items" :key="idx">
+                    <div class="py-2.5 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <span class="w-5 h-5 rounded-md bg-stone-100 text-stone-600 flex items-center justify-center font-bold text-[10px] shrink-0" x-text="item.quantity + 'x'"></span>
+                            <div class="truncate">
+                                <span class="font-bold text-emerald-950" x-text="item.name"></span>
+                                <span class="text-[10px] text-stone-400 block" x-text="'Rs. ' + item.price.toLocaleString() + ' / ' + item.unit"></span>
+                            </div>
+                        </div>
+                        <div class="font-bold text-emerald-950 shrink-0 text-right">
+                            Rs. <span x-text="(item.price * item.quantity).toLocaleString()"></span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Total Amount -->
+            <div class="pt-4 mt-3 border-t-2 border-stone-200 flex items-center justify-between">
+                <div>
+                    <span class="text-xs text-stone-500 block">Total Amount to Pay</span>
+                    <span class="text-[10px] text-stone-400 italic" x-text="order.deliveryFeeText"></span>
+                </div>
+                <div class="font-serif text-xl sm:text-2xl font-extrabold text-amber-700">
+                    Rs. <span x-text="order.totalAmount ? order.totalAmount.toLocaleString() : '0'"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
+            <button 
+                type="button" 
+                onclick="window.print()" 
+                class="w-full sm:w-auto px-5 py-3 rounded-xl bg-white border border-stone-300 text-stone-700 text-xs sm:text-sm font-bold hover:bg-stone-50 transition flex items-center justify-center gap-2"
+            >
+                <i class="fa-solid fa-print"></i>
+                <span>Print Order Slip</span>
+            </button>
+
+            <a 
+                href="./?section=menu" 
+                class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-950 text-amber-300 text-xs sm:text-sm font-bold hover:bg-emerald-900 transition flex items-center justify-center gap-2"
+            >
+                <i class="fa-solid fa-utensils"></i>
+                <span>Order More Items</span>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Global Toast for Copy -->
+    <div 
+        x-show="toastVisible" 
+        x-transition 
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-emerald-950 text-amber-300 border border-amber-400/40 px-4 py-2.5 rounded-full shadow-2xl text-xs sm:text-sm font-semibold flex items-center gap-2"
+        style="display: none;"
+    >
+        <i class="fa-solid fa-circle-check text-green-400"></i>
+        <span x-text="toastMessage"></span>
+    </div>
+
+    <!-- Alpine Logic for Order Confirmation -->
+    <script>
+        function orderSuccessApp() {
+            return {
+                toastVisible: false,
+                toastMessage: '',
+                order: {
+                    orderId: 'ORD-SS-849201',
+                    orderDate: '',
+                    customer: {
+                        name: 'Valued Customer',
+                        phone: '+92 300 0000000',
+                        city: 'Gujranwala',
+                        address: 'Gujranwala City',
+                        branch: 'Gayb Chowk (Main Branch)',
+                        landmark: '',
+                        notes: ''
+                    },
+                    items: [],
+                    subtotal: 0,
+                    deliveryFeeText: 'Confirmed on WhatsApp',
+                    totalAmount: 0,
+                    paymentMethod: 'Online Bank Transfer'
+                },
+
+                initSuccess() {
+                    // Try to load the order from SialkotCart or localStorage
+                    let savedOrder = null;
+                    if (window.SialkotCart) {
+                        savedOrder = window.SialkotCart.getCurrentOrder();
+                    }
+
+                    if (savedOrder && savedOrder.orderId) {
+                        this.order = savedOrder;
+                    } else {
+                        // If no order exists, redirect to menu
+                        window.location.replace('./?section=menu');
+                        return;
+                    }
+                },
+
+                get formattedMessage() {
+                    let msg = `*--- 👑 NEW ORDER: SIALKOT SWEETS & BAKERS ---*\n`;
+                    msg += `*Order ID:* ${this.order.orderId}\n`;
+                    msg += `*Date:* ${this.order.orderDate}\n\n`;
+
+                    msg += `*📋 CUSTOMER DETAILS:*\n`;
+                    msg += `• *Name:* ${this.order.customer.name}\n`;
+                    msg += `• *Phone:* ${this.order.customer.phone}\n`;
+                    msg += `• *City:* ${this.order.customer.city}\n`;
+                    msg += `• *Address:* ${this.order.customer.address}\n`;
+                    if (this.order.customer.landmark) {
+                        msg += `• *Landmark:* ${this.order.customer.landmark}\n`;
+                    }
+                    msg += `• *Branch:* ${this.order.customer.branch}\n\n`;
+
+                    msg += `*🛍️ ITEMS ORDERED:*\n`;
+                    if (this.order.items && this.order.items.length) {
+                        this.order.items.forEach((item, idx) => {
+                            msg += `${idx + 1}. ${item.name} (${item.unit || '1 Item'}) x ${item.quantity} = Rs. ${(item.price * item.quantity).toLocaleString()}\n`;
+                        });
+                    }
+
+                    msg += `\n------------------------------------\n`;
+                    msg += `*💰 Total Amount:* Rs. ${(this.order.totalAmount || 0).toLocaleString()}\n`;
+                    msg += `*💳 Payment Method:* ${this.order.paymentMethod}\n`;
+                    if (this.order.customer.notes) {
+                        msg += `*📝 Note / Request:* ${this.order.customer.notes}\n`;
+                    }
+
+                    msg += `\n_Assalam-o-Alaikum Sialkot Sweets! Please confirm my order and share estimated preparation & delivery time._`;
+
+                    return msg;
+                },
+
+                get whatsappUrl() {
+                    const encoded = encodeURIComponent(this.formattedMessage);
+                    return `https://wa.me/923253922121?text=${encoded}`;
+                },
+
+                get whatsappBackupUrl() {
+                    const encoded = encodeURIComponent(this.formattedMessage);
+                    return `https://wa.me/923083922121?text=${encoded}`;
+                },
+
+                showToast(msg) {
+                    this.toastMessage = msg;
+                    this.toastVisible = true;
+                    setTimeout(() => {
+                        this.toastVisible = false;
+                    }, 2800);
+                },
+
+                copyText(text, msg) {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(() => {
+                            this.showToast(msg || 'Copied to clipboard!');
+                        }).catch(() => {
+                            this.showToast('Copied: ' + text);
+                        });
+                    } else {
+                        this.showToast('Copied: ' + text);
+                    }
+                }
+            };
+        }
+    </script>
+
+</body>
+</html>
