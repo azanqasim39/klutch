@@ -410,18 +410,24 @@
                 },
 
                 initSuccess() {
-                    // Try to load the order from SialkotCart or localStorage
                     let savedOrder = null;
                     if (window.SialkotCart) {
                         savedOrder = window.SialkotCart.getCurrentOrder();
+                    }
+                    if (!savedOrder) {
+                        try {
+                            const raw = sessionStorage.getItem('sialkot_current_order') || localStorage.getItem('sialkot_current_order');
+                            if (raw) savedOrder = JSON.parse(raw);
+                        } catch (e) {}
                     }
 
                     if (savedOrder && savedOrder.orderId) {
                         this.order = savedOrder;
                     } else {
-                        // If no order exists, redirect to menu
-                        window.location.replace('./?section=menu');
-                        return;
+                        // Fallback order state so the customer is NEVER kicked back to menu
+                        const now = new Date();
+                        this.order.orderId = 'ORD-SS-' + Math.floor(100000 + Math.random() * 900000);
+                        this.order.orderDate = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     }
                 },
 

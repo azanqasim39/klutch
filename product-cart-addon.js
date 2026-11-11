@@ -1,43 +1,49 @@
 /**
- * Sialkot Sweets & Bakers — Universal Product Page Ordering System
- * Automatically adds:
- * 1. Top Header Cart Button with Live Item Badge
- * 2. Quantity Selector + "+ Add to Cart" + "⚡ Order Now" Buttons
- * 3. Mobile Floating Sticky Cart Bar
- * Compatible with all product pages across Sialkot Sweets
+ * Sialkot Sweets & Bakers — Universal Product & Flavour Page Ordering System
+ * Handles:
+ * 1. Single sweet/bakery item pages (Gulab Jamun, Baklava, Barfi, Halwa, etc.)
+ * 2. Multi-flavour pages (Pizza 10 flavours, Sandwiches 5 flavours, Burgers, Wraps, Shawarma, Rolls, Fries)
+ * 3. Header Cart Icon with real-time counter
+ * 4. Mobile Floating Cart Bar
  */
 
 (function (window, document) {
     'use strict';
 
-    function initProductPageCart() {
+    function initProductOrdering() {
         if (!window.SialkotCart) return;
 
-        // 1. INJECT HEADER CART BUTTON
+        // 1. Inject Cart link into the top header
         injectHeaderCart();
 
-        // 2. INJECT PRODUCT ACTION BUTTONS (Add to Cart & Order Now)
-        injectProductOrderWidget();
+        // 2. Handle Multi-Flavour & Size Pages (Pizza, Sandwiches, Burgers, Wraps, Rolls, Fries)
+        const sizeBoxes = document.querySelectorAll('.size-box');
+        if (sizeBoxes.length > 0) {
+            setupMultiFlavourOrdering(sizeBoxes);
+        } else {
+            // 3. Handle Single Item Pages (Mithai, Bakery, Halwa, etc.)
+            setupSingleItemOrdering();
+        }
 
-        // 3. INJECT MOBILE FLOATING CART BAR
+        // 4. Inject Mobile Floating Cart Bar
         injectMobileFloatingBar();
 
-        // Initial sync of counts & badges
+        // Sync state
         window.SialkotCart.dispatchUpdate();
     }
 
-    // 1. Top Header Cart Link
+    // 1. Header Cart Button
     function injectHeaderCart() {
         if (document.querySelector('.ss-header-cart-link')) return;
 
-        const headerNavContainer = document.querySelector('header .max-w-7xl, header .max-w-6xl, header > div');
-        if (!headerNavContainer) return;
+        const headerContainer = document.querySelector('header .max-w-7xl, header .max-w-6xl, header > div');
+        if (!headerContainer) return;
 
-        const backBtn = headerNavContainer.querySelector('a[href*="menu"], .action-link');
+        const backBtn = headerContainer.querySelector('a[href*="menu"], .action-link');
 
         const cartLink = document.createElement('a');
         cartLink.href = '../checkout.html';
-        cartLink.className = 'ss-header-cart-link inline-flex items-center gap-1.5 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-amber-400/40 text-amber-300 font-extrabold px-2.5 sm:px-3 py-2 text-[10px] sm:text-xs shadow-md whitespace-nowrap transition ml-auto sm:ml-0';
+        cartLink.className = 'ss-header-cart-link inline-flex items-center gap-1.5 rounded-lg bg-emerald-950/90 hover:bg-emerald-900 border border-amber-400/40 text-amber-300 font-extrabold px-2.5 sm:px-3 py-2 text-[10px] sm:text-xs shadow-md whitespace-nowrap transition ml-auto sm:ml-0';
         cartLink.innerHTML = `
             <i class="fa-solid fa-cart-shopping"></i>
             <span>Cart</span>
@@ -47,39 +53,106 @@
         if (backBtn && backBtn.parentNode) {
             backBtn.parentNode.insertBefore(cartLink, backBtn);
         } else {
-            headerNavContainer.appendChild(cartLink);
+            headerContainer.appendChild(cartLink);
         }
     }
 
-    // 2. Quantity Selector + Add to Cart + Order Now Widget
-    function injectProductOrderWidget() {
+    // 2. Multi-Flavour & Size Pages (Pizza, Burgers, Sandwiches, Wraps, Shawarma, Fries)
+    function setupMultiFlavourOrdering(sizeBoxes) {
+        // Find photo on page
+        const photoEl = document.querySelector('.product-photo img, article img, main img');
+        let fallbackImg = 'sialkot-sweets-logo.png';
+        if (photoEl && photoEl.getAttribute('src')) {
+            fallbackImg = photoEl.getAttribute('src').replace(/^\.\.\//, '');
+        }
+
+        sizeBoxes.forEach(function (box) {
+            if (box.querySelector('.ss-size-add-btn')) return;
+
+            // Extract Size and Price
+            const spans = box.querySelectorAll('span');
+            let sizeName = 'Standard';
+            let price = 500;
+
+            if (spans.length >= 2) {
+                sizeName = spans[0].textContent.trim();
+                const priceMatch = spans[1].textContent.match(/[\d,]+/);
+                if (priceMatch) {
+                    price = parseFloat(priceMatch[0].replace(/,/g, '')) || 500;
+                }
+            } else {
+                const boxText = box.innerText;
+                const match = boxText.match(/Rs\.?\s*([\d,]+)/i);
+                if (match) price = parseFloat(match[1].replace(/,/g, '')) || 500;
+            }
+
+            // Extract Parent Flavour Name
+            const article = box.closest('article');
+            let flavourName = 'House Special';
+            if (article) {
+                const h3 = article.querySelector('h3, h2, .font-bold');
+                if (h3) {
+                    flavourName = h3.textContent.replace(/^\d+[\.\s]*/, '').trim();
+                }
+            }
+
+            // Make box interactive styling
+            box.classList.add('hover:border-amber-500', 'transition', 'cursor-pointer', 'flex', 'flex-col', 'justify-between');
+
+            // Add Add-to-Bag Button inside size box
+            const addBtn = document.createElement('button');
+            addBtn.type = 'button';
+            addBtn.className = 'ss-size-add-btn mt-1.5 w-full py-1 px-1.5 rounded-lg bg-emerald-950 hover:bg-emerald-900 text-amber-300 font-extrabold text-[9.5px] sm:text-[10px] flex items-center justify-center gap-1 shadow-xs transition active:scale-95 cursor-pointer';
+            addBtn.innerHTML = `<i class="fa-solid fa-plus text-[8px]"></i><span>Add</span>`;
+
+            box.appendChild(addBtn);
+
+            // Click Handler
+            const itemFullName = sizeName && sizeName !== 'Standard Serving' && !flavourName.includes(sizeName)
+                ? `${flavourName} (${sizeName})`
+                : flavourName;
+
+            const itemData = {
+                id: 'ff_' + itemFullName.toLowerCase().replace(/[^a-z0-9]/g, '_'),
+                name: itemFullName,
+                price: price,
+                unit: sizeName || '1 Serving',
+                image: fallbackImg,
+                category: 'fastfood'
+            };
+
+            const triggerAdd = function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.SialkotCart.addItem(itemData, 1);
+            };
+
+            addBtn.addEventListener('click', triggerAdd);
+            box.addEventListener('click', triggerAdd);
+        });
+    }
+
+    // 3. Single Item Pages (Mithai, Bakery, Halwa, etc.)
+    function setupSingleItemOrdering() {
         if (document.querySelector('.ss-product-order-widget')) return;
 
-        // Try to locate product container
         const h1 = document.querySelector('h1');
         if (!h1) return;
 
-        // Extract Product Name
         const productName = h1.textContent.trim();
-
-        // Extract Urdu Name if available
         const urduEl = document.querySelector('.font-urdu');
         const urduName = urduEl ? urduEl.textContent.trim() : '';
 
-        // Extract Image
         const imgEl = document.querySelector('.product-photo img, article img, main img');
         let imageSrc = 'sialkot-sweets-logo.png';
         if (imgEl && imgEl.getAttribute('src')) {
             imageSrc = imgEl.getAttribute('src').replace(/^\.\.\//, '');
         }
 
-        // Extract Price & Unit
         let price = 1200;
         let unit = '1 Kg';
 
-        const priceRegex = /Rs\.?\s*([\d,]+)/i;
-        const pageText = document.body.innerText;
-        const match = pageText.match(priceRegex);
+        const match = document.body.innerText.match(/Rs\.?\s*([\d,]+)/i);
         if (match && match[1]) {
             price = parseFloat(match[1].replace(/,/g, '')) || 1200;
         }
@@ -89,7 +162,6 @@
             unit = unitEl.textContent.replace('/', '').trim();
         }
 
-        // Create Widget
         const widget = document.createElement('div');
         widget.className = 'ss-product-order-widget mt-5 p-4 rounded-2xl border-2 border-amber-400/50 bg-gradient-to-br from-amber-50/70 via-white to-amber-50/30 shadow-md';
         widget.innerHTML = `
@@ -114,7 +186,7 @@
                 <!-- Add to Cart Button -->
                 <button type="button" class="ss-btn-add-cart flex-1 w-full py-3 px-4 rounded-xl bg-emerald-950 hover:bg-emerald-900 text-amber-300 font-extrabold text-xs sm:text-sm border border-amber-400/50 shadow flex items-center justify-center gap-2 transition active:scale-[0.98] cursor-pointer">
                     <i class="fa-solid fa-cart-plus"></i>
-                    <span>Add to Cart</span>
+                    <span>Add to Bag</span>
                 </button>
 
                 <!-- Order / Checkout Now Button -->
@@ -123,10 +195,9 @@
                     <span>Order Now</span>
                 </button>
             </div>
-            <p class="text-[10.5px] text-stone-500 text-center mt-2">Prepared fresh with pure ingredients. Delivery confirmed on WhatsApp.</p>
+            <p class="text-[10.5px] text-stone-500 text-center mt-2">Prepared daily with 100% pure desi ghee & fresh ingredients.</p>
         `;
 
-        // Event Listeners on Widget
         const minusBtn = widget.querySelector('.ss-minus-btn');
         const plusBtn = widget.querySelector('.ss-plus-btn');
         const qtyVal = widget.querySelector('.ss-qty-val');
@@ -164,7 +235,6 @@
             window.location.href = '../checkout.html';
         });
 
-        // Insert widget right below price box or description
         const targetParent = h1.closest('article') || h1.parentElement;
         const priceBox = targetParent.querySelector('.rounded-xl.border.border-amber-200, section, .mt-4');
         if (priceBox && priceBox.parentElement) {
@@ -174,7 +244,7 @@
         }
     }
 
-    // 3. Mobile Floating Sticky Cart Bar
+    // 4. Mobile Floating Sticky Cart Bar
     function injectMobileFloatingBar() {
         if (document.querySelector('.ss-floating-cart-bar')) return;
 
@@ -214,9 +284,9 @@
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initProductPageCart);
+        document.addEventListener('DOMContentLoaded', initProductOrdering);
     } else {
-        initProductPageCart();
+        initProductOrdering();
     }
 
 })(window, document);

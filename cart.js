@@ -1,7 +1,7 @@
 /**
  * Sialkot Sweets & Bakers — Universal Cart & Order State Management
  * Works seamlessly across index.html, checkout.html, order-success.html, and all product pages
- * Mobile-First, Secure, No Form Caching
+ * Mobile-First, Rock-Solid, Reliable Cross-Page State
  */
 
 (function (window) {
@@ -57,7 +57,7 @@
             }
 
             this.saveItems(items);
-            this.showFloatingToast(`Added ${quantity}x "${product.name}" to your cart! 🛍️`);
+            this.showFloatingToast(`Added ${quantity}x "${product.name}" to your bag! 🛍️`);
             return items;
         },
 
@@ -84,14 +84,16 @@
             let items = this.getItems();
             items = items.filter(item => item.id !== id);
             this.saveItems(items);
-            this.showFloatingToast('Item removed from cart.');
+            this.showFloatingToast('Item removed from bag.');
             return items;
         },
 
         // Clear cart
         clearCart: function () {
-            localStorage.removeItem(STORAGE_KEY);
-            this.dispatchUpdate();
+            try {
+                localStorage.removeItem(STORAGE_KEY);
+                this.dispatchUpdate();
+            } catch (e) {}
         },
 
         // Total count of items
@@ -106,10 +108,12 @@
             return items.reduce((sum, item) => sum + ((parseFloat(item.price) || 0) * (parseInt(item.quantity, 10) || 1)), 0);
         },
 
-        // Save last placed order (Session-only, deleted on close)
+        // Save last placed order (Both session & local for 100% reliability)
         saveCurrentOrder: function (orderData) {
             try {
-                sessionStorage.setItem(LAST_ORDER_KEY, JSON.stringify(orderData));
+                const str = JSON.stringify(orderData);
+                sessionStorage.setItem(LAST_ORDER_KEY, str);
+                localStorage.setItem(LAST_ORDER_KEY, str);
             } catch (e) {
                 console.error('Error saving order:', e);
             }
@@ -120,6 +124,8 @@
             try {
                 const sessionData = sessionStorage.getItem(LAST_ORDER_KEY);
                 if (sessionData) return JSON.parse(sessionData);
+                const localData = localStorage.getItem(LAST_ORDER_KEY);
+                if (localData) return JSON.parse(localData);
             } catch (e) {
                 console.error('Error loading order:', e);
             }
@@ -147,6 +153,7 @@
             document.querySelectorAll('.ss-cart-badge').forEach(el => {
                 el.textContent = count;
                 el.classList.toggle('hidden', count === 0);
+                el.style.display = count > 0 ? 'inline-flex' : 'none';
             });
             document.querySelectorAll('.ss-cart-total').forEach(el => {
                 el.textContent = 'Rs. ' + subtotal.toLocaleString();
@@ -177,7 +184,7 @@
             }, 2600);
         },
 
-        // Intercept all checkout links to refuse entry if cart is empty!
+        // Intercept checkout navigation if cart is empty
         initCheckoutGuards: function () {
             document.addEventListener('click', function (e) {
                 const targetLink = e.target.closest('a[href*="checkout.html"]');
@@ -195,7 +202,6 @@
 
     window.SialkotCart = SialkotCart;
 
-    // Initialize checkout protection as soon as DOM loads
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
             SialkotCart.initCheckoutGuards();

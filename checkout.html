@@ -187,14 +187,95 @@
                 <i class="fa-solid fa-bag-shopping text-amber-700"></i> Order Confirmation
             </div>
             <h1 class="font-serif text-2xl sm:text-4xl font-extrabold text-emerald-950 tracking-tight">Review &amp; Place Your Order</h1>
-            <p class="text-xs sm:text-sm text-stone-600 mt-1">Please enter your delivery details below. A unique Order ID will be generated to confirm your order on WhatsApp.</p>
+            <p class="text-xs sm:text-sm text-stone-600 mt-1">Review your items and provide your delivery details below to generate your unique Order ID.</p>
         </div>
 
-        <!-- 2-Column Responsive Layout -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        <!-- 2-Column Responsive Layout: ORDER SUMMARY ON TOP ON MOBILE (order-1 lg:order-2) -->
+        <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
 
-            <!-- LEFT COLUMN: Delivery & Payment Details -->
-            <div class="lg:col-span-7 space-y-6">
+            <!-- ORDER SUMMARY (ORDER-1 ON MOBILE = TOP! / ORDER-2 ON DESKTOP = RIGHT COLUMN) -->
+            <div class="w-full order-1 lg:order-2 lg:col-span-5 space-y-6">
+
+                <!-- Summary Card -->
+                <div class="luxury-card p-5 sm:p-6 lg:sticky lg:top-24 border-2 border-amber-400/40">
+                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-amber-500/20">
+                        <div class="flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-950 text-amber-300 flex items-center justify-center text-xs font-bold shadow">
+                                <i class="fa-solid fa-receipt"></i>
+                            </span>
+                            <h2 class="font-serif text-lg font-bold text-emerald-950">Order Summary</h2>
+                        </div>
+                        <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-900" x-text="cartItems.length + ' item(s)'"></span>
+                    </div>
+
+                    <!-- Cart Items List -->
+                    <div class="divide-y divide-stone-100 max-h-72 overflow-y-auto pr-1">
+                        <template x-for="item in cartItems" :key="item.id">
+                            <div class="py-3 flex items-center justify-between gap-3">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <img :src="item.image || './sialkot-sweets-logo.png'" :alt="item.name" class="w-12 h-12 rounded-xl object-cover border border-stone-200 shrink-0 bg-stone-100">
+                                    <div class="min-w-0">
+                                        <div class="font-bold text-xs sm:text-sm text-emerald-950 truncate" x-text="item.name"></div>
+                                        <div class="text-[11px] text-stone-500" x-text="'Rs. ' + item.price.toLocaleString() + ' / ' + item.unit"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Qty & Total -->
+                                <div class="flex items-center gap-3 shrink-0">
+                                    <div class="flex items-center border border-stone-200 rounded-lg bg-stone-50 overflow-hidden text-xs">
+                                        <button 
+                                            type="button" 
+                                            @click="updateQty(item.id, item.quantity - 1)" 
+                                            class="w-6 h-6 flex items-center justify-center text-stone-600 hover:bg-stone-200 font-bold select-none cursor-pointer"
+                                        >-</button>
+                                        <span class="w-7 text-center font-bold text-emerald-950 text-xs" x-text="item.quantity"></span>
+                                        <button 
+                                            type="button" 
+                                            @click="updateQty(item.id, item.quantity + 1)" 
+                                            class="w-6 h-6 flex items-center justify-center text-stone-600 hover:bg-stone-200 font-bold select-none cursor-pointer"
+                                        >+</button>
+                                    </div>
+                                    <div class="font-bold text-xs sm:text-sm text-emerald-950 min-w-[65px] text-right">
+                                        Rs. <span x-text="(item.price * item.quantity).toLocaleString()"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Financial Calculations -->
+                    <div class="pt-4 mt-2 border-t border-amber-500/20 space-y-2 text-xs">
+                        <div class="flex justify-between text-stone-600">
+                            <span>Subtotal</span>
+                            <span class="font-bold text-emerald-950">Rs. <span x-text="subtotal.toLocaleString()"></span></span>
+                        </div>
+                        <div class="flex justify-between text-stone-600">
+                            <span>Delivery Charges</span>
+                            <span class="text-amber-800 font-bold">Confirmed on WhatsApp</span>
+                        </div>
+                        <div class="text-[11px] text-stone-400 italic">
+                            * Rider charges confirmed based on distance from the dispatch branch.
+                        </div>
+
+                        <div class="pt-3 border-t border-stone-200 flex justify-between items-baseline">
+                            <div>
+                                <span class="font-serif text-base font-extrabold text-emerald-950 block">Grand Total</span>
+                                <span class="text-[10px] text-stone-400">Taxes included</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="font-serif text-xl sm:text-2xl font-extrabold text-amber-700">
+                                    Rs. <span x-text="subtotal.toLocaleString()"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- DELIVERY & PAYMENT DETAILS (ORDER-2 ON MOBILE = BELOW SUMMARY / ORDER-1 ON DESKTOP = LEFT COLUMN) -->
+            <div class="w-full order-2 lg:order-1 lg:col-span-7 space-y-6">
 
                 <!-- CARD 1: Delivery Details -->
                 <div class="luxury-card p-5 sm:p-7">
@@ -204,7 +285,7 @@
                         </div>
                         <div>
                             <h2 class="font-serif text-lg sm:text-xl font-bold text-emerald-950 leading-tight">Delivery Details</h2>
-                            <p class="text-xs text-stone-500">Provide the recipient name and delivery destination in Gujranwala</p>
+                            <p class="text-xs text-stone-500">Provide the recipient name and delivery address in Gujranwala</p>
                         </div>
                     </div>
 
@@ -251,7 +332,7 @@
                             <p class="text-[11px] text-stone-500 mt-1">Our staff will communicate order tracking and dispatch confirmation to this WhatsApp number.</p>
                         </div>
 
-                        <!-- City Selector (Gujranwala Active / Other Pakistan Cities Disabled with Coming Soon) -->
+                        <!-- Delivery Location (Gujranwala Active / Other Pakistan Cities Disabled) -->
                         <div>
                             <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
                                 Delivery Location <span class="text-red-500">*</span>
@@ -438,7 +519,7 @@
                             </div>
                         </div>
 
-                        <!-- Professional Payment Screenshot Notice -->
+                        <!-- Payment Screenshot Notice -->
                         <div class="p-4 rounded-xl bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 text-white border-2 border-amber-400/60 shadow-xl flex items-start gap-3">
                             <div class="w-8 h-8 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center shrink-0 font-bold text-sm shadow">
                                 <i class="fa-solid fa-camera"></i>
@@ -473,85 +554,6 @@
                             <a href="tel:03083922121" class="px-2.5 py-1.5 rounded-lg bg-emerald-950 text-amber-300 font-bold text-[11px] inline-flex items-center gap-1">
                                 <i class="fa-solid fa-phone"></i> 0308 3922121
                             </a>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- RIGHT COLUMN: Order Summary (Sticky) -->
-            <div class="lg:col-span-5 space-y-6">
-
-                <!-- Summary Card -->
-                <div class="luxury-card p-5 sm:p-6 lg:sticky lg:top-24">
-                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-amber-500/20">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-receipt text-amber-700"></i>
-                            <h2 class="font-serif text-lg font-bold text-emerald-950">Order Summary</h2>
-                        </div>
-                        <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-900" x-text="cartItems.length + ' item(s)'"></span>
-                    </div>
-
-                    <!-- Cart Items List -->
-                    <div class="divide-y divide-stone-100 max-h-72 overflow-y-auto pr-1">
-                        <template x-for="item in cartItems" :key="item.id">
-                            <div class="py-3 flex items-center justify-between gap-3">
-                                <div class="flex items-center gap-3 min-w-0">
-                                    <img :src="item.image || './sialkot-sweets-logo.png'" :alt="item.name" class="w-12 h-12 rounded-xl object-cover border border-stone-200 shrink-0 bg-stone-100">
-                                    <div class="min-w-0">
-                                        <div class="font-bold text-xs sm:text-sm text-emerald-950 truncate" x-text="item.name"></div>
-                                        <div class="text-[11px] text-stone-500" x-text="'Rs. ' + item.price.toLocaleString() + ' / ' + item.unit"></div>
-                                    </div>
-                                </div>
-
-                                <!-- Qty & Total -->
-                                <div class="flex items-center gap-3 shrink-0">
-                                    <div class="flex items-center border border-stone-200 rounded-lg bg-stone-50 overflow-hidden text-xs">
-                                        <button 
-                                            type="button" 
-                                            @click="updateQty(item.id, item.quantity - 1)" 
-                                            class="w-6 h-6 flex items-center justify-center text-stone-600 hover:bg-stone-200 font-bold"
-                                        >-</button>
-                                        <span class="w-7 text-center font-bold text-emerald-950 text-xs" x-text="item.quantity"></span>
-                                        <button 
-                                            type="button" 
-                                            @click="updateQty(item.id, item.quantity + 1)" 
-                                            class="w-6 h-6 flex items-center justify-center text-stone-600 hover:bg-stone-200 font-bold"
-                                        >+</button>
-                                    </div>
-                                    <div class="font-bold text-xs sm:text-sm text-emerald-950 min-w-[65px] text-right">
-                                        Rs. <span x-text="(item.price * item.quantity).toLocaleString()"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-
-                    <!-- Financial Calculations -->
-                    <div class="pt-4 mt-2 border-t border-amber-500/20 space-y-2 text-xs">
-                        <div class="flex justify-between text-stone-600">
-                            <span>Subtotal</span>
-                            <span class="font-bold text-emerald-950">Rs. <span x-text="subtotal.toLocaleString()"></span></span>
-                        </div>
-                        <div class="flex justify-between text-stone-600">
-                            <span>Delivery Charges</span>
-                            <span class="text-amber-800 font-bold">Confirmed on WhatsApp</span>
-                        </div>
-                        <div class="text-[11px] text-stone-400 italic">
-                            * Rider charges confirmed based on distance from the dispatch branch.
-                        </div>
-
-                        <div class="pt-3 border-t border-stone-200 flex justify-between items-baseline">
-                            <div>
-                                <span class="font-serif text-base font-extrabold text-emerald-950 block">Grand Total</span>
-                                <span class="text-[10px] text-stone-400">Taxes included</span>
-                            </div>
-                            <div class="text-right">
-                                <span class="font-serif text-xl sm:text-2xl font-extrabold text-amber-700">
-                                    Rs. <span x-text="subtotal.toLocaleString()"></span>
-                                </span>
-                            </div>
                         </div>
                     </div>
 
@@ -619,19 +621,17 @@
                 initCheckout() {
                     this.loadCart();
 
-                    // REFUSE TO OPEN IF CART IS EMPTY!
+                    // If cart is completely empty when page is loaded, alert and redirect
                     if (!this.cartItems || this.cartItems.length === 0) {
                         alert('Your shopping bag is empty! Please add sweets or bakery items from our menu first.');
                         window.location.replace('./?section=menu');
                         return;
                     }
 
-                    // Listen for external cart changes
+                    // Listen for external cart changes (NEVER redirect while submitting order)
                     window.addEventListener('sialkot-cart-updated', () => {
+                        if (this.isSubmitting) return;
                         this.loadCart();
-                        if (this.cartItems.length === 0) {
-                            window.location.replace('./?section=menu');
-                        }
                     });
                 },
 
@@ -646,8 +646,8 @@
                     if (window.SialkotCart) {
                         this.cartItems = window.SialkotCart.updateQuantity(id, qty);
                         this.subtotal = window.SialkotCart.getSubtotal();
-                        if (this.cartItems.length === 0) {
-                            alert('All items removed. Redirecting to menu.');
+                        if (this.cartItems.length === 0 && !this.isSubmitting) {
+                            alert('All items removed from your shopping bag.');
                             window.location.replace('./?section=menu');
                         }
                     }
@@ -693,6 +693,7 @@
                         return;
                     }
 
+                    // Mark as submitting to prevent any event listeners from triggering redirects
                     this.isSubmitting = true;
 
                     // Generate Unique Order ID: ORD-SS-XXXXXX
@@ -712,23 +713,21 @@
                             landmark: this.form.landmark.trim(),
                             notes: this.form.notes.trim()
                         },
-                        items: this.cartItems,
+                        items: JSON.parse(JSON.stringify(this.cartItems)),
                         subtotal: this.subtotal,
                         deliveryFeeText: 'Confirmed on WhatsApp',
                         totalAmount: this.subtotal,
                         paymentMethod: this.form.paymentMethod === 'bank_transfer' ? 'Online Bank Transfer' : 'Cash on Delivery (COD)'
                     };
 
-                    // Save order temporarily for confirmation page
+                    // Save order to both session and local storage
                     window.SialkotCart.saveCurrentOrder(orderPayload);
 
                     // Clear shopping cart
                     window.SialkotCart.clearCart();
 
-                    // Redirect to order success page
-                    setTimeout(() => {
-                        window.location.href = './order-success.html';
-                    }, 400);
+                    // Navigate directly to order confirmation page
+                    window.location.replace('./order-success.html');
                 }
             };
         }
