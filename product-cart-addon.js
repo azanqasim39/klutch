@@ -1,10 +1,10 @@
 /**
  * Sialkot Sweets & Bakers — Universal Product & Flavour Page Ordering System
  * Handles:
- * 1. Single sweet/bakery item pages (Gulab Jamun, Baklava, Barfi, Halwa, etc.)
- * 2. Multi-flavour pages (Pizza 10 flavours, Sandwiches 5 flavours, Burgers, Wraps, Shawarma, Rolls, Fries)
- * 3. Header Cart Icon with real-time counter
- * 4. Mobile Floating Cart Bar
+ * 1. Top Header Cart Button (Always visible on mobile & desktop)
+ * 2. Mobile Floating Cart Button / Bar (Always visible on mobile screens)
+ * 3. Multi-flavour & size fast food pages (Pizza 10 flavours, Sandwiches 5 flavours, Burgers, Wraps, Shawarma, Rolls, Fries)
+ * 4. Single sweet/bakery item pages (Gulab Jamun, Baklava, Barfi, Halwa, etc.)
  */
 
 (function (window, document) {
@@ -13,53 +13,92 @@
     function initProductOrdering() {
         if (!window.SialkotCart) return;
 
-        // 1. Inject Cart link into the top header
+        // 1. Inject Cart button into Header
         injectHeaderCart();
 
-        // 2. Handle Multi-Flavour & Size Pages (Pizza, Sandwiches, Burgers, Wraps, Rolls, Fries)
+        // 2. Inject Mobile Floating Cart Pill at bottom
+        injectMobileFloatingCart();
+
+        // 3. Handle Multi-Flavour & Size Pages
         const sizeBoxes = document.querySelectorAll('.size-box');
         if (sizeBoxes.length > 0) {
             setupMultiFlavourOrdering(sizeBoxes);
         } else {
-            // 3. Handle Single Item Pages (Mithai, Bakery, Halwa, etc.)
+            // 4. Handle Single Item Pages
             setupSingleItemOrdering();
         }
 
-        // 4. Inject Mobile Floating Cart Bar
-        injectMobileFloatingBar();
-
-        // Sync state
+        // Initial sync of counts & badges
         window.SialkotCart.dispatchUpdate();
     }
 
-    // 1. Header Cart Button
+    // 1. Header Cart Button (Mobile & Desktop)
     function injectHeaderCart() {
-        if (document.querySelector('.ss-header-cart-link')) return;
+        if (document.querySelector('.ss-header-cart-btn')) return;
 
         const headerContainer = document.querySelector('header .max-w-7xl, header .max-w-6xl, header > div');
         if (!headerContainer) return;
 
         const backBtn = headerContainer.querySelector('a[href*="menu"], .action-link');
 
-        const cartLink = document.createElement('a');
-        cartLink.href = '../checkout.html';
-        cartLink.className = 'ss-header-cart-link inline-flex items-center gap-1.5 rounded-lg bg-emerald-950/90 hover:bg-emerald-900 border border-amber-400/40 text-amber-300 font-extrabold px-2.5 sm:px-3 py-2 text-[10px] sm:text-xs shadow-md whitespace-nowrap transition ml-auto sm:ml-0';
-        cartLink.innerHTML = `
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span>Cart</span>
-            <span class="ss-cart-badge bg-amber-500 text-emerald-950 text-[10px] font-black px-1.5 py-0.5 rounded-full ml-1 hidden">0</span>
+        // Create Container for actions on right if needed
+        const cartBtn = document.createElement('a');
+        cartBtn.href = '../checkout.html';
+        cartBtn.className = 'ss-header-cart-btn inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-amber-400/40 text-amber-300 relative shadow-md transition active:scale-95 shrink-0 ml-auto sm:ml-0';
+        cartBtn.setAttribute('aria-label', 'View Shopping Bag');
+        cartBtn.innerHTML = `
+            <i class="fa-solid fa-cart-shopping text-sm sm:text-base text-amber-300"></i>
+            <span class="hidden sm:inline text-xs font-bold text-white">Cart</span>
+            <span class="ss-cart-badge bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 text-[10px] font-black min-w-[19px] h-[19px] rounded-full flex items-center justify-center shadow-md border border-emerald-950 px-1 hidden">0</span>
         `;
 
         if (backBtn && backBtn.parentNode) {
-            backBtn.parentNode.insertBefore(cartLink, backBtn);
+            backBtn.parentNode.insertBefore(cartBtn, backBtn);
         } else {
-            headerContainer.appendChild(cartLink);
+            headerContainer.appendChild(cartBtn);
         }
     }
 
-    // 2. Multi-Flavour & Size Pages (Pizza, Burgers, Sandwiches, Wraps, Shawarma, Fries)
+    // 2. Mobile Floating Sticky Cart Pill (Always Visible on Mobile)
+    function injectMobileFloatingCart() {
+        if (document.querySelector('.ss-mobile-floating-pill')) return;
+
+        const floatingContainer = document.createElement('div');
+        floatingContainer.className = 'ss-mobile-floating-pill md:hidden fixed bottom-4 right-3.5 z-50 transition-all duration-300';
+        floatingContainer.innerHTML = `
+            <a href="../checkout.html" class="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-emerald-950/95 text-white border-2 border-amber-400/80 shadow-2xl backdrop-blur-xl active:scale-95 transition">
+                <div class="relative">
+                    <i class="fa-solid fa-cart-shopping text-base text-amber-300"></i>
+                    <span class="ss-cart-badge absolute -top-2 -right-2 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 text-[10px] font-black min-w-[18px] h-[18px] rounded-full flex items-center justify-center border border-emerald-950 px-1 hidden">0</span>
+                </div>
+                <div class="text-left">
+                    <div class="text-[11px] font-bold text-amber-300 leading-tight">Bag</div>
+                    <div class="ss-cart-total text-[10px] font-extrabold text-white leading-tight">Rs. 0</div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-[10px] text-amber-400/70 ml-1"></i>
+            </a>
+        `;
+
+        document.body.appendChild(floatingContainer);
+
+        // Sync immediately
+        const count = window.SialkotCart.getCount();
+        const total = window.SialkotCart.getSubtotal();
+        const badges = floatingContainer.querySelectorAll('.ss-cart-badge');
+        const totals = floatingContainer.querySelectorAll('.ss-cart-total');
+
+        badges.forEach(b => {
+            b.textContent = count;
+            b.classList.toggle('hidden', count === 0);
+            b.style.display = count > 0 ? 'flex' : 'none';
+        });
+        totals.forEach(t => {
+            t.textContent = 'Rs. ' + total.toLocaleString();
+        });
+    }
+
+    // 3. Multi-Flavour & Size Pages (Pizza, Burgers, Sandwiches, Wraps, Shawarma, Fries)
     function setupMultiFlavourOrdering(sizeBoxes) {
-        // Find photo on page
         const photoEl = document.querySelector('.product-photo img, article img, main img');
         let fallbackImg = 'sialkot-sweets-logo.png';
         if (photoEl && photoEl.getAttribute('src')) {
@@ -69,7 +108,6 @@
         sizeBoxes.forEach(function (box) {
             if (box.querySelector('.ss-size-add-btn')) return;
 
-            // Extract Size and Price
             const spans = box.querySelectorAll('span');
             let sizeName = 'Standard';
             let price = 500;
@@ -86,7 +124,6 @@
                 if (match) price = parseFloat(match[1].replace(/,/g, '')) || 500;
             }
 
-            // Extract Parent Flavour Name
             const article = box.closest('article');
             let flavourName = 'House Special';
             if (article) {
@@ -96,10 +133,8 @@
                 }
             }
 
-            // Make box interactive styling
             box.classList.add('hover:border-amber-500', 'transition', 'cursor-pointer', 'flex', 'flex-col', 'justify-between');
 
-            // Add Add-to-Bag Button inside size box
             const addBtn = document.createElement('button');
             addBtn.type = 'button';
             addBtn.className = 'ss-size-add-btn mt-1.5 w-full py-1 px-1.5 rounded-lg bg-emerald-950 hover:bg-emerald-900 text-amber-300 font-extrabold text-[9.5px] sm:text-[10px] flex items-center justify-center gap-1 shadow-xs transition active:scale-95 cursor-pointer';
@@ -107,7 +142,6 @@
 
             box.appendChild(addBtn);
 
-            // Click Handler
             const itemFullName = sizeName && sizeName !== 'Standard Serving' && !flavourName.includes(sizeName)
                 ? `${flavourName} (${sizeName})`
                 : flavourName;
@@ -132,7 +166,7 @@
         });
     }
 
-    // 3. Single Item Pages (Mithai, Bakery, Halwa, etc.)
+    // 4. Single Item Pages (Mithai, Bakery, Halwa, etc.)
     function setupSingleItemOrdering() {
         if (document.querySelector('.ss-product-order-widget')) return;
 
@@ -176,26 +210,23 @@
             </div>
 
             <div class="flex flex-col sm:flex-row items-center gap-3">
-                <!-- Quantity Controls -->
                 <div class="flex items-center border-2 border-stone-200 rounded-xl bg-white overflow-hidden shadow-sm w-full sm:w-auto justify-between">
                     <button type="button" class="ss-minus-btn w-10 h-11 flex items-center justify-center text-stone-700 hover:bg-stone-100 font-extrabold text-base select-none">-</button>
                     <input type="number" value="1" min="1" max="99" class="ss-qty-val w-12 text-center font-extrabold text-emerald-950 text-sm focus:outline-none bg-transparent" readonly>
                     <button type="button" class="ss-plus-btn w-10 h-11 flex items-center justify-center text-stone-700 hover:bg-stone-100 font-extrabold text-base select-none">+</button>
                 </div>
 
-                <!-- Add to Cart Button -->
                 <button type="button" class="ss-btn-add-cart flex-1 w-full py-3 px-4 rounded-xl bg-emerald-950 hover:bg-emerald-900 text-amber-300 font-extrabold text-xs sm:text-sm border border-amber-400/50 shadow flex items-center justify-center gap-2 transition active:scale-[0.98] cursor-pointer">
                     <i class="fa-solid fa-cart-plus"></i>
                     <span>Add to Bag</span>
                 </button>
 
-                <!-- Order / Checkout Now Button -->
                 <button type="button" class="ss-btn-order-now flex-1 w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-emerald-950 font-black text-xs sm:text-sm shadow-lg flex items-center justify-center gap-2 transition hover:brightness-105 active:scale-[0.98] cursor-pointer">
                     <i class="fa-solid fa-bolt"></i>
                     <span>Order Now</span>
                 </button>
             </div>
-            <p class="text-[10.5px] text-stone-500 text-center mt-2">Prepared daily with 100% pure desi ghee & fresh ingredients.</p>
+            <p class="text-[10.5px] text-stone-500 text-center mt-2">Prepared daily with pure desi ghee & fresh ingredients.</p>
         `;
 
         const minusBtn = widget.querySelector('.ss-minus-btn');
@@ -242,45 +273,6 @@
         } else {
             targetParent.appendChild(widget);
         }
-    }
-
-    // 4. Mobile Floating Sticky Cart Bar
-    function injectMobileFloatingBar() {
-        if (document.querySelector('.ss-floating-cart-bar')) return;
-
-        const bar = document.createElement('div');
-        bar.className = 'ss-floating-cart-bar md:hidden fixed bottom-4 left-3 right-3 z-50 bg-emerald-950 text-white p-3 rounded-2xl shadow-2xl border-2 border-amber-400/80 items-center justify-between gap-3 backdrop-blur-xl transition-all duration-300';
-        bar.style.display = 'none';
-        bar.innerHTML = `
-            <div class="flex items-center gap-2.5 min-w-0">
-                <div class="w-10 h-10 rounded-xl bg-amber-500 text-emerald-950 flex items-center justify-center font-bold text-sm shrink-0 shadow">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </div>
-                <div class="min-w-0">
-                    <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                        <span class="ss-cart-count-text">0 items</span>
-                        <span class="text-amber-400">•</span>
-                        <span class="ss-cart-total text-amber-300 font-extrabold">Rs. 0</span>
-                    </div>
-                    <div class="text-[10px] text-stone-300 truncate">Delivery in Gujranwala</div>
-                </div>
-            </div>
-
-            <a href="../checkout.html" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-emerald-950 font-black text-xs shrink-0 flex items-center gap-1.5 shadow-lg active:scale-95 transition">
-                <span>Checkout</span>
-                <i class="fa-solid fa-arrow-right text-[10px]"></i>
-            </a>
-        `;
-
-        document.body.appendChild(bar);
-
-        window.addEventListener('sialkot-cart-updated', function (e) {
-            const count = e.detail.count || 0;
-            const subtotal = e.detail.subtotal || 0;
-            const countText = bar.querySelector('.ss-cart-count-text');
-            if (countText) countText.textContent = count + (count === 1 ? ' item' : ' items');
-            bar.style.display = count > 0 ? 'flex' : 'none';
-        });
     }
 
     if (document.readyState === 'loading') {

@@ -93,6 +93,12 @@
             color: #fbf8f1;
         }
 
+        .gold-pill-inactive {
+            background: #ffffff;
+            border: 1.5px solid #e5e7eb;
+            color: #4b5563;
+        }
+
         .btn-luxury-sheen {
             position: relative;
             overflow: hidden;
@@ -144,7 +150,7 @@
         <div class="max-w-6xl mx-auto w-full flex items-center justify-between">
             <span class="inline-flex items-center gap-1.5 font-medium tracking-wide">
                 <i class="fa-solid fa-crown text-amber-400 text-[11px]"></i>
-                <span>Sialkot Sweets &amp; Bakers — Fresh Delivery Across Gujranwala</span>
+                <span>Sialkot Sweets &amp; Bakers — Fresh Delivery &amp; Takeaway in Gujranwala</span>
             </span>
             <a href="tel:03253922121" class="hidden sm:inline-flex items-center gap-1.5 text-amber-200 font-bold hover:text-white transition">
                 <i class="fa-solid fa-phone text-xs"></i> 0325 3922121
@@ -153,20 +159,20 @@
     </div>
 
     <!-- Header / Nav -->
-    <header class="sticky top-0 z-30 bg-emerald-950/95 backdrop-blur-xl border-b border-amber-500/20 py-3.5 px-4 shadow-lg">
+    <header class="sticky top-0 z-30 bg-emerald-950/95 backdrop-blur-xl border-b border-amber-500/20 py-3 px-4 shadow-lg">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
-            <a href="./?section=menu" class="inline-flex items-center gap-2 text-amber-300 hover:text-white text-xs sm:text-sm font-semibold transition px-3 py-1.5 rounded-lg bg-white/5 border border-amber-400/20">
+            <a href="./?section=menu" class="inline-flex items-center gap-1.5 text-amber-300 hover:text-white text-xs sm:text-sm font-semibold transition px-3 py-1.5 rounded-lg bg-white/5 border border-amber-400/20">
                 <i class="fa-solid fa-arrow-left text-xs"></i>
                 <span>Back to Menu</span>
             </a>
 
-            <a href="./" class="flex items-center gap-2.5">
-                <div class="w-10 h-10 rounded-full bg-white p-0.5 shadow-md border border-amber-400/40 overflow-hidden flex items-center justify-center">
+            <a href="./" class="flex items-center gap-2">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white p-0.5 shadow-md border border-amber-400/40 overflow-hidden flex items-center justify-center shrink-0">
                     <img src="./sialkot-sweets-logo.png" alt="Sialkot Sweets" class="w-full h-full object-contain">
                 </div>
                 <div class="text-left">
-                    <span class="font-serif text-base sm:text-lg font-bold text-white tracking-tight block leading-tight">SIALKOT SWEETS</span>
-                    <span class="text-[10px] text-amber-300 uppercase tracking-widest font-medium">Est. 1951 • Gujranwala</span>
+                    <span class="font-serif text-sm sm:text-base font-bold text-white tracking-tight block leading-tight">SIALKOT SWEETS</span>
+                    <span class="text-[9.5px] text-amber-300 uppercase tracking-widest font-medium">Est. 1951 • Gujranwala</span>
                 </div>
             </a>
 
@@ -187,7 +193,7 @@
                 <i class="fa-solid fa-bag-shopping text-amber-700"></i> Order Confirmation
             </div>
             <h1 class="font-serif text-2xl sm:text-4xl font-extrabold text-emerald-950 tracking-tight">Review &amp; Place Your Order</h1>
-            <p class="text-xs sm:text-sm text-stone-600 mt-1">Review your items and provide your delivery details below to generate your unique Order ID.</p>
+            <p class="text-xs sm:text-sm text-stone-600 mt-1">Review your items and select delivery or takeaway to generate your unique Order ID.</p>
         </div>
 
         <!-- 2-Column Responsive Layout: ORDER SUMMARY ON TOP ON MOBILE (order-1 lg:order-2) -->
@@ -250,11 +256,10 @@
                             <span class="font-bold text-emerald-950">Rs. <span x-text="subtotal.toLocaleString()"></span></span>
                         </div>
                         <div class="flex justify-between text-stone-600">
-                            <span>Delivery Charges</span>
-                            <span class="text-amber-800 font-bold">Confirmed on WhatsApp</span>
+                            <span>Fulfillment</span>
+                            <span class="text-amber-800 font-bold" x-text="form.orderType === 'takeaway' ? 'FREE (Self-Pickup)' : 'Rider Delivery (Confirmed on WhatsApp)'"></span>
                         </div>
-                        <div class="text-[11px] text-stone-400 italic">
-                            * Rider charges confirmed based on distance from the dispatch branch.
+                        <div class="text-[11px] text-stone-400 italic" x-text="form.orderType === 'takeaway' ? '* Collect fresh from your selected branch.' : '* Delivery charges calculated based on distance.'">
                         </div>
 
                         <div class="pt-3 border-t border-stone-200 flex justify-between items-baseline">
@@ -277,19 +282,53 @@
             <!-- DELIVERY & PAYMENT DETAILS (ORDER-2 ON MOBILE = BELOW SUMMARY / ORDER-1 ON DESKTOP = LEFT COLUMN) -->
             <div class="w-full order-2 lg:order-1 lg:col-span-7 space-y-6">
 
-                <!-- CARD 1: Delivery Details -->
+                <!-- CARD 1: Delivery / Takeaway Details -->
                 <div class="luxury-card p-5 sm:p-7">
                     <div class="flex items-center gap-3 pb-4 mb-5 border-b border-amber-500/20">
                         <div class="w-9 h-9 rounded-xl bg-emerald-950 text-amber-300 flex items-center justify-center font-bold text-sm shadow">
                             1
                         </div>
                         <div>
-                            <h2 class="font-serif text-lg sm:text-xl font-bold text-emerald-950 leading-tight">Delivery Details</h2>
-                            <p class="text-xs text-stone-500">Provide the recipient name and delivery address in Gujranwala</p>
+                            <h2 class="font-serif text-lg sm:text-xl font-bold text-emerald-950 leading-tight">Order Details</h2>
+                            <p class="text-xs text-stone-500">Choose Doorstep Delivery or Self-Pickup / Takeaway</p>
                         </div>
                     </div>
 
                     <div class="space-y-4">
+                        <!-- ORDER TYPE: Delivery vs Takeaway -->
+                        <div>
+                            <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
+                                Order Type <span class="text-red-500">*</span>
+                            </label>
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <button 
+                                    type="button" 
+                                    @click="form.orderType = 'delivery'"
+                                    :class="form.orderType === 'delivery' ? 'gold-pill-active shadow-md' : 'gold-pill-inactive hover:bg-stone-50'"
+                                    class="p-3 rounded-xl text-left transition flex items-center gap-2.5 cursor-pointer"
+                                >
+                                    <i class="fa-solid fa-motorcycle text-amber-400 text-sm"></i>
+                                    <div>
+                                        <div class="text-xs sm:text-sm font-bold">Doorstep Delivery</div>
+                                        <div class="text-[10px] opacity-80">Gujranwala Address</div>
+                                    </div>
+                                </button>
+
+                                <button 
+                                    type="button" 
+                                    @click="form.orderType = 'takeaway'"
+                                    :class="form.orderType === 'takeaway' ? 'gold-pill-active shadow-md' : 'gold-pill-inactive hover:bg-stone-50'"
+                                    class="p-3 rounded-xl text-left transition flex items-center gap-2.5 cursor-pointer"
+                                >
+                                    <i class="fa-solid fa-bag-shopping text-amber-400 text-sm"></i>
+                                    <div>
+                                        <div class="text-xs sm:text-sm font-bold">Self-Pickup / Takeaway</div>
+                                        <div class="text-[10px] opacity-80">Free from Branch</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- Full Name -->
                         <div>
                             <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
@@ -310,7 +349,7 @@
                             </div>
                         </div>
 
-                        <!-- Phone / WhatsApp Number -->
+                        <!-- Phone / WhatsApp Number (STRICTLY NUMERIC KEYPAD) -->
                         <div>
                             <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
                                 WhatsApp / Mobile Number <span class="text-red-500">*</span>
@@ -322,54 +361,34 @@
                                 </div>
                                 <input 
                                     type="tel" 
+                                    inputmode="numeric"
+                                    pattern="[0-9]*"
+                                    maxlength="11"
                                     x-model="form.phone" 
-                                    placeholder="300 1234567" 
+                                    @input="form.phone = form.phone.replace(/[^0-9]/g, '')"
+                                    placeholder="3001234567" 
                                     class="form-control-luxury rounded-l-none"
                                     autocomplete="off"
                                     required
                                 >
                             </div>
-                            <p class="text-[11px] text-stone-500 mt-1">Our staff will communicate order tracking and dispatch confirmation to this WhatsApp number.</p>
+                            <p class="text-[11px] text-stone-500 mt-1">Our staff will communicate order preparation and dispatch to this WhatsApp number.</p>
                         </div>
 
-                        <!-- Delivery Location (Gujranwala Active / Other Pakistan Cities Disabled) -->
+                        <!-- Preferred Branch (EQUAL IMPORTANCE: Chand Da Qila #1, Satellite Town #2, Gayb Chowk #3) -->
                         <div>
                             <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
-                                Delivery Location <span class="text-red-500">*</span>
+                                Select Branch <span class="text-red-500">*</span>
                             </label>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                                <!-- Gujranwala (Active) -->
-                                <div 
-                                    class="p-3.5 rounded-xl text-left gold-pill-active shadow-md flex items-start gap-2.5 select-none"
-                                >
-                                    <i class="fa-solid fa-location-dot mt-0.5 text-amber-400"></i>
-                                    <div>
-                                        <div class="text-xs sm:text-sm font-bold text-amber-300">Gujranwala (Local Delivery)</div>
-                                        <div class="text-[10.5px] text-stone-200 leading-snug mt-0.5">All Items Available (Sweets, Cakes, Pizzas &amp; Bakery)</div>
-                                    </div>
-                                </div>
-
-                                <!-- Other Pakistan Cities (Disabled / Greyed Out / Coming Soon) -->
-                                <div 
-                                    class="p-3.5 rounded-xl text-left bg-stone-100 border border-stone-200 opacity-60 cursor-not-allowed select-none flex items-start justify-between gap-2"
-                                    title="Nationwide courier shipping is coming soon"
-                                >
-                                    <div class="flex items-start gap-2">
-                                        <i class="fa-solid fa-truck-fast mt-0.5 text-stone-400"></i>
-                                        <div>
-                                            <div class="text-xs sm:text-sm font-bold text-stone-600">Other Pakistan Cities</div>
-                                            <div class="text-[10.5px] text-stone-500 leading-snug mt-0.5">Nationwide Courier Delivery</div>
-                                        </div>
-                                    </div>
-                                    <span class="text-[9.5px] font-extrabold uppercase tracking-wider bg-stone-200 text-stone-600 px-2 py-0.5 rounded-full shrink-0">
-                                        Coming Soon
-                                    </span>
-                                </div>
-                            </div>
+                            <select x-model="form.branch" class="form-control-luxury text-sm">
+                                <option value="Chand Da Qila Branch (Main Branch)">Chand Da Qila Branch (Main Branch)</option>
+                                <option value="Satellite Town Branch">Satellite Town Branch</option>
+                                <option value="Gayb Chowk Branch">Gayb Chowk Branch</option>
+                            </select>
                         </div>
 
-                        <!-- Delivery Address -->
-                        <div>
+                        <!-- Address (Only Required if Delivery) -->
+                        <div x-show="form.orderType === 'delivery'" x-transition>
                             <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
                                 Complete Delivery Address <span class="text-red-500">*</span>
                             </label>
@@ -379,24 +398,9 @@
                                 placeholder="House / Flat No., Street, Sector / Area / Town, Gujranwala" 
                                 class="form-control-luxury text-sm resize-none"
                                 autocomplete="off"
-                                required
                             ></textarea>
-                        </div>
 
-                        <!-- Nearest Branch & Landmark -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
-                                    Preferred Branch
-                                </label>
-                                <select x-model="form.branch" class="form-control-luxury text-sm">
-                                    <option value="Gayb Chowk (Main Branch)">Gayb Chowk (Main Branch)</option>
-                                    <option value="Model Town Branch">Model Town Branch</option>
-                                    <option value="GT Road Branch">GT Road Branch</option>
-                                    <option value="Nearest Branch (Auto Dispatch)">Nearest Branch (Auto Dispatch)</option>
-                                </select>
-                            </div>
-                            <div>
+                            <div class="mt-3">
                                 <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
                                     Nearest Landmark (Optional)
                                 </label>
@@ -407,6 +411,15 @@
                                     class="form-control-luxury text-sm"
                                     autocomplete="off"
                                 >
+                            </div>
+                        </div>
+
+                        <!-- Takeaway Note -->
+                        <div x-show="form.orderType === 'takeaway'" x-transition class="p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-xs text-amber-900 flex items-start gap-2.5">
+                            <i class="fa-solid fa-store text-amber-700 text-sm mt-0.5"></i>
+                            <div>
+                                <strong class="block font-bold">Self-Pickup Instructions:</strong>
+                                <span>Please visit <strong x-text="form.branch"></strong> after receiving confirmation on WhatsApp. Your freshly prepared package will be waiting at the counter!</span>
                             </div>
                         </div>
 
@@ -462,8 +475,8 @@
                         >
                             <input type="radio" name="paymentMethod" value="cod" x-model="form.paymentMethod" class="mt-1 text-amber-600 focus:ring-amber-500">
                             <div>
-                                <span class="font-bold text-sm text-emerald-950">Cash on Delivery (COD)</span>
-                                <p class="text-xs text-stone-500 mt-1">Pay with cash upon delivery at your doorstep in Gujranwala.</p>
+                                <span class="font-bold text-sm text-emerald-950" x-text="form.orderType === 'takeaway' ? 'Pay at Counter' : 'Cash on Delivery (COD)'"></span>
+                                <p class="text-xs text-stone-500 mt-1" x-text="form.orderType === 'takeaway' ? 'Pay cash when collecting your order at the branch.' : 'Pay cash to the rider at your doorstep.'"></p>
                             </div>
                         </label>
                     </div>
@@ -610,9 +623,9 @@
                 form: {
                     fullName: '',
                     phone: '',
-                    cityType: 'gujranwala',
+                    orderType: 'delivery',
                     address: '',
-                    branch: 'Gayb Chowk (Main Branch)',
+                    branch: 'Chand Da Qila Branch (Main Branch)',
                     landmark: '',
                     notes: '',
                     paymentMethod: 'bank_transfer'
@@ -621,14 +634,12 @@
                 initCheckout() {
                     this.loadCart();
 
-                    // If cart is completely empty when page is loaded, alert and redirect
                     if (!this.cartItems || this.cartItems.length === 0) {
                         alert('Your shopping bag is empty! Please add sweets or bakery items from our menu first.');
                         window.location.replace('./?section=menu');
                         return;
                     }
 
-                    // Listen for external cart changes (NEVER redirect while submitting order)
                     window.addEventListener('sialkot-cart-updated', () => {
                         if (this.isSubmitting) return;
                         this.loadCart();
@@ -674,7 +685,6 @@
                 },
 
                 submitOrder() {
-                    // Validation
                     if (!this.form.fullName.trim()) {
                         alert('Please enter your full name.');
                         return;
@@ -683,8 +693,8 @@
                         alert('Please enter your WhatsApp / mobile phone number.');
                         return;
                     }
-                    if (!this.form.address.trim()) {
-                        alert('Please enter your delivery address in Gujranwala.');
+                    if (this.form.orderType === 'delivery' && !this.form.address.trim()) {
+                        alert('Please enter your complete delivery address in Gujranwala.');
                         return;
                     }
                     if (this.cartItems.length === 0) {
@@ -693,40 +703,42 @@
                         return;
                     }
 
-                    // Mark as submitting to prevent any event listeners from triggering redirects
                     this.isSubmitting = true;
 
-                    // Generate Unique Order ID: ORD-SS-XXXXXX
                     const orderId = window.SialkotCart.generateOrderId();
                     const now = new Date();
                     const formattedDate = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+                    const resolvedAddress = this.form.orderType === 'takeaway'
+                        ? 'Self-Pickup at ' + this.form.branch
+                        : this.form.address.trim();
+
+                    const feeText = this.form.orderType === 'takeaway'
+                        ? 'FREE (Self-Pickup)'
+                        : 'Confirmed on WhatsApp';
+
                     const orderPayload = {
                         orderId: orderId,
                         orderDate: formattedDate,
+                        orderType: this.form.orderType === 'takeaway' ? 'Self-Pickup / Takeaway' : 'Doorstep Delivery',
                         customer: {
                             name: this.form.fullName.trim(),
                             phone: '+92 ' + this.form.phone.replace(/^0+/, '').trim(),
-                            city: 'Gujranwala (Local Delivery)',
-                            address: this.form.address.trim(),
+                            city: 'Gujranwala',
+                            address: resolvedAddress,
                             branch: this.form.branch,
                             landmark: this.form.landmark.trim(),
                             notes: this.form.notes.trim()
                         },
                         items: JSON.parse(JSON.stringify(this.cartItems)),
                         subtotal: this.subtotal,
-                        deliveryFeeText: 'Confirmed on WhatsApp',
+                        deliveryFeeText: feeText,
                         totalAmount: this.subtotal,
-                        paymentMethod: this.form.paymentMethod === 'bank_transfer' ? 'Online Bank Transfer' : 'Cash on Delivery (COD)'
+                        paymentMethod: this.form.paymentMethod === 'bank_transfer' ? 'Online Bank Transfer' : (this.form.orderType === 'takeaway' ? 'Pay at Counter' : 'Cash on Delivery (COD)')
                     };
 
-                    // Save order to both session and local storage
                     window.SialkotCart.saveCurrentOrder(orderPayload);
-
-                    // Clear shopping cart
                     window.SialkotCart.clearCart();
-
-                    // Navigate directly to order confirmation page
                     window.location.replace('./order-success.html');
                 }
             };

@@ -434,17 +434,14 @@
                 get formattedMessage() {
                     let msg = `*--- 👑 NEW ORDER: SIALKOT SWEETS & BAKERS ---*\n`;
                     msg += `*Order ID:* ${this.order.orderId}\n`;
-                    msg += `*Date:* ${this.order.orderDate}\n\n`;
+                    msg += `*Date:* ${this.order.orderDate}\n`;
+                    msg += `*Order Type:* ${this.order.orderType || 'Doorstep Delivery'}\n\n`;
 
                     msg += `*📋 CUSTOMER DETAILS:*\n`;
                     msg += `• *Name:* ${this.order.customer.name}\n`;
                     msg += `• *Phone:* ${this.order.customer.phone}\n`;
-                    msg += `• *City:* ${this.order.customer.city}\n`;
-                    msg += `• *Address:* ${this.order.customer.address}\n`;
-                    if (this.order.customer.landmark) {
-                        msg += `• *Landmark:* ${this.order.customer.landmark}\n`;
-                    }
-                    msg += `• *Branch:* ${this.order.customer.branch}\n\n`;
+                    msg += `• *Branch:* ${this.order.customer.branch}\n`;
+                    msg += `• *Destination / Pickup:* ${this.order.customer.address}\n`;
 
                     msg += `*🛍️ ITEMS ORDERED:*\n`;
                     if (this.order.items && this.order.items.length) {

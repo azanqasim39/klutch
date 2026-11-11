@@ -220,24 +220,25 @@
     </div>
 
     <!-- Main Header -->
-    <header class="sticky top-0 z-40 bg-emerald-950/90 backdrop-blur-xl text-white shadow-2xl border-b border-amber-500/20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[76px] flex items-center justify-between gap-4">
+    <header class="sticky top-0 z-40 bg-emerald-950/95 backdrop-blur-xl text-white shadow-2xl border-b border-amber-500/25">
+        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-[68px] sm:h-[76px] flex items-center justify-between gap-2.5 sm:gap-4">
             
-            <!-- Brand Logo / Name -->
-            <a href="?section=home" data-section-route="home" class="flex items-center gap-3 group">
-                <div class="w-14 h-14 rounded-full bg-white p-1 shadow-md group-hover:scale-105 transition transform border border-amber-400/40 overflow-hidden flex items-center justify-center">
+            <!-- Brand Logo / Name (Mobile-Optimized, Never Breaks or Wraps) -->
+            <a href="?section=home" data-section-route="home" class="flex items-center gap-2.5 sm:gap-3 group min-w-0">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white p-0.5 shadow-md group-hover:scale-105 transition transform border border-amber-400/50 overflow-hidden flex items-center justify-center shrink-0">
                     <img
                         src="./sialkot-sweets-logo.png"
-                        alt="Sialkot Sweets & Bakers original logo"
+                        alt="Sialkot Sweets &amp; Bakers Logo"
                         class="w-full h-full object-contain rounded-full"
                     >
                 </div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-amber-300 transition">SIALKOT SWEETS</span>
-                        <span class="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded uppercase tracking-wider font-bold border border-amber-400/30">Est. 1951</span>
-                    </div>
-                    <p class="text-xs text-amber-200/80 font-serif tracking-widest uppercase">Bakery & Traditional Sweets</p>
+                <div class="min-w-0">
+                    <span class="font-serif text-base sm:text-xl lg:text-2xl font-bold tracking-tight text-white group-hover:text-amber-300 transition whitespace-nowrap block leading-tight">SIALKOT SWEETS</span>
+                    <p class="text-[9.5px] sm:text-xs text-amber-200/90 tracking-wider uppercase font-medium truncate flex items-center gap-1.5 leading-tight mt-0.5">
+                        <span>Bakery &amp; Sweets</span>
+                        <span class="text-amber-500/70">•</span>
+                        <span class="text-amber-400 font-bold">Est. 1951</span>
+                    </p>
                 </div>
             </a>
 
@@ -258,16 +259,16 @@
                 </a>
             </nav>
 
-            <!-- Mobile Action Buttons -->
-            <div class="md:hidden flex items-center gap-2">
+            <!-- Mobile Action Buttons (Smooth, Clean, Luxury Aligned) -->
+            <div class="md:hidden flex items-center gap-2 shrink-0">
                 <!-- Mobile Cart Button -->
-                <a href="checkout.html" class="inline-flex items-center justify-center w-11 h-11 rounded-xl border border-amber-400/40 bg-white/10 text-amber-300 relative shadow-lg" aria-label="View Cart">
-                    <i class="fa-solid fa-cart-shopping text-base"></i>
-                    <span x-show="cartCount > 0" x-text="cartCount" class="absolute -top-1 -right-1 bg-amber-500 text-emerald-950 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow" style="display: none;"></span>
+                <a href="checkout.html" class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-amber-400/40 bg-white/10 hover:bg-white/15 text-amber-300 relative shadow-md transition active:scale-95" aria-label="View Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping text-base text-amber-300"></i>
+                    <span x-show="cartCount > 0" x-text="cartCount" class="absolute -top-1.5 -right-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 text-[10px] font-black min-w-[19px] h-[19px] rounded-full flex items-center justify-center shadow-md border-2 border-emerald-950 px-1" style="display: none;"></span>
                 </a>
 
                 <!-- Mobile Navigation Button -->
-                <button @click="mobileMenuOpen = true" class="inline-flex items-center justify-center w-11 h-11 rounded-xl border border-amber-400/30 bg-white/5 text-amber-300 shadow-lg" aria-label="Open menu">
+                <button @click="mobileMenuOpen = true" class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-amber-400/40 bg-white/10 hover:bg-white/15 text-amber-300 shadow-md transition active:scale-95" aria-label="Open menu">
                     <i class="fa-solid fa-bars text-lg"></i>
                 </button>
             </div>
