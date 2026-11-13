@@ -129,9 +129,15 @@
             border: 1.5px solid rgba(176, 141, 87, 0.25);
             border-radius: 0.875rem;
             padding: 0.85rem 1rem;
-            font-size: 0.95rem;
+            font-size: 16px;
             color: #2b1722;
             transition: all 0.2s ease;
+        }
+
+        @media (max-width: 640px) {
+            .form-control-luxury {
+                font-size: 16px !important; /* Strictly prevents iOS Safari auto-zoom on mobile */
+            }
         }
 
         .form-control-luxury:focus {
@@ -152,8 +158,8 @@
                 <i class="fa-solid fa-crown text-amber-400 text-[11px]"></i>
                 <span>Sialkot Sweets &amp; Bakers — Fresh Delivery &amp; Takeaway in Gujranwala</span>
             </span>
-            <a href="tel:03253922121" class="hidden sm:inline-flex items-center gap-1.5 text-amber-200 font-bold hover:text-white transition">
-                <i class="fa-solid fa-phone text-xs"></i> 0325 3922121
+            <a href="tel:03093922121" class="hidden sm:inline-flex items-center gap-1.5 text-amber-200 font-bold hover:text-white transition">
+                <i class="fa-solid fa-phone text-xs"></i> 0309 3922121
             </a>
         </div>
     </div>
@@ -232,13 +238,13 @@
                                         <button 
                                             type="button" 
                                             @click="updateQty(item.id, item.quantity - 1)" 
-                                            class="w-6 h-6 flex items-center justify-center text-stone-600 hover:bg-stone-200 font-bold select-none cursor-pointer"
+                                            class="w-7 h-7 sm:w-6 sm:h-6 flex items-center justify-center text-stone-600 hover:bg-stone-200 font-bold select-none cursor-pointer text-sm sm:text-xs"
                                         >-</button>
                                         <span class="w-7 text-center font-bold text-emerald-950 text-xs" x-text="item.quantity"></span>
                                         <button 
                                             type="button" 
                                             @click="updateQty(item.id, item.quantity + 1)" 
-                                            class="w-6 h-6 flex items-center justify-center text-stone-600 hover:bg-stone-200 font-bold select-none cursor-pointer"
+                                            class="w-7 h-7 sm:w-6 sm:h-6 flex items-center justify-center text-stone-600 hover:bg-stone-200 font-bold select-none cursor-pointer text-sm sm:text-xs"
                                         >+</button>
                                     </div>
                                     <div class="font-bold text-xs sm:text-sm text-emerald-950 min-w-[65px] text-right">
@@ -367,24 +373,12 @@
                                     x-model="form.phone" 
                                     @input="form.phone = form.phone.replace(/[^0-9]/g, '')"
                                     placeholder="3001234567" 
-                                    class="form-control-luxury rounded-l-none"
+                                    class="form-control-luxury rounded-l-none border-l-0"
                                     autocomplete="off"
                                     required
                                 >
                             </div>
                             <p class="text-[11px] text-stone-500 mt-1">Our staff will communicate order preparation and dispatch to this WhatsApp number.</p>
-                        </div>
-
-                        <!-- Preferred Branch (EQUAL IMPORTANCE: Chand Da Qila #1, Satellite Town #2, Gayb Chowk #3) -->
-                        <div>
-                            <label class="block text-xs font-bold text-emerald-950 uppercase tracking-wider mb-1.5">
-                                Select Branch <span class="text-red-500">*</span>
-                            </label>
-                            <select x-model="form.branch" class="form-control-luxury text-sm">
-                                <option value="Chand Da Qila Branch (Main Branch)">Chand Da Qila Branch (Main Branch)</option>
-                                <option value="Satellite Town Branch">Satellite Town Branch</option>
-                                <option value="Gayb Chowk Branch">Gayb Chowk Branch</option>
-                            </select>
                         </div>
 
                         <!-- Address (Only Required if Delivery) -->
@@ -419,7 +413,7 @@
                             <i class="fa-solid fa-store text-amber-700 text-sm mt-0.5"></i>
                             <div>
                                 <strong class="block font-bold">Self-Pickup Instructions:</strong>
-                                <span>Please visit <strong x-text="form.branch"></strong> after receiving confirmation on WhatsApp. Your freshly prepared package will be waiting at the counter!</span>
+                                <span>Please visit our bakery counter after receiving confirmation on WhatsApp (0309 3922121). Your freshly prepared package will be waiting at the counter!</span>
                             </div>
                         </div>
 
@@ -461,10 +455,10 @@
                             <input type="radio" name="paymentMethod" value="bank_transfer" x-model="form.paymentMethod" class="mt-1 text-amber-600 focus:ring-amber-500">
                             <div>
                                 <div class="flex items-center gap-2">
-                                    <span class="font-bold text-sm text-emerald-950">Online Bank Transfer</span>
+                                    <span class="font-bold text-sm text-emerald-950">Online Money Transfer</span>
                                     <span class="text-[9.5px] uppercase font-extrabold bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Recommended</span>
                                 </div>
-                                <p class="text-xs text-stone-500 mt-1">Meezan Bank (MBL) / Raast. Fast verification on WhatsApp.</p>
+                                <p class="text-xs text-stone-500 mt-1">JazzCash, Easypaisa, or Faysal Bank</p>
                             </div>
                         </label>
 
@@ -481,51 +475,161 @@
                         </label>
                     </div>
 
-                    <!-- Bank Details Box -->
-                    <div x-show="form.paymentMethod === 'bank_transfer'" x-transition class="space-y-4">
-                        <div class="rounded-xl border border-amber-400/40 bg-gradient-to-br from-amber-50/80 via-white to-amber-50/40 p-4 sm:p-5 relative overflow-hidden">
+                    <!-- Online Money Transfer Details Box -->
+                    <div x-show="form.paymentMethod === 'bank_transfer'" x-transition class="space-y-3.5">
+                        <div class="flex items-center justify-between pb-1">
+                            <span class="text-xs font-bold text-emerald-950 uppercase tracking-wider">Select Transfer Account:</span>
+                            <span class="text-[11px] text-amber-800 font-semibold">Tap to view details</span>
+                        </div>
+
+                        <!-- 3 Online Transfer Tabs (JazzCash / Easypaisa / Faysal Bank) -->
+                        <div class="grid grid-cols-3 gap-1.5 sm:gap-2">
+                            <!-- JazzCash -->
+                            <button 
+                                type="button" 
+                                @click="onlineOption = 'jazzcash'"
+                                :class="onlineOption === 'jazzcash' ? 'bg-gradient-to-r from-red-700 to-red-800 text-white border-red-900 shadow-md ring-2 ring-red-400/50' : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'"
+                                class="py-2.5 px-1 sm:px-2 rounded-xl border-2 text-xs font-bold transition flex flex-col items-center justify-center gap-1 cursor-pointer"
+                            >
+                                <span class="w-2.5 h-2.5 rounded-full" :class="onlineOption === 'jazzcash' ? 'bg-amber-300 animate-pulse' : 'bg-red-600'"></span>
+                                <span class="font-black text-[10.5px] sm:text-xs truncate w-full text-center">JazzCash</span>
+                            </button>
+
+                            <!-- Easypaisa -->
+                            <button 
+                                type="button" 
+                                @click="onlineOption = 'easypaisa'"
+                                :class="onlineOption === 'easypaisa' ? 'bg-gradient-to-r from-emerald-700 to-emerald-800 text-white border-emerald-900 shadow-md ring-2 ring-emerald-400/50' : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'"
+                                class="py-2.5 px-1 sm:px-2 rounded-xl border-2 text-xs font-bold transition flex flex-col items-center justify-center gap-1 cursor-pointer"
+                            >
+                                <span class="w-2.5 h-2.5 rounded-full" :class="onlineOption === 'easypaisa' ? 'bg-green-300 animate-pulse' : 'bg-emerald-600'"></span>
+                                <span class="font-black text-[10.5px] sm:text-xs truncate w-full text-center">Easypaisa</span>
+                            </button>
+
+                            <!-- Faysal Bank -->
+                            <button 
+                                type="button" 
+                                @click="onlineOption = 'faysal'"
+                                :class="onlineOption === 'faysal' ? 'bg-gradient-to-r from-[#2b1722] to-[#3b202f] text-amber-300 border-amber-400 shadow-md ring-2 ring-amber-400/50' : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'"
+                                class="py-2.5 px-1 sm:px-2 rounded-xl border-2 text-xs font-bold transition flex flex-col items-center justify-center gap-1 cursor-pointer"
+                            >
+                                <span class="w-2.5 h-2.5 rounded-full" :class="onlineOption === 'faysal' ? 'bg-amber-400 animate-pulse' : 'bg-[#2b1722]'"></span>
+                                <span class="font-black text-[10.5px] sm:text-xs truncate w-full text-center">Faysal Bank</span>
+                            </button>
+                        </div>
+
+                        <!-- 1. JazzCash Details Card -->
+                        <div x-show="onlineOption === 'jazzcash'" x-transition class="rounded-xl border-2 border-red-300 bg-gradient-to-br from-red-50/70 via-white to-amber-50/40 p-4 sm:p-5 relative overflow-hidden shadow-xs">
+                            <div class="flex items-center justify-between pb-3 mb-3 border-b border-red-200">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-7 h-7 rounded-lg bg-red-700 text-white flex items-center justify-center font-bold text-xs shadow-xs">JC</span>
+                                    <span class="font-bold text-xs sm:text-sm text-emerald-950">JazzCash Account Details</span>
+                                </div>
+                                <span class="text-[10px] font-extrabold bg-red-100 text-red-800 px-2 py-0.5 rounded">JazzCash</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <div>
+                                    <span class="text-stone-400 block text-[11px]">Account Title / Name</span>
+                                    <span class="font-bold text-stone-900 text-sm">sajid maqsood</span>
+                                </div>
+                                <div>
+                                    <span class="text-stone-400 block text-[11px]">JazzCash Mobile Number</span>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <code class="font-mono font-bold text-red-700 text-sm sm:text-base bg-white px-2.5 py-1 rounded border border-red-200 tracking-wider">03056686300</code>
+                                        <button 
+                                            type="button" 
+                                            @click="copyText('03056686300', 'JazzCash Number copied!')" 
+                                            class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-[11px] font-bold transition flex items-center gap-1 shadow-xs cursor-pointer active:scale-95" 
+                                            title="Copy Number"
+                                        >
+                                            <i class="fa-regular fa-copy"></i>
+                                            <span>Copy</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Easypaisa Details Card -->
+                        <div x-show="onlineOption === 'easypaisa'" x-transition class="rounded-xl border-2 border-emerald-300 bg-gradient-to-br from-emerald-50/70 via-white to-amber-50/40 p-4 sm:p-5 relative overflow-hidden shadow-xs">
+                            <div class="flex items-center justify-between pb-3 mb-3 border-b border-emerald-200">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-7 h-7 rounded-lg bg-emerald-700 text-white flex items-center justify-center font-bold text-xs shadow-xs">EP</span>
+                                    <span class="font-bold text-xs sm:text-sm text-emerald-950">Easypaisa Account Details</span>
+                                </div>
+                                <span class="text-[10px] font-extrabold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">Easypaisa</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <div>
+                                    <span class="text-stone-400 block text-[11px]">Account Title / Name</span>
+                                    <span class="font-bold text-stone-900 text-sm">sajid maqsood</span>
+                                </div>
+                                <div>
+                                    <span class="text-stone-400 block text-[11px]">Easypaisa Mobile Number</span>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <code class="font-mono font-bold text-emerald-800 text-sm sm:text-base bg-white px-2.5 py-1 rounded border border-emerald-200 tracking-wider">03056686300</code>
+                                        <button 
+                                            type="button" 
+                                            @click="copyText('03056686300', 'Easypaisa Number copied!')" 
+                                            class="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-800 text-white rounded text-[11px] font-bold transition flex items-center gap-1 shadow-xs cursor-pointer active:scale-95" 
+                                            title="Copy Number"
+                                        >
+                                            <i class="fa-regular fa-copy"></i>
+                                            <span>Copy</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Faysal Bank Details Card -->
+                        <div x-show="onlineOption === 'faysal'" x-transition class="rounded-xl border-2 border-amber-400/80 bg-gradient-to-br from-amber-50/80 via-white to-amber-50/40 p-4 sm:p-5 relative overflow-hidden shadow-xs">
                             <div class="flex items-center justify-between pb-3 mb-3 border-b border-amber-200/70">
                                 <div class="flex items-center gap-2">
                                     <i class="fa-solid fa-building-columns text-amber-700 text-base"></i>
-                                    <span class="font-bold text-xs sm:text-sm text-emerald-950">Official Bakery Bank Account</span>
+                                    <span class="font-bold text-xs sm:text-sm text-emerald-950">Faysal Bank Account Details</span>
                                 </div>
-                                <span class="text-[10px] font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded">Meezan Bank</span>
+                                <span class="text-[10px] font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded">Faysal Bank</span>
                             </div>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                                 <div>
                                     <span class="text-stone-400 block text-[11px]">Bank Name</span>
-                                    <span class="font-bold text-stone-800 text-sm">Meezan Bank Limited (MBL)</span>
+                                    <span class="font-bold text-stone-800 text-sm">Faysal Bank Limited (FBL)</span>
                                 </div>
                                 <div>
                                     <span class="text-stone-400 block text-[11px]">Account Title</span>
-                                    <span class="font-bold text-stone-800 text-sm">Sialkot Sweets &amp; Bakers</span>
+                                    <span class="font-bold text-stone-900 text-sm">MUHAMMAD ROHAN BUTT</span>
                                 </div>
                                 <div>
                                     <span class="text-stone-400 block text-[11px]">Account Number</span>
                                     <div class="flex items-center gap-2 mt-0.5">
-                                        <code class="font-mono font-bold text-emerald-950 text-sm bg-white px-2 py-1 rounded border border-stone-200">090501068465711</code>
+                                        <code class="font-mono font-bold text-emerald-950 text-sm bg-white px-2 py-1 rounded border border-stone-200">3104301000008848</code>
                                         <button 
                                             type="button" 
-                                            @click="copyText('090501068465711', 'Account Number copied!')" 
-                                            class="p-1 text-amber-700 hover:text-amber-900 transition" 
+                                            @click="copyText('3104301000008848', 'Account Number copied!')" 
+                                            class="px-2.5 py-1 bg-emerald-950 hover:bg-emerald-900 text-amber-300 rounded text-[11px] font-bold transition flex items-center gap-1 shadow-xs cursor-pointer active:scale-95" 
                                             title="Copy Account Number"
                                         >
-                                            <i class="fa-regular fa-copy text-sm"></i>
+                                            <i class="fa-regular fa-copy"></i>
+                                            <span>Copy</span>
                                         </button>
                                     </div>
                                 </div>
                                 <div>
                                     <span class="text-stone-400 block text-[11px]">IBAN</span>
-                                    <div class="flex items-center gap-2 mt-0.5">
-                                        <code class="font-mono font-bold text-emerald-950 text-xs bg-white px-2 py-1 rounded border border-stone-200 break-all">PK97MEZN0009050106846571</code>
+                                    <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 mt-0.5">
+                                        <code class="font-mono font-bold text-emerald-950 text-[11px] sm:text-xs bg-white px-2 py-1 rounded border border-stone-200 break-all min-w-0 flex-1">PK49FAYS3104301000008848</code>
                                         <button 
                                             type="button" 
-                                            @click="copyText('PK97MEZN0009050106846571', 'IBAN copied!')" 
-                                            class="p-1 text-amber-700 hover:text-amber-900 transition" 
+                                            @click="copyText('PK49FAYS3104301000008848', 'IBAN copied!')" 
+                                            class="px-2.5 py-1 bg-emerald-950 hover:bg-emerald-900 text-amber-300 rounded text-[11px] font-bold transition flex items-center gap-1 shadow-xs cursor-pointer active:scale-95 shrink-0" 
                                             title="Copy IBAN"
                                         >
-                                            <i class="fa-regular fa-copy text-sm"></i>
+                                            <i class="fa-regular fa-copy"></i>
+                                            <span>Copy</span>
                                         </button>
                                     </div>
                                 </div>
@@ -533,7 +637,7 @@
                         </div>
 
                         <!-- Payment Screenshot Notice -->
-                        <div class="p-4 rounded-xl bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 text-white border-2 border-amber-400/60 shadow-xl flex items-start gap-3">
+                        <div class="p-4 rounded-xl bg-gradient-to-r from-emerald-950 via-[#3b202f] to-emerald-950 text-white border-2 border-amber-400/60 shadow-xl flex items-start gap-3">
                             <div class="w-8 h-8 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center shrink-0 font-bold text-sm shadow">
                                 <i class="fa-solid fa-camera"></i>
                             </div>
@@ -543,7 +647,7 @@
                                     <span class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
                                 </div>
                                 <p class="text-stone-200">
-                                    After submitting your order, you will receive your <strong class="text-amber-300">Unique Order ID</strong>. Transfer the amount and share your transaction screenshot via WhatsApp to initiate instant preparation.
+                                    After submitting your order, you will receive your <strong class="text-amber-300">Unique Order ID</strong>. Transfer the amount via JazzCash, Easypaisa, or Faysal Bank, and share your transaction screenshot to <strong class="text-amber-300">0309 3922121</strong> on WhatsApp to begin instant preparation.
                                 </p>
                             </div>
                         </div>
@@ -561,34 +665,56 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-2">
-                            <a href="https://wa.me/923253922121" target="_blank" class="px-2.5 py-1.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-bold text-[11px] inline-flex items-center gap-1 transition">
-                                <i class="fa-brands fa-whatsapp"></i> +92 325 3922121
+                            <a href="https://wa.me/923093922121" target="_blank" class="px-2.5 py-1.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-bold text-[11px] inline-flex items-center gap-1 transition">
+                                <i class="fa-brands fa-whatsapp"></i> +92 309 3922121
                             </a>
-                            <a href="tel:03083922121" class="px-2.5 py-1.5 rounded-lg bg-emerald-950 text-amber-300 font-bold text-[11px] inline-flex items-center gap-1">
-                                <i class="fa-solid fa-phone"></i> 0308 3922121
+                            <a href="tel:03093922121" class="px-2.5 py-1.5 rounded-lg bg-emerald-950 text-amber-300 font-bold text-[11px] inline-flex items-center gap-1">
+                                <i class="fa-solid fa-phone"></i> 0309 3922121
                             </a>
                         </div>
                     </div>
 
+                    <!-- PROMINENT WHATSAPP ORDER CONFIRMATION NOTICE -->
+                    <div class="mt-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-950 via-[#3b202f] to-emerald-950 text-white border-2 border-amber-400 shadow-2xl relative overflow-hidden">
+                        <div class="flex items-start gap-3.5">
+                            <div class="relative w-11 h-11 rounded-2xl bg-green-500 text-white flex items-center justify-center shrink-0 shadow-lg text-2xl animate-pulse">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1 flex-wrap">
+                                    <span class="bg-amber-400 text-emerald-950 text-[10px] font-black uppercase px-2 py-0.5 rounded-full shadow-sm tracking-wide">REQUIRED FINAL STEP</span>
+                                    <span class="text-amber-300 font-extrabold text-xs">WhatsApp Order Confirmation</span>
+                                </div>
+                                <h4 class="font-serif font-bold text-sm sm:text-base text-white leading-tight">
+                                    Confirm Your Order via WhatsApp (0309 3922121)
+                                </h4>
+                                <p class="text-xs text-stone-200 mt-1.5 leading-relaxed">
+                                    To confirm your order, simply tap the button below. Your unique <strong class="text-amber-300">Order ID</strong> is generated and WhatsApp will open with your full order pre-typed. <strong>Tap "Send" on WhatsApp</strong> so our counter team confirms your delivery instantly!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- PLACE ORDER BUTTON -->
-                    <div class="mt-6 pt-2">
+                    <div class="mt-4 pt-1">
                         <button 
                             type="button" 
                             @click="submitOrder()" 
                             :disabled="cartItems.length === 0 || isSubmitting"
-                            class="btn-luxury-sheen w-full py-4 px-6 rounded-2xl text-emerald-950 font-extrabold text-sm sm:text-base tracking-wide shadow-xl flex items-center justify-center gap-2 hover:brightness-105 active:scale-[0.99] transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                            class="btn-luxury-sheen w-full py-4 px-6 rounded-2xl text-emerald-950 font-extrabold text-sm sm:text-base tracking-wide shadow-2xl flex items-center justify-center gap-2.5 hover:brightness-105 active:scale-[0.99] transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                         >
-                            <span x-show="!isSubmitting" class="flex items-center gap-2">
-                                <i class="fa-solid fa-circle-check"></i>
-                                <span>Generate Order ID &amp; Place Order</span>
+                            <span x-show="!isSubmitting" class="flex items-center justify-center gap-2.5">
+                                <i class="fa-brands fa-whatsapp text-xl text-green-800"></i>
+                                <span>Generate Order ID &amp; Confirm on WhatsApp</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
                             </span>
-                            <span x-show="isSubmitting" class="flex items-center gap-2" style="display: none;">
+                            <span x-show="isSubmitting" class="flex items-center justify-center gap-2" style="display: none;">
                                 <i class="fa-solid fa-spinner fa-spin"></i>
                                 <span>Generating Order...</span>
                             </span>
                         </button>
-                        <p class="text-[10.5px] text-center text-stone-400 mt-2.5">
-                            By placing this order, you agree to confirm details on WhatsApp.
+                        <p class="text-[11px] font-semibold text-center text-amber-900 mt-2.5">
+                            🔒 100% Secure • Official Order Desk: <span class="font-bold underline">+92 309 3922121</span>
                         </p>
                     </div>
 
@@ -620,12 +746,13 @@
                 isSubmitting: false,
                 toastVisible: false,
                 toastMessage: '',
+                onlineOption: 'jazzcash',
                 form: {
                     fullName: '',
                     phone: '',
                     orderType: 'delivery',
                     address: '',
-                    branch: 'Chand Da Qila Branch (Main Branch)',
+                    branch: 'Sialkot Sweets & Bakers (Gujranwala)',
                     landmark: '',
                     notes: '',
                     paymentMethod: 'bank_transfer'
@@ -710,7 +837,7 @@
                     const formattedDate = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                     const resolvedAddress = this.form.orderType === 'takeaway'
-                        ? 'Self-Pickup at ' + this.form.branch
+                        ? 'Self-Pickup / Takeaway (Gujranwala Bakery Counter)'
                         : this.form.address.trim();
 
                     const feeText = this.form.orderType === 'takeaway'
@@ -734,7 +861,9 @@
                         subtotal: this.subtotal,
                         deliveryFeeText: feeText,
                         totalAmount: this.subtotal,
-                        paymentMethod: this.form.paymentMethod === 'bank_transfer' ? 'Online Bank Transfer' : (this.form.orderType === 'takeaway' ? 'Pay at Counter' : 'Cash on Delivery (COD)')
+                        paymentMethod: this.form.paymentMethod === 'bank_transfer'
+                            ? (this.onlineOption === 'jazzcash' ? 'Online Transfer (JazzCash - Sajid Maqsood)' : (this.onlineOption === 'easypaisa' ? 'Online Transfer (Easypaisa - Sajid Maqsood)' : 'Online Transfer (Faysal Bank - Rohan Butt)'))
+                            : (this.form.orderType === 'takeaway' ? 'Pay at Counter' : 'Cash on Delivery (COD)')
                     };
 
                     window.SialkotCart.saveCurrentOrder(orderPayload);

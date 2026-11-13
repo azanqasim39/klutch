@@ -227,26 +227,37 @@
             <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
 
             <!-- Header Badge -->
-            <div class="flex items-center gap-2 mb-3">
-                <span class="px-2.5 py-1 rounded-full bg-amber-400 text-emerald-950 text-[10px] sm:text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow">
-                    <i class="fa-solid fa-camera"></i> Action Required
-                </span>
-                <span class="text-amber-300 text-xs font-bold">Fast Confirmation</span>
+            <!-- ACTION REQUIRED HIGH CONTRAST ALERT BANNER -->
+            <div class="p-3.5 sm:p-4 rounded-xl bg-amber-400 text-emerald-950 font-extrabold text-xs sm:text-sm flex items-center justify-between gap-3 mb-5 shadow-lg border-2 border-white/40">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-full bg-emerald-950 text-amber-300 flex items-center justify-center shrink-0 text-sm">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </span>
+                    <span>FINAL STEP: Tap the WhatsApp button below to confirm order!</span>
+                </div>
+                <span class="text-[10px] bg-emerald-950 text-amber-300 px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0 font-black">Required</span>
             </div>
 
-            <h2 class="font-serif text-lg sm:text-2xl font-extrabold text-amber-300 leading-snug mb-2">
-                Send Payment Screenshot on WhatsApp
+            <div class="flex items-center gap-2 mb-3">
+                <span class="px-2.5 py-1 rounded-full bg-amber-400 text-emerald-950 text-[10px] sm:text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow">
+                    <i class="fa-solid fa-bolt"></i> Instant Confirmation
+                </span>
+                <span class="text-amber-300 text-xs font-bold">Official Bakery Desk</span>
+            </div>
+
+            <h2 class="font-serif text-lg sm:text-2xl font-extrabold text-amber-300 leading-snug mb-2" x-text="order.paymentMethod.includes('Bank') ? 'Send Payment Screenshot on WhatsApp' : 'Confirm Your Order on WhatsApp'">
+                Confirm Your Order on WhatsApp
             </h2>
 
             <p class="text-xs sm:text-sm text-stone-200 leading-relaxed mb-4">
-                To confirm your order and begin fresh baking or packing immediately, tap the button below to message our official WhatsApp desk.
+                To confirm your order and begin fresh baking or packing immediately, tap the button below to message our central WhatsApp order desk.
             </p>
 
             <!-- Steps list -->
             <div class="bg-black/25 rounded-xl p-3.5 border border-white/10 space-y-2 mb-5 text-xs text-stone-200">
                 <div class="flex items-start gap-2.5">
                     <span class="w-5 h-5 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
-                    <span>Tap <strong>"Send Order to WhatsApp"</strong> below (your Order ID &amp; items are already pre-filled).</span>
+                    <span>Tap <strong>"Send Order to WhatsApp Now"</strong> below (your Order ID &amp; items are already pre-filled).</span>
                 </div>
                 <div class="flex items-start gap-2.5" x-show="order.paymentMethod.includes('Bank')">
                     <span class="w-5 h-5 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
@@ -254,7 +265,7 @@
                 </div>
                 <div class="flex items-start gap-2.5">
                     <span class="w-5 h-5 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5" x-text="order.paymentMethod.includes('Bank') ? '3' : '2'"></span>
-                    <span>Our staff will reply with your dispatch ETA and rider contact!</span>
+                    <span>Our counter staff will reply with your preparation &amp; rider dispatch ETA!</span>
                 </div>
             </div>
 
@@ -263,25 +274,21 @@
                 :href="whatsappUrl" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                class="btn-whatsapp-pulse w-full py-4 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-3 transition cursor-pointer text-center"
+                class="btn-whatsapp-pulse w-full py-4 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-3 transition cursor-pointer text-center shadow-2xl"
             >
                 <i class="fa-brands fa-whatsapp text-2xl sm:text-3xl text-white shrink-0"></i>
                 <div class="text-left">
                     <div class="leading-tight">Send Order to WhatsApp Now</div>
-                    <div class="text-[11px] opacity-90 font-normal">Official Desk: +92 325 3922121</div>
+                    <div class="text-[11px] opacity-90 font-normal">Official Order Desk: +92 309 3922121</div>
                 </div>
                 <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-75 ml-auto"></i>
             </a>
 
-            <!-- Secondary Backup Number -->
+            <!-- Single Official Number Notice -->
             <div class="mt-3 text-center">
-                <a 
-                    :href="whatsappBackupUrl" 
-                    target="_blank" 
-                    class="text-xs text-amber-300 hover:text-white underline inline-flex items-center gap-1 transition"
-                >
-                    <i class="fa-brands fa-whatsapp"></i> Or send to Secondary Number: 0308 3922121
-                </a>
+                <span class="text-xs text-amber-200/90 inline-flex items-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved text-amber-400 text-[11px]"></i> All orders are handled exclusively via: <strong class="text-amber-300 font-bold underline">+92 309 3922121</strong>
+                </span>
             </div>
 
         </div>
@@ -316,8 +323,8 @@
                     <strong class="text-amber-800 font-bold" x-text="order.paymentMethod"></strong>
                 </div>
                 <div>
-                    <span class="text-stone-400 block text-[10.5px]">Assigned Branch</span>
-                    <span class="text-stone-700" x-text="order.customer.branch"></span>
+                    <span class="text-stone-400 block text-[10.5px]">Order Status</span>
+                    <span class="text-green-700 font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check text-[10px]"></i> Ready for WhatsApp Confirmation</span>
                 </div>
             </div>
 
@@ -355,16 +362,16 @@
         <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <button 
                 type="button" 
-                onclick="window.print()" 
-                class="w-full sm:w-auto px-5 py-3 rounded-xl bg-white border border-stone-300 text-stone-700 text-xs sm:text-sm font-bold hover:bg-stone-50 transition flex items-center justify-center gap-2"
+                @click="downloadSlip()" 
+                class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white border-2 border-amber-400 text-emerald-950 text-xs sm:text-sm font-extrabold hover:bg-amber-50 shadow-md transition flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
-                <i class="fa-solid fa-print"></i>
-                <span>Print Order Slip</span>
+                <i class="fa-solid fa-file-arrow-down text-base text-amber-700"></i>
+                <span>Download Order Slip</span>
             </button>
 
             <a 
                 href="./?section=menu" 
-                class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-950 text-amber-300 text-xs sm:text-sm font-bold hover:bg-emerald-900 transition flex items-center justify-center gap-2"
+                class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-950 text-amber-300 text-xs sm:text-sm font-bold hover:bg-emerald-900 transition flex items-center justify-center gap-2 border border-amber-400/40 shadow-md active:scale-95"
             >
                 <i class="fa-solid fa-utensils"></i>
                 <span>Order More Items</span>
@@ -426,7 +433,7 @@
                     } else {
                         // Fallback order state so the customer is NEVER kicked back to menu
                         const now = new Date();
-                        this.order.orderId = 'ORD-SS-' + Math.floor(100000 + Math.random() * 900000);
+                        this.order.orderId = window.SialkotCart ? window.SialkotCart.generateOrderId() : ('ORD-SS-' + Date.now().toString(36).toUpperCase());
                         this.order.orderDate = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     }
                 },
@@ -440,7 +447,6 @@
                     msg += `*📋 CUSTOMER DETAILS:*\n`;
                     msg += `• *Name:* ${this.order.customer.name}\n`;
                     msg += `• *Phone:* ${this.order.customer.phone}\n`;
-                    msg += `• *Branch:* ${this.order.customer.branch}\n`;
                     msg += `• *Destination / Pickup:* ${this.order.customer.address}\n`;
 
                     msg += `*🛍️ ITEMS ORDERED:*\n`;
@@ -464,12 +470,12 @@
 
                 get whatsappUrl() {
                     const encoded = encodeURIComponent(this.formattedMessage);
-                    return `https://wa.me/923253922121?text=${encoded}`;
+                    return `https://wa.me/923093922121?text=${encoded}`;
                 },
 
                 get whatsappBackupUrl() {
                     const encoded = encodeURIComponent(this.formattedMessage);
-                    return `https://wa.me/923083922121?text=${encoded}`;
+                    return `https://wa.me/923093922121?text=${encoded}`;
                 },
 
                 showToast(msg) {
@@ -489,6 +495,221 @@
                         });
                     } else {
                         this.showToast('Copied: ' + text);
+                    }
+                },
+
+                downloadSlip() {
+                    try {
+                        const order = this.order;
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        const width = 800;
+                        const padding = 45;
+                        const itemRows = order.items && order.items.length ? order.items.length : 1;
+                        const height = 800 + (itemRows * 45);
+
+                        canvas.width = width;
+                        canvas.height = height;
+
+                        // Clean parchment background
+                        ctx.fillStyle = '#fdfbf7';
+                        ctx.fillRect(0, 0, width, height);
+
+                        // Champagne Gold Border
+                        ctx.strokeStyle = '#d5b784';
+                        ctx.lineWidth = 4;
+                        ctx.strokeRect(16, 16, width - 32, height - 32);
+
+                        // Header Bar (Royal Plum)
+                        ctx.fillStyle = '#2b1722';
+                        ctx.fillRect(20, 20, width - 40, 140);
+
+                        // Brand Title
+                        ctx.fillStyle = '#d5b784';
+                        ctx.font = 'bold 30px "Playfair Display", Georgia, serif';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('SIALKOT SWEETS & BAKERS', width / 2, 72);
+
+                        // Tagline
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = '500 15px "Inter", sans-serif';
+                        ctx.fillText('TRADITIONAL SWEETS & BAKERY • ESTD. 1951', width / 2, 104);
+                        ctx.fillStyle = '#d5b784';
+                        ctx.font = 'bold 13px "Inter", sans-serif';
+                        ctx.fillText('GUJRANWALA • OFFICIAL ORDER DESK: 0309 3922121', width / 2, 132);
+
+                        // Order ID Highlight Card
+                        ctx.fillStyle = '#f5ebdc';
+                        ctx.fillRect(padding, 185, width - (padding * 2), 70);
+                        ctx.strokeStyle = '#c8a56a';
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(padding, 185, width - (padding * 2), 70);
+
+                        ctx.fillStyle = '#2b1722';
+                        ctx.font = 'bold 13px "Inter", sans-serif';
+                        ctx.textAlign = 'left';
+                        ctx.fillText('OFFICIAL ORDER RECEIPT SLIP', padding + 20, 215);
+                        ctx.fillStyle = '#85596b';
+                        ctx.font = '13px "Inter", sans-serif';
+                        ctx.fillText(`Date: ${order.orderDate}`, padding + 20, 238);
+
+                        ctx.textAlign = 'right';
+                        ctx.fillStyle = '#2b1722';
+                        ctx.font = 'bold 22px monospace';
+                        ctx.fillText(order.orderId, width - padding - 20, 228);
+
+                        // Customer Details
+                        let y = 290;
+                        ctx.textAlign = 'left';
+                        ctx.fillStyle = '#2b1722';
+                        ctx.font = 'bold 16px "Playfair Display", Georgia, serif';
+                        ctx.fillText('CUSTOMER & ORDER DETAILS', padding, y);
+                        y += 12;
+
+                        ctx.strokeStyle = '#e4d0d8';
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath();
+                        ctx.moveTo(padding, y);
+                        ctx.lineTo(width - padding, y);
+                        ctx.stroke();
+                        y += 28;
+
+                        const drawDetail = (label, val, isBoldVal) => {
+                            ctx.fillStyle = '#85596b';
+                            ctx.font = '13.5px "Inter", sans-serif';
+                            ctx.fillText(label, padding, y);
+                            ctx.fillStyle = '#2b1722';
+                            ctx.font = isBoldVal ? 'bold 14px "Inter", sans-serif' : '14px "Inter", sans-serif';
+                            ctx.fillText(val || '-', padding + 170, y);
+                            y += 25;
+                        };
+
+                        drawDetail('Customer Name:', order.customer.name, true);
+                        drawDetail('WhatsApp Phone:', order.customer.phone, true);
+                        drawDetail('Order Type:', order.orderType, false);
+                        drawDetail('Destination / Area:', `${order.customer.address}, ${order.customer.city}`, false);
+                        drawDetail('Payment Method:', order.paymentMethod, true);
+                        y += 15;
+
+                        // Items Table Header
+                        ctx.fillStyle = '#2b1722';
+                        ctx.fillRect(padding, y, width - (padding * 2), 34);
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = 'bold 12.5px "Inter", sans-serif';
+                        ctx.textAlign = 'left';
+                        ctx.fillText('ITEM DESCRIPTION', padding + 15, y + 22);
+                        ctx.textAlign = 'center';
+                        ctx.fillText('QTY', width - padding - 180, y + 22);
+                        ctx.textAlign = 'right';
+                        ctx.fillText('AMOUNT (PKR)', width - padding - 15, y + 22);
+                        y += 34;
+
+                        // Items List
+                        if (order.items && order.items.length) {
+                            order.items.forEach((item, idx) => {
+                                ctx.fillStyle = idx % 2 === 0 ? '#ffffff' : '#faf8f5';
+                                ctx.fillRect(padding, y, width - (padding * 2), 38);
+
+                                ctx.textAlign = 'left';
+                                ctx.fillStyle = '#2b1722';
+                                ctx.font = 'bold 13.5px "Inter", sans-serif';
+                                ctx.fillText(`${idx + 1}. ${item.name}`, padding + 15, y + 24);
+
+                                ctx.textAlign = 'center';
+                                ctx.fillStyle = '#85596b';
+                                ctx.font = 'bold 13px "Inter", sans-serif';
+                                ctx.fillText(`${item.quantity}x`, width - padding - 180, y + 24);
+
+                                ctx.textAlign = 'right';
+                                ctx.fillStyle = '#2b1722';
+                                ctx.font = 'bold 13.5px "Inter", sans-serif';
+                                ctx.fillText(`Rs. ${(item.price * item.quantity).toLocaleString()}`, width - padding - 15, y + 24);
+
+                                y += 38;
+                            });
+                        }
+
+                        // Total Divider
+                        y += 18;
+                        ctx.strokeStyle = '#c8a56a';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(padding, y);
+                        ctx.lineTo(width - padding, y);
+                        ctx.stroke();
+                        y += 35;
+
+                        ctx.textAlign = 'left';
+                        ctx.fillStyle = '#2b1722';
+                        ctx.font = 'bold 16px "Playfair Display", Georgia, serif';
+                        ctx.fillText('TOTAL AMOUNT:', padding + 10, y);
+
+                        ctx.textAlign = 'right';
+                        ctx.fillStyle = '#85596b';
+                        ctx.font = 'bold 24px "Playfair Display", Georgia, serif';
+                        ctx.fillText(`Rs. ${(order.totalAmount || 0).toLocaleString()}`, width - padding - 10, y);
+                        y += 22;
+
+                        ctx.fillStyle = '#888888';
+                        ctx.font = 'italic 12px "Inter", sans-serif';
+                        ctx.fillText(order.deliveryFeeText || 'Rider Delivery confirmed via WhatsApp', width - padding - 10, y);
+                        y += 45;
+
+                        // Footer Note Box
+                        ctx.fillStyle = '#2b1722';
+                        ctx.fillRect(padding, y, width - (padding * 2), 58);
+
+                        ctx.fillStyle = '#d5b784';
+                        ctx.font = 'bold 13px "Inter", sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('Thank you for choosing Sialkot Sweets & Bakers (Gujranwala)', width / 2, y + 25);
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = '11.5px "Inter", sans-serif';
+                        ctx.fillText('Please confirm your order on WhatsApp (0309 3922121) to begin fresh preparation.', width / 2, y + 45);
+
+                        // Trigger Mobile-Safe Instant Download / View
+                        const fileName = `Sialkot-Sweets-Order-${order.orderId}-Slip.png`;
+                        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+                        if (canvas.toBlob) {
+                            canvas.toBlob((blob) => {
+                                if (!blob) {
+                                    window.print();
+                                    return;
+                                }
+                                const url = URL.createObjectURL(blob);
+                                if (isIOS) {
+                                    // iOS Safari restricts programmatic data/blob downloads: open image in clean window for instant save
+                                    const win = window.open(url, '_blank');
+                                    if (!win) {
+                                        window.location.href = url;
+                                    }
+                                    this.showToast('Order slip opened! Save to Photos 🧾');
+                                } else {
+                                    const link = document.createElement('a');
+                                    link.download = fileName;
+                                    link.href = url;
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                    setTimeout(() => URL.revokeObjectURL(url), 4000);
+                                    this.showToast('Order slip downloaded successfully! 🧾');
+                                }
+                            }, 'image/png');
+                        } else {
+                            const dataUrl = canvas.toDataURL('image/png');
+                            const link = document.createElement('a');
+                            link.download = fileName;
+                            link.href = dataUrl;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            this.showToast('Order slip downloaded successfully! 🧾');
+                        }
+                    } catch (err) {
+                        console.error('Download slip fallback:', err);
+                        window.print();
                     }
                 }
             };

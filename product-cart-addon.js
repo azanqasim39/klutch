@@ -20,6 +20,13 @@
         const style = document.createElement('style');
         style.id = 'ss-ordering-styles';
         style.textContent = `
+            /* Ensure bottom content is never covered by floating cart on mobile */
+            @media (max-width: 767px) {
+                body {
+                    padding-bottom: 96px !important;
+                }
+            }
+
             /* Centered Floating Cart Bar on Mobile */
             .ss-mobile-floating-bar-wrap {
                 position: fixed !important;
@@ -62,6 +69,14 @@
             }
             .ss-header-cart-btn:active {
                 transform: scale(0.94);
+            }
+            @media (max-width: 639px) {
+                .ss-header-cart-btn {
+                    padding: 6px 8px !important;
+                    font-size: 11px !important;
+                    border-radius: 8px !important;
+                    min-height: 32px !important;
+                }
             }
 
             /* Pulse animation for bag when item added */
@@ -425,6 +440,25 @@
         // Listen for reactive cart updates across the window
         window.addEventListener('sialkot-cart-updated', function () {
             syncCartUI();
+        });
+
+        // Instantly sync on Back Button (bfcache), tab change, and storage events
+        window.addEventListener('pageshow', function () {
+            syncCartUI();
+        });
+        window.addEventListener('popstate', function () {
+            syncCartUI();
+        });
+        window.addEventListener('storage', function () {
+            syncCartUI();
+        });
+        window.addEventListener('focus', function () {
+            syncCartUI();
+        });
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'visible') {
+                syncCartUI();
+            }
         });
 
         // Initial sync of counts & badges

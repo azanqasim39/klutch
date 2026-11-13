@@ -423,6 +423,24 @@ const sectionRoutes = {
                     window.addEventListener('sialkot-cart-updated', () => {
                         this.updateCartState();
                     });
+                    // Instantly sync cart on Mobile Back Button (bfcache) or tab switch
+                    window.addEventListener('pageshow', () => {
+                        this.updateCartState();
+                    });
+                    window.addEventListener('popstate', () => {
+                        this.updateCartState();
+                    });
+                    window.addEventListener('storage', () => {
+                        this.updateCartState();
+                    });
+                    window.addEventListener('focus', () => {
+                        this.updateCartState();
+                    });
+                    document.addEventListener('visibilitychange', () => {
+                        if (document.visibilityState === 'visible') {
+                            this.updateCartState();
+                        }
+                    });
                     window.addEventListener('keydown', (event) => {
                         if (event.key === 'Escape') this.mobileMenuOpen = false;
                     });
