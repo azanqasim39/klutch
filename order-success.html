@@ -245,7 +245,7 @@
                 <span class="text-amber-300 text-xs font-bold">Official Bakery Desk</span>
             </div>
 
-            <h2 class="font-serif text-lg sm:text-2xl font-extrabold text-amber-300 leading-snug mb-2" x-text="order.paymentMethod.includes('Bank') ? 'Send Payment Screenshot on WhatsApp' : 'Confirm Your Order on WhatsApp'">
+            <h2 class="font-serif text-lg sm:text-2xl font-extrabold text-amber-300 leading-snug mb-2" x-text="(order.paymentMethod.includes('Online') || order.paymentMethod.includes('Bank')) ? 'Send Payment Screenshot on WhatsApp' : 'Confirm Your Order on WhatsApp'">
                 Confirm Your Order on WhatsApp
             </h2>
 
@@ -259,12 +259,12 @@
                     <span class="w-5 h-5 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
                     <span>Tap <strong>"Send Order to WhatsApp Now"</strong> below (your Order ID &amp; items are already pre-filled).</span>
                 </div>
-                <div class="flex items-start gap-2.5" x-show="order.paymentMethod.includes('Bank')">
+                <div class="flex items-start gap-2.5" x-show="order.paymentMethod.includes('Online') || order.paymentMethod.includes('Bank')">
                     <span class="w-5 h-5 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
-                    <span>Attach your <strong>bank transfer or Raast screenshot</strong> in the chat.</span>
+                    <span>Attach your <strong>payment screenshot (JazzCash, Easypaisa, or Faysal Bank)</strong> in the chat.</span>
                 </div>
                 <div class="flex items-start gap-2.5">
-                    <span class="w-5 h-5 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5" x-text="order.paymentMethod.includes('Bank') ? '3' : '2'"></span>
+                    <span class="w-5 h-5 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5" x-text="(order.paymentMethod.includes('Online') || order.paymentMethod.includes('Bank')) ? '3' : '2'"></span>
                     <span>Our counter staff will reply with your preparation &amp; rider dispatch ETA!</span>
                 </div>
             </div>

@@ -309,14 +309,14 @@
                             <div class="grid grid-cols-2 gap-2.5">
                                 <button 
                                     type="button" 
-                                    @click="form.orderType = 'delivery'"
+                                    @click="form.orderType = 'delivery'; form.paymentMethod = 'bank_transfer'"
                                     :class="form.orderType === 'delivery' ? 'gold-pill-active shadow-md' : 'gold-pill-inactive hover:bg-stone-50'"
                                     class="p-3 rounded-xl text-left transition flex items-center gap-2.5 cursor-pointer"
                                 >
                                     <i class="fa-solid fa-motorcycle text-amber-400 text-sm"></i>
                                     <div>
                                         <div class="text-xs sm:text-sm font-bold">Doorstep Delivery</div>
-                                        <div class="text-[10px] opacity-80">Gujranwala Address</div>
+                                        <div class="text-[10px] opacity-80">Online Payment Only</div>
                                     </div>
                                 </button>
 
@@ -329,7 +329,7 @@
                                     <i class="fa-solid fa-bag-shopping text-amber-400 text-sm"></i>
                                     <div>
                                         <div class="text-xs sm:text-sm font-bold">Self-Pickup / Takeaway</div>
-                                        <div class="text-[10px] opacity-80">Free from Branch</div>
+                                        <div class="text-[10px] opacity-80">Free • Cash or Online</div>
                                     </div>
                                 </button>
                             </div>
@@ -445,8 +445,24 @@
                         </div>
                     </div>
 
-                    <!-- Payment Switcher -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                    <!-- When Delivery: Online Payment Only Banner (No Cash on Delivery) -->
+                    <div x-show="form.orderType === 'delivery'" class="mb-5 p-4 rounded-xl bg-gradient-to-r from-amber-50 via-white to-amber-50 border-2 border-amber-400/80 shadow-xs flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <span class="w-9 h-9 rounded-xl bg-emerald-950 text-amber-300 flex items-center justify-center font-bold text-sm shrink-0 shadow">
+                                <i class="fa-solid fa-credit-card"></i>
+                            </span>
+                            <div>
+                                <div class="font-bold text-xs sm:text-sm text-emerald-950 flex items-center gap-1.5 flex-wrap">
+                                    <span>Advance Online Payment Required</span>
+                                    <span class="text-[9.5px] uppercase font-black bg-emerald-950 text-amber-300 px-2 py-0.5 rounded-full">Doorstep Delivery</span>
+                                </div>
+                                <p class="text-[11px] text-stone-600 mt-0.5">Cash on delivery is not available for deliveries. Please complete your transfer via JazzCash, Easypaisa, or Faysal Bank below.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- When Takeaway: Show Online vs Pay at Counter Switcher -->
+                    <div x-show="form.orderType === 'takeaway'" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
                         <label 
                             @click="form.paymentMethod = 'bank_transfer'"
                             :class="form.paymentMethod === 'bank_transfer' ? 'border-amber-500 bg-amber-500/5 ring-2 ring-amber-500/30' : 'border-stone-200 bg-white hover:border-stone-300'"
@@ -469,14 +485,14 @@
                         >
                             <input type="radio" name="paymentMethod" value="cod" x-model="form.paymentMethod" class="mt-1 text-amber-600 focus:ring-amber-500">
                             <div>
-                                <span class="font-bold text-sm text-emerald-950" x-text="form.orderType === 'takeaway' ? 'Pay at Counter' : 'Cash on Delivery (COD)'"></span>
-                                <p class="text-xs text-stone-500 mt-1" x-text="form.orderType === 'takeaway' ? 'Pay cash when collecting your order at the branch.' : 'Pay cash to the rider at your doorstep.'"></p>
+                                <span class="font-bold text-sm text-emerald-950">Pay at Counter</span>
+                                <p class="text-xs text-stone-500 mt-1">Pay cash when collecting your order at the branch counter.</p>
                             </div>
                         </label>
                     </div>
 
                     <!-- Online Money Transfer Details Box -->
-                    <div x-show="form.paymentMethod === 'bank_transfer'" x-transition class="space-y-3.5">
+                    <div x-show="form.orderType === 'delivery' || form.paymentMethod === 'bank_transfer'" x-transition class="space-y-3.5">
                         <div class="flex items-center justify-between pb-1">
                             <span class="text-xs font-bold text-emerald-950 uppercase tracking-wider">Select Transfer Account:</span>
                             <span class="text-[11px] text-amber-800 font-semibold">Tap to view details</span>
@@ -861,9 +877,9 @@
                         subtotal: this.subtotal,
                         deliveryFeeText: feeText,
                         totalAmount: this.subtotal,
-                        paymentMethod: this.form.paymentMethod === 'bank_transfer'
+                        paymentMethod: (this.form.orderType === 'delivery' || this.form.paymentMethod === 'bank_transfer')
                             ? (this.onlineOption === 'jazzcash' ? 'Online Transfer (JazzCash - Sajid Maqsood)' : (this.onlineOption === 'easypaisa' ? 'Online Transfer (Easypaisa - Sajid Maqsood)' : 'Online Transfer (Faysal Bank - Rohan Butt)'))
-                            : (this.form.orderType === 'takeaway' ? 'Pay at Counter' : 'Cash on Delivery (COD)')
+                            : 'Pay at Counter (Cash on Pickup)'
                     };
 
                     window.SialkotCart.saveCurrentOrder(orderPayload);
