@@ -207,6 +207,15 @@
         </div>
     </header>
 
+    // Automatically logs to Google Sheets in the background with zero lag
+fetch("https://script.google.com/macros/s/AKfycbyyMVDufTbR5LXrWWSyAowSFWbv2mJX1MMW9PcHPnqpkmq-0zhDl5fksikE-Fyz1YL6Cw/exec", {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(orderPayload),
+    keepalive: true
+});
+
     <!-- Main Container -->
     <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10">
 
