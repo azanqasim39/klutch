@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#2b1722">
     <title>Checkout | Sialkot Sweets &amp; Bakers — Since 1951</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://sialkotsweets.pk/checkout.html">
     <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 
     <!-- Tailwind CSS -->
@@ -206,15 +208,6 @@
             </div>
         </div>
     </header>
-
-    // Automatically logs to Google Sheets in the background with zero lag
-fetch("https://script.google.com/macros/s/AKfycbyyMVDufTbR5LXrWWSyAowSFWbv2mJX1MMW9PcHPnqpkmq-0zhDl5fksikE-Fyz1YL6Cw/exec", {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(orderPayload),
-    keepalive: true
-});
 
     <!-- Main Container -->
     <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10">
@@ -910,6 +903,32 @@ fetch("https://script.google.com/macros/s/AKfycbyyMVDufTbR5LXrWWSyAowSFWbv2mJX1M
 
                     window.SialkotCart.saveCurrentOrder(orderPayload);
                     window.SialkotCart.clearCart();
+
+                    // Automatic real-time backup to Google Sheet (100% resilient, zero lag)
+                    const googleSheetUrl = 'https://script.google.com/macros/s/AKfycbyyMVDufTbR5LXrWWSyAowSFWbv2mJX1MMW9PcHPnqpkmq-0zhDl5fksikE-Fyz1YL6Cw/exec';
+                    const sheetPayload = JSON.parse(JSON.stringify(orderPayload));
+                    if (sheetPayload.customer && sheetPayload.customer.phone) {
+                        // Prepend apostrophe so Google Sheets treats +92 numbers as plain text instead of a math formula (#ERROR!)
+                        sheetPayload.customer.phone = "'" + sheetPayload.customer.phone;
+                    }
+                    const jsonPayload = JSON.stringify(sheetPayload);
+                    try {
+                        if (navigator.sendBeacon) {
+                            const blob = new Blob([jsonPayload], { type: 'text/plain;charset=UTF-8' });
+                            navigator.sendBeacon(googleSheetUrl, blob);
+                        } else {
+                            fetch(googleSheetUrl, {
+                                method: 'POST',
+                                mode: 'no-cors',
+                                headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+                                body: jsonPayload,
+                                keepalive: true
+                            });
+                        }
+                    } catch (err) {
+                        console.warn('Google Sheet dispatch notice:', err);
+                    }
+
                     window.location.replace('./order-success.html');
                 }
             };

@@ -1,0 +1,12 @@
+# Sialkot Sweets & Bakers — Official robots.txt
+# Website: https://sialkotsweets.pk
+
+User-agent: *
+Allow: /
+
+# Prevent crawlers from indexing transactional cart and checkout states
+Disallow: /checkout.html
+Disallow: /order-success.html
+
+# XML Sitemap
+Sitemap: https://sialkotsweets.pk/sitemap.xml
