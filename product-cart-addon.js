@@ -87,6 +87,17 @@
             .ss-pulse-bounce {
                 animation: ss-bag-bounce 0.4s ease-out;
             }
+
+            /* Badge Bump Micro-Interaction */
+            @keyframes ss-badge-bump {
+                0% { transform: scale(1); }
+                35% { transform: scale(1.35) rotate(-6deg); }
+                70% { transform: scale(0.92) rotate(3deg); }
+                100% { transform: scale(1) rotate(0deg); }
+            }
+            .ss-badge-bump {
+                animation: ss-badge-bump 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            }
         `;
         document.head.appendChild(style);
     }
@@ -167,6 +178,11 @@
             b.textContent = count;
             b.classList.toggle('hidden', count === 0);
             b.style.display = count > 0 ? 'flex' : 'none';
+            if (count > 0) {
+                b.classList.remove('ss-badge-bump');
+                void b.offsetWidth;
+                b.classList.add('ss-badge-bump');
+            }
         });
 
         // 2. Totals

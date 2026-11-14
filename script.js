@@ -377,6 +377,12 @@ const sectionRoutes = {
                         window.SialkotCart.addItem(item, qty || 1);
                         this.updateCartState();
                         this.showToast('Added ' + item.name + ' to Cart! 🛍️');
+
+                        document.querySelectorAll('.ss-cart-badge, [x-text="cartCount"]').forEach(el => {
+                            el.classList.remove('ss-badge-bump');
+                            void el.offsetWidth;
+                            el.classList.add('ss-badge-bump');
+                        });
                     }
                 },
 
@@ -1652,11 +1658,19 @@ const sectionRoutes = {
 
     /* ---- 3. Optimized Scroll Handler ---- */
     let scrollTicking = false;
+    const headerEl = document.querySelector('header');
     window.addEventListener('scroll', function() {
         if (!scrollTicking) {
             requestAnimationFrame(function() {
                 updateProgressBar();
                 updateFabTop();
+                if (headerEl) {
+                    if (window.scrollY > 35) {
+                        headerEl.classList.add('ss-scrolled');
+                    } else {
+                        headerEl.classList.remove('ss-scrolled');
+                    }
+                }
                 scrollTicking = false;
             });
             scrollTicking = true;
@@ -1673,9 +1687,8 @@ const sectionRoutes = {
         }
 
         const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const isMobileScreen = window.innerWidth < 768;
 
-        if (!('IntersectionObserver' in window) || isReducedMotion || isMobileScreen) {
+        if (!('IntersectionObserver' in window) || isReducedMotion) {
             revealElements.forEach(revealElement);
             document.documentElement.classList.add('ss-motion-ready');
             return;
@@ -1689,8 +1702,8 @@ const sectionRoutes = {
                 }
             });
         }, {
-            threshold: 0.01,
-            rootMargin: '0px 0px 80px 0px'
+            threshold: 0.04,
+            rootMargin: '0px 0px 90px 0px'
         });
 
         revealElements.forEach(function(el) {
@@ -1701,6 +1714,11 @@ const sectionRoutes = {
                 observer.observe(el);
             }
         });
+
+        // Safety fallback timer: ensure all content becomes visible
+        setTimeout(function() {
+            revealElements.forEach(revealElement);
+        }, 3200);
 
         document.documentElement.classList.add('ss-motion-ready');
     }
