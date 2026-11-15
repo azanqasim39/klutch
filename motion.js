@@ -25,13 +25,39 @@
 
     // 1. Upgraded Scroll Reveal Observer with Section Choreography
     function initChoreographedReveals() {
-        if (!('IntersectionObserver' in window)) return;
-
         var revealElements = document.querySelectorAll(
             '.ss-reveal, .ss-reveal-left, .ss-reveal-right, .ss-reveal-scale'
         );
-        if (!revealElements.length) return;
+        if (!revealElements.length) {
+            document.documentElement.classList.add('ss-motion-ready');
+            return;
+        }
 
+        // CRITICAL: Instantly reveal all elements in/above viewport BEFORE adding ss-motion-ready
+        // This prevents the 0.5s disappearing bug on desktop
+        var vh = window.innerHeight || (document.documentElement && document.documentElement.clientHeight) || 800;
+        revealElements.forEach(function(el) {
+            // If element already has is-revealed from HTML, skip
+            if (el.classList.contains('is-revealed')) return;
+            var rect = el.getBoundingClientRect();
+            // Generous margin: anything within viewport + 150px below gets instant reveal
+            if (rect.top < vh + 150) {
+                el.classList.add('is-revealed');
+            }
+        });
+
+        // NOW it's safe to add ss-motion-ready — above-the-fold items are already revealed
+        document.documentElement.classList.add('ss-motion-ready');
+
+        if (!('IntersectionObserver' in window)) {
+            // Fallback: reveal everything
+            revealElements.forEach(function(el) {
+                el.classList.add('is-revealed');
+            });
+            return;
+        }
+
+        // Observer for below-the-fold elements — these will animate in on scroll
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
@@ -47,28 +73,34 @@
                         orderedItems.forEach(function(item, idx) {
                             setTimeout(function() {
                                 item.classList.add('is-revealed');
-                                item.style.filter = 'blur(0px)';
                             }, idx * 120);
                         });
                     }
 
                     target.classList.add('is-revealed');
-                    target.style.filter = 'blur(0px)';
                     observer.unobserve(target);
                 }
             });
         }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -60px 0px'
+            threshold: 0.01,
+            rootMargin: '0px 0px 100px 0px'
         });
 
+        // Only observe elements that still need revealing (below the fold)
         revealElements.forEach(function(el) {
             if (!el.classList.contains('is-revealed')) {
                 observer.observe(el);
             }
         });
 
-        document.documentElement.classList.add('ss-motion-ready');
+        // Safety fallback: if anything is still hidden after 4 seconds, force reveal
+        setTimeout(function() {
+            revealElements.forEach(function(el) {
+                if (!el.classList.contains('is-revealed')) {
+                    el.classList.add('is-revealed');
+                }
+            });
+        }, 4000);
     }
 
     // 2. High-Precision 3D Card Tilt with Cursor Lighting (Desktop Only)

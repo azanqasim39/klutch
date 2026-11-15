@@ -2037,18 +2037,38 @@ const sectionRoutes = {
 
     // 1. Upgraded Scroll Reveal Observer with Section Choreography
     function initChoreographedReveals() {
-        if (!('IntersectionObserver' in window)) return;
-
         var revealElements = document.querySelectorAll(
             '.ss-reveal, .ss-reveal-left, .ss-reveal-right, .ss-reveal-scale'
         );
-        if (!revealElements.length) return;
+        if (!revealElements.length) {
+            document.documentElement.classList.add('ss-motion-ready');
+            return;
+        }
+
+        // CRITICAL: Instantly reveal all elements in/above viewport BEFORE adding ss-motion-ready
+        var vh = window.innerHeight || (document.documentElement && document.documentElement.clientHeight) || 800;
+        revealElements.forEach(function(el) {
+            if (el.classList.contains('is-revealed')) return;
+            var rect = el.getBoundingClientRect();
+            if (rect.top < vh + 150) {
+                el.classList.add('is-revealed');
+            }
+        });
+
+        // NOW safe to add ss-motion-ready
+        document.documentElement.classList.add('ss-motion-ready');
+
+        if (!('IntersectionObserver' in window)) {
+            revealElements.forEach(function(el) {
+                el.classList.add('is-revealed');
+            });
+            return;
+        }
 
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
                     var target = entry.target;
-                    // Section Choreography: Check if part of a section with children
                     var choreographyParent = target.closest('[data-choreography]');
                     if (choreographyParent && !choreographyParent.__choreographed) {
                         choreographyParent.__choreographed = true;
@@ -2058,19 +2078,17 @@ const sectionRoutes = {
                         orderedItems.forEach(function(item, idx) {
                             setTimeout(function() {
                                 item.classList.add('is-revealed');
-                                item.style.filter = 'blur(0px)';
                             }, idx * 120);
                         });
                     }
 
                     target.classList.add('is-revealed');
-                    target.style.filter = 'blur(0px)';
                     observer.unobserve(target);
                 }
             });
         }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -60px 0px'
+            threshold: 0.01,
+            rootMargin: '0px 0px 100px 0px'
         });
 
         revealElements.forEach(function(el) {
@@ -2079,7 +2097,14 @@ const sectionRoutes = {
             }
         });
 
-        document.documentElement.classList.add('ss-motion-ready');
+        // Safety fallback
+        setTimeout(function() {
+            revealElements.forEach(function(el) {
+                if (!el.classList.contains('is-revealed')) {
+                    el.classList.add('is-revealed');
+                }
+            });
+        }, 4000);
     }
 
     // 2. High-Precision 3D Card Tilt with Cursor Lighting (Desktop Only)

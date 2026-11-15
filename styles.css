@@ -88,7 +88,22 @@ body { font-family: 'Inter', sans-serif; }
         .nav-link:hover::after { transform: scaleX(1); }
         .menu-backdrop { background: rgba(43,23,34,.58); backdrop-filter: blur(8px); }
         .section-eyebrow { letter-spacing: .22em; }
-        .hero-orb { border-radius: 999px; filter: blur(48px); opacity: .23; }
+        /* Hero Ambient Lighting Glows (True diffuse radial glow, no hard circular edges) */
+        .hero-orb {
+            border-radius: 50% !important;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+        .hero-orb-gold,
+        .hero-orb.bg-amber-400 {
+            background: radial-gradient(circle, rgba(200, 165, 106, 0.22) 0%, rgba(200, 165, 106, 0.06) 42%, transparent 70%) !important;
+            filter: blur(80px) !important;
+        }
+        .hero-orb-wine,
+        .hero-orb.bg-emerald-400 {
+            background: radial-gradient(circle, rgba(140, 75, 105, 0.28) 0%, rgba(87, 48, 67, 0.08) 42%, transparent 70%) !important;
+            filter: blur(80px) !important;
+        }
         .hero-grid { background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 34px 34px; }
         .cta-sheen { position: relative; overflow: hidden; }
         .cta-sheen::before {
@@ -1224,11 +1239,19 @@ button[class*="setCategory"]:active,
     }
 }
 
+html.ss-motion-ready .is-revealed,
+html.ss-motion-ready .ss-reveal.is-revealed,
+html.ss-motion-ready .ss-reveal-left.is-revealed,
+html.ss-motion-ready .ss-reveal-right.is-revealed,
+html.ss-motion-ready .ss-reveal-scale.is-revealed,
 .ss-reveal.is-revealed,
 .ss-reveal-left.is-revealed,
 .ss-reveal-right.is-revealed,
 .ss-reveal-scale.is-revealed {
+    opacity: 1 !important;
+    transform: translateY(0) translateX(0) scale(1) !important;
     filter: blur(0) !important;
+    visibility: visible !important;
 }
 
 /* 16-Child Cascade Stagger Engine (80ms cadence) */
