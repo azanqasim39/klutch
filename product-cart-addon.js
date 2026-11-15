@@ -20,34 +20,20 @@
         const style = document.createElement('style');
         style.id = 'ss-ordering-styles';
         style.textContent = `
-            /* Ensure bottom content is never covered by floating cart on mobile */
-            @media (max-width: 767px) {
-                body {
-                    padding-bottom: 96px !important;
-                }
+            /* Header Cart Button - Clean Luxury Styling Matching index.html */
+            .ss-header-cart-btn {
+                transition: transform 0.15s ease, background-color 0.2s ease !important;
+            }
+            .ss-header-cart-btn:active {
+                transform: scale(0.92) !important;
             }
 
-            /* Centered Floating Cart Bar on Mobile */
-            .ss-mobile-floating-bar-wrap {
-                position: fixed !important;
-                bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
-                left: 50% !important;
-                transform: translateX(-50%) !important;
-                width: calc(100% - 24px) !important;
-                max-width: 440px !important;
-                z-index: 99999 !important;
-                display: flex !important;
-                justify-content: center !important;
-                box-sizing: border-box !important;
-                pointer-events: auto !important;
-                margin: 0 !important;
-                transition: transform 0.25s ease, opacity 0.25s ease;
-            }
-
-            @media (min-width: 768px) {
-                .ss-mobile-floating-bar-wrap {
-                    display: none !important;
-                }
+            /* Hide any legacy floating cart bar completely */
+            .ss-mobile-floating-bar-wrap,
+            #ss-mobile-floating-bar-wrap {
+                display: none !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
             }
 
             /* Size button hover & active states */
@@ -63,26 +49,10 @@
                 border-color: #34d399 !important;
             }
 
-            /* Header Cart Button */
-            .ss-header-cart-btn {
-                transition: transform 0.15s ease, background-color 0.2s ease;
-            }
-            .ss-header-cart-btn:active {
-                transform: scale(0.94);
-            }
-            @media (max-width: 639px) {
-                .ss-header-cart-btn {
-                    padding: 6px 8px !important;
-                    font-size: 11px !important;
-                    border-radius: 8px !important;
-                    min-height: 32px !important;
-                }
-            }
-
             /* Pulse animation for bag when item added */
             @keyframes ss-bag-bounce {
                 0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.08); }
+                50% { transform: scale(1.12); }
             }
             .ss-pulse-bounce {
                 animation: ss-bag-bounce 0.4s ease-out;
@@ -102,7 +72,7 @@
         document.head.appendChild(style);
     }
 
-    // 1. Inject Cart button into Header Navigation (Mobile & Desktop)
+    // 1. Inject Cart button into Header Navigation (Mobile & Desktop) to the left of Back to Menu
     function injectHeaderCart() {
         if (document.querySelector('.ss-header-cart-btn')) return;
 
@@ -113,12 +83,11 @@
 
         const cartBtn = document.createElement('a');
         cartBtn.href = '../checkout.html';
-        cartBtn.className = 'ss-header-cart-btn inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-amber-400/40 text-amber-300 relative shadow-md shrink-0';
+        cartBtn.className = 'ss-header-cart-btn inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-amber-400/40 bg-white/10 hover:bg-white/15 text-amber-300 relative shadow-md transition active:scale-95 shrink-0';
         cartBtn.setAttribute('aria-label', 'View Shopping Bag');
         cartBtn.innerHTML = `
             <i class="fa-solid fa-cart-shopping text-xs sm:text-sm text-amber-300"></i>
-            <span class="hidden sm:inline text-xs font-bold text-white">Bag</span>
-            <span class="ss-cart-badge bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 text-[10px] font-black min-w-[18px] h-[18px] rounded-full flex items-center justify-center shadow border border-emerald-950 px-1 hidden">0</span>
+            <span class="ss-cart-badge absolute -top-1.5 -right-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 text-[9.5px] font-black min-w-[17px] h-[17px] rounded-full flex items-center justify-center shadow-md border border-emerald-950 px-1" style="display: none;">0</span>
         `;
 
         if (backBtn && backBtn.parentNode) {
@@ -128,26 +97,11 @@
         }
     }
 
-    // 2. Inject Perfectly Centered Mobile Floating Cart Bar
+    // 2. Remove any bottom floating cart bar (per user instruction)
     function injectMobileFloatingCart() {
-        if (document.getElementById('ss-mobile-floating-bar-wrap')) return;
-
-        const wrap = document.createElement('div');
-        wrap.id = 'ss-mobile-floating-bar-wrap';
-        wrap.className = 'ss-mobile-floating-bar-wrap';
-
-        wrap.innerHTML = `
-            <a href="../checkout.html" id="ss-mobile-floating-cart-anchor" class="w-full flex items-center justify-between gap-3 px-3.5 py-2.5 sm:py-3 rounded-2xl bg-gradient-to-r from-[#2b1722] via-[#3b202f] to-[#2b1722] text-white border-2 border-amber-400 shadow-2xl backdrop-blur-xl transition active:scale-[0.98]">
-                <!-- Left: Bag Icon & Counter -->
-                <div class="flex items-center gap-2.5 min-w-0">
-                    <div id="ss-floating-bag-icon-box" class="relative w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-500 text-emerald-950 flex items-center justify-center font-bold text-sm shrink-0 shadow">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span class="ss-cart-badge absolute -top-1.5 -right-1.5 bg-[#2b1722] text-amber-300 text-[9.5px] font-black min-w-[18px] h-[18px] rounded-full flex items-center justify-center border-2 border-amber-400 px-1 hidden">0</span>
-                    </div>
-                    <div class="min-w-0 text-left">
-                        <div class="text-xs font-bold text-white flex items-center gap-1.5 leading-tight">
-                            <span class="text-amber-200">Bag</span>
-                            <span class="text-amber-400/80">•</span>
+        const existing = document.getElementById('ss-mobile-floating-bar-wrap');
+        if (existing) existing.remove();
+    }
                             <span class="ss-cart-total text-amber-300 font-extrabold">Rs. 0</span>
                         </div>
                         <div class="ss-cart-sublabel text-[10px] text-stone-300 truncate">Tap to review &amp; checkout</div>
@@ -439,11 +393,8 @@
     function initProductOrdering() {
         injectStyles();
 
-        // 1. Inject Cart button into Header (Mobile & Desktop)
+        // 1. Inject Cart button into Header (Mobile & Desktop) to left of Back to Menu
         injectHeaderCart();
-
-        // 2. Inject Mobile Floating Cart Bar (Centered at bottom on mobile)
-        injectMobileFloatingCart();
 
         // 3. Handle Multi-Flavour & Size Pages vs Single Item Pages
         const sizeBoxes = document.querySelectorAll('.size-box');

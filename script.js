@@ -2444,20 +2444,22 @@ const sectionRoutes = {
         }, { passive: true });
     }
 
-    // 10. Smooth Page Exit Transition (Same-Origin)
-    function initPageTransitions() {
-        document.addEventListener('click', function(e) {
-            var link = e.target.closest('a');
-            if (!link || !link.href) return;
-            if (link.target === '_blank' || link.href.startsWith('mailto:') || link.href.startsWith('tel:') || link.href.startsWith('https://wa.me')) return;
-            if (link.origin === window.location.origin && !link.hash && link.pathname !== window.location.pathname) {
-                e.preventDefault();
-                document.body.classList.add('ss-page-exit');
-                setTimeout(function() {
-                    window.location.href = link.href;
-                }, 200);
-            }
-        });
+    // 10. Mobile Back Button (bfcache) & History Recovery Guard (Prevents White Screen on Back Navigation)
+    function initBFCacheGuard() {
+        function restorePage() {
+            document.body.classList.remove('ss-page-exit');
+            document.documentElement.classList.remove('ss-page-exit');
+            document.documentElement.classList.add('ss-motion-ready');
+            var revealElements = document.querySelectorAll(
+                '.ss-reveal, .ss-reveal-left, .ss-reveal-right, .ss-reveal-scale'
+            );
+            revealElements.forEach(function(el) {
+                el.classList.add('is-revealed');
+                el.style.filter = 'blur(0px)';
+            });
+        }
+        window.addEventListener('pageshow', restorePage);
+        window.addEventListener('popstate', restorePage);
     }
 
     // Boot Everything on DOM Ready
@@ -2471,7 +2473,7 @@ const sectionRoutes = {
         initHamburgerMorph();
         initCartFeedback();
         initQuantityFeedback();
-        initPageTransitions();
+        initBFCacheGuard();
     }
 
     if (document.readyState === 'loading') {

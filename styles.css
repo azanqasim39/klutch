@@ -1547,8 +1547,7 @@ header.header-scrolled-deep {
 }
 
 .ss-page-exit {
-    opacity: 0 !important;
-    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    opacity: 1 !important;
 }
 
 @keyframes ss-divider-pulse {
