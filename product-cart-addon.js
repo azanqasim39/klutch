@@ -68,6 +68,37 @@
             .ss-badge-bump {
                 animation: ss-badge-bump 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             }
+
+            /* MOBILE FIX: Ensure Back to Menu yellow pill completely covers all text without clipping */
+            @media (max-width: 767px) {
+                html body header a.action-link,
+                html body header .action-link {
+                    width: auto !important;
+                    max-width: none !important;
+                    min-width: 0 !important;
+                    white-space: nowrap !important;
+                    display: inline-flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    flex: 0 0 auto !important;
+                    flex-shrink: 0 !important;
+                    padding: 6px 11px !important;
+                    font-size: 9.5px !important;
+                    line-height: 1 !important;
+                    border-radius: 8px !important;
+                    box-sizing: border-box !important;
+                    overflow: visible !important;
+                    text-align: center !important;
+                    gap: 5px !important;
+                }
+
+                html body header a.action-link span,
+                html body header .action-link span {
+                    white-space: nowrap !important;
+                    overflow: visible !important;
+                    display: inline-block !important;
+                }
+            }
         `;
         document.head.appendChild(style);
     }
@@ -101,23 +132,6 @@
     function injectMobileFloatingCart() {
         const existing = document.getElementById('ss-mobile-floating-bar-wrap');
         if (existing) existing.remove();
-    }
-                            <span class="ss-cart-total text-amber-300 font-extrabold">Rs. 0</span>
-                        </div>
-                        <div class="ss-cart-sublabel text-[10px] text-stone-300 truncate">Tap to review &amp; checkout</div>
-                    </div>
-                </div>
-
-                <!-- Right: Action CTA -->
-                <div class="ss-floating-cta-pill px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-emerald-950 font-black text-xs shrink-0 flex items-center gap-1 shadow hover:brightness-105 transition">
-                    <span class="ss-cta-text">View Bag</span>
-                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                </div>
-            </a>
-        `;
-
-        document.body.appendChild(wrap);
-        syncCartUI();
     }
 
     // Synchronize all UI elements across the page with current cart state
@@ -297,17 +311,34 @@
             imageSrc = imgEl.getAttribute('src').replace(/^\.\.\//, '');
         }
 
+        const targetParent = h1.closest('article') || h1.parentElement;
+        const priceBox = targetParent.querySelector('.rounded-xl.border.border-amber-200, .rounded-xl.border.border-amber-300, .mt-4, section');
+
         let price = 1200;
         let unit = '1 Kg';
 
-        const match = document.body.innerText.match(/Rs\.?\s*([\d,]+)/i);
-        if (match && match[1]) {
-            price = parseFloat(match[1].replace(/,/g, '')) || 1200;
-        }
+        if (priceBox) {
+            const shimmerEl = priceBox.querySelector('.ss-price-shimmer, .font-playfair');
+            if (shimmerEl) {
+                const match = shimmerEl.textContent.match(/[\d,]+/);
+                if (match) price = parseFloat(match[0].replace(/,/g, '')) || 1200;
+            } else {
+                const match = priceBox.textContent.match(/Rs\.?\s*([\d,]+)/i);
+                if (match) price = parseFloat(match[1].replace(/,/g, '')) || 1200;
+            }
 
-        const unitEl = document.querySelector('.text-stone-500');
-        if (unitEl && unitEl.textContent.includes('/')) {
-            unit = unitEl.textContent.replace('/', '').trim();
+            const spans = priceBox.querySelectorAll('span');
+            for (let s of spans) {
+                if (s.textContent.includes('/')) {
+                    unit = s.textContent.replace('/', '').trim();
+                    break;
+                }
+            }
+        } else {
+            const match = document.body.innerText.match(/Rs\.?\s*([\d,]+)/i);
+            if (match && match[1]) {
+                price = parseFloat(match[1].replace(/,/g, '')) || 1200;
+            }
         }
 
         const widget = document.createElement('div');
@@ -371,21 +402,35 @@
 
         addBtn.addEventListener('click', function () {
             const qty = parseInt(qtyVal.value, 10) || 1;
-            window.SialkotCart.addItem(productData, qty);
+            if (window.SialkotCart) {
+                window.SialkotCart.addItem(productData, qty);
+            }
+            const origHTML = addBtn.innerHTML;
+            addBtn.innerHTML = `<i class="fa-solid fa-check text-xs text-amber-300"></i><span>Added (${qty})!</span>`;
+            addBtn.classList.add('bg-emerald-900', 'border-amber-300');
+            setTimeout(() => {
+                addBtn.innerHTML = origHTML;
+                addBtn.classList.remove('bg-emerald-900', 'border-amber-300');
+            }, 1200);
         });
 
         orderNowBtn.addEventListener('click', function () {
             const qty = parseInt(qtyVal.value, 10) || 1;
-            window.SialkotCart.addItem(productData, qty);
+            if (window.SialkotCart) {
+                window.SialkotCart.addItem(productData, qty);
+            }
             window.location.href = '../checkout.html';
         });
 
-        const targetParent = h1.closest('article') || h1.parentElement;
-        const priceBox = targetParent.querySelector('.rounded-xl.border.border-amber-200, section, .mt-4');
         if (priceBox && priceBox.parentElement) {
             priceBox.parentElement.insertBefore(widget, priceBox.nextSibling);
         } else {
-            targetParent.appendChild(widget);
+            const keyIngredients = targetParent.querySelector('section[aria-labelledby="ingredients-heading"], section');
+            if (keyIngredients && keyIngredients.parentElement) {
+                keyIngredients.parentElement.insertBefore(widget, keyIngredients);
+            } else {
+                targetParent.appendChild(widget);
+            }
         }
     }
 

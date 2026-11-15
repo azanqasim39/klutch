@@ -1597,5 +1597,39 @@ header.header-scrolled-deep {
     }
 }
 
+/* 11. MOBILE BACK TO MENU ACTION-LINK PERFECTION
+   Guarantees the yellow/gold pill background completely encloses 'Back to Menu'
+   on all phone screen sizes without cutting off or text spilling outside. */
+@media (max-width: 767px) {
+    html body header a.action-link,
+    html body header .action-link {
+        width: auto !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        white-space: nowrap !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 auto !important;
+        flex-shrink: 0 !important;
+        padding: 6px 11px !important;
+        font-size: 9.5px !important;
+        line-height: 1 !important;
+        border-radius: 8px !important;
+        box-sizing: border-box !important;
+        overflow: visible !important;
+        text-align: center !important;
+        gap: 5px !important;
+    }
+
+    html body header a.action-link span,
+    html body header .action-link span {
+        white-space: nowrap !important;
+        overflow: visible !important;
+        display: inline-block !important;
+    }
+}
+
+
 
 
