@@ -64,6 +64,7 @@
         tailwind.config = { theme: { extend: { colors: { emerald: { 850: '#064e3b', 900: '#022c22' }, amber: { 450: '#f59e0b', 550: '#d97706' }, burgundy: { 700: '#7f1d1d', 800: '#991b1b', 900: '#450a0a' } }, fontFamily: { serif: ['Playfair Display', 'Georgia', 'serif'], sans: ['Inter', 'sans-serif'], urdu: ['Amiri', 'serif'] } } } };
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
     <style>
         body { font-family: 'Inter', sans-serif; background: radial-gradient(circle at 10% 0%, rgba(245,158,11,.055), transparent 28%), radial-gradient(circle at 95% 8%, rgba(6,78,59,.08), transparent 24%), #fafaf9; }
         .font-playfair { font-family: 'Playfair Display', Georgia, serif; }
@@ -977,7 +978,7 @@
                 <a href="../?section=reviews" class="text-white/90 hover:text-amber-300 transition">Reviews</a>
                 <a href="../?section=branches" class="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-2.5 py-1.5 rounded-lg shadow-sm"><i class="fa-solid fa-location-dot"></i> Our Branches</a>
             </nav>
-            <a href="../?section=menu" class="action-link inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-2.5 sm:px-3 py-2 text-[10px] sm:text-xs shadow-md whitespace-nowrap"><i class="fa-solid fa-arrow-left"></i><span>Back to Menu</span></a>
+            <a href="../?section=menu" class="action-link hover:scale-105 active:scale-95 transition-all duration-200 inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-2.5 sm:px-3 py-2 text-[10px] sm:text-xs shadow-md whitespace-nowrap"><i class="fa-solid fa-arrow-left"></i><span>Back to Menu</span></a>
         </div>
     </header>
 
@@ -988,7 +989,7 @@
             </nav>
             <article class="product-panel overflow-hidden rounded-2xl border border-stone-200 bg-white">
                 <div class="grid lg:grid-cols-2">
-                    <div class="product-photo relative min-h-[210px] sm:min-h-[270px] lg:min-h-[360px] p-3 sm:p-4 flex items-center justify-center">
+                    <div class="product-photo relative ss-reveal-scale min-h-[210px] sm:min-h-[270px] lg:min-h-[360px] p-3 sm:p-4 flex items-center justify-center">
                         <img src="../gulab%20jamun.webp" alt="Gulab Jamun" class="w-full max-h-[340px] min-h-[190px] sm:min-h-[230px] object-contain rounded-xl" fetchpriority="high" decoding="async" referrerpolicy="no-referrer">
                         <span class="absolute top-3 left-3 rounded-full bg-emerald-950 text-amber-300 border border-amber-400/40 shadow px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wider">Traditional Sweets</span>
                         <span class="absolute bottom-3 right-3 rounded-lg bg-stone-950/90 text-amber-300 px-2.5 py-1.5 text-[10px] font-extrabold"><span aria-hidden="true">★</span> 4.9 Rating</span>
@@ -998,14 +999,14 @@
                             <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-widest text-amber-800"><i class="fa-solid fa-cookie-bite"></i> Freshly Prepared</span>
                         </div>
                         <div class="mb-2.5 flex flex-wrap gap-1.5"><span class="rounded-full bg-amber-100 px-2.5 py-1 text-[10px] font-bold text-amber-800 border border-amber-200">Bestseller</span><span class="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-900 border border-emerald-200">Heritage Special</span><span class="rounded-full bg-red-50 px-2.5 py-1 text-[10px] font-bold text-red-800 border border-red-200">100% Desi Ghee</span></div>
-                        <h1 class="font-playfair text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-emerald-950">Gulab Jamun</h1>
+                        <h1 class="font-playfair text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-emerald-950 ss-reveal">Gulab Jamun</h1>
                         <p class="font-urdu text-xl sm:text-2xl text-amber-700 mt-1" dir="rtl" lang="ur">گلاب جامن</p>
                         <div class="mt-2.5 flex items-center gap-2 text-xs font-bold text-amber-600"><span aria-hidden="true">★★★★★</span><span class="text-stone-500 text-xs">Rated 4.9</span></div>
-                        <p class="mt-3.5 text-xs sm:text-sm leading-6 text-stone-600">Warm, soft milk-solid dumplings fried in pure desi ghee, soaked in aromatic cardamom sugar syrup.</p>
+                        <p class="mt-3.5 text-xs sm:text-sm leading-6 text-stone-600 ss-reveal">Warm, soft milk-solid dumplings fried in pure desi ghee, soaked in aromatic cardamom sugar syrup.</p>
 
                         <div class="mt-4 rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-3.5 sm:p-4">
                             <span class="block text-[10px] font-bold uppercase tracking-widest text-stone-500">Price</span>
-                            <div class="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1"><span class="font-playfair text-2xl sm:text-3xl font-extrabold text-emerald-950">Rs. 1,500</span><span class="text-xs text-stone-500">/ 1 Kg</span></div>
+                            <div class="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1"><span class="font-playfair text-2xl sm:text-3xl font-extrabold text-emerald-950 ss-price-shimmer">Rs. 1,500</span><span class="text-xs text-stone-500">/ 1 Kg</span></div>
                             <p class="text-[10px] text-stone-500 mt-1.5">Please call the branch to confirm today's availability and current pricing.</p>
                         </div>
 
@@ -1017,7 +1018,7 @@
                         </section>
                         <div class="mt-3.5 flex flex-wrap gap-1.5"><span class="rounded-md border border-stone-200 bg-stone-100 px-2.5 py-1 text-[10px] font-medium text-stone-600">Warm &amp; Soft</span><span class="rounded-md border border-stone-200 bg-stone-100 px-2.5 py-1 text-[10px] font-medium text-stone-600">Pure Desi Ghee</span><span class="rounded-md border border-stone-200 bg-stone-100 px-2.5 py-1 text-[10px] font-medium text-stone-600">Fresh Daily</span></div>
                         <div class="mt-5 flex flex-col sm:flex-row gap-2">
-                            <a href="../?section=menu" class="inline-flex items-center justify-center gap-2 rounded-lg border border-stone-300 bg-white hover:bg-stone-50 text-emerald-950 font-bold px-4 py-2.5 text-xs transition"><i class="fa-solid fa-utensils"></i> Explore Full Menu</a>
+                            <a href="../?section=menu" class="inline-flex items-center justify-center gap-2 rounded-lg border border-stone-300 bg-white hover:bg-stone-50 text-emerald-950 font-bold px-4 py-2.5 text-xs hover:scale-105 active:scale-95 transition-all duration-200"><i class="fa-solid fa-utensils"></i> Explore Full Menu</a>
                         </div>
                     </div>
                 </div>
@@ -1110,5 +1111,10 @@
     <!-- Sialkot Sweets Universal Ordering System -->
     <script src="../cart.js"></script>
     <script src="../product-cart-addon.js"></script>
+    <!-- Custom Smooth Motion Cursor (Desktop) -->
+    <div class="ss-cursor-dot" aria-hidden="true"></div>
+    <div class="ss-cursor-ring" aria-hidden="true"></div>
+
+    <script src="../motion.js" defer></script>
 </body>
 </html>

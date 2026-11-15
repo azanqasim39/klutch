@@ -94,10 +94,10 @@
             </p>
 
             <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                <a href="/" class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-950 hover:bg-emerald-900 text-amber-300 px-6 py-3.5 text-sm font-bold shadow-lg transition duration-200">
+                <a href="/" class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-950 hover:bg-emerald-900 text-amber-300 px-6 py-3.5 text-sm font-bold shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 ss-pulse-ring">
                     <i class="fa-solid fa-house"></i> Back to Homepage
                 </a>
-                <a href="/?section=menu" class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 px-6 py-3.5 text-sm font-black shadow-lg transition duration-200">
+                <a href="/?section=menu" class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 px-6 py-3.5 text-sm font-black shadow-lg hover:scale-105 active:scale-95 transition-all duration-300">
                     <i class="fa-solid fa-utensils"></i> Explore Full Menu
                 </a>
             </div>
@@ -132,5 +132,10 @@
         </div>
     </footer>
 
+    <!-- Custom Smooth Motion Cursor (Desktop) -->
+    <div class="ss-cursor-dot" aria-hidden="true"></div>
+    <div class="ss-cursor-ring" aria-hidden="true"></div>
+
+    <script src="./motion.js" defer></script>
 </body>
 </html>

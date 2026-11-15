@@ -185,6 +185,16 @@
 
 <body class="text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-950 pb-20" x-data="orderSuccessApp()" x-init="initSuccess()">
 
+    <!-- Confetti Container -->
+    <div id="confetti-container" aria-hidden="true" class="pointer-events-none fixed inset-0 z-50 overflow-hidden">
+        <div class="ss-confetti-particle" style="left:10%;animation-delay:0s;background:#c8a56a;width:10px;height:10px;"></div>
+        <div class="ss-confetti-particle" style="left:25%;animation-delay:0.4s;background:#e0c79e;width:8px;height:12px;"></div>
+        <div class="ss-confetti-particle" style="left:40%;animation-delay:0.2s;background:#3b202f;width:12px;height:8px;"></div>
+        <div class="ss-confetti-particle" style="left:55%;animation-delay:0.6s;background:#d5b784;width:9px;height:9px;"></div>
+        <div class="ss-confetti-particle" style="left:70%;animation-delay:0.3s;background:#25d366;width:11px;height:7px;"></div>
+        <div class="ss-confetti-particle" style="left:85%;animation-delay:0.5s;background:#c8a56a;width:8px;height:10px;"></div>
+    </div>
+
     <!-- Header / Nav -->
     <header class="bg-emerald-950 text-white py-3.5 px-4 shadow-lg border-b border-amber-500/20">
         <div class="max-w-4xl mx-auto flex items-center justify-between">
@@ -212,7 +222,7 @@
         <div class="text-center mb-8">
             <div class="success-checkmark-wrapper mb-4">
                 <div class="success-ring">
-                    <i class="fa-solid fa-check checkmark-icon"></i>
+                    <i class="fa-solid fa-check checkmark-icon ss-checkmark-draw"></i>
                 </div>
             </div>
 
@@ -227,7 +237,7 @@
         </div>
 
         <!-- ORDER ID CARD -->
-        <div class="luxury-card p-5 sm:p-7 text-center mb-6 relative overflow-hidden border-2 border-amber-400/50">
+        <div class="luxury-card p-5 sm:p-7 text-center mb-6 relative overflow-hidden border-2 border-amber-400/50 ss-reveal">
             <div class="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-amber-400/10 blur-xl pointer-events-none"></div>
             <div class="absolute -bottom-10 -left-10 w-28 h-28 rounded-full bg-emerald-900/10 blur-xl pointer-events-none"></div>
 
@@ -253,7 +263,7 @@
         </div>
 
         <!-- SUPER PROMINENT BLOCK: Send Payment Screenshot to WhatsApp for Confirmation -->
-        <div class="rounded-2xl bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 text-white p-5 sm:p-7 shadow-2xl border-2 border-amber-400/80 mb-6 relative overflow-hidden">
+        <div class="rounded-2xl bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 text-white p-5 sm:p-7 shadow-2xl border-2 border-amber-400/80 mb-6 relative overflow-hidden ss-reveal ss-reveal-scale">
             <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
 
             <!-- Header Badge -->
@@ -324,7 +334,7 @@
         </div>
 
         <!-- ORDER SUMMARY BREAKDOWN -->
-        <div class="luxury-card p-5 sm:p-7 mb-6">
+        <div class="luxury-card p-5 sm:p-7 mb-6 ss-reveal">
             <div class="flex items-center justify-between pb-3 mb-4 border-b border-amber-500/20">
                 <h3 class="font-serif text-base sm:text-lg font-bold text-emerald-950 flex items-center gap-2">
                     <i class="fa-solid fa-box-open text-amber-700"></i>
@@ -746,5 +756,10 @@
         }
     </script>
 
+    <!-- Custom Smooth Motion Cursor (Desktop) -->
+    <div class="ss-cursor-dot" aria-hidden="true"></div>
+    <div class="ss-cursor-ring" aria-hidden="true"></div>
+
+    <script src="./motion.js" defer></script>
 </body>
 </html>

@@ -144,6 +144,7 @@
     </script>
     <script src="./cart.js"></script>
     <script defer src="./script.js"></script>
+    <script defer src="./motion.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -160,6 +161,9 @@
 
 </head>
 <body class="bg-stone-50 text-stone-800 antialiased selection:bg-amber-200 selection:text-emerald-900 pb-28 md:pb-0" x-data="sialkotSweetsApp()">
+
+    <!-- Scroll Progress Bar -->
+    <div class="ss-progress-bar"></div>
 
     <!-- Skip-to-Content (Accessibility) -->
     <a href="#menu-section" class="ss-skip-link">Skip to Menu</a>
@@ -329,8 +333,8 @@
     <section id="home-section" class="relative bg-emerald-950 text-white overflow-hidden py-12 sm:py-16 lg:py-24 border-b border-amber-500/40">
         <!-- Background Decorative Elements -->
         <div class="absolute inset-0 opacity-70 hero-grid"></div>
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-400 hero-orb pointer-events-none"></div>
-        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-400 hero-orb pointer-events-none"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-400 hero-orb ss-orb-breathe pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-400 hero-orb ss-orb-breathe pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid md:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -383,7 +387,7 @@
                             <button x-show="searchQuery" @click="searchQuery = ''" class="text-stone-300 hover:text-white px-2" aria-label="Clear search input">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
-                            <a href="?section=menu" data-section-route="menu" class="bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold px-5 py-2.5 rounded-xl text-sm transition shrink-0 ml-2">
+                            <a href="?section=menu" data-section-route="menu" class="ss-cta-enter bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold px-5 py-2.5 rounded-xl text-sm transition shrink-0 ml-2">
                                 Find Food
                             </a>
                         </div>
@@ -465,22 +469,22 @@
     <div class="ss-stats-bar py-6 px-4">
         <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-around gap-4 sm:gap-6">
             <div class="ss-stat-item">
-                <div class="ss-stat-number" data-ss-counter="75" data-ss-suffix="+">75+</div>
+                <div class="ss-stat-number" data-ss-counter="75" data-count="75" data-target-number="75" data-ss-suffix="+">75+</div>
                 <div class="ss-stat-label">Years of Heritage (Since 1951)</div>
             </div>
             <div class="ss-stat-divider hidden sm:block"></div>
             <div class="ss-stat-item">
-                <div class="ss-stat-number" data-ss-counter="100" data-ss-suffix="%">100%</div>
+                <div class="ss-stat-number" data-ss-counter="100" data-count="100" data-target-number="100" data-ss-suffix="%">100%</div>
                 <div class="ss-stat-label">Pure Desi Ghee Mithai</div>
             </div>
             <div class="ss-stat-divider hidden sm:block"></div>
             <div class="ss-stat-item">
-                <div class="ss-stat-number" data-ss-counter="3" data-ss-suffix=" Branches">3 Branches</div>
+                <div class="ss-stat-number" data-ss-counter="3" data-count="3" data-target-number="3" data-ss-suffix=" Branches">3 Branches</div>
                 <div class="ss-stat-label">Across Gujranwala</div>
             </div>
             <div class="ss-stat-divider hidden md:block"></div>
             <div class="ss-stat-item">
-                <div class="ss-stat-number" data-ss-counter="50" data-ss-suffix="+">50+</div>
+                <div class="ss-stat-number" data-ss-counter="50" data-count="50" data-target-number="50" data-ss-suffix="+">50+</div>
                 <div class="ss-stat-label">Handcrafted Delicacies</div>
             </div>
         </div>
@@ -736,7 +740,7 @@
             </div>
 
             <!-- Dish Cards Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ss-stagger">
                 <template x-for="item in filteredItems" :key="item.id">
                     <a :href="getProductUrl(item)" :aria-label="'View product details for ' + item.name" class="menu-card ss-tilt bg-white rounded-2xl overflow-hidden border border-stone-200/80 flex flex-col justify-between group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2">
                         
@@ -801,7 +805,7 @@
                         <div class="px-4 sm:px-5 pb-4 sm:pb-5 pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
                             <div>
                                 <span class="text-[11px] text-stone-400 block font-medium">Price</span>
-                                <span class="font-bold text-emerald-950 text-sm sm:text-base">
+                                <span class="font-bold text-emerald-950 text-sm sm:text-base ss-price-shimmer">
                                     Rs. <span x-text="item.price.toLocaleString()"></span>
                                     <span class="text-[10px] sm:text-[11px] font-normal text-stone-500" x-text="'/ ' + item.unit"></span>
                                 </span>
@@ -970,7 +974,7 @@
                     >
                         <span>Do you use 100% pure Desi Ghee in your traditional sweets?</span>
                         <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 0 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
-                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                            <i class="fa-solid fa-chevron-down text-xs faq-chevron"></i>
                         </span>
                     </button>
                     <div class="faq-answer" :class="{ 'is-open': faqOpen === 0 }">
@@ -989,7 +993,7 @@
                     >
                         <span>Where are your three branches located in Gujranwala and what are the opening hours?</span>
                         <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 1 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
-                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                            <i class="fa-solid fa-chevron-down text-xs faq-chevron"></i>
                         </span>
                     </button>
                     <div class="faq-answer" :class="{ 'is-open': faqOpen === 1 }">
@@ -1013,7 +1017,7 @@
                     >
                         <span>Can I place bulk orders for weddings, family events, or corporate gifting?</span>
                         <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 2 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
-                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                            <i class="fa-solid fa-chevron-down text-xs faq-chevron"></i>
                         </span>
                     </button>
                     <div class="faq-answer" :class="{ 'is-open': faqOpen === 2 }">
@@ -1032,7 +1036,7 @@
                     >
                         <span>How long do your sweets and halwas stay fresh during travel?</span>
                         <span class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center shrink-0 transition-transform duration-300" :class="faqOpen === 3 ? 'rotate-180 bg-amber-100 text-amber-700' : 'text-stone-500'">
-                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                            <i class="fa-solid fa-chevron-down text-xs faq-chevron"></i>
                         </span>
                     </button>
                     <div class="faq-answer" :class="{ 'is-open': faqOpen === 3 }">
@@ -1298,6 +1302,10 @@
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </a>
     </div>
+
+    <!-- Custom Cursor (Desktop Only) -->
+    <div class="ss-cursor-dot" aria-hidden="true"></div>
+    <div class="ss-cursor-ring" aria-hidden="true"></div>
 
 </body>
 </html>

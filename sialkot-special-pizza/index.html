@@ -284,7 +284,7 @@
                 <a href="../?section=reviews" class="text-white/90 hover:text-amber-300 transition">Reviews</a>
                 <a href="../?section=branches" class="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-2.5 py-1.5 rounded-lg shadow-sm"><i class="fa-solid fa-location-dot"></i> Our Branches</a>
             </nav>
-            <a href="../?section=menu" class="action-link inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-2.5 sm:px-3 py-1.5 text-[10px] sm:text-xs shadow-md whitespace-nowrap"><i class="fa-solid fa-arrow-left"></i><span>Back to Menu</span></a>
+            <a href="../?section=menu" class="action-link hover:scale-105 active:scale-95 transition-all duration-200 inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 font-extrabold px-2.5 sm:px-3 py-1.5 text-[10px] sm:text-xs shadow-md whitespace-nowrap"><i class="fa-solid fa-arrow-left"></i><span>Back to Menu</span></a>
         </div>
     </header>
 
@@ -312,7 +312,7 @@
                             </span>
 
                             <!-- Single Featured Pizza Image -->
-                            <div class="relative overflow-hidden rounded-xl aspect-[4/3] bg-stone-100 flex items-center justify-center">
+                            <div class="relative overflow-hidden rounded-xl aspect-[4/3] bg-stone-100 flex items-center justify-center ss-reveal-scale">
                                 <img
                                     id="main-pizza-image"
                                     src="Z.png"
@@ -330,9 +330,9 @@
                                     </span>
                                     <span class="text-[11px] font-bold text-amber-600">★ 4.9 Rating</span>
                                 </div>
-                                <h2 class="font-playfair text-lg sm:text-xl font-bold text-emerald-950 mt-1.5 leading-tight">Sialkot Special Pizza</h2>
+                                <h2 class="font-playfair text-lg sm:text-xl font-bold text-emerald-950 mt-1.5 leading-tight ss-reveal">Sialkot Special Pizza</h2>
                                 <p class="font-urdu text-sm text-amber-700 leading-tight" dir="rtl" lang="ur">سیالکوٹ اسپیشل پیزا</p>
-                                <p class="text-[11px] text-stone-500 mt-1.5 leading-relaxed">
+                                <p class="text-[11px] text-stone-500 mt-1.5 leading-relaxed ss-reveal">
                                     Crafted with fresh dough, signature tomato herb sauce, and loaded mozzarella blend across ten authentic flavours.
                                 </p>
                                 <div class="mt-2.5 pt-2.5 border-t border-stone-100 flex items-center justify-between text-[11px]">
@@ -353,7 +353,7 @@
                     <div class="mb-3.5 pb-2.5 border-b border-stone-200/90 flex flex-wrap items-baseline justify-between gap-2">
                         <div>
                             <div class="flex items-baseline gap-2">
-                                <span class="font-playfair text-2xl sm:text-3xl font-extrabold text-amber-800">From Rs. 700</span>
+                                <span class="font-playfair text-2xl sm:text-3xl font-extrabold text-amber-800 ss-price-shimmer">From Rs. 700</span>
                                 <span class="text-[11px] text-stone-500 font-medium">Mini 6" to XL 14"</span>
                             </div>
                             <p class="text-[11px] text-emerald-800 font-medium mt-0.5 flex items-center gap-1">
@@ -848,5 +848,10 @@
     <!-- Sialkot Sweets Universal Ordering System -->
     <script src="../cart.js"></script>
     <script src="../product-cart-addon.js"></script>
+    <!-- Custom Smooth Motion Cursor (Desktop) -->
+    <div class="ss-cursor-dot" aria-hidden="true"></div>
+    <div class="ss-cursor-ring" aria-hidden="true"></div>
+
+    <script src="../motion.js" defer></script>
 </body>
 </html>
