@@ -509,7 +509,7 @@
             </div>
 
             <!-- Content Grid 1: The Origin Story -->
-            <div class="grid md:grid-cols-12 gap-12 items-center mb-16">
+            <div class="grid md:grid-cols-12 gap-12 items-center">
                 <div class="md:col-span-6 space-y-5 ss-reveal-left">
                     <h3 class="font-serif text-2xl sm:text-3xl font-bold text-amber-300">
                         Founded by Ishaq & Sons
@@ -567,118 +567,10 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Content Grid 2: Core Pillars / What Sets Us Apart -->
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-white/10 ss-stagger">
-                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
-                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-cow"></i>
-                    </div>
-                    <h4 class="font-serif font-bold text-lg text-white">Pure Desi Ghee & Fresh Khoya</h4>
-                    <p class="text-stone-300 text-xs leading-relaxed">
-                        We never compromise on purity. Our mithai is slowly reduced from fresh whole buffalo milk and cooked in 100% pure organic Desi Ghee.
-                    </p>
-                </div>
-
-                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
-                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-gift"></i>
-                    </div>
-                    <h4 class="font-serif font-bold text-lg text-white">Home of Sialkoti Guldasta</h4>
-                    <p class="text-stone-300 text-xs leading-relaxed">
-                        We are the originators of the famous <strong class="text-amber-300">Sialkoti Guldasta Box</strong>—Gujranwala's premier luxury mix-sweet hamper for weddings and festivities.
-                    </p>
-                </div>
-
-                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
-                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-cookie-bite"></i>
-                    </div>
-                    <h4 class="font-serif font-bold text-lg text-white">Arabian Sweets & Bakery</h4>
-                    <p class="text-stone-300 text-xs leading-relaxed">
-                        Evolution alongside tradition. Enjoy authentic Baklava, Kunafa, fresh biscuits, cake rusks, and halwa specialties across all 3 of our branches in Gujranwala.
-                    </p>
-                </div>
-
-                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
-                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <h4 class="font-serif font-bold text-lg text-white">Generational Loyalty</h4>
-                    <p class="text-stone-300 text-xs leading-relaxed">
-                        Families across Gujranwala, Sialkot, and overseas Pakistanis have trusted us for over 7 decades to sweeten their most cherished moments.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Banner Quote -->
-            <div class="mt-12 bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-amber-500/20 border border-amber-500/30 rounded-3xl p-8 text-center max-w-4xl mx-auto ss-reveal-scale">
-                <i class="fa-solid fa-quote-left text-amber-400 text-3xl mb-3 block"></i>
-                <p class="font-serif text-lg sm:text-xl text-amber-100 italic leading-relaxed">
-                    "Trends come and go, but the authentic taste of pure desi ghee mithai prepared with genuine love remains timeless. Since 1951, we serve trust in every box."
-                </p>
-                <span class="block text-amber-300 font-bold text-xs uppercase tracking-widest mt-4">— Ishaq & Sons · Sialkot Sweets & Bakers</span>
-            </div>
-
         </div>
     </section>
 
-    <!-- Famous Specialties Section -->
-    <section id="specialties" class="py-12 bg-amber-50 border-b border-amber-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-8 ss-reveal">
-                <span class="text-amber-600 font-semibold text-xs uppercase tracking-widest">Gujranwala's Crown Jewels</span>
-                <h2 class="font-serif text-2xl sm:text-3xl font-bold text-emerald-950 mt-1">What Makes Sialkot Sweets Famous?</h2>
-                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
-            </div>
-
-            <div class="grid sm:grid-cols-3 gap-6 ss-stagger">
-                <!-- Specialty 1 -->
-                <div class="premium-card ss-reveal ss-tilt bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0 ss-pulse-ring">
-                        🎁
-                    </div>
-                    <div>
-                        <h3 class="font-serif font-bold text-lg text-emerald-950">Sialkoti Guldasta</h3>
-                        <p class="text-xs text-stone-600 mt-1">An extravagant platter box containing rich Gulab Jamun, Cham Cham, Barfi & Motichoor Ladoo in one box.</p>
-                        <a :href="getCategoryUrl('sweets')" @click.prevent="setCategory('sweets')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
-                            Explore Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Specialty 2 -->
-                <div class="premium-card ss-reveal ss-tilt bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0 ss-pulse-ring">
-                        ✨
-                    </div>
-                    <div>
-                        <h3 class="font-serif font-bold text-lg text-emerald-950">Arabian Baklava & Delights</h3>
-                        <p class="text-xs text-stone-600 mt-1">Royal Middle-Eastern delicacies including Baklava, Mabroumeh, Osh El Bulbul, and authentic Kunafa.</p>
-                        <a :href="getCategoryUrl('arabian')" @click.prevent="setCategory('arabian')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
-                            View Arabian Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Specialty 3 -->
-                <div class="premium-card ss-reveal ss-tilt bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0 ss-pulse-ring">
-                        🍯
-                    </div>
-                    <div>
-                        <h3 class="font-serif font-bold text-lg text-emerald-950">Desi Ghee Gulab Jamun</h3>
-                        <p class="text-xs text-stone-600 mt-1">Soft, melt-in-mouth milk solids soaked in warm cardamom syrup, prepared exclusively in 100% pure Desi Ghee.</p>
-                        <a :href="getCategoryUrl('sweets')" @click.prevent="setCategory('sweets')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
-                            View Traditional Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Main Food Menu Section -->
+<!-- Main Food Menu Section -->
     <section id="menu-section" class="py-16 bg-pattern min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
@@ -833,7 +725,133 @@
         </div>
     </section>
 
-    <!-- Luxury Catering & Wedding Gifting Showcase -->
+    <!-- Sialkot Sweets Core Pillars & Heritage Promise -->
+    <section id="features-section" class="py-16 sm:py-20 bg-emerald-950 text-white relative overflow-hidden border-y-4 border-amber-500/40">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5 bg-[radial-gradient(#fbbf24_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-12 ss-reveal">
+                <span class="inline-flex items-center gap-2 bg-amber-500/20 text-amber-300 text-xs font-bold px-4 py-1.5 rounded-full border border-amber-500/30 uppercase tracking-widest">
+                    <i class="fa-solid fa-award"></i> The Sialkot Sweets Promise
+                </span>
+                <h3 class="font-serif text-2xl sm:text-4xl font-extrabold mt-3 text-white">
+                    Why Gujranwala Chooses Us Since 1951
+                </h3>
+                <div class="w-20 h-1 bg-amber-500 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <!-- Content Grid 2: Core Pillars / What Sets Us Apart -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 ss-stagger">
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-cow"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-lg text-white">Pure Desi Ghee & Fresh Khoya</h4>
+                    <p class="text-stone-300 text-xs leading-relaxed">
+                        We never compromise on purity. Our mithai is slowly reduced from fresh whole buffalo milk and cooked in 100% pure organic Desi Ghee.
+                    </p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-gift"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-lg text-white">Home of Sialkoti Guldasta</h4>
+                    <p class="text-stone-300 text-xs leading-relaxed">
+                        We are the originators of the famous <strong class="text-amber-300">Sialkoti Guldasta Box</strong>—Gujranwala's premier luxury mix-sweet hamper for weddings and festivities.
+                    </p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-cookie-bite"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-lg text-white">Arabian Sweets & Bakery</h4>
+                    <p class="text-stone-300 text-xs leading-relaxed">
+                        Evolution alongside tradition. Enjoy authentic Baklava, Kunafa, fresh biscuits, cake rusks, and halwa specialties across all 3 of our branches in Gujranwala.
+                    </p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-amber-500/40 transition ss-reveal ss-tilt">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-lg text-white">Generational Loyalty</h4>
+                    <p class="text-stone-300 text-xs leading-relaxed">
+                        Families across Gujranwala, Sialkot, and overseas Pakistanis have trusted us for over 7 decades to sweeten their most cherished moments.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Banner Quote -->
+            <div class="mt-12 bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-amber-500/20 border border-amber-500/30 rounded-3xl p-8 text-center max-w-4xl mx-auto ss-reveal-scale">
+                <i class="fa-solid fa-quote-left text-amber-400 text-3xl mb-3 block"></i>
+                <p class="font-serif text-lg sm:text-xl text-amber-100 italic leading-relaxed">
+                    "Trends come and go, but the authentic taste of pure desi ghee mithai prepared with genuine love remains timeless. Since 1951, we serve trust in every box."
+                </p>
+                <span class="block text-amber-300 font-bold text-xs uppercase tracking-widest mt-4">— Ishaq & Sons · Sialkot Sweets & Bakers</span>
+            </div>
+        </div>
+    </section>
+
+<!-- Famous Specialties Section -->
+    <section id="specialties" class="py-12 bg-amber-50 border-b border-amber-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-8 ss-reveal">
+                <span class="text-amber-600 font-semibold text-xs uppercase tracking-widest">Gujranwala's Crown Jewels</span>
+                <h2 class="font-serif text-2xl sm:text-3xl font-bold text-emerald-950 mt-1">What Makes Sialkot Sweets Famous?</h2>
+                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-6 ss-stagger">
+                <!-- Specialty 1 -->
+                <div class="premium-card ss-reveal ss-tilt bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0 ss-pulse-ring">
+                        🎁
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-emerald-950">Sialkoti Guldasta</h3>
+                        <p class="text-xs text-stone-600 mt-1">An extravagant platter box containing rich Gulab Jamun, Cham Cham, Barfi & Motichoor Ladoo in one box.</p>
+                        <a :href="getCategoryUrl('sweets')" @click.prevent="setCategory('sweets')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
+                            Explore Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Specialty 2 -->
+                <div class="premium-card ss-reveal ss-tilt bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0 ss-pulse-ring">
+                        ✨
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-emerald-950">Arabian Baklava & Delights</h3>
+                        <p class="text-xs text-stone-600 mt-1">Royal Middle-Eastern delicacies including Baklava, Mabroumeh, Osh El Bulbul, and authentic Kunafa.</p>
+                        <a :href="getCategoryUrl('arabian')" @click.prevent="setCategory('arabian')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
+                            View Arabian Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Specialty 3 -->
+                <div class="premium-card ss-reveal ss-tilt bg-white rounded-2xl p-5 border border-amber-200 shadow-sm flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0 ss-pulse-ring">
+                        🍯
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-emerald-950">Desi Ghee Gulab Jamun</h3>
+                        <p class="text-xs text-stone-600 mt-1">Soft, melt-in-mouth milk solids soaked in warm cardamom syrup, prepared exclusively in 100% pure Desi Ghee.</p>
+                        <a :href="getCategoryUrl('sweets')" @click.prevent="setCategory('sweets')" class="text-amber-700 text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline">
+                            View Traditional Sweets <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Luxury Catering & Wedding Gifting Showcase -->
     <section class="py-14 bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 text-white relative overflow-hidden border-b border-amber-500/30">
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fbbf24_1px,transparent_1px)] [background-size:20px_20px]"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
