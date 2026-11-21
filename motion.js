@@ -1,29 +1,32 @@
 /**
- * Sialkot Sweets & Bakers — Universal Motion UI/UX Engine
- * High-Performance Smooth Animation & Micro-Interaction Controller
+ * Sialkot Sweets & Bakers — Lightweight Motion & Micro-Interaction Engine
+ * Optimized for 60fps Silk-Smooth Scrolling, Instant Responsiveness & Low CPU
  * Established 1951, Gujranwala
  */
-(function initUltraMotionEngine() {
+(function initLightweightMotionEngine() {
     'use strict';
 
     if (window.__ssUltraMotionLoaded) return;
     window.__ssUltraMotionLoaded = true;
 
+    // Remove any lingering cursor elements defensively
+    try {
+        var oldDot = document.querySelector('.ss-cursor-dot');
+        if (oldDot) oldDot.remove();
+        var oldRing = document.querySelector('.ss-cursor-ring');
+        if (oldRing) oldRing.remove();
+        document.body.classList.remove('ss-cursor-hover');
+    } catch (e) {}
+
     // 0. Performance & Reduced Motion Guardrail
     var isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var isFinePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    var isMobile = window.innerWidth < 768;
-
-    window.addEventListener('resize', function() {
-        isMobile = window.innerWidth < 768;
-    }, { passive: true });
 
     if (isReducedMotion) {
         document.documentElement.classList.add('ss-motion-ready');
         return;
     }
 
-    // 1. Upgraded Scroll Reveal Observer with Section Choreography
+    // 1. Lightweight Scroll Reveal Observer (Unobserves instantly once revealed)
     function initChoreographedReveals() {
         var revealElements = document.querySelectorAll(
             '.ss-reveal, .ss-reveal-left, .ss-reveal-right, .ss-reveal-scale'
@@ -33,219 +36,72 @@
             return;
         }
 
-        // CRITICAL: Instantly reveal all elements in/above viewport BEFORE adding ss-motion-ready
-        // This prevents the 0.5s disappearing bug on desktop
+        // Instantly reveal all elements in/above viewport
         var vh = window.innerHeight || (document.documentElement && document.documentElement.clientHeight) || 800;
         revealElements.forEach(function(el) {
-            // If element already has is-revealed from HTML, skip
             if (el.classList.contains('is-revealed')) return;
             var rect = el.getBoundingClientRect();
-            // Generous margin: anything within viewport + 150px below gets instant reveal
             if (rect.top < vh + 150) {
                 el.classList.add('is-revealed');
             }
         });
 
-        // NOW it's safe to add ss-motion-ready — above-the-fold items are already revealed
         document.documentElement.classList.add('ss-motion-ready');
 
         if (!('IntersectionObserver' in window)) {
-            // Fallback: reveal everything
             revealElements.forEach(function(el) {
                 el.classList.add('is-revealed');
             });
             return;
         }
 
-        // Observer for below-the-fold elements — these will animate in on scroll
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
                     var target = entry.target;
-
-                    // Section Choreography: Check if part of a section with children
-                    var choreographyParent = target.closest('[data-choreography]');
-                    if (choreographyParent && !choreographyParent.__choreographed) {
-                        choreographyParent.__choreographed = true;
-                        var orderedItems = choreographyParent.querySelectorAll(
-                            '.section-eyebrow, h2, p.section-desc, .ss-stagger, .menu-card, .branch-feature, .premium-card'
-                        );
-                        orderedItems.forEach(function(item, idx) {
-                            setTimeout(function() {
-                                item.classList.add('is-revealed');
-                            }, idx * 120);
-                        });
-                    }
-
                     target.classList.add('is-revealed');
                     observer.unobserve(target);
                 }
             });
         }, {
-            threshold: 0.01,
-            rootMargin: '0px 0px 100px 0px'
+            threshold: 0.05,
+            rootMargin: '0px 0px 80px 0px'
         });
 
-        // Only observe elements that still need revealing (below the fold)
         revealElements.forEach(function(el) {
             if (!el.classList.contains('is-revealed')) {
                 observer.observe(el);
             }
         });
 
-        // Safety fallback: if anything is still hidden after 4 seconds, force reveal
+        // Safety fallback: reveal any remaining elements after 2.5s
         setTimeout(function() {
             revealElements.forEach(function(el) {
                 if (!el.classList.contains('is-revealed')) {
                     el.classList.add('is-revealed');
                 }
             });
-        }, 4000);
+        }, 2500);
     }
 
-    // 2. High-Precision 3D Card Tilt with Cursor Lighting (Desktop Only)
-    function init3DCardTilt() {
-        if (!isFinePointer || isReducedMotion) return;
-
-        function applyTilt(card) {
-            if (!card || card.__ultraTiltAttached) return;
-            card.__ultraTiltAttached = true;
-
-            var rafId = null;
-            var rect = null;
-            var targetX = 0, targetY = 0;
-            var curX = 0, curY = 0;
-            var isHovering = false;
-
-            function onEnter() {
-                rect = card.getBoundingClientRect();
-                isHovering = true;
-                startLoop();
-            }
-
-            function onMove(e) {
-                if (!rect) rect = card.getBoundingClientRect();
-                var relX = (e.clientX - rect.left) / rect.width;
-                var relY = (e.clientY - rect.top) / rect.height;
-                targetX = (relY - 0.5) * -8; // max 4 deg
-                targetY = (relX - 0.5) * 8;
-                card.style.setProperty('--cursor-x', (relX * 100).toFixed(1) + '%');
-                card.style.setProperty('--cursor-y', (relY * 100).toFixed(1) + '%');
-            }
-
-            function onLeave() {
-                isHovering = false;
-                targetX = 0;
-                targetY = 0;
-            }
-
-            function loop() {
-                curX += (targetX - curX) * 0.15;
-                curY += (targetY - curY) * 0.15;
-
-                if (isHovering || Math.abs(targetX - curX) > 0.05 || Math.abs(targetY - curY) > 0.05) {
-                    card.style.transform = 'perspective(800px) rotateX(' + curX.toFixed(2) + 'deg) rotateY(' + curY.toFixed(2) + 'deg) translateY(' + (isHovering ? '-7px' : '0') + ')';
-                    rafId = requestAnimationFrame(loop);
-                } else {
-                    card.style.transform = '';
-                    rafId = null;
-                }
-            }
-
-            function startLoop() {
-                if (!rafId) rafId = requestAnimationFrame(loop);
-            }
-
-            card.addEventListener('mouseenter', onEnter, { passive: true });
-            card.addEventListener('mousemove', onMove, { passive: true });
-            card.addEventListener('mouseleave', onLeave, { passive: true });
-        }
-
-        document.querySelectorAll('.menu-card, .pizza-flavour-card, .product-panel').forEach(applyTilt);
-
-        // Dynamic mutation observer for filtered menu items
-        var menuGrid = document.querySelector('#menu-section') || document.querySelector('#menu-grid');
-        if (menuGrid) {
-            var mo = new MutationObserver(function() {
-                menuGrid.querySelectorAll('.menu-card').forEach(applyTilt);
-            });
-            mo.observe(menuGrid, { childList: true, subtree: true });
-        }
-    }
-
-    // 3. Parallax Effects for Gradient Orbs & Section Decor
-    function initParallaxMotion() {
-        if (isReducedMotion || isMobile) return;
-
-        var orbs = document.querySelectorAll('.hero-orb, .ss-orb-breathe, .ss-parallax-orb');
-        var decors = document.querySelectorAll('.ss-about-deco-line, .ss-divider');
-        if (!orbs.length && !decors.length) return;
-
-        var isTicking = false;
-        function updateParallax() {
-            var scrollY = window.pageYOffset || document.documentElement.scrollTop;
-            orbs.forEach(function(orb, idx) {
-                var factor = (idx % 2 === 0 ? 0.25 : -0.25);
-                orb.style.transform = 'translate3d(0, ' + (scrollY * factor).toFixed(1) + 'px, 0)';
-            });
-            decors.forEach(function(decor) {
-                decor.style.transform = 'translate3d(0, ' + (scrollY * 0.08).toFixed(1) + 'px, 0)';
-            });
-            isTicking = false;
-        }
-
-        window.addEventListener('scroll', function() {
-            if (!isTicking) {
-                requestAnimationFrame(updateParallax);
-                isTicking = true;
-            }
-        }, { passive: true });
-    }
-
-    // 4. Hero Mouse-Tracking Parallax Drift & Search Focus Glow
+    // 2. Hero Search Focus & Animated Stat Counters (Run once then unobserve)
     function initHeroInteractions() {
         var hero = document.getElementById('home-section');
         if (!hero) return;
 
-        // Mouse-tracking on hero carousel slides (desktop only)
-        if (isFinePointer) {
-            var carousel = hero.querySelector('.hero-carousel, .hero-frame');
-            if (carousel) {
-                var activeSlideRaf = null;
-                hero.addEventListener('mousemove', function(e) {
-                    if (activeSlideRaf) return;
-                    activeSlideRaf = requestAnimationFrame(function() {
-                        var activeSlide = carousel.querySelector('.hero-slide.is-active') || carousel.querySelector('.hero-showcase-img');
-                        if (activeSlide) {
-                            var rect = hero.getBoundingClientRect();
-                            var deltaX = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
-                            var deltaY = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-                            activeSlide.style.transform = 'scale(1.06) translate3d(' + (deltaX * 12).toFixed(1) + 'px, ' + (deltaY * 8).toFixed(1) + 'px, 0)';
-                        }
-                        activeSlideRaf = null;
-                    });
-                }, { passive: true });
-
-                hero.addEventListener('mouseleave', function() {
-                    var activeSlide = carousel.querySelector('.hero-slide.is-active') || carousel.querySelector('.hero-showcase-img');
-                    if (activeSlide) activeSlide.style.transform = '';
-                });
-            }
-        }
-
-        // Hero Search Bar Focus Glow & Expansion
+        // Hero Search Bar Focus Glow
         var searchInput = hero.querySelector('input[type="text"]');
         if (searchInput) {
             var searchWrapper = searchInput.closest('.relative') || searchInput.parentElement;
             searchInput.addEventListener('focus', function() {
                 if (searchWrapper) searchWrapper.classList.add('ss-search-focused');
-            });
+            }, { passive: true });
             searchInput.addEventListener('blur', function() {
                 if (searchWrapper) searchWrapper.classList.remove('ss-search-focused');
-            });
+            }, { passive: true });
         }
 
-        // Animated Spring Counters
+        // Lightweight Animated Counters (IntersectionObserver, triggers once)
         var counterEls = document.querySelectorAll('[data-target-number], .ss-stat-number');
         if (counterEls.length && 'IntersectionObserver' in window) {
             var counterObserver = new IntersectionObserver(function(entries) {
@@ -259,14 +115,12 @@
                         if (isNaN(target)) return;
 
                         var startTime = null;
-                        var duration = 2000;
-                        function easeOutElastic(t) {
-                            return t === 1 ? 1 : 1 - Math.pow(2, -10 * t) * Math.cos((t * 10 - 0.75) * ((2 * Math.PI) / 3));
-                        }
+                        var duration = 1200;
                         function step(time) {
                             if (!startTime) startTime = time;
                             var progress = Math.min((time - startTime) / duration, 1);
-                            var currentVal = Math.floor(easeOutElastic(progress) * target);
+                            var ease = 1 - Math.pow(1 - progress, 3);
+                            var currentVal = Math.floor(ease * target);
                             el.textContent = currentVal + suffix;
                             if (progress < 1) {
                                 requestAnimationFrame(step);
@@ -283,68 +137,7 @@
         }
     }
 
-    // 5. Luxury Custom Cursor (Desktop Fine Pointer Only)
-    function initCustomCursor() {
-        if (!isFinePointer || isReducedMotion || isMobile) return;
-
-        var dot = document.querySelector('.ss-cursor-dot');
-        var ring = document.querySelector('.ss-cursor-ring');
-
-        // Dynamically inject if not already present in DOM
-        if (!dot) {
-            dot = document.createElement('div');
-            dot.className = 'ss-cursor-dot';
-            document.body.appendChild(dot);
-        }
-        if (!ring) {
-            ring = document.createElement('div');
-            ring.className = 'ss-cursor-ring';
-            document.body.appendChild(ring);
-        }
-
-        var mouseX = -100, mouseY = -100;
-        var ringX = -100, ringY = -100;
-        var isCursorTicking = false;
-
-        window.addEventListener('mousemove', function(e) {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            dot.style.transform = 'translate3d(' + mouseX + 'px, ' + mouseY + 'px, 0) translate(-50%, -50%)';
-
-            if (!isCursorTicking) {
-                isCursorTicking = true;
-                requestAnimationFrame(function updateRing() {
-                    ringX += (mouseX - ringX) * 0.18;
-                    ringY += (mouseY - ringY) * 0.18;
-                    ring.style.transform = 'translate3d(' + ringX.toFixed(1) + 'px, ' + ringY.toFixed(1) + 'px, 0) translate(-50%, -50%)';
-                    if (Math.abs(mouseX - ringX) > 0.1 || Math.abs(mouseY - ringY) > 0.1) {
-                        requestAnimationFrame(updateRing);
-                    } else {
-                        isCursorTicking = false;
-                    }
-                });
-            }
-        }, { passive: true });
-
-        // Hover scale on interactive elements
-        function addHoverEvents() {
-            var interactives = document.querySelectorAll('a, button, input, select, textarea, .menu-card, .size-box, [role="button"]');
-            interactives.forEach(function(el) {
-                if (el.__cursorBound) return;
-                el.__cursorBound = true;
-                el.addEventListener('mouseenter', function() {
-                    document.body.classList.add('ss-cursor-hover');
-                }, { passive: true });
-                el.addEventListener('mouseleave', function() {
-                    document.body.classList.remove('ss-cursor-hover');
-                }, { passive: true });
-            });
-        }
-        addHoverEvents();
-        setTimeout(addHoverEvents, 1200);
-    }
-
-    // 6. Header Scroll Intelligence & Logo Shrink
+    // 3. Header Scroll Intelligence & Logo Shrink (Passive listener, zero lag)
     function initHeaderScrollIntelligence() {
         var header = document.querySelector('header');
         var logo = document.querySelector('header img') || document.querySelector('header .w-14');
@@ -352,20 +145,23 @@
 
         var heroEl = document.getElementById('home-section');
         var heroThreshold = heroEl ? 280 : 80;
+        var isScrolled = false;
 
         window.addEventListener('scroll', function() {
             var scrollY = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollY > heroThreshold) {
+            if (scrollY > heroThreshold && !isScrolled) {
+                isScrolled = true;
                 header.classList.add('header-scrolled-deep');
                 if (logo) logo.classList.add('ss-logo-shrink');
-            } else {
+            } else if (scrollY <= heroThreshold && isScrolled) {
+                isScrolled = false;
                 header.classList.remove('header-scrolled-deep');
                 if (logo) logo.classList.remove('ss-logo-shrink');
             }
         }, { passive: true });
     }
 
-    // 7. Hamburger Morph & Mobile Drawer Stagger
+    // 4. Hamburger Morph & Mobile Drawer Stagger
     function initHamburgerMorph() {
         var menuBtn = document.getElementById('mobile-menu-btn') || document.querySelector('button[aria-label*="menu" i]');
         var mobileDrawer = document.getElementById('mobile-menu') || document.querySelector('.mobile-menu-drawer');
@@ -383,17 +179,17 @@
                         item.style.opacity = '0';
                         item.style.transform = 'translateX(24px)';
                         setTimeout(function() {
-                            item.style.transition = 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+                            item.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
                             item.style.opacity = '1';
                             item.style.transform = 'translateX(0)';
-                        }, idx * 60);
+                        }, idx * 40);
                     });
                 }
             }
         });
     }
 
-    // 8. Add-To-Cart & Cart Badge Micro-Feedback
+    // 5. Add-To-Cart & Cart Badge Micro-Feedback
     function initCartFeedback() {
         document.addEventListener('click', function(e) {
             var btn = e.target.closest('button, .ss-size-add-btn, .size-box');
@@ -415,7 +211,7 @@
         }, { passive: true });
     }
 
-    // 9. Quantity Control Elastic Feedback
+    // 6. Quantity Control Elastic Feedback
     function initQuantityFeedback() {
         document.addEventListener('click', function(e) {
             var btn = e.target.closest('button');
@@ -438,7 +234,7 @@
         }, { passive: true });
     }
 
-    // 10. Mobile Back Button (bfcache) & History Recovery Guard (Prevents White Screen on Back Navigation)
+    // 7. Mobile Back Button (bfcache) & History Recovery Guard (Prevents White Screen)
     function initBFCacheGuard() {
         function restorePage() {
             document.body.classList.remove('ss-page-exit');
@@ -449,25 +245,69 @@
             );
             revealElements.forEach(function(el) {
                 el.classList.add('is-revealed');
-                el.style.filter = 'blur(0px)';
+                el.style.filter = 'none';
             });
         }
         window.addEventListener('pageshow', restorePage);
         window.addEventListener('popstate', restorePage);
     }
 
+
+    // 8. Infinite Slider with Motion Primitives speedOnHover={20}
+    function initInfiniteSlider() {
+        var wrapper = document.querySelector('.ss-infinite-slider-wrapper');
+        var track = document.querySelector('.ss-infinite-slider-track');
+        if (!wrapper || !track) return;
+
+        try {
+            function getAnim() {
+                if (typeof track.getAnimations === 'function') {
+                    var anims = track.getAnimations();
+                    for (var i = 0; i < anims.length; i++) {
+                        if (anims[i].animationName === 'ssInfiniteSliderSlide') return anims[i];
+                    }
+                    return anims[0] || null;
+                }
+                return null;
+            }
+
+            wrapper.addEventListener('mouseenter', function() {
+                var anim = getAnim();
+                if (anim) {
+                    anim.playbackRate = 0.2; // 20% speed on hover matching speedOnHover={20}
+                    track.style.animationPlayState = 'running';
+                }
+            });
+
+            wrapper.addEventListener('mouseleave', function() {
+                var anim = getAnim();
+                if (anim) anim.playbackRate = 1.0;
+            });
+
+            wrapper.addEventListener('touchstart', function() {
+                var anim = getAnim();
+                if (anim) anim.playbackRate = 0.2;
+            }, { passive: true });
+
+            wrapper.addEventListener('touchend', function() {
+                var anim = getAnim();
+                if (anim) anim.playbackRate = 1.0;
+            }, { passive: true });
+        } catch (e) {
+            // CSS fallback active
+        }
+    }
+
     // Boot Everything on DOM Ready
     function start() {
         initChoreographedReveals();
-        init3DCardTilt();
-        initParallaxMotion();
         initHeroInteractions();
-        initCustomCursor();
         initHeaderScrollIntelligence();
         initHamburgerMorph();
         initCartFeedback();
         initQuantityFeedback();
         initBFCacheGuard();
+        initInfiniteSlider();
     }
 
     if (document.readyState === 'loading') {

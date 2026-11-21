@@ -97,12 +97,12 @@ body { font-family: 'Inter', sans-serif; }
         .hero-orb-gold,
         .hero-orb.bg-amber-400 {
             background: radial-gradient(circle, rgba(200, 165, 106, 0.22) 0%, rgba(200, 165, 106, 0.06) 42%, transparent 70%) !important;
-            filter: blur(80px) !important;
+            filter: blur(32px) !important;
         }
         .hero-orb-wine,
         .hero-orb.bg-emerald-400 {
             background: radial-gradient(circle, rgba(140, 75, 105, 0.28) 0%, rgba(87, 48, 67, 0.08) 42%, transparent 70%) !important;
-            filter: blur(80px) !important;
+            filter: blur(32px) !important;
         }
         .hero-grid { background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 34px 34px; }
         .cta-sheen { position: relative; overflow: hidden; }
@@ -116,13 +116,17 @@ body { font-family: 'Inter', sans-serif; }
             *:not(.ss-marquee-track), *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
         }
 
-        /* Premium product grid */
-        .menu-card {
-            transition: transform .32s ease, box-shadow .32s ease, border-color .32s ease;
+        /* Premium product grid & lightweight GPU card interactions */
+        .menu-card, .pizza-flavour-card, .premium-card, .product-panel, .ss-tilt {
+            transition: transform .28s cubic-bezier(.16, 1, .3, 1), box-shadow .28s ease, border-color .28s ease !important;
             box-shadow: 0 10px 30px rgba(15,23,42,.06);
         }
-        .menu-card:hover { transform: translateY(-5px); box-shadow: 0 22px 48px rgba(15,23,42,.12); border-color: rgba(176,141,87,.38); }
-        .menu-card img { transition: transform .65s cubic-bezier(.2,.7,.2,1); }
+        .menu-card:hover, .pizza-flavour-card:hover, .premium-card:hover, .ss-tilt:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 20px 42px rgba(15,23,42,.12) !important;
+            border-color: rgba(176,141,87,.38) !important;
+        }
+        .menu-card img { transition: transform .45s cubic-bezier(.2,.7,.2,1); }
 
         /* Mobile safe-area bottom action */
         .mobile-branch-rail { padding-bottom: max(0.65rem, env(safe-area-inset-bottom)); }
@@ -1403,11 +1407,11 @@ input:focus, select:focus, textarea:focus {
 /* 5. NAVIGATION ENHANCEMENTS */
 header.header-scrolled-deep {
     background: rgba(30, 14, 23, 0.96) !important;
-    backdrop-filter: blur(28px) saturate(1.8) !important;
-    -webkit-backdrop-filter: blur(28px) saturate(1.8) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
     box-shadow: 0 16px 45px rgba(20, 9, 15, 0.45) !important;
     border-bottom: 1px solid rgba(200, 165, 106, 0.5) !important;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .ss-logo-shrink {
@@ -1487,49 +1491,14 @@ header.header-scrolled-deep {
     animation: ss-confetti-fall 3.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-/* 7. CUSTOM CURSOR (Desktop Only - pointer: fine) */
-@media (hover: hover) and (pointer: fine) {
-    .ss-cursor-dot {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 10px;
-        height: 10px;
-        background: #c8a56a;
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 100000;
-        transform: translate(-50%, -50%);
-        transition: transform 0.12s ease-out, background-color 0.2s ease, width 0.2s ease, height 0.2s ease;
-        box-shadow: 0 0 10px rgba(200, 165, 106, 0.65);
-    }
-    .ss-cursor-ring {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 36px;
-        height: 36px;
-        border: 1.5px solid rgba(200, 165, 106, 0.6);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 99999;
-        transform: translate(-50%, -50%);
-        transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
-    }
-    .ss-cursor-hover .ss-cursor-dot {
-        transform: translate(-50%, -50%) scale(1.8);
-        background: #d5b784;
-    }
-    .ss-cursor-hover .ss-cursor-ring {
-        transform: translate(-50%, -50%) scale(1.4);
-        border-color: rgba(200, 165, 106, 0.9);
-        background: rgba(200, 165, 106, 0.08);
-    }
-}
-@media (hover: none), (pointer: coarse), (max-width: 1023px) {
-    .ss-cursor-dot, .ss-cursor-ring {
-        display: none !important;
-    }
+/* 7. CUSTOM CURSOR (Disabled per user request for clean, lightweight performance) */
+.ss-cursor-dot,
+.ss-cursor-ring,
+.ss-cursor-hover {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
 }
 
 /* 8. GLOBAL POLISH (Progress Bar Glow, Page Exit, Shimmer Dividers) */
@@ -1630,6 +1599,231 @@ header.header-scrolled-deep {
     }
 }
 
+/* 12. MOBILE NAVIGATION DRAWER LOCK & FIT PERFECTION
+   Keeps the sidebar pinned firmly to the screen viewport at all times.
+   Prevents background page scrolling and ensures badges never move out of view. */
+body.overflow-hidden,
+html.overflow-hidden {
+    overflow: hidden !important;
+    height: 100% !important;
+    touch-action: none !important;
+}
+
+.ss-mobile-drawer-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    z-index: 99998 !important;
+    overscroll-behavior: contain !important;
+}
+
+.ss-mobile-drawer-panel {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 86% !important;
+    max-width: 330px !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    z-index: 99999 !important;
+    overscroll-behavior: contain !important;
+    box-shadow: -8px 0 35px rgba(0, 0, 0, 0.65) !important;
+}
 
 
 
+
+
+
+/* ==========================================================================
+   CINEMATIC INFINITE ITEMS SLIDER (Motion-Primitives speedOnHover - Royal Wine Theme)
+   ========================================================================== */
+.ss-infinite-slider-section {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #3b202f 0%, #2b1722 60%, #1f0f18 100%) !important;
+    border-top: 1px solid rgba(245, 158, 11, 0.25);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.ss-infinite-slider-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 0.5rem 0 1.5rem;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+}
+
+.ss-infinite-slider-track {
+    display: flex;
+    gap: 1.5rem; /* gap: 24px matching Motion Primitives */
+    width: max-content;
+    will-change: transform;
+    animation: ssInfiniteSliderSlide 45s linear infinite;
+}
+
+@keyframes ssInfiniteSliderSlide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(calc(-50% - 0.75rem), 0, 0);
+    }
+}
+
+/* Pause fallback on hover or focus if WAAPI not available */
+.ss-infinite-slider-wrapper:hover .ss-infinite-slider-track {
+    animation-play-state: paused;
+}
+
+/* Slider Card Styles - Wine Purple */
+.ss-slider-card {
+    position: relative;
+    width: 205px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.25rem;
+    background: linear-gradient(160deg, #3b202f 0%, #2b1722 80%, #1f0f18 100%) !important;
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+}
+
+@media (min-width: 640px) {
+    .ss-slider-card {
+        width: 235px;
+    }
+}
+
+.ss-slider-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(251, 191, 36, 0.85) !important;
+    box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.65), 0 0 25px rgba(245, 158, 11, 0.3) !important;
+}
+
+.ss-slider-card .card-thumb-wrap {
+    position: relative;
+    width: 100%;
+    height: 130px;
+    overflow: hidden;
+    background: #1f0f18 !important;
+}
+
+@media (min-width: 640px) {
+    .ss-slider-card .card-thumb-wrap {
+        height: 148px;
+    }
+}
+
+.ss-slider-card .card-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ss-slider-card:hover .card-thumb {
+    transform: scale(1.08);
+}
+
+.ss-infinite-slider-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 0.5rem 0 1.5rem;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+}
+
+.ss-infinite-slider-track {
+    display: flex;
+    gap: 1.5rem; /* gap: 24px matching Motion Primitives */
+    width: max-content;
+    will-change: transform;
+    animation: ssInfiniteSliderSlide 45s linear infinite;
+}
+
+@keyframes ssInfiniteSliderSlide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(calc(-50% - 0.75rem), 0, 0);
+    }
+}
+
+/* Pause fallback on hover or focus if WAAPI not available */
+.ss-infinite-slider-wrapper:hover .ss-infinite-slider-track {
+    animation-play-state: paused;
+}
+
+/* Slider Card Styles */
+.ss-slider-card {
+    position: relative;
+    width: 205px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.25rem;
+    background: linear-gradient(160deg, rgba(6, 78, 59, 0.65) 0%, rgba(2, 44, 34, 0.92) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 640px) {
+    .ss-slider-card {
+        width: 235px;
+    }
+}
+
+.ss-slider-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(251, 191, 36, 0.8);
+    box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.55), 0 0 22px rgba(245, 158, 11, 0.25);
+}
+
+.ss-slider-card .card-thumb-wrap {
+    position: relative;
+    width: 100%;
+    height: 130px;
+    overflow: hidden;
+    background: #022c22;
+}
+
+@media (min-width: 640px) {
+    .ss-slider-card .card-thumb-wrap {
+        height: 148px;
+    }
+}
+
+.ss-slider-card .card-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ss-slider-card:hover .card-thumb {
+    transform: scale(1.08);
+}
